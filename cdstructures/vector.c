@@ -297,7 +297,7 @@ const void * cds_vec_const_get(struct cds_vector *v, size_t index)
         return cds_vec_get(v, index);
 }
 
-enum cds_stat cds_vec_at(struct cds_vector *v, size_t index, void *elem)
+enum cds_stat cds_vec_at(struct cds_vector *v, size_t index, void **elem)
 {
         assert(v != NULL);
         assert(index < v->size);
@@ -305,7 +305,7 @@ enum cds_stat cds_vec_at(struct cds_vector *v, size_t index, void *elem)
         if (index > v->size)
                 return CDS_STATUS_OUT_OF_RANGE;
 
-        elem = v->buffer[index];
+        *elem = v->buffer[index];
 
         return CDS_STATUS_OK;
 }
