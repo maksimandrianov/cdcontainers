@@ -7,10 +7,10 @@
 #include <stdint.h>
 #include "common.h"
 
-#define CDS_VEC_MIN_CAPACITY     (4)
-#define CDS_VEC_COPACITY_EXP     (2.0f)
-#define CDS_VEC_SHRINK_THRESHOLD (1.0 / 4.0)
-#define CDS_VEC_MAX_LEN          (SIZE_MAX)
+#define CDS_VECTOR_MIN_CAPACITY     (4)
+#define CDS_VECTOR_COPACITY_EXP     (2.0f)
+#define CDS_VECTOR_SHRINK_THRESHOLD (1.0 / 4.0)
+#define CDS_VECTOR_MAX_LEN          (SIZE_MAX)
 
 struct cds_vector {
         size_t size;
@@ -19,65 +19,65 @@ struct cds_vector {
         void   **buffer;
 };
 
-static bool cds_vec_should_shrink(const struct cds_vector *v)
+static bool cds_vector_should_shrink(const cds_vector_t *v)
 {
         assert(v != NULL);
         assert(v->size <= v->capacity);
 
-        return v->size <= v->capacity * CDS_VEC_SHRINK_THRESHOLD;
+        return v->size <= v->capacity * CDS_VECTOR_SHRINK_THRESHOLD;
 }
 
-static bool cds_vec_reach_limit_size(const struct cds_vector *v)
+static bool cds_vector_reach_limit_size(const cds_vector_t *v)
 {
         assert(v != NULL);
         assert(v != NULL);
 
-        return v->size == CDS_VEC_MAX_LEN;
+        return v->size == CDS_VECTOR_MAX_LEN;
 }
 
-static bool cds_vec_should_grow(const struct cds_vector *v)
+static bool cds_vector_should_grow(const cds_vector_t *v)
 {
         assert(v->size <= v->capacity);
 
         return v->size == v->capacity;
 }
 
-static enum cds_stat cds_vec_reallocate(struct cds_vector *v, size_t size)
+static enum cds_stat cds_vector_reallocate(cds_vector_t *v, size_t capacity)
 {
         assert(v != NULL);
 
         void *tmp;
 
-        if (size < CDS_VEC_MIN_CAPACITY) {
-                if (v->capacity > CDS_VEC_MIN_CAPACITY)
-                        size = CDS_VEC_MIN_CAPACITY;
+        if (capacity < CDS_VECTOR_MIN_CAPACITY) {
+                if (v->capacity > CDS_VECTOR_MIN_CAPACITY)
+                        capacity = CDS_VECTOR_MIN_CAPACITY;
                 else
                         return CDS_STATUS_OK;
         }
 
-        if (!(tmp = malloc(size * sizeof (void *))))
+        if (!(tmp = malloc(capacity * sizeof (void *))))
                 return CDS_STATUS_BAD_ALLOC;
 
-        memcpy(tmp, v->buffer, CDS_MIN(v->size, size) * sizeof(void *));
+        memcpy(tmp, v->buffer, CDS_MIN(v->size, capacity) * sizeof(void *));
         free(v->buffer);
 
-        v->capacity = size;
+        v->capacity = capacity;
         v->buffer   = tmp;
 
         return CDS_STATUS_OK;
 }
 
-static enum cds_stat cds_vec_grow(struct cds_vector *v)
+static enum cds_stat cds_vector_grow(cds_vector_t *v)
 {
-        return cds_vec_reallocate(v, v->capacity * v->cop_exp);
+        return cds_vector_reallocate(v, v->capacity * v->cop_exp);
 }
 
-static enum cds_stat cds_vec_shrink(struct cds_vector *v)
+static enum cds_stat cds_vector_shrink(cds_vector_t *v)
 {
-        return cds_vec_reallocate(v, v->capacity / v->cop_exp);
+        return cds_vector_reallocate(v, v->capacity / v->cop_exp);
 }
 
-static void cds_vec_move_left(struct cds_vector *v, size_t index)
+static void cds_vector_move_left(cds_vector_t *v, size_t index)
 {
         size_t count_bytes;
 
@@ -85,7 +85,7 @@ static void cds_vec_move_left(struct cds_vector *v, size_t index)
         memmove(v->buffer + index - 1, v->buffer + index, count_bytes);
 }
 
-static void cds_vec_move_right(struct cds_vector *v, size_t index)
+static void cds_vector_move_right(cds_vector_t *v, size_t index)
 {
         size_t count_bytes;
 
@@ -93,22 +93,22 @@ static void cds_vec_move_right(struct cds_vector *v, size_t index)
         memmove(v->buffer + index + 1, v->buffer + index, count_bytes);
 }
 
-enum cds_stat cds_vec_ctor(struct cds_vector **v)
+enum cds_stat cds_vector_ctor(cds_vector_t **v)
 {
         assert(v != NULL);
 
-        struct cds_vector *tmp;
+        cds_vector_t *tmp;
         enum cds_stat ret;
 
-        if (!(tmp = (struct cds_vector *)malloc(sizeof(struct cds_vector))))
+        if (!(tmp = (cds_vector_t *)malloc(sizeof( cds_vector_t))))
                 return CDS_STATUS_BAD_ALLOC;
 
         tmp->size     = 0;
         tmp->capacity = 0;
-        tmp->cop_exp  = CDS_VEC_COPACITY_EXP;
+        tmp->cop_exp  = CDS_VECTOR_COPACITY_EXP;
         tmp->buffer   = NULL;
 
-        if ((ret = cds_vec_reserve(tmp, CDS_VEC_MIN_CAPACITY)) !=
+        if ((ret = cds_vector_reserve(tmp, CDS_VECTOR_MIN_CAPACITY)) !=
                         CDS_STATUS_OK)
                 return ret;
 
@@ -117,7 +117,7 @@ enum cds_stat cds_vec_ctor(struct cds_vector **v)
         return CDS_STATUS_OK;
 }
 
-enum cds_stat cds_vec_ctor_list(struct cds_vector **v, ...)
+enum cds_stat cds_vector_ctor_list(cds_vector_t **v, ...)
 {
         assert(v != NULL);
 
@@ -125,12 +125,12 @@ enum cds_stat cds_vec_ctor_list(struct cds_vector **v, ...)
         va_list args;
         void *elem;
 
-        if ((ret = cds_vec_ctor(v)) != CDS_STATUS_OK)
+        if ((ret = cds_vector_ctor(v)) != CDS_STATUS_OK)
                 return ret;
 
         va_start(args, v);
         while ((elem = va_arg(args, void *)) != NULL) {
-                if ((ret = cds_vec_push_back(*v, elem)) != CDS_STATUS_OK) {
+                if ((ret = cds_vector_push_back(*v, elem)) != CDS_STATUS_OK) {
                         va_end(args);
                         return ret;
                 }
@@ -141,7 +141,7 @@ enum cds_stat cds_vec_ctor_list(struct cds_vector **v, ...)
         return CDS_STATUS_OK;
 }
 
-void cds_vec_dtor(struct cds_vector *v)
+void cds_vector_dtor(cds_vector_t *v)
 {
         assert(v != NULL);
 
@@ -149,7 +149,7 @@ void cds_vec_dtor(struct cds_vector *v)
         free(v);
 }
 
-void cds_vec_dtor_f(struct cds_vector *v, void (*f)(void *))
+void cds_vector_dtor_f(cds_vector_t *v, void (*f)(void *))
 {
         assert(v != NULL);
         assert(f != NULL);
@@ -163,38 +163,39 @@ void cds_vec_dtor_f(struct cds_vector *v, void (*f)(void *))
         free(v);
 }
 
-void * cds_vec_data(struct cds_vector *v)
+void * cds_vector_data(cds_vector_t *v)
 {
         return v->buffer;
 }
 
-enum cds_stat cds_vec_insert(struct cds_vector *v, size_t index, void *elem)
+enum cds_stat cds_vector_insert(cds_vector_t *v, size_t index, void *elem)
 {
         assert(v != NULL);
         assert(elem != NULL);
         assert(index < v->size);
 
-        if (cds_vec_should_grow(v)) {
-                enum cds_stat ret = cds_vec_grow(v);
+        if (cds_vector_should_grow(v)) {
+                enum cds_stat ret = cds_vector_grow(v);
                 if (ret != CDS_STATUS_OK)
                         return ret;
         }
 
-        cds_vec_move_right(v, index);
+        cds_vector_move_right(v, index);
+
         v->buffer[index] = elem;
         ++v->size;
 
         return CDS_STATUS_OK;
 }
 
-void cds_vec_clear(struct cds_vector *v)
+void cds_vector_clear(cds_vector_t *v)
 {
         assert(v != NULL);
 
         v->size = 0;
 }
 
-void cds_vec_clear_f(struct cds_vector *v, void (*f)(void *))
+void cds_vector_clear_f(cds_vector_t *v, void (*f)(void *))
 {
         assert(v != NULL);
         assert(f != NULL);
@@ -207,7 +208,7 @@ void cds_vec_clear_f(struct cds_vector *v, void (*f)(void *))
         v->size = 0;
 }
 
-enum cds_stat cds_vec_erase(struct cds_vector *v, size_t index, void **elem)
+enum cds_stat cds_vector_erase(cds_vector_t *v, size_t index, void **elem)
 {
         assert(v != NULL);
         assert(index < v->size);
@@ -215,12 +216,13 @@ enum cds_stat cds_vec_erase(struct cds_vector *v, size_t index, void **elem)
 
         void *tmp = v->buffer[index];
 
-        *elem = tmp;
-        cds_vec_move_left(v, index);
-        --v->size;
+        cds_vector_move_left(v, index);
 
-        if (cds_vec_should_shrink(v)) {
-                enum cds_stat ret = cds_vec_shrink(v);
+        --v->size;
+        *elem = tmp;
+
+        if (cds_vector_should_shrink(v)) {
+                enum cds_stat ret = cds_vector_shrink(v);
                 if (ret != CDS_STATUS_OK)
                         return ret;
         }
@@ -228,41 +230,41 @@ enum cds_stat cds_vec_erase(struct cds_vector *v, size_t index, void **elem)
         return CDS_STATUS_OK;
 }
 
-enum cds_stat cds_vec_reserve(struct cds_vector *v, size_t size)
+enum cds_stat cds_vector_reserve(cds_vector_t *v, size_t size)
 {
         assert(v != NULL);
 
         if (size > v->capacity)
-                return cds_vec_reallocate(v, size);
+                return cds_vector_reallocate(v, size);
 
         return CDS_STATUS_OK;
 }
 
-enum cds_stat cds_vec_push_back(struct cds_vector *v, void *elem)
+enum cds_stat cds_vector_push_back(cds_vector_t *v, void *elem)
 {
         assert(v != NULL);
         assert(elem != NULL);
 
-        if (cds_vec_should_grow(v)) {
-                enum cds_stat ret = cds_vec_grow(v);
+        if (cds_vector_should_grow(v)) {
+                enum cds_stat ret = cds_vector_grow(v);
                 if (ret != CDS_STATUS_OK)
                         return ret;
         }
 
-        v->buffer[v->size++] = (void *)elem;
+        v->buffer[v->size++] = elem;
 
         return CDS_STATUS_OK;
 }
 
-enum cds_stat cds_vec_pop_back(struct cds_vector *v)
+enum cds_stat cds_vector_pop_back(cds_vector_t *v)
 {
         assert(v != NULL);
         assert(v->size > 0);
 
         --v->size;
 
-        if (cds_vec_should_shrink(v)) {
-                enum cds_stat ret = cds_vec_shrink(v);
+        if (cds_vector_should_shrink(v)) {
+                enum cds_stat ret = cds_vector_shrink(v);
                 if (ret != CDS_STATUS_OK)
                         return ret;
         }
@@ -270,7 +272,7 @@ enum cds_stat cds_vec_pop_back(struct cds_vector *v)
         return CDS_STATUS_OK;
 }
 
-void cds_vec_swap(struct cds_vector *a, struct cds_vector *b)
+void cds_vector_swap(cds_vector_t *a, cds_vector_t *b)
 {
         assert(a != NULL);
         assert(b != NULL);
@@ -281,7 +283,7 @@ void cds_vec_swap(struct cds_vector *a, struct cds_vector *b)
         CDS_SWAP(void **, a->buffer,   b->buffer);
 }
 
-void * cds_vec_get(struct cds_vector *v, size_t index)
+void * cds_vector_get(cds_vector_t *v, size_t index)
 {
         assert(v != NULL);
         assert(index < v->size);
@@ -289,15 +291,15 @@ void * cds_vec_get(struct cds_vector *v, size_t index)
         return v->buffer[index];
 }
 
-const void * cds_vec_const_get(struct cds_vector *v, size_t index)
+const void * cds_vector_const_get(cds_vector_t *v, size_t index)
 {
         assert(v != NULL);
         assert(index < v->size);
 
-        return cds_vec_get(v, index);
+        return cds_vector_get(v, index);
 }
 
-enum cds_stat cds_vec_at(struct cds_vector *v, size_t index, void **elem)
+enum cds_stat cds_vector_at(cds_vector_t *v, size_t index, void **elem)
 {
         assert(v != NULL);
         assert(index < v->size);
@@ -311,35 +313,35 @@ enum cds_stat cds_vec_at(struct cds_vector *v, size_t index, void **elem)
 }
 
 
-void * cds_vec_front(struct cds_vector *v)
+void * cds_vector_front(cds_vector_t *v)
 {
         assert(v != NULL);
         assert(v->size > 0);
 
-        return cds_vec_get(v, 0);
+        return cds_vector_get(v, 0);
 }
 
-void * cds_vec_back(struct cds_vector *v)
+void * cds_vector_back(cds_vector_t *v)
 {
         assert(v != NULL);
         assert(v->size > 0);
 
-        return cds_vec_get(v, v->size - 1);
+        return cds_vector_get(v, v->size - 1);
 }
 
-bool cds_vec_empty(struct cds_vector *v)
+bool cds_vector_empty(cds_vector_t *v)
 {
         return v->size == 0;
 }
 
-size_t cds_vec_size(struct cds_vector *v)
+size_t cds_vector_size(cds_vector_t *v)
 {
         assert(v != NULL);
 
         return v->size;
 }
 
-size_t cds_vec_capacity(struct cds_vector *v)
+size_t cds_vector_capacity(cds_vector_t *v)
 {
         assert(v != NULL);
 

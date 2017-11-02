@@ -4,7 +4,7 @@
 void simpleTest(void) {
 
         struct cds_vector *v;
-        CU_ASSERT(!cds_vec_ctor(v));
+        CU_ASSERT(!cds_vector_ctor(v));
 }
 
 int main(int argc, char** argv) {

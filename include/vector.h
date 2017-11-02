@@ -5,37 +5,37 @@
 #include <stdbool.h>
 #include "status.h"
 
-struct cds_vector;
+typedef struct cds_vector cds_vector_t;
 
-enum cds_stat cds_vec_ctor     (struct cds_vector **v);
-enum cds_stat cds_vec_ctor_list(struct cds_vector **v, ...);
-void          cds_vec_dtor     (struct cds_vector *v);
-void          cds_vec_dtor_f   (struct cds_vector *v, void (*f)(void *));
+enum cds_stat cds_vector_ctor     (cds_vector_t **v);
+enum cds_stat cds_vector_ctor_list(cds_vector_t **v, ...);
+void          cds_vector_dtor     (cds_vector_t *v);
+void          cds_vector_dtor_f   (cds_vector_t *v, void (*f)(void *));
 
-enum cds_stat cds_vec_reserve  (struct cds_vector *v, size_t size);
+enum cds_stat cds_vector_reserve  (cds_vector_t *v, size_t size);
 
-void *        cds_vec_data     (struct cds_vector *v);
+void *        cds_vector_data     (cds_vector_t *v);
 
-void *        cds_vec_get      (struct cds_vector *v, size_t index);
-const void *  cds_vec_const_get(struct cds_vector *v, size_t index);
-enum cds_stat cds_vec_at       (struct cds_vector *v, size_t index, void *elem);
+void *        cds_vector_get      (cds_vector_t *v, size_t index);
+const void *  cds_vector_const_get(cds_vector_t *v, size_t index);
+enum cds_stat cds_vector_at       (cds_vector_t *v, size_t index, void **elem);
 
-void *        cds_vec_front    (struct cds_vector *v);
-void *        cds_vec_back     (struct cds_vector *v);
+void *        cds_vector_front    (cds_vector_t *v);
+void *        cds_vector_back     (cds_vector_t *v);
 
-enum cds_stat cds_vec_insert   (struct cds_vector *v, size_t index, void *elem);
-enum cds_stat cds_vec_erase    (struct cds_vector *v, size_t index, void **elem);
+enum cds_stat cds_vector_insert   (cds_vector_t *v, size_t index, void *elem);
+enum cds_stat cds_vector_erase    (cds_vector_t *v, size_t index, void **elem);
 
-void          cds_vec_clear    (struct cds_vector *v);
-void          cds_vec_clear_f  (struct cds_vector *v, void (*f)(void *));
+void          cds_vector_clear    (cds_vector_t *v);
+void          cds_vector_clear_f  (cds_vector_t *v, void (*f)(void *));
 
-enum cds_stat cds_vec_push_back(struct cds_vector *v, void *elem);
-enum cds_stat cds_vec_pop_back (struct cds_vector *v);
+enum cds_stat cds_vector_push_back(cds_vector_t *v, void *elem);
+enum cds_stat cds_vector_pop_back (cds_vector_t *v);
 
-bool          cds_vec_empty    (struct cds_vector *v);
-size_t        cds_vec_size     (struct cds_vector *v);
-size_t        cds_vec_capacity (struct cds_vector *v);
+bool          cds_vector_empty    (cds_vector_t *v);
+size_t        cds_vector_size     (cds_vector_t *v);
+size_t        cds_vector_capacity (cds_vector_t *v);
 
-void          cds_vec_swap     (struct cds_vector *a, struct cds_vector *b);
+void          cds_vector_swap     (cds_vector_t *a, cds_vector_t *b);
 
 #endif // CDSTRUCTURES_INCLUDE_VECTOR_H
