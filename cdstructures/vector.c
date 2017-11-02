@@ -24,7 +24,7 @@ static bool cds_vec_should_shrink(const struct cds_vector *v)
         assert(v != NULL);
         assert(v->size <= v->capacity);
 
-        return v->size == v->capacity * CDS_VEC_SHRINK_THRESHOLD;
+        return v->size <= v->capacity * CDS_VEC_SHRINK_THRESHOLD;
 }
 
 static bool cds_vec_reach_limit_size(const struct cds_vector *v)
@@ -67,9 +67,14 @@ static enum cds_stat cds_vec_reallocate(struct cds_vector *v, size_t size)
         return CDS_STATUS_OK;
 }
 
-static enum cds_stat cds_vec_adjust_capacity(struct cds_vector *v)
+static enum cds_stat cds_vec_grow(struct cds_vector *v)
 {
-        return cds_vec_reallocate(v, CDS_MAX(1, v->capacity * v->cop_exp));
+        return cds_vec_reallocate(v, v->capacity * v->cop_exp);
+}
+
+static enum cds_stat cds_vec_shrink(struct cds_vector *v)
+{
+        return cds_vec_reallocate(v, v->capacity / v->cop_exp);
 }
 
 static void cds_vec_move_left(struct cds_vector *v, size_t index)
@@ -124,7 +129,7 @@ enum cds_stat cds_vec_ctor_list(struct cds_vector **v, ...)
                 return ret;
 
         va_start(args, v);
-        while ((elem = va_arg(args, char *)) != NULL) {
+        while ((elem = va_arg(args, void *)) != NULL) {
                 if ((ret = cds_vec_push_back(*v, elem)) != CDS_STATUS_OK) {
                         va_end(args);
                         return ret;
@@ -170,7 +175,7 @@ enum cds_stat cds_vec_insert(struct cds_vector *v, size_t index, void *elem)
         assert(index < v->size);
 
         if (cds_vec_should_grow(v)) {
-                enum cds_stat ret = cds_vec_adjust_capacity(v);
+                enum cds_stat ret = cds_vec_grow(v);
                 if (ret != CDS_STATUS_OK)
                         return ret;
         }
@@ -215,7 +220,7 @@ enum cds_stat cds_vec_erase(struct cds_vector *v, size_t index, void **elem)
         --v->size;
 
         if (cds_vec_should_shrink(v)) {
-                enum cds_stat ret = cds_vec_adjust_capacity(v);
+                enum cds_stat ret = cds_vec_shrink(v);
                 if (ret != CDS_STATUS_OK)
                         return ret;
         }
@@ -239,7 +244,7 @@ enum cds_stat cds_vec_push_back(struct cds_vector *v, void *elem)
         assert(elem != NULL);
 
         if (cds_vec_should_grow(v)) {
-                enum cds_stat ret = cds_vec_adjust_capacity(v);
+                enum cds_stat ret = cds_vec_grow(v);
                 if (ret != CDS_STATUS_OK)
                         return ret;
         }
@@ -257,7 +262,7 @@ enum cds_stat cds_vec_pop_back(struct cds_vector *v)
         --v->size;
 
         if (cds_vec_should_shrink(v)) {
-                enum cds_stat ret = cds_vec_adjust_capacity(v);
+                enum cds_stat ret = cds_vec_shrink(v);
                 if (ret != CDS_STATUS_OK)
                         return ret;
         }

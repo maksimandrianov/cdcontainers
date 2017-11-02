@@ -39,6 +39,21 @@ int main(int argc, char** argv)
                 printf("%i\n", *((int*)cds_vec_get(v, i)));
         }
 
+        while (!cds_vec_empty(v)) {
+                cds_vec_pop_back(v);
+        }
+
+        cds_vec_dtor(v);
+
+
+        if ((ret = cds_vec_ctor_list(&v, &a, &b, &c, &d, &f, NULL))
+                        != CDS_STATUS_OK)
+                exit_wiht_stat(ret);
+
+        for (i = 0; i < cds_vec_size(v); ++i) {
+                printf("%i\n", *((int*)cds_vec_get(v, i)));
+        }
+
         cds_vec_dtor(v);
 
 }
