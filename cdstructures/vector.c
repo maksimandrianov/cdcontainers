@@ -127,7 +127,7 @@ enum cds_stat cds_vector_ctor(cds_vector_t **v, void (*fp_free)(void *))
         tmp->fp_free  = fp_free;
 
         if ((ret = cds_vector_reserve(tmp, CDS_VECTOR_MIN_CAPACITY)) !=
-                        CDS_STATUS_OK)
+            CDS_STATUS_OK)
                 return ret;
 
         *v = tmp;
@@ -170,7 +170,7 @@ void cds_vector_dtor(cds_vector_t *v)
         free(v);
 }
 
-void ** cds_vector_data(cds_vector_t *v)
+void **cds_vector_data(cds_vector_t *v)
 {
         assert(v != NULL);
 
@@ -288,7 +288,7 @@ void cds_vector_swap(cds_vector_t *a, cds_vector_t *b)
         CDS_SWAP(void **, a->buffer,   b->buffer);
 }
 
-void * cds_vector_get(cds_vector_t *v, size_t index)
+void *cds_vector_get(cds_vector_t *v, size_t index)
 {
         assert(v != NULL);
         assert(index < v->size);
@@ -310,7 +310,7 @@ enum cds_stat cds_vector_at(cds_vector_t *v, size_t index, void **elem)
 }
 
 
-void * cds_vector_front(cds_vector_t *v)
+void *cds_vector_front(cds_vector_t *v)
 {
         assert(v != NULL);
         assert(v->size > 0);
@@ -318,7 +318,7 @@ void * cds_vector_front(cds_vector_t *v)
         return cds_vector_get(v, 0);
 }
 
-void * cds_vector_back(cds_vector_t *v)
+void *cds_vector_back(cds_vector_t *v)
 {
         assert(v != NULL);
         assert(v->size > 0);
