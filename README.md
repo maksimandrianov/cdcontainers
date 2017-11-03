@@ -9,4 +9,4 @@ To build and run tests, do the following steps:
     $ mkdir cmake && cd cmake
     $ cmake ..
     $ make
-    $ make test
+    $ make check
