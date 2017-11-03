@@ -33,4 +33,4 @@ add_executable(${PROJECT_NAME} ${SOURCE})
 
 target_link_libraries(${PROJECT_NAME} cunit cdstructures)
 
-add_test(${PROJECT_NAME} ${EXECUTABLE_OUTPUT_PATH}/tests)
+add_custom_target(check ${EXECUTABLE_OUTPUT_PATH}/${PROJECT_NAME} ${PROJECT_NAME})
