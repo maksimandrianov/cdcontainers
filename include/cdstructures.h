@@ -4,4 +4,4 @@
 #include "vector.h"
 
 
-#endif // CDSTRUCTURES_INCLUDE_CDSTRUCTURES_H
+#endif  // CDSTRUCTURES_INCLUDE_CDSTRUCTURES_H

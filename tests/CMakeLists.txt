@@ -24,6 +24,8 @@ include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_INCLUDE_DIR}")
 
 set(SOURCE
+      test_common.h
+      test_vector.c
       test_main.c
 )
 

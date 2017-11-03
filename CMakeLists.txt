@@ -12,8 +12,8 @@ set(TOP_LEVEL_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(PROJECT_INCLUDE_DIR ${TOP_LEVEL_DIR}/include)
 
 add_subdirectory(cdstructures)
-add_subdirectory(examples)
-#enable_testing()
-#add_subdirectory(tests)
+#add_subdirectory(examples)
+enable_testing()
+add_subdirectory(tests)
 
 

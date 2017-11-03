@@ -13,4 +13,4 @@ enum cds_stat {
 
 void cds_print_stat(enum cds_stat s);
 
-#endif // CDSTRUCTURES_INCLUDE_STATUS_H
+#endif  // CDSTRUCTURES_INCLUDE_STATUS_H
