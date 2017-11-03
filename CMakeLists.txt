@@ -12,6 +12,7 @@ set(TOP_LEVEL_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(PROJECT_INCLUDE_DIR ${TOP_LEVEL_DIR}/include)
 
 add_subdirectory(src)
-#add_subdirectory(examples)
+add_subdirectory(examples)
 add_subdirectory(tests)
+set_target_properties(tests PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
