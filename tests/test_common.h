@@ -6,7 +6,12 @@ void test_vector_ctor();
 void test_vector_ctor_list();
 void test_vector_reserve();
 void test_vector_data();
-void test_vector_getters();
-
+void test_vector_get();
+void test_vector_at();
+void test_vector_front();
+void test_vector_back();
+void test_vector_insert();
+void test_vector_erase();
+void test_vector_clear();
 
 #endif  // CDSTRUCTURES_TESTS_TESTS_COMMON_H

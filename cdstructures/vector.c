@@ -85,7 +85,7 @@ static void cds_vector_move_left(cds_vector_t *v, size_t index)
         size_t count_bytes;
 
         count_bytes = (v->size - index) * sizeof(void *);
-        memmove(v->buffer + index - 1, v->buffer + index, count_bytes);
+        memmove(v->buffer + index, v->buffer + index + 1, count_bytes);
 }
 
 static void cds_vector_move_right(cds_vector_t *v, size_t index)
@@ -101,7 +101,8 @@ static void cds_vector_move_right(cds_vector_t *v, size_t index)
 static void cds_vector_free_range(cds_vector_t *v, size_t start, size_t end)
 {
         assert(v);
-        assert(v->fp_free);
+        assert(start < v->size);
+        assert(end <= v->size);
 
         size_t i;
 
@@ -180,12 +181,17 @@ enum cds_stat cds_vector_insert(cds_vector_t *v, size_t index, void *elem)
 {
         assert(v != NULL);
         assert(elem != NULL);
-        assert(index < v->size);
+        assert(index <= v->size);
 
         if (cds_vector_should_grow(v)) {
                 enum cds_stat ret = cds_vector_grow(v);
                 if (ret != CDS_STATUS_OK)
                         return ret;
+        }
+
+        if (v->size == index) {
+                cds_vector_push_back(v,elem);
+                return CDS_STATUS_OK;
         }
 
         cds_vector_move_right(v, index);
@@ -209,15 +215,16 @@ void cds_vector_clear(cds_vector_t *v)
 enum cds_stat cds_vector_erase(cds_vector_t *v, size_t index, void **elem)
 {
         assert(v != NULL);
-        assert(index < v->size);
         assert(elem != NULL);
+        assert(index < v->size);
 
-        void *tmp = v->buffer[index];
+        *elem = v->buffer[index];
+
+        if (v->size - 1 == index)
+                return cds_vector_pop_back(v);
 
         cds_vector_move_left(v, index);
-
         --v->size;
-        *elem = tmp;
 
         if (cds_vector_should_shrink(v)) {
                 enum cds_stat ret = cds_vector_shrink(v);

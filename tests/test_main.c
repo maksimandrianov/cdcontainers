@@ -18,9 +18,14 @@ int main(int argc, char** argv) {
         if (CU_add_test(p_suite, "test_ctor", test_vector_ctor) == NULL ||
             CU_add_test(p_suite, "test_ctor_list", test_vector_ctor_list) == NULL ||
             CU_add_test(p_suite, "test_reserve", test_vector_reserve) == NULL ||
-            CU_add_test(p_suite, "testr_data", test_vector_data) == NULL ||
-            CU_add_test(p_suite, "test_getters", test_vector_getters) == NULL
-                        ) {
+            CU_add_test(p_suite, "test_data", test_vector_data) == NULL ||
+            CU_add_test(p_suite, "test_get", test_vector_get) == NULL ||
+            CU_add_test(p_suite, "vector_at", test_vector_at) == NULL ||
+            CU_add_test(p_suite, "vector_front", test_vector_front) == NULL ||
+            CU_add_test(p_suite, "vector_back", test_vector_back) == NULL ||
+            CU_add_test(p_suite, "vector_insert", test_vector_insert) == NULL ||
+            CU_add_test(p_suite, "vector_erase", test_vector_erase) == NULL ||
+            CU_add_test(p_suite, "vector_clear", test_vector_clear) == NULL) {
                 CU_cleanup_registry();
                 return CU_get_error();
         }
