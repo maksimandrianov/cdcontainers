@@ -12,6 +12,4 @@
                 y = tmp; \
         } while (0)
 
-
-
 #endif  // CDSTRUCTURES_CDSTRUCTURES_COMMON_H

@@ -25,7 +25,10 @@ int main(int argc, char** argv)
             CU_add_test(p_suite, "test_back", test_vector_back) == NULL ||
             CU_add_test(p_suite, "test_insert", test_vector_insert) == NULL ||
             CU_add_test(p_suite, "test_erase", test_vector_erase) == NULL ||
-            CU_add_test(p_suite, "test_clear", test_vector_clear) == NULL) {
+            CU_add_test(p_suite, "test_clear", test_vector_clear) == NULL ||
+            CU_add_test(p_suite, "test_push_back", test_vector_push_back) == NULL ||
+            CU_add_test(p_suite, "test_pop_back", test_vector_pop_back) == NULL ||
+            CU_add_test(p_suite, "test_swap", test_vector_swap) == NULL) {
                 CU_cleanup_registry();
                 return CU_get_error();
         }

@@ -288,6 +288,7 @@ void cds_vector_swap(cds_vector_t *a, cds_vector_t *b)
         CDS_SWAP(size_t,  a->capacity, b->capacity);
         CDS_SWAP(float,   a->cop_exp,  b->cop_exp);
         CDS_SWAP(void **, a->buffer,   b->buffer);
+        CDS_SWAP(void *,  a->fp_free,  b->fp_free);
 }
 
 void *cds_vector_get(cds_vector_t *v, size_t index)

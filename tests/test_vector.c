@@ -197,3 +197,76 @@ void test_vector_clear()
 
         cds_vector_dtor(v);
 }
+
+void test_vector_push_back()
+{
+        cds_vector_t *v;
+        int a = 0, b = 1, c = 2;
+
+        CU_ASSERT(cds_vector_ctor(&v, NULL) == CDS_STATUS_OK);
+
+        cds_vector_push_back(v, &a);
+        CU_ASSERT(cds_vector_size(v) == 1);
+        CU_ASSERT(vector_range_int_eq(v, 1, a));
+
+        cds_vector_push_back(v, &b);
+        CU_ASSERT(cds_vector_size(v) == 2);
+        CU_ASSERT(vector_range_int_eq(v, 1, a, b));
+
+        cds_vector_push_back(v, &c);
+        CU_ASSERT(cds_vector_size(v) == 3);
+        CU_ASSERT(vector_range_int_eq(v, 3, a, b, c));
+
+        cds_vector_dtor(v);
+}
+
+void test_vector_pop_back()
+{
+        cds_vector_t *v;
+        int a = 0, b = 1, c = 2, d = 3;
+        void *elem;
+
+        CU_ASSERT(cds_vector_ctor_l(&v, NULL, &a, &b, &c, &d, NULL) == CDS_STATUS_OK);
+
+        elem = cds_vector_back(v);
+        cds_vector_pop_back(v);
+        CU_ASSERT(cds_vector_size(v) == 3);
+        CU_ASSERT(*((int *)elem) == d);
+
+        elem = cds_vector_back(v);
+        cds_vector_pop_back(v);
+        CU_ASSERT(cds_vector_size(v) == 2);
+        CU_ASSERT(*((int *)elem) == c);
+
+        elem = cds_vector_back(v);
+        cds_vector_pop_back(v);
+        CU_ASSERT(cds_vector_size(v) == 1);
+        CU_ASSERT(*((int *)elem) == b);
+
+        elem = cds_vector_back(v);
+        cds_vector_pop_back(v);
+        CU_ASSERT(cds_vector_size(v) == 0);
+        CU_ASSERT(*((int *)elem) == a);
+
+        cds_vector_dtor(v);
+}
+
+void test_vector_swap()
+{
+        cds_vector_t *v, *w;
+        int a = 0, b = 1, c = 2, d = 3;
+
+        CU_ASSERT(cds_vector_ctor_l(&v, NULL, &a, &b, &c, &d, NULL) == CDS_STATUS_OK);
+        CU_ASSERT(cds_vector_ctor_l(&w, NULL, &a, &d, NULL) == CDS_STATUS_OK);
+
+        cds_vector_swap(v, w);
+
+        CU_ASSERT(cds_vector_size(v) == 2);
+        CU_ASSERT(vector_range_int_eq(v, 2, a, d));
+        CU_ASSERT(cds_vector_size(w) == 4);
+        CU_ASSERT(vector_range_int_eq(w, 4, a, b, c, d));
+
+        cds_vector_dtor(v);
+        cds_vector_dtor(w);
+}
+
