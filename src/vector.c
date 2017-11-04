@@ -127,8 +127,10 @@ enum cds_stat cds_vector_ctor(cds_vector_t **v, void (*fp_free)(void *))
         tmp->fp_free  = fp_free;
 
         if ((ret = cds_vector_reserve(tmp, CDS_VECTOR_MIN_CAPACITY)) !=
-            CDS_STATUS_OK)
+            CDS_STATUS_OK) {
+                free(tmp);
                 return ret;
+        }
 
         *v = tmp;
 

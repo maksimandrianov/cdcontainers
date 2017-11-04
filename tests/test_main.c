@@ -2,8 +2,8 @@
 #include "test_common.h"
 
 
-int main(int argc, char** argv) {
-
+int main(int argc, char** argv)
+{
         CU_pSuite p_suite = NULL;
 
         if (CUE_SUCCESS != CU_initialize_registry())
@@ -33,5 +33,6 @@ int main(int argc, char** argv) {
         CU_basic_set_mode(CU_BRM_VERBOSE);
         CU_basic_run_tests();
         CU_cleanup_registry();
+
         return CU_get_error();
 }
