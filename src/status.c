@@ -4,16 +4,16 @@
 void cdc_print_stat(enum cdc_stat s)
 {
         static const char *desscriptions[] = {
-                "cdc_STATUS_OK",
-                "cdc_STATUS_BAD_ALLOC",
-                "cdc_STATUS_OUT_OF_RANGE",
-                "cdc_STATUS_OVERFLOW",
+                "CDC_STATUS_OK",
+                "CDC_STATUS_BAD_ALLOC",
+                "CDC_STATUS_OUT_OF_RANGE",
+                "CDC_STATUS_OVERFLOW",
 
-                "cdc_STATUS_UNKN"
+                "CDC_STATUS_UNKN"
         };
 
-        if (s < cdc_STATUS_OK && s > cdc_STATUS_UNKN)
-                s = cdc_STATUS_UNKN;
+        if (s < CDC_STATUS_OK && s > CDC_STATUS_UNKN)
+                s = CDC_STATUS_UNKN;
 
         printf("%s", desscriptions[s]);
 }

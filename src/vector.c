@@ -50,12 +50,12 @@ static inline enum cdc_stat cdc_vector_reallocate(cdc_vector_t *v,
                 if (v->capacity > CDC_VECTOR_MIN_CAPACITY)
                         capacity = CDC_VECTOR_MIN_CAPACITY;
                 else
-                        return cdc_STATUS_OK;
+                        return CDC_STATUS_OK;
         }
 
         tmp = malloc(capacity * sizeof (void *));
         if (!tmp)
-                return cdc_STATUS_BAD_ALLOC;
+                return CDC_STATUS_BAD_ALLOC;
 
         memcpy(tmp, v->buffer, CDC_MIN(v->size, capacity) * sizeof(void *));
         free(v->buffer);
@@ -63,7 +63,7 @@ static inline enum cdc_stat cdc_vector_reallocate(cdc_vector_t *v,
         v->capacity = capacity;
         v->buffer   = tmp;
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 static inline enum cdc_stat cdc_vector_grow(cdc_vector_t *v)
@@ -120,7 +120,7 @@ enum cdc_stat cdc_vector_ctor(cdc_vector_t **v, void (*fp_free)(void *))
 
         tmp = (cdc_vector_t *)malloc(sizeof(cdc_vector_t));
         if (!tmp)
-                return cdc_STATUS_BAD_ALLOC;
+                return CDC_STATUS_BAD_ALLOC;
 
         tmp->size     = 0;
         tmp->capacity = 0;
@@ -129,14 +129,14 @@ enum cdc_stat cdc_vector_ctor(cdc_vector_t **v, void (*fp_free)(void *))
         tmp->fp_free  = fp_free;
 
         ret = cdc_vector_reserve(tmp, CDC_VECTOR_MIN_CAPACITY);
-        if (ret != cdc_STATUS_OK) {
+        if (ret != CDC_STATUS_OK) {
                 free(tmp);
                 return ret;
         }
 
         *v = tmp;
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_vector_ctor_l(cdc_vector_t **v, void (*fp_free)(void *), ...)
@@ -148,13 +148,13 @@ enum cdc_stat cdc_vector_ctor_l(cdc_vector_t **v, void (*fp_free)(void *), ...)
         void *elem;
 
         ret = cdc_vector_ctor(v, fp_free);
-        if (ret != cdc_STATUS_OK)
+        if (ret != CDC_STATUS_OK)
                 return ret;
 
         va_start(args, fp_free);
         while ((elem = va_arg(args, void *)) != NULL) {
                 ret = cdc_vector_push_back(*v, elem);
-                if (ret != cdc_STATUS_OK) {
+                if (ret != CDC_STATUS_OK) {
                         va_end(args);
                         return ret;
                 }
@@ -162,7 +162,7 @@ enum cdc_stat cdc_vector_ctor_l(cdc_vector_t **v, void (*fp_free)(void *), ...)
 
         va_end(args);
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 void cdc_vector_dtor(cdc_vector_t *v)
@@ -191,13 +191,13 @@ enum cdc_stat cdc_vector_insert(cdc_vector_t *v, size_t index, void *elem)
 
         if (cdc_vector_should_grow(v)) {
                 enum cdc_stat ret = cdc_vector_grow(v);
-                if (ret != cdc_STATUS_OK)
+                if (ret != CDC_STATUS_OK)
                         return ret;
         }
 
         if (v->size == index) {
                 cdc_vector_push_back(v,elem);
-                return cdc_STATUS_OK;
+                return CDC_STATUS_OK;
         }
 
         cdc_vector_move_right(v, index);
@@ -205,7 +205,7 @@ enum cdc_stat cdc_vector_insert(cdc_vector_t *v, size_t index, void *elem)
         v->buffer[index] = elem;
         ++v->size;
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 void cdc_vector_clear(cdc_vector_t *v)
@@ -234,11 +234,11 @@ enum cdc_stat cdc_vector_erase(cdc_vector_t *v, size_t index, void **elem)
 
         if (cdc_vector_should_shrink(v)) {
                 enum cdc_stat ret = cdc_vector_shrink(v);
-                if (ret != cdc_STATUS_OK)
+                if (ret != CDC_STATUS_OK)
                         return ret;
         }
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_vector_reserve(cdc_vector_t *v, size_t capacity)
@@ -248,7 +248,7 @@ enum cdc_stat cdc_vector_reserve(cdc_vector_t *v, size_t capacity)
         if (capacity > v->capacity)
                 return cdc_vector_reallocate(v, capacity);
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_vector_push_back(cdc_vector_t *v, void *elem)
@@ -257,13 +257,13 @@ enum cdc_stat cdc_vector_push_back(cdc_vector_t *v, void *elem)
 
         if (cdc_vector_should_grow(v)) {
                 enum cdc_stat ret = cdc_vector_grow(v);
-                if (ret != cdc_STATUS_OK)
+                if (ret != CDC_STATUS_OK)
                         return ret;
         }
 
         v->buffer[v->size++] = elem;
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_vector_pop_back(cdc_vector_t *v)
@@ -275,11 +275,11 @@ enum cdc_stat cdc_vector_pop_back(cdc_vector_t *v)
 
         if (cdc_vector_should_shrink(v)) {
                 enum cdc_stat ret = cdc_vector_shrink(v);
-                if (ret != cdc_STATUS_OK)
+                if (ret != CDC_STATUS_OK)
                         return ret;
         }
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 void cdc_vector_swap(cdc_vector_t *a, cdc_vector_t *b)
@@ -308,11 +308,11 @@ enum cdc_stat cdc_vector_at(cdc_vector_t *v, size_t index, void **elem)
         assert(elem != NULL);
 
         if (index > v->size)
-                return cdc_STATUS_OUT_OF_RANGE;
+                return CDC_STATUS_OUT_OF_RANGE;
 
         *elem = v->buffer[index];
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 

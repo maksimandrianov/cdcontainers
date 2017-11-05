@@ -3,12 +3,12 @@
 
 
 enum cdc_stat {
-        cdc_STATUS_OK = 0,
-        cdc_STATUS_BAD_ALLOC,
-        cdc_STATUS_OUT_OF_RANGE,
-        cdc_STATUS_OVERFLOW,
+        CDC_STATUS_OK = 0,
+        CDC_STATUS_BAD_ALLOC,
+        CDC_STATUS_OUT_OF_RANGE,
+        CDC_STATUS_OVERFLOW,
 
-        cdc_STATUS_UNKN
+        CDC_STATUS_UNKN
 };
 
 void cdc_print_stat(enum cdc_stat s);

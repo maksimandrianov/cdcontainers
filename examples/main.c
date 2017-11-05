@@ -22,24 +22,24 @@ int main(int argc, char** argv)
         cdc_vector_t *v, *w;
         enum cdc_stat ret;
 
-        if ((ret = cdc_vector_ctor(&v, NULL)) != cdc_STATUS_OK)
+        if ((ret = cdc_vector_ctor(&v, NULL)) != CDC_STATUS_OK)
                 exit_wiht_stat(ret);
 
         int a = 0, b = 1, c = 2, d = 4, f = 5;
 
-        if ((ret = cdc_vector_push_back(v, &a)) != cdc_STATUS_OK)
+        if ((ret = cdc_vector_push_back(v, &a)) != CDC_STATUS_OK)
                 exit_wiht_stat(ret);
 
-        if ((ret = cdc_vector_push_back(v, &b)) != cdc_STATUS_OK)
+        if ((ret = cdc_vector_push_back(v, &b)) != CDC_STATUS_OK)
                 exit_wiht_stat(ret);
 
-        if ((ret = cdc_vector_push_back(v, &c)) != cdc_STATUS_OK)
+        if ((ret = cdc_vector_push_back(v, &c)) != CDC_STATUS_OK)
                 exit_wiht_stat(ret);
 
-        if ((ret = cdc_vector_push_back(v, &d)) != cdc_STATUS_OK)
+        if ((ret = cdc_vector_push_back(v, &d)) != CDC_STATUS_OK)
                 exit_wiht_stat(ret);
 
-        if ((ret = cdc_vector_push_back(v, &f)) != cdc_STATUS_OK)
+        if ((ret = cdc_vector_push_back(v, &f)) != CDC_STATUS_OK)
                 exit_wiht_stat(ret);
 
         print_int_vector(v);
@@ -51,7 +51,7 @@ int main(int argc, char** argv)
 
 
         if ((ret = cdc_vector_ctor_l(&v, NULL, &a, &b, &c, &d, &f, NULL))
-                        != cdc_STATUS_OK)
+                        != CDC_STATUS_OK)
                 exit_wiht_stat(ret);
 
         print_int_vector(v);
@@ -60,11 +60,11 @@ int main(int argc, char** argv)
 
 
         if ((ret = cdc_vector_ctor_l(&v, NULL, &c, &d, NULL))
-                        != cdc_STATUS_OK)
+                        != CDC_STATUS_OK)
                 exit_wiht_stat(ret);
 
         if ((ret = cdc_vector_ctor_l(&w, NULL, &a, &b, NULL))
-                        != cdc_STATUS_OK)
+                        != CDC_STATUS_OK)
                 exit_wiht_stat(ret);
 
 

@@ -67,7 +67,7 @@ enum cdc_stat cdc_list_ctor(cdc_list_t **l, void (*fp_free)(void *))
 
         tmp = (cdc_list_t *)malloc(sizeof(cdc_list_t));
         if (!tmp)
-                return cdc_STATUS_BAD_ALLOC;
+                return CDC_STATUS_BAD_ALLOC;
 
         tmp->head    = NULL;
         tmp->tail    = NULL;
@@ -76,7 +76,7 @@ enum cdc_stat cdc_list_ctor(cdc_list_t **l, void (*fp_free)(void *))
 
         *l = tmp;
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_list_ctor_l(cdc_list_t **l, void (*fp_free)(void *), ...)
@@ -88,13 +88,13 @@ enum cdc_stat cdc_list_ctor_l(cdc_list_t **l, void (*fp_free)(void *), ...)
         void *elem;
 
         ret = cdc_list_ctor(l, fp_free);
-        if (ret != cdc_STATUS_OK)
+        if (ret != CDC_STATUS_OK)
                 return ret;
 
         va_start(args, fp_free);
         while ((elem = va_arg(args, void *)) != NULL) {
                 ret = cdc_list_push_back(*l, elem);
-                if (ret != cdc_STATUS_OK) {
+                if (ret != CDC_STATUS_OK) {
                         va_end(args);
                         return ret;
                 }
@@ -102,7 +102,7 @@ enum cdc_stat cdc_list_ctor_l(cdc_list_t **l, void (*fp_free)(void *), ...)
 
         va_end(args);
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 void cdc_list_dtor(cdc_list_t *l)
@@ -134,7 +134,7 @@ enum cdc_stat cdc_list_push_back(cdc_list_t *l, void *elem)
 
         node = (struct list_node *)malloc(sizeof(struct list_node));
         if (!node)
-                return cdc_STATUS_BAD_ALLOC;
+                return CDC_STATUS_BAD_ALLOC;
 
         node->data = elem;
         if (l->tail == NULL) {
@@ -148,7 +148,7 @@ enum cdc_stat cdc_list_push_back(cdc_list_t *l, void *elem)
 
         ++l->size;
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_list_pop_back(cdc_list_t *l)
@@ -170,7 +170,7 @@ enum cdc_stat cdc_list_pop_back(cdc_list_t *l)
                 l->head = NULL;
         }
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_list_push_front(cdc_list_t *l, void *elem)
@@ -181,7 +181,7 @@ enum cdc_stat cdc_list_push_front(cdc_list_t *l, void *elem)
 
         node = (struct list_node *)malloc(sizeof(struct list_node));
         if (node == NULL)
-                return cdc_STATUS_BAD_ALLOC;
+                return CDC_STATUS_BAD_ALLOC;
 
         node->data = elem;
         if (l->head == NULL) {
@@ -195,7 +195,7 @@ enum cdc_stat cdc_list_push_front(cdc_list_t *l, void *elem)
 
         ++l->size;
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 void cdc_list_foreach(cdc_list_t *l, void (*cb)(void *, size_t))
@@ -218,12 +218,12 @@ enum cdc_stat cdc_list_at(cdc_list_t *l, size_t index, void **elem)
         struct list_node *node;
 
         if (index > l->size)
-                return cdc_STATUS_OUT_OF_RANGE;
+                return CDC_STATUS_OUT_OF_RANGE;
 
         node = cdc_list_get_node(l, index);
         *elem = node->data;
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_list_pop_front(cdc_list_t *l)
@@ -245,7 +245,7 @@ enum cdc_stat cdc_list_pop_front(cdc_list_t *l)
                 l->head = NULL;
         }
 
-        return cdc_STATUS_OK;
+        return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_list_insert(cdc_list_t *v, size_t index, void *elem)
