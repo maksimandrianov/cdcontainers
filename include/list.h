@@ -25,9 +25,9 @@ enum cdc_stat cdc_list_push_back (cdc_list_t *l, void *elem);
 enum cdc_stat cdc_list_pop_back  (cdc_list_t *l);
 enum cdc_stat cdc_list_push_front(cdc_list_t *l, void *elem);
 enum cdc_stat cdc_list_pop_front (cdc_list_t *l);
-enum cdc_stat cdc_list_insert    (cdc_list_t *v, size_t index, void *elem);
-enum cdc_stat cdc_list_erase     (cdc_list_t *v, size_t index, void **elem);
-void          cdc_list_clear     (cdc_list_t *v);
+enum cdc_stat cdc_list_insert    (cdc_list_t *l, size_t index, void *elem);
+enum cdc_stat cdc_list_erase     (cdc_list_t *l, size_t index, void **elem);
+void          cdc_list_clear     (cdc_list_t *l);
 void          cdc_list_swap      (cdc_list_t *a, cdc_list_t *b);
 
 void          cdc_list_foreach   (cdc_list_t *l, void (*cb)(void *, size_t));

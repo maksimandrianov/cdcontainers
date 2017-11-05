@@ -186,7 +186,6 @@ void **cdc_vector_data(cdc_vector_t *v)
 enum cdc_stat cdc_vector_insert(cdc_vector_t *v, size_t index, void *elem)
 {
         assert(v != NULL);
-        assert(elem != NULL);
         assert(index <= v->size);
 
         if (cdc_vector_should_grow(v)) {
@@ -195,10 +194,8 @@ enum cdc_stat cdc_vector_insert(cdc_vector_t *v, size_t index, void *elem)
                         return ret;
         }
 
-        if (v->size == index) {
-                cdc_vector_push_back(v,elem);
-                return CDC_STATUS_OK;
-        }
+        if (index == v->size)
+                return cdc_vector_push_back(v,elem);
 
         cdc_vector_move_right(v, index);
 
@@ -226,7 +223,7 @@ enum cdc_stat cdc_vector_erase(cdc_vector_t *v, size_t index, void **elem)
 
         *elem = v->buffer[index];
 
-        if (v->size - 1 == index)
+        if (index == v->size - 1)
                 return cdc_vector_pop_back(v);
 
         cdc_vector_move_left(v, index);
