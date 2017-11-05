@@ -13,14 +13,14 @@ struct list_node {
         void *data;
 };
 
-struct cds_list {
+struct cdc_list {
         struct list_node *head;
         struct list_node *tail;
         size_t size;
         void (*fp_free)(void *);
 };
 
-static inline void cds_list_add(struct list_node *new_node,
+static inline void cdc_list_add(struct list_node *new_node,
                                 struct list_node *prev_node,
                                 struct list_node *next_node)
 {
@@ -36,21 +36,38 @@ static inline void cds_list_add(struct list_node *new_node,
                 prev_node->next = new_node;
 }
 
-static inline void cds_list_remove(struct list_node *prev_node,
+static inline void cdc_list_remove(struct list_node *prev_node,
                                    struct list_node *next_node)
 {
-        next_node->prev = prev_node;
-        prev_node->next = next_node;
+        if (next_node)
+                next_node->prev = prev_node;
+
+        if (prev_node)
+                prev_node->next = next_node;
 }
 
-enum cds_stat cds_list_ctor(cds_list_t **l, void (*fp_free)(void *))
+static inline struct list_node *cdc_list_get_node(cdc_list_t *l, size_t index)
 {
-        cds_list_t *tmp;
-        enum cds_stat ret;
+        assert(l != NULL);
 
-        tmp = (cds_list_t *)malloc(sizeof(cds_list_t));
+        struct list_node *node;
+        size_t i;
+
+        for (node = l->head, i = 0; node != NULL && i != index;
+             node = node->next, ++i)
+                /* empty */;
+
+        return node;
+}
+
+enum cdc_stat cdc_list_ctor(cdc_list_t **l, void (*fp_free)(void *))
+{
+        cdc_list_t *tmp;
+        enum cdc_stat ret;
+
+        tmp = (cdc_list_t *)malloc(sizeof(cdc_list_t));
         if (!tmp)
-                return CDS_STATUS_BAD_ALLOC;
+                return cdc_STATUS_BAD_ALLOC;
 
         tmp->head    = NULL;
         tmp->tail    = NULL;
@@ -59,25 +76,25 @@ enum cds_stat cds_list_ctor(cds_list_t **l, void (*fp_free)(void *))
 
         *l = tmp;
 
-        return CDS_STATUS_OK;
+        return cdc_STATUS_OK;
 }
 
-enum cds_stat cds_list_ctor_l(cds_list_t **l, void (*fp_free)(void *), ...)
+enum cdc_stat cdc_list_ctor_l(cdc_list_t **l, void (*fp_free)(void *), ...)
 {
         assert(l != NULL);
 
-        enum cds_stat ret;
+        enum cdc_stat ret;
         va_list args;
         void *elem;
 
-        ret = cds_list_ctor(l, fp_free);
-        if (ret != CDS_STATUS_OK)
+        ret = cdc_list_ctor(l, fp_free);
+        if (ret != cdc_STATUS_OK)
                 return ret;
 
         va_start(args, fp_free);
         while ((elem = va_arg(args, void *)) != NULL) {
-                ret = cds_list_push_back(*l, elem);
-                if (ret != CDS_STATUS_OK) {
+                ret = cdc_list_push_back(*l, elem);
+                if (ret != cdc_STATUS_OK) {
                         va_end(args);
                         return ret;
                 }
@@ -85,10 +102,10 @@ enum cds_stat cds_list_ctor_l(cds_list_t **l, void (*fp_free)(void *), ...)
 
         va_end(args);
 
-        return CDS_STATUS_OK;
+        return cdc_STATUS_OK;
 }
 
-void cds_list_dtor(cds_list_t *l)
+void cdc_list_dtor(cdc_list_t *l)
 {
         assert(l != NULL);
 
@@ -98,9 +115,9 @@ void cds_list_dtor(cds_list_t *l)
 
                 do {
                         next = current->next;
-                        free(current);
                         if (l->fp_free)
                                 l->fp_free(current->data);
+                        free(current);
                         current = next;
 
                 } while(next != NULL);
@@ -109,7 +126,7 @@ void cds_list_dtor(cds_list_t *l)
         free(l);
 }
 
-enum cds_stat cds_list_push_back(cds_list_t *l, void *elem)
+enum cdc_stat cdc_list_push_back(cdc_list_t *l, void *elem)
 {
         assert(l != NULL);
 
@@ -117,29 +134,46 @@ enum cds_stat cds_list_push_back(cds_list_t *l, void *elem)
 
         node = (struct list_node *)malloc(sizeof(struct list_node));
         if (!node)
-                return CDS_STATUS_BAD_ALLOC;
+                return cdc_STATUS_BAD_ALLOC;
 
         node->data = elem;
         if (l->tail == NULL) {
-                cds_list_add(node, NULL, NULL);
+                cdc_list_add(node, NULL, NULL);
                 l->head = node;
                 l->tail = node;
         } else {
-                cds_list_add(node, l->tail, NULL);
+                cdc_list_add(node, l->tail, NULL);
                 l->tail = node;
         }
 
         ++l->size;
 
-        return CDS_STATUS_OK;
+        return cdc_STATUS_OK;
 }
 
-enum cds_stat cds_list_pop_back(cds_list_t *l)
+enum cdc_stat cdc_list_pop_back(cdc_list_t *l)
 {
+        assert(l != NULL);
+        assert(l->tail != NULL);
 
+        struct list_node *new_tail = l->tail->prev;
+
+        // remove tail data
+        free(l->tail);
+        --l->size;
+
+        if (new_tail) {
+                cdc_list_remove(new_tail, NULL);
+                l->tail = new_tail;
+        } else {
+                l->tail = NULL;
+                l->head = NULL;
+        }
+
+        return cdc_STATUS_OK;
 }
 
-enum cds_stat cds_list_push_front(cds_list_t *l, void *elem)
+enum cdc_stat cdc_list_push_front(cdc_list_t *l, void *elem)
 {
         assert(l != NULL);
 
@@ -147,25 +181,24 @@ enum cds_stat cds_list_push_front(cds_list_t *l, void *elem)
 
         node = (struct list_node *)malloc(sizeof(struct list_node));
         if (node == NULL)
-                return CDS_STATUS_BAD_ALLOC;
+                return cdc_STATUS_BAD_ALLOC;
 
-        node = elem;
+        node->data = elem;
         if (l->head == NULL) {
-                cds_list_add(node, NULL, NULL);
+                cdc_list_add(node, NULL, NULL);
                 l->head = node;
                 l->tail = node;
         } else {
-
-                cds_list_add(node, NULL, l->head);
+                cdc_list_add(node, NULL, l->head);
                 l->head = node;
         }
 
         ++l->size;
 
-        return CDS_STATUS_OK;
+        return cdc_STATUS_OK;
 }
 
-void cds_list_foreach(cds_list_t *l, void (*cb)(void *, size_t))
+void cdc_list_foreach(cdc_list_t *l, void (*cb)(void *, size_t))
 {
         assert(l != NULL);
         assert(cb != NULL);
@@ -177,39 +210,92 @@ void cds_list_foreach(cds_list_t *l, void (*cb)(void *, size_t))
                 (*cb)(node->data, i);
 }
 
-enum cds_stat cds_list_at(cds_list_t *l, size_t index, void **elem)
+enum cdc_stat cdc_list_at(cdc_list_t *l, size_t index, void **elem)
 {
         assert(l != NULL);
         assert(elem != NULL);
 
         struct list_node *node;
-        size_t i;
 
         if (index > l->size)
-                return CDS_STATUS_OUT_OF_RANGE;
+                return cdc_STATUS_OUT_OF_RANGE;
 
-        for (node = l->head, i = 0; node != NULL && i != index;
-             node = node->next, ++i)
-                /*empty*/;
-
+        node = cdc_list_get_node(l, index);
         *elem = node->data;
 
-        return CDS_STATUS_OK;
+        return cdc_STATUS_OK;
 }
 
-enum cds_stat cds_list_pop_front(cds_list_t *l)
+enum cdc_stat cdc_list_pop_front(cdc_list_t *l)
+{
+        assert(l != NULL);
+        assert(l->head != NULL);
+
+        struct list_node *new_head = l->head->next;
+
+        // remove head data
+        free(l->head);
+        --l->size;
+
+        if (new_head) {
+                cdc_list_remove(NULL, new_head);
+                l->head = new_head;
+        } else {
+                l->tail = NULL;
+                l->head = NULL;
+        }
+
+        return cdc_STATUS_OK;
+}
+
+enum cdc_stat cdc_list_insert(cdc_list_t *v, size_t index, void *elem)
 {
 
 }
 
-size_t cds_list_size(cds_list_t *l)
+enum cdc_stat cdc_list_erase(cdc_list_t *v, size_t index, void **elem)
+{
+
+}
+
+void cdc_list_clear(cdc_list_t *v)
+{
+
+}
+
+void *cdc_list_front(cdc_list_t *l)
+{
+        assert(l != NULL);
+
+        return l->head->data;
+}
+
+void *cdc_list_back(cdc_list_t *l)
+{
+        assert(l != NULL);
+
+        return l->tail->data;
+}
+
+void cdc_list_swap(cdc_list_t *a, cdc_list_t *b)
+{
+        assert(a != NULL);
+        assert(b != NULL);
+
+        cdc_SWAP(struct list_node *,  a->head,     b->head);
+        cdc_SWAP(struct list_node *,  a->tail,     b->tail);
+        cdc_SWAP(size_t,              a->size,     b->size);
+        cdc_SWAP(void *,              a->fp_free,  b->fp_free);
+}
+
+size_t cdc_list_size(cdc_list_t *l)
 {
         assert(l != NULL);
 
         return l->size;
 }
 
-bool cds_list_empty(cds_list_t *l)
+bool cdc_list_empty(cdc_list_t *l)
 {
         assert(l != NULL);
 

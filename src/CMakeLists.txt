@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(cdstructures)
+project(${LIBRARY_NAME})
 
 set(SOURCE
         vector.c
@@ -8,7 +8,7 @@ set(SOURCE
         status.c
         common.c
         common.h
-)
+        )
 
 
 include_directories("${PROJECT_INCLUDE_DIR}")

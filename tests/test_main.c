@@ -42,7 +42,13 @@ int main(int argc, char** argv)
         if (CU_add_test(p_suite, "test_ctor", test_list_ctor) == NULL ||
             CU_add_test(p_suite, "test_ctor_list", test_list_ctor_list) == NULL ||
             CU_add_test(p_suite, "test_push_back", test_list_push_back) == NULL ||
-            CU_add_test(p_suite, "test_push_front", test_list_push_front) == NULL) {
+            CU_add_test(p_suite, "test_push_front", test_list_push_front) == NULL ||
+            CU_add_test(p_suite, "test_at", test_list_at) == NULL ||
+            CU_add_test(p_suite, "test_front", test_list_front) == NULL ||
+            CU_add_test(p_suite, "test_back", test_list_back) == NULL ||
+            CU_add_test(p_suite, "test_pop_back", test_list_pop_back) == NULL ||
+            CU_add_test(p_suite, "test_pop_front", test_list_pop_front) == NULL ||
+            CU_add_test(p_suite, "test_swap", test_list_swap) == NULL) {
                 CU_cleanup_registry();
                 return CU_get_error();
         }
