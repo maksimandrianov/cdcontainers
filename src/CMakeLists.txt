@@ -4,6 +4,7 @@ project(cdstructures)
 
 set(SOURCE
         vector.c
+        list.c
         status.c
         common.c
         common.h

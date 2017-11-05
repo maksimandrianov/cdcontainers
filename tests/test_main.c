@@ -33,6 +33,20 @@ int main(int argc, char** argv)
                 return CU_get_error();
         }
 
+        p_suite = CU_add_suite("LIST TESTS", NULL, NULL);
+        if (p_suite == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
+        if (CU_add_test(p_suite, "test_ctor", test_list_ctor) == NULL ||
+            CU_add_test(p_suite, "test_ctor_list", test_list_ctor_list) == NULL ||
+            CU_add_test(p_suite, "test_push_back", test_list_push_back) == NULL ||
+            CU_add_test(p_suite, "test_push_front", test_list_push_front) == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
         CU_basic_set_mode(CU_BRM_VERBOSE);
         CU_basic_run_tests();
         CU_cleanup_registry();

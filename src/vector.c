@@ -10,9 +10,9 @@
 struct cds_vector {
         size_t size;
         size_t capacity;
-        float  cop_exp;
-        void   **buffer;
-        void   (*fp_free)(void *);
+        float cop_exp;
+        void **buffer;
+        void (*fp_free)(void *);
 };
 
 static bool cds_vector_should_shrink(cds_vector_t *v)
@@ -52,7 +52,7 @@ static enum cds_stat cds_vector_reallocate(cds_vector_t *v, size_t capacity)
                         return CDS_STATUS_OK;
         }
 
-        if (!(tmp = malloc(capacity * sizeof (void *))))
+        if ((tmp = malloc(capacity * sizeof (void *))) == NULL)
                 return CDS_STATUS_BAD_ALLOC;
 
         memcpy(tmp, v->buffer, CDS_MIN(v->size, capacity) * sizeof(void *));
@@ -117,7 +117,7 @@ enum cds_stat cds_vector_ctor(cds_vector_t **v, void (*fp_free)(void *))
         cds_vector_t *tmp;
         enum cds_stat ret;
 
-        if (!(tmp = (cds_vector_t *)malloc(sizeof( cds_vector_t))))
+        if ((tmp = (cds_vector_t *)malloc(sizeof(cds_vector_t))) == NULL)
                 return CDS_STATUS_BAD_ALLOC;
 
         tmp->size     = 0;
@@ -250,7 +250,6 @@ enum cds_stat cds_vector_reserve(cds_vector_t *v, size_t capacity)
 enum cds_stat cds_vector_push_back(cds_vector_t *v, void *elem)
 {
         assert(v != NULL);
-        assert(elem != NULL);
 
         if (cds_vector_should_grow(v)) {
                 enum cds_stat ret = cds_vector_grow(v);

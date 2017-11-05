@@ -2,6 +2,7 @@
 #define CDSTRUCTURES_INCLUDE_CDSTRUCTURES_H
 
 #include "vector.h"
+#include "list.h"
 
 
 #endif  // CDSTRUCTURES_INCLUDE_CDSTRUCTURES_H

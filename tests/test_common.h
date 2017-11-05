@@ -17,4 +17,11 @@ void test_vector_push_back();
 void test_vector_pop_back();
 void test_vector_swap();
 
+// List tests
+void test_list_ctor();
+void test_list_ctor_list();
+void test_list_push_back();
+void test_list_push_front();
+
+
 #endif  // CDSTRUCTURES_TESTS_TESTS_COMMON_H
