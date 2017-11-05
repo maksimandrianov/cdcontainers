@@ -20,7 +20,7 @@ static inline bool cdc_vector_should_shrink(cdc_vector_t *v)
         assert(v != NULL);
         assert(v->size <= v->capacity);
 
-        return v->size <= v->capacity * cdc_VECTOR_SHRINK_THRESHOLD;
+        return v->size <= v->capacity * CDC_VECTOR_SHRINK_THRESHOLD;
 }
 
 static inline bool cdc_vector_reach_limit_size(cdc_vector_t *v)
@@ -28,7 +28,7 @@ static inline bool cdc_vector_reach_limit_size(cdc_vector_t *v)
         assert(v != NULL);
         assert(v != NULL);
 
-        return v->size == cdc_VECTOR_MAX_LEN;
+        return v->size == CDC_VECTOR_MAX_LEN;
 }
 
 static inline bool cdc_vector_should_grow(cdc_vector_t *v)
@@ -46,9 +46,9 @@ static inline enum cdc_stat cdc_vector_reallocate(cdc_vector_t *v,
 
         void *tmp;
 
-        if (capacity < cdc_VECTOR_MIN_CAPACITY) {
-                if (v->capacity > cdc_VECTOR_MIN_CAPACITY)
-                        capacity = cdc_VECTOR_MIN_CAPACITY;
+        if (capacity < CDC_VECTOR_MIN_CAPACITY) {
+                if (v->capacity > CDC_VECTOR_MIN_CAPACITY)
+                        capacity = CDC_VECTOR_MIN_CAPACITY;
                 else
                         return cdc_STATUS_OK;
         }
@@ -57,7 +57,7 @@ static inline enum cdc_stat cdc_vector_reallocate(cdc_vector_t *v,
         if (!tmp)
                 return cdc_STATUS_BAD_ALLOC;
 
-        memcpy(tmp, v->buffer, cdc_MIN(v->size, capacity) * sizeof(void *));
+        memcpy(tmp, v->buffer, CDC_MIN(v->size, capacity) * sizeof(void *));
         free(v->buffer);
 
         v->capacity = capacity;
@@ -124,11 +124,11 @@ enum cdc_stat cdc_vector_ctor(cdc_vector_t **v, void (*fp_free)(void *))
 
         tmp->size     = 0;
         tmp->capacity = 0;
-        tmp->cop_exp  = cdc_VECTOR_COPACITY_EXP;
+        tmp->cop_exp  = CDC_VECTOR_COPACITY_EXP;
         tmp->buffer   = NULL;
         tmp->fp_free  = fp_free;
 
-        ret = cdc_vector_reserve(tmp, cdc_VECTOR_MIN_CAPACITY);
+        ret = cdc_vector_reserve(tmp, CDC_VECTOR_MIN_CAPACITY);
         if (ret != cdc_STATUS_OK) {
                 free(tmp);
                 return ret;
@@ -287,11 +287,11 @@ void cdc_vector_swap(cdc_vector_t *a, cdc_vector_t *b)
         assert(a != NULL);
         assert(b != NULL);
 
-        cdc_SWAP(size_t,  a->size,     b->size);
-        cdc_SWAP(size_t,  a->capacity, b->capacity);
-        cdc_SWAP(float,   a->cop_exp,  b->cop_exp);
-        cdc_SWAP(void **, a->buffer,   b->buffer);
-        cdc_SWAP(void *,  a->fp_free,  b->fp_free);
+        CDC_SWAP(size_t,  a->size,     b->size);
+        CDC_SWAP(size_t,  a->capacity, b->capacity);
+        CDC_SWAP(float,   a->cop_exp,  b->cop_exp);
+        CDC_SWAP(void **, a->buffer,   b->buffer);
+        CDC_SWAP(void *,  a->fp_free,  b->fp_free);
 }
 
 void *cdc_vector_get(cdc_vector_t *v, size_t index)

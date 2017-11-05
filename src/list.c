@@ -282,10 +282,10 @@ void cdc_list_swap(cdc_list_t *a, cdc_list_t *b)
         assert(a != NULL);
         assert(b != NULL);
 
-        cdc_SWAP(struct list_node *,  a->head,     b->head);
-        cdc_SWAP(struct list_node *,  a->tail,     b->tail);
-        cdc_SWAP(size_t,              a->size,     b->size);
-        cdc_SWAP(void *,              a->fp_free,  b->fp_free);
+        CDC_SWAP(struct list_node *,  a->head,     b->head);
+        CDC_SWAP(struct list_node *,  a->tail,     b->tail);
+        CDC_SWAP(size_t,              a->size,     b->size);
+        CDC_SWAP(void *,              a->fp_free,  b->fp_free);
 }
 
 size_t cdc_list_size(cdc_list_t *l)

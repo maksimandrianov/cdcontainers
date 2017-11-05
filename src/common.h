@@ -3,9 +3,9 @@
 
 #include <stdlib.h>
 
-#define cdc_MAX(a, b) ((a) > (b) ? (a) : (b))
-#define cdc_MIN(a, b) ((a) < (b) ? (a) : (b))
-#define cdc_SWAP(T, x, y) do \
+#define CDC_MAX(a, b) ((a) > (b) ? (a) : (b))
+#define CDC_MIN(a, b) ((a) < (b) ? (a) : (b))
+#define CDC_SWAP(T, x, y) do \
         { \
                 T tmp = x;  \
                 x = y; \

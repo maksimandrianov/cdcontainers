@@ -5,10 +5,10 @@
 #include <stdbool.h>
 #include "status.h"
 
-#define cdc_VECTOR_MIN_CAPACITY     (4)
-#define cdc_VECTOR_COPACITY_EXP     (2.0f)
-#define cdc_VECTOR_SHRINK_THRESHOLD (1.0 / 4.0)
-#define cdc_VECTOR_MAX_LEN          (SIZE_MAX)
+#define CDC_VECTOR_MIN_CAPACITY     (4)
+#define CDC_VECTOR_COPACITY_EXP     (2.0f)
+#define CDC_VECTOR_SHRINK_THRESHOLD (1.0 / 4.0)
+#define CDC_VECTOR_MAX_LEN          (SIZE_MAX)
 
 typedef struct cdc_vector cdc_vector_t;
 

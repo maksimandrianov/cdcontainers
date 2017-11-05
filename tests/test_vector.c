@@ -27,8 +27,8 @@ void test_vector_ctor()
 
         CU_ASSERT(cdc_vector_ctor(&v, NULL) == cdc_STATUS_OK);
         CU_ASSERT(cdc_vector_size(v) == 0);
-        CU_ASSERT(cdc_vector_capacity(v) == cdc_VECTOR_MIN_CAPACITY);
-        CU_ASSERT_DOUBLE_EQUAL(cdc_vector_cap_exp(v), cdc_VECTOR_COPACITY_EXP,
+        CU_ASSERT(cdc_vector_capacity(v) == CDC_VECTOR_MIN_CAPACITY);
+        CU_ASSERT_DOUBLE_EQUAL(cdc_vector_cap_exp(v), CDC_VECTOR_COPACITY_EXP,
                                FLT_EPSILON);
 
         cdc_vector_dtor(v);
@@ -42,8 +42,8 @@ void test_vector_ctor_list()
 
         CU_ASSERT(cdc_vector_ctor_l(&v, NULL, &a, &b, &c, &d, NULL) == cdc_STATUS_OK);
         CU_ASSERT(cdc_vector_size(v) == count_elements);
-        CU_ASSERT(cdc_vector_capacity(v) == cdc_VECTOR_MIN_CAPACITY);
-        CU_ASSERT_DOUBLE_EQUAL(cdc_vector_cap_exp(v), cdc_VECTOR_COPACITY_EXP,
+        CU_ASSERT(cdc_vector_capacity(v) == CDC_VECTOR_MIN_CAPACITY);
+        CU_ASSERT_DOUBLE_EQUAL(cdc_vector_cap_exp(v), CDC_VECTOR_COPACITY_EXP,
                                FLT_EPSILON);
         CU_ASSERT(vector_range_int_eq(v, count_elements, a, b, c, d));
 
