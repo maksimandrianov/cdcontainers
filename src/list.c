@@ -20,7 +20,7 @@ struct cds_list {
         void (*fp_free)(void *);
 };
 
-static void cds_list_add(struct list_node *new_node,
+static inline void cds_list_add(struct list_node *new_node,
                          struct list_node *prev_node,
                          struct list_node *next_node)
 {
@@ -36,7 +36,7 @@ static void cds_list_add(struct list_node *new_node,
                 prev_node->next = new_node;
 }
 
-static void cds_list_remove(struct list_node *prev_node,
+static inline void cds_list_remove(struct list_node *prev_node,
                             struct list_node *next_node)
 {
         next_node->prev = prev_node;
