@@ -21,23 +21,23 @@ struct cds_list {
 };
 
 static inline void cds_list_add(struct list_node *new_node,
-                         struct list_node *prev_node,
-                         struct list_node *next_node)
+                                struct list_node *prev_node,
+                                struct list_node *next_node)
 {
         assert(new_node != NULL);
 
-        if (next_node != NULL)
+        if (next_node)
                 next_node->prev = new_node;
 
         new_node->next = next_node;
         new_node->prev = prev_node;
 
-        if (prev_node != NULL)
+        if (prev_node)
                 prev_node->next = new_node;
 }
 
 static inline void cds_list_remove(struct list_node *prev_node,
-                            struct list_node *next_node)
+                                   struct list_node *next_node)
 {
         next_node->prev = prev_node;
         prev_node->next = next_node;
@@ -48,7 +48,8 @@ enum cds_stat cds_list_ctor(cds_list_t **l, void (*fp_free)(void *))
         cds_list_t *tmp;
         enum cds_stat ret;
 
-        if (!(tmp = (cds_list_t *)malloc(sizeof(cds_list_t))))
+        tmp = (cds_list_t *)malloc(sizeof(cds_list_t));
+        if (!tmp)
                 return CDS_STATUS_BAD_ALLOC;
 
         tmp->head    = NULL;
@@ -69,12 +70,14 @@ enum cds_stat cds_list_ctor_l(cds_list_t **l, void (*fp_free)(void *), ...)
         va_list args;
         void *elem;
 
-        if ((ret = cds_list_ctor(l, fp_free)) != CDS_STATUS_OK)
+        ret = cds_list_ctor(l, fp_free);
+        if (ret != CDS_STATUS_OK)
                 return ret;
 
         va_start(args, fp_free);
         while ((elem = va_arg(args, void *)) != NULL) {
-                if ((ret = cds_list_push_back(*l, elem)) != CDS_STATUS_OK) {
+                ret = cds_list_push_back(*l, elem);
+                if (ret != CDS_STATUS_OK) {
                         va_end(args);
                         return ret;
                 }
@@ -113,7 +116,7 @@ enum cds_stat cds_list_push_back(cds_list_t *l, void *elem)
         struct list_node *node;
 
         node = (struct list_node *)malloc(sizeof(struct list_node));
-        if (node == NULL)
+        if (!node)
                 return CDS_STATUS_BAD_ALLOC;
 
         node->data = elem;

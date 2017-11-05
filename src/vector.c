@@ -39,7 +39,8 @@ static inline bool cds_vector_should_grow(cds_vector_t *v)
         return v->size == v->capacity;
 }
 
-static inline enum cds_stat cds_vector_reallocate(cds_vector_t *v, size_t capacity)
+static inline enum cds_stat cds_vector_reallocate(cds_vector_t *v,
+                                                  size_t capacity)
 {
         assert(v != NULL);
 
@@ -52,7 +53,8 @@ static inline enum cds_stat cds_vector_reallocate(cds_vector_t *v, size_t capaci
                         return CDS_STATUS_OK;
         }
 
-        if ((tmp = malloc(capacity * sizeof (void *))) == NULL)
+        tmp = malloc(capacity * sizeof (void *));
+        if (!tmp)
                 return CDS_STATUS_BAD_ALLOC;
 
         memcpy(tmp, v->buffer, CDS_MIN(v->size, capacity) * sizeof(void *));
@@ -82,9 +84,8 @@ static inline void cds_vector_move_left(cds_vector_t *v, size_t index)
 {
         assert(v != NULL);
 
-        size_t count_bytes;
+        size_t count_bytes = (v->size - index) * sizeof(void *);
 
-        count_bytes = (v->size - index) * sizeof(void *);
         memmove(v->buffer + index, v->buffer + index + 1, count_bytes);
 }
 
@@ -92,13 +93,13 @@ static inline void cds_vector_move_right(cds_vector_t *v, size_t index)
 {
         assert(v != NULL);
 
-        size_t count_bytes;
+        size_t count_bytes = (v->size - index) * sizeof(void *);
 
-        count_bytes = (v->size - index) * sizeof(void *);
         memmove(v->buffer + index + 1, v->buffer + index, count_bytes);
 }
 
-static inline void cds_vector_free_range(cds_vector_t *v, size_t start, size_t end)
+static inline void cds_vector_free_range(cds_vector_t *v, size_t start,
+                                         size_t end)
 {
         assert(v);
         assert(start < v->size);
@@ -117,7 +118,8 @@ enum cds_stat cds_vector_ctor(cds_vector_t **v, void (*fp_free)(void *))
         cds_vector_t *tmp;
         enum cds_stat ret;
 
-        if ((tmp = (cds_vector_t *)malloc(sizeof(cds_vector_t))) == NULL)
+        tmp = (cds_vector_t *)malloc(sizeof(cds_vector_t));
+        if (!tmp)
                 return CDS_STATUS_BAD_ALLOC;
 
         tmp->size     = 0;
@@ -126,8 +128,8 @@ enum cds_stat cds_vector_ctor(cds_vector_t **v, void (*fp_free)(void *))
         tmp->buffer   = NULL;
         tmp->fp_free  = fp_free;
 
-        if ((ret = cds_vector_reserve(tmp, CDS_VECTOR_MIN_CAPACITY)) !=
-            CDS_STATUS_OK) {
+        ret = cds_vector_reserve(tmp, CDS_VECTOR_MIN_CAPACITY);
+        if (ret != CDS_STATUS_OK) {
                 free(tmp);
                 return ret;
         }
@@ -145,12 +147,14 @@ enum cds_stat cds_vector_ctor_l(cds_vector_t **v, void (*fp_free)(void *), ...)
         va_list args;
         void *elem;
 
-        if ((ret = cds_vector_ctor(v, fp_free)) != CDS_STATUS_OK)
+        ret = cds_vector_ctor(v, fp_free);
+        if (ret != CDS_STATUS_OK)
                 return ret;
 
         va_start(args, fp_free);
         while ((elem = va_arg(args, void *)) != NULL) {
-                if ((ret = cds_vector_push_back(*v, elem)) != CDS_STATUS_OK) {
+                ret = cds_vector_push_back(*v, elem);
+                if (ret != CDS_STATUS_OK) {
                         va_end(args);
                         return ret;
                 }
