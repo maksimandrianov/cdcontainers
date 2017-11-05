@@ -1,7 +1,8 @@
-# cdstructures
-Library of data structures and collections in C programming language.
-The library contains the following data structures and collections:
+# cdcontainers
+Library of data containers and collections for C programming language.
+The library contains the following data containers and collections:
 * vector
+* list
 
 # Building
 
@@ -13,8 +14,8 @@ Packages needed for the build, or the build requires:
 
 To build cdstructures, do the following steps:
 
-    $ git clone https://github.com/maksimandrianov/cdstructures
-    $ cd cdstructures
+    $ git clone https://github.com/maksimandrianov/cdcontainers
+    $ cd cdcontainers
     $ mkdir cmake && cd cmake
     $ cmake ..
     $ make
