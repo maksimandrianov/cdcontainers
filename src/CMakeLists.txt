@@ -7,6 +7,7 @@ set(SOURCE
         list.c
         stackl.c
         stackv.c
+        queuel.c
         status.c
         common.c
 )

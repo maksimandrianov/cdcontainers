@@ -10,6 +10,8 @@ struct cdc_stack_vector {
 
 enum cdc_stat cdc_stackv_ctor(cdc_stackv_t **s, cdc_free_func_t func)
 {
+        assert(s != NULL);
+
         cdc_stackv_t *tmp;
         enum cdc_stat ret;
 

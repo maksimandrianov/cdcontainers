@@ -10,6 +10,8 @@ struct cdc_stack_list {
 
 enum cdc_stat cdc_stackl_ctor(cdc_stackl_t **s, cdc_free_func_t func)
 {
+        assert(s != NULL);
+
         cdc_stackl_t *tmp;
         enum cdc_stat ret;
 

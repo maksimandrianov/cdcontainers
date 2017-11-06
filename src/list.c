@@ -146,6 +146,8 @@ static inline enum cdc_stat cdc_list_init_varg(cdc_list_t *l, va_list args)
 
 enum cdc_stat cdc_list_ctor(cdc_list_t **l, cdc_free_func_t func)
 {
+        assert(l !=  NULL);
+
         cdc_list_t *tmp;
         enum cdc_stat ret;
 
