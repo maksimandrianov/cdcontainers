@@ -3,6 +3,7 @@ Library of data containers and collections for C programming language.
 The library contains the following data containers and collections:
 * vector
 * list
+* stack (based on vector - stackv or list - stackl)
 
 # Building
 
