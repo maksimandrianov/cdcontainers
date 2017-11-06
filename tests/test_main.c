@@ -64,7 +64,6 @@ int main(int argc, char** argv)
 
         if (CU_add_test(p_suite, "test_ctor", test_stackl_ctor) == NULL ||
             CU_add_test(p_suite, "test_ctorl", test_stackl_ctorl) == NULL ||
-            CU_add_test(p_suite, "test_top", test_stackl_top) == NULL ||
             CU_add_test(p_suite, "test_push", test_stackl_push) == NULL ||
             CU_add_test(p_suite, "test_pop", test_stackl_pop) == NULL ||
             CU_add_test(p_suite, "test_swap", test_stackl_swap) == NULL) {
@@ -80,7 +79,6 @@ int main(int argc, char** argv)
 
         if (CU_add_test(p_suite, "test_ctor", test_stackv_ctor) == NULL ||
             CU_add_test(p_suite, "test_ctorl", test_stackv_ctorl) == NULL ||
-            CU_add_test(p_suite, "test_top", test_stackv_top) == NULL ||
             CU_add_test(p_suite, "test_push", test_stackv_push) == NULL ||
             CU_add_test(p_suite, "test_pop", test_stackv_pop) == NULL ||
             CU_add_test(p_suite, "test_swap", test_stackv_swap) == NULL) {

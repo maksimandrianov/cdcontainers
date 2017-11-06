@@ -70,7 +70,7 @@ void test_list_push_back()
 
         CU_ASSERT(cdc_list_push_back(l, &c) == CDC_STATUS_OK);
         CU_ASSERT(cdc_list_size(l) == 3);
-        CU_ASSERT(list_range_int_eq(l, 2, a, b, c));
+        CU_ASSERT(list_range_int_eq(l, 3, a, b, c));
 
         cdc_list_dtor(l);
 }

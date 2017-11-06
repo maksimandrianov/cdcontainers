@@ -4,7 +4,7 @@
 
 void cdc_print_stat(enum cdc_stat s)
 {
-        static const char *desscriptions[] = {
+        static const char *descriptions[] = {
                 "CDC_STATUS_OK",
                 "CDC_STATUS_BAD_ALLOC",
                 "CDC_STATUS_OUT_OF_RANGE",
@@ -16,5 +16,5 @@ void cdc_print_stat(enum cdc_stat s)
         if (s < CDC_STATUS_OK && s > CDC_STATUS_UNKN)
                 s = CDC_STATUS_UNKN;
 
-        printf("%s", desscriptions[s]);
+        printf("%s", descriptions[s]);
 }

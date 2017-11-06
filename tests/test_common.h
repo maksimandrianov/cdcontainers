@@ -37,7 +37,6 @@ void test_list_clear();
 // Stackl tests
 void test_stackl_ctor();
 void test_stackl_ctorl();
-void test_stackl_top();
 void test_stackl_push();
 void test_stackl_pop();
 void test_stackl_swap();
@@ -45,7 +44,6 @@ void test_stackl_swap();
 // Stackv tests
 void test_stackv_ctor();
 void test_stackv_ctorl();
-void test_stackv_top();
 void test_stackv_push();
 void test_stackv_pop();
 void test_stackv_swap();
