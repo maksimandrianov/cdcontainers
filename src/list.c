@@ -359,6 +359,7 @@ void cdc_list_clear(cdc_list_t *l)
 void *cdc_list_front(cdc_list_t *l)
 {
         assert(l != NULL);
+        assert(l->head != NULL);
 
         return l->head->data;
 }
@@ -366,6 +367,7 @@ void *cdc_list_front(cdc_list_t *l)
 void *cdc_list_back(cdc_list_t *l)
 {
         assert(l != NULL);
+        assert(l->tail != NULL);
 
         return l->tail->data;
 }
