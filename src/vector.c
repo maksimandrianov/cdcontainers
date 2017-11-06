@@ -109,12 +109,12 @@ static inline void cdc_vector_free_range(cdc_vector_t *v, size_t start,
                 (*v->fp_free)(v->buffer[i]);
 }
 
-static inline enum cdc_stat cdc_vector_pop_back_f(cdc_vector_t *v, bool is_free)
+static inline enum cdc_stat cdc_vector_pop_back_f(cdc_vector_t *v, bool must_free)
 {
         assert(v != NULL);
         assert(v->size > 0);
 
-        if (is_free && v->fp_free)
+        if (must_free && v->fp_free)
             (*v->fp_free)(v->buffer[v->size - 1]);
 
         --v->size;

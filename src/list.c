@@ -76,24 +76,24 @@ static inline struct node *cdc_list_get_node(cdc_list_t *l, size_t index)
         return node;
 }
 
-static inline void cdc_free_node(cdc_list_t *l, struct node *node, bool is_free)
+static inline void cdc_free_node(cdc_list_t *l, struct node *node, bool must_free)
 {
         assert(node != NULL);
 
-        if (is_free && l->fp_free)
+        if (must_free && l->fp_free)
                 (*l->fp_free)(node->data);
 
         free(node);
 }
 
-static inline enum cdc_stat cdc_list_pop_back_f(cdc_list_t *l, bool is_free)
+static inline enum cdc_stat cdc_list_pop_back_f(cdc_list_t *l, bool must_free)
 {
         assert(l != NULL);
         assert(l->tail != NULL);
 
         struct node *new_tail = l->tail->prev;
 
-        cdc_free_node(l, l->tail, is_free);
+        cdc_free_node(l, l->tail, must_free);
         --l->size;
 
         if (new_tail) {
@@ -107,14 +107,14 @@ static inline enum cdc_stat cdc_list_pop_back_f(cdc_list_t *l, bool is_free)
         return CDC_STATUS_OK;
 }
 
-static inline enum cdc_stat cdc_list_pop_front_f(cdc_list_t *l, bool is_free)
+static inline enum cdc_stat cdc_list_pop_front_f(cdc_list_t *l, bool must_free)
 {
         assert(l != NULL);
         assert(l->head != NULL);
 
         struct node *new_head = l->head->next;
 
-        cdc_free_node(l, l->head, is_free);
+        cdc_free_node(l, l->head, must_free);
         --l->size;
 
         if (new_head) {
