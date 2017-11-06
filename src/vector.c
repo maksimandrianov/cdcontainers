@@ -109,6 +109,25 @@ static inline void cdc_vector_free_range(cdc_vector_t *v, size_t start,
                 (*v->fp_free)(v->buffer[i]);
 }
 
+static inline enum cdc_stat cdc_vector_pop_back_f(cdc_vector_t *v, bool free)
+{
+        assert(v != NULL);
+        assert(v->size > 0);
+
+        if (free && v->fp_free)
+            (*v->fp_free)(v->buffer[v->size - 1]);
+
+        --v->size;
+
+        if (cdc_vector_should_shrink(v)) {
+                enum cdc_stat ret = cdc_vector_shrink(v);
+                if (ret != CDC_STATUS_OK)
+                        return ret;
+        }
+
+        return CDC_STATUS_OK;
+}
+
 static inline enum cdc_stat cdc_vector_init_varg(cdc_vector_t *v, va_list args)
 {
         assert(v != NULL);
@@ -242,7 +261,7 @@ enum cdc_stat cdc_vector_erase(cdc_vector_t *v, size_t index, void **elem)
         *elem = v->buffer[index];
 
         if (index == v->size - 1)
-                return cdc_vector_pop_back(v);
+                return cdc_vector_pop_back_f(v, false);
 
         cdc_vector_move_left(v, index);
         --v->size;
@@ -286,15 +305,7 @@ enum cdc_stat cdc_vector_pop_back(cdc_vector_t *v)
         assert(v != NULL);
         assert(v->size > 0);
 
-        --v->size;
-
-        if (cdc_vector_should_shrink(v)) {
-                enum cdc_stat ret = cdc_vector_shrink(v);
-                if (ret != CDC_STATUS_OK)
-                        return ret;
-        }
-
-        return CDC_STATUS_OK;
+        return cdc_vector_pop_back_f(v, true);
 }
 
 void cdc_vector_swap(cdc_vector_t *a, cdc_vector_t *b)
