@@ -99,7 +99,7 @@ static inline void cdc_vector_move_right(cdc_vector_t *v, size_t index)
 static inline void cdc_vector_free_range(cdc_vector_t *v, size_t start,
                                          size_t end)
 {
-        assert(v);
+        assert(v != NULL);
         assert(start < v->size);
         assert(end <= v->size);
 
@@ -107,6 +107,22 @@ static inline void cdc_vector_free_range(cdc_vector_t *v, size_t start,
 
         for (i = start; i < end; ++i)
                 (*v->fp_free)(v->buffer[i]);
+}
+
+static inline enum cdc_stat cdc_vector_init_varg(cdc_vector_t *v, va_list args)
+{
+        assert(v != NULL);
+
+        enum cdc_stat ret;
+        void *elem;
+
+        while ((elem = va_arg(args, void *)) != NULL) {
+                ret = cdc_vector_push_back(v, elem);
+                if (ret != CDC_STATUS_OK)
+                        return ret;
+        }
+
+        return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_vector_ctor(cdc_vector_t **v, cdc_free_func_t func)
@@ -143,30 +159,28 @@ enum cdc_stat cdc_vector_ctorl(cdc_vector_t **v, cdc_free_func_t func, ...)
 
         enum cdc_stat ret;
         va_list args;
-        void *elem;
+
+        va_start(args, func);
+        ret = cdc_vector_ctorv(v, func, args);
+        va_end(args);
+
+        return ret;
+}
+
+enum cdc_stat cdc_vector_ctorv(cdc_vector_t **v, cdc_free_func_t func,
+                               va_list args)
+{
+        assert(v != NULL);
+
+        enum cdc_stat ret;
 
         ret = cdc_vector_ctor(v, func);
         if (ret != CDC_STATUS_OK)
                 return ret;
 
-        va_start(args, func);
-        while ((elem = va_arg(args, void *)) != NULL) {
-                ret = cdc_vector_push_back(*v, elem);
-                if (ret != CDC_STATUS_OK) {
-                        va_end(args);
-                        return ret;
-                }
-        }
+        ret = cdc_vector_init_varg(*v, args);
 
-        va_end(args);
-
-        return CDC_STATUS_OK;
-}
-
-enum cdc_stat cdc_vector_ctorv(cdc_vector_t **l, cdc_free_func_t func,
-                               va_list args)
-{
-
+        return ret;
 }
 
 void cdc_vector_dtor(cdc_vector_t *v)

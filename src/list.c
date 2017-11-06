@@ -47,6 +47,8 @@ static inline void cdc_list_remove(struct node *prev_node,
 
 static inline void cdc_list_free_all_node(cdc_list_t *l)
 {
+        assert(l != NULL);
+
         struct node *current = l->head;
         struct node *next;
 
@@ -74,6 +76,22 @@ static inline struct node *cdc_list_get_node(cdc_list_t *l, size_t index)
         return node;
 }
 
+static inline enum cdc_stat cdc_list_init_varg(cdc_list_t *l, va_list args)
+{
+        assert(l != NULL);
+
+        enum cdc_stat ret;
+        void *elem;
+
+        while ((elem = va_arg(args, void *)) != NULL) {
+                ret = cdc_list_push_back(l, elem);
+                if (ret != CDC_STATUS_OK)
+                        return ret;
+        }
+
+        return CDC_STATUS_OK;
+}
+
 enum cdc_stat cdc_list_ctor(cdc_list_t **l, cdc_free_func_t func)
 {
         cdc_list_t *tmp;
@@ -99,29 +117,27 @@ enum cdc_stat cdc_list_ctorl(cdc_list_t **l, cdc_free_func_t func, ...)
 
         enum cdc_stat ret;
         va_list args;
-        void *elem;
+
+        va_start(args, func);
+        ret = cdc_list_ctorv(l, func, args);
+        va_end(args);
+
+        return ret;
+}
+
+enum cdc_stat cdc_list_ctorv(cdc_list_t **l, cdc_free_func_t func, va_list args)
+{
+        assert(l != NULL);
+
+        enum cdc_stat ret;
 
         ret = cdc_list_ctor(l, func);
         if (ret != CDC_STATUS_OK)
                 return ret;
 
-        va_start(args, func);
-        while ((elem = va_arg(args, void *)) != NULL) {
-                ret = cdc_list_push_back(*l, elem);
-                if (ret != CDC_STATUS_OK) {
-                        va_end(args);
-                        return ret;
-                }
-        }
+        ret = cdc_list_init_varg(*l, args);
 
-        va_end(args);
-
-        return CDC_STATUS_OK;
-}
-
-enum cdc_stat cdc_list_ctorv(cdc_list_t **l, cdc_free_func_t func, va_list args)
-{
-
+        return ret;
 }
 
 void cdc_list_dtor(cdc_list_t *l)

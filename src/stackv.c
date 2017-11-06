@@ -8,7 +8,7 @@ struct cdc_stack_vector {
         cdc_vector_t *vector;
 };
 
-enum cdc_stat cdc_stackv_ctor(cdc_stackv_t **s, void (*fp_free)(void *))
+enum cdc_stat cdc_stackv_ctor(cdc_stackv_t **s, cdc_free_func_t func)
 {
         cdc_stackv_t *tmp;
         enum cdc_stat ret;
@@ -17,7 +17,7 @@ enum cdc_stat cdc_stackv_ctor(cdc_stackv_t **s, void (*fp_free)(void *))
         if (!tmp)
                 return CDC_STATUS_BAD_ALLOC;
 
-         ret = cdc_vector_ctor(&tmp->vector, fp_free);
+         ret = cdc_vector_ctor(&tmp->vector, func);
          if (ret != CDC_STATUS_OK) {
                  free(tmp);
                  return ret;
@@ -28,9 +28,34 @@ enum cdc_stat cdc_stackv_ctor(cdc_stackv_t **s, void (*fp_free)(void *))
          return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_stackv_ctor_l(cdc_stackv_t **s, void (*fp_free)(void *), ...)
+enum cdc_stat cdc_stackv_ctorl(cdc_stackv_t **s, cdc_free_func_t func, ...)
 {
+        assert(s != NULL);
 
+        enum cdc_stat ret;
+        va_list args;
+
+        va_start(args, func);
+        ret = cdc_stackv_ctorv(s, func, args);
+        va_end(args);
+
+        return ret;
+}
+
+enum cdc_stat cdc_stackv_ctorv(cdc_stackv_t **s, cdc_free_func_t func,
+                               va_list args)
+{
+        assert(s != NULL);
+
+        enum cdc_stat ret;
+
+        ret = cdc_stackv_ctor(s, func);
+        if (ret != CDC_STATUS_OK)
+                return ret;
+
+        ret = cdc_vector_ctorv(&(*s)->vector, func, args);
+
+        return ret;
 }
 
 void cdc_stackv_dtor(cdc_stackv_t *s)

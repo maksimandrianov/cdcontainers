@@ -16,7 +16,7 @@ typedef struct cdc_vector cdc_vector_t;
 
 enum cdc_stat cdc_vector_ctor     (cdc_vector_t **v, cdc_free_func_t func);
 enum cdc_stat cdc_vector_ctorl    (cdc_vector_t **v, cdc_free_func_t func, ...);
-enum cdc_stat cdc_vector_ctorv    (cdc_vector_t **l, cdc_free_func_t func, va_list args);
+enum cdc_stat cdc_vector_ctorv    (cdc_vector_t **v, cdc_free_func_t func, va_list args);
 void          cdc_vector_dtor     (cdc_vector_t *v);
 
 // Element access
