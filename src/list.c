@@ -45,7 +45,7 @@ static inline void cdc_list_remove(struct node *prev_node,
                 prev_node->next = next_node;
 }
 
-static inline void cdc_list_free_all_node(cdc_list_t *l)
+static inline void cdc_list_free_all_nodes(cdc_list_t *l)
 {
         assert(l != NULL);
 
@@ -195,7 +195,7 @@ void cdc_list_dtor(cdc_list_t *l)
         assert(l != NULL);
 
         if (l->head != NULL)
-                cdc_list_free_all_node(l);
+                cdc_list_free_all_nodes(l);
 
         free(l);
 }
@@ -349,7 +349,7 @@ void cdc_list_clear(cdc_list_t *l)
 {
         assert(l != NULL);
 
-        cdc_list_free_all_node(l);
+        cdc_list_free_all_nodes(l);
         l->size = 0;
         l->head = NULL;
         l->tail = NULL;
