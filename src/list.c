@@ -82,7 +82,7 @@ static inline void cdc_free_node(cdc_list_t *l, struct node *node, bool is_free)
 
         if (is_free && l->fp_free)
                 (*l->fp_free)(node->data);
-        free(l);
+        free(node);
 }
 
 static inline enum cdc_stat cdc_list_pop_back_f(cdc_list_t *l, bool is_free)

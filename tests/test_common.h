@@ -5,7 +5,7 @@
 
 // Vector tests
 void test_vector_ctor();
-void test_vector_ctor_list();
+void test_vector_ctorl();
 void test_vector_reserve();
 void test_vector_data();
 void test_vector_get();
@@ -21,7 +21,7 @@ void test_vector_swap();
 
 // List tests
 void test_list_ctor();
-void test_list_ctor_list();
+void test_list_ctorl();
 void test_list_push_back();
 void test_list_push_front();
 void test_list_at();
@@ -33,6 +33,22 @@ void test_list_swap();
 void test_list_insert();
 void test_list_erase();
 void test_list_clear();
+
+// Stackl tests
+void test_stackl_ctor();
+void test_stackl_ctorl();
+void test_stackl_top();
+void test_stackl_push();
+void test_stackl_pop();
+void test_stackl_swap();
+
+// Stackv tests
+void test_stackv_ctor();
+void test_stackv_ctorl();
+void test_stackv_top();
+void test_stackv_push();
+void test_stackv_pop();
+void test_stackv_swap();
 
 
 

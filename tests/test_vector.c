@@ -33,7 +33,7 @@ void test_vector_ctor()
         cdc_vector_dtor(v);
 }
 
-void test_vector_ctor_list()
+void test_vector_ctorl()
 {
         cdc_vector_t *v;
         int a = 0, b = 1, c = 2, d = 3;

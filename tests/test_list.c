@@ -39,7 +39,7 @@ void test_list_ctor()
         cdc_list_dtor(l);
 }
 
-void test_list_ctor_list()
+void test_list_ctorl()
 {
         cdc_list_t *l = NULL;
         int a = 0, b = 1, c = 2, d =3;

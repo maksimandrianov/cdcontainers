@@ -16,7 +16,7 @@ int main(int argc, char** argv)
         }
 
         if (CU_add_test(p_suite, "test_ctor", test_vector_ctor) == NULL ||
-            CU_add_test(p_suite, "test_ctor_list", test_vector_ctor_list) == NULL ||
+            CU_add_test(p_suite, "test_ctorl", test_vector_ctorl) == NULL ||
             CU_add_test(p_suite, "test_reserve", test_vector_reserve) == NULL ||
             CU_add_test(p_suite, "test_data", test_vector_data) == NULL ||
             CU_add_test(p_suite, "test_get", test_vector_get) == NULL ||
@@ -40,7 +40,7 @@ int main(int argc, char** argv)
         }
 
         if (CU_add_test(p_suite, "test_ctor", test_list_ctor) == NULL ||
-            CU_add_test(p_suite, "test_ctor_list", test_list_ctor_list) == NULL ||
+            CU_add_test(p_suite, "test_ctorl", test_list_ctorl) == NULL ||
             CU_add_test(p_suite, "test_push_back", test_list_push_back) == NULL ||
             CU_add_test(p_suite, "test_push_front", test_list_push_front) == NULL ||
             CU_add_test(p_suite, "test_at", test_list_at) == NULL ||
@@ -52,6 +52,38 @@ int main(int argc, char** argv)
             CU_add_test(p_suite, "test_insert", test_list_insert) == NULL ||
             CU_add_test(p_suite, "test_erase", test_list_erase) == NULL ||
             CU_add_test(p_suite, "test_clear", test_list_clear) == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
+        p_suite = CU_add_suite("STACKL TESTS", NULL, NULL);
+        if (p_suite == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
+        if (CU_add_test(p_suite, "test_ctor", test_stackl_ctor) == NULL ||
+            CU_add_test(p_suite, "test_ctorl", test_stackl_ctorl) == NULL ||
+            CU_add_test(p_suite, "test_top", test_stackl_top) == NULL ||
+            CU_add_test(p_suite, "test_push", test_stackl_push) == NULL ||
+            CU_add_test(p_suite, "test_pop", test_stackl_pop) == NULL ||
+            CU_add_test(p_suite, "test_swap", test_stackl_swap) == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
+        p_suite = CU_add_suite("STACKV TESTS", NULL, NULL);
+        if (p_suite == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
+        if (CU_add_test(p_suite, "test_ctor", test_stackv_ctor) == NULL ||
+            CU_add_test(p_suite, "test_ctorl", test_stackv_ctorl) == NULL ||
+            CU_add_test(p_suite, "test_top", test_stackv_top) == NULL ||
+            CU_add_test(p_suite, "test_push", test_stackv_push) == NULL ||
+            CU_add_test(p_suite, "test_pop", test_stackv_pop) == NULL ||
+            CU_add_test(p_suite, "test_swap", test_stackv_swap) == NULL) {
                 CU_cleanup_registry();
                 return CU_get_error();
         }
