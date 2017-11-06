@@ -33,7 +33,7 @@ enum cdc_stat cdc_list_erase     (cdc_list_t *l, size_t index, void **elem);
 void          cdc_list_clear     (cdc_list_t *l);
 void          cdc_list_swap      (cdc_list_t *a, cdc_list_t *b);
 
-void          cdc_list_foreach   (cdc_list_t *l, void (*cb)(void *, size_t));
+void          cdc_list_foreach   (cdc_list_t *l, void (*cb)(void *));
 
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_LIST_H

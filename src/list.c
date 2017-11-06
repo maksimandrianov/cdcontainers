@@ -260,16 +260,15 @@ enum cdc_stat cdc_list_push_front(cdc_list_t *l, void *elem)
         return CDC_STATUS_OK;
 }
 
-void cdc_list_foreach(cdc_list_t *l, void (*cb)(void *, size_t))
+void cdc_list_foreach(cdc_list_t *l, void (*cb)(void *))
 {
         assert(l != NULL);
         assert(cb != NULL);
 
         struct node *node;
-        size_t i;
 
-        for (node = l->head, i = 0; node != NULL; node = node->next, ++i)
-                (*cb)(node->data, i);
+        for (node = l->head; node != NULL; node = node->next)
+                (*cb)(node->data);
 }
 
 enum cdc_stat cdc_list_at(cdc_list_t *l, size_t index, void **elem)
