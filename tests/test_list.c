@@ -3,7 +3,6 @@
 #include <CUnit/Basic.h>
 #include <float.h>
 #include <stdarg.h>
-#include "cdstructures.h"
 
 static void list_int_print(void *val, size_t index)
 {
@@ -46,7 +45,7 @@ void test_list_ctor_list()
         int a = 0, b = 1, c = 2, d =3;
         void *f;
 
-        CU_ASSERT(cdc_list_ctor_l(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_list_size(l) == 4);
         CU_ASSERT(list_range_int_eq(l, 4, a, b, c, d));
 
@@ -106,7 +105,7 @@ void test_list_at()
         void *elem = NULL;
         size_t index;
 
-        CU_ASSERT(cdc_list_ctor_l(&l, NULL, &a, &b, &c, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, NULL) == CDC_STATUS_OK);
 
         CU_ASSERT(cdc_list_at(l, 0, &elem) == CDC_STATUS_OK);
         CU_ASSERT(*(int *)elem == a);
@@ -126,7 +125,7 @@ void test_list_front()
         cdc_list_t *l;
         int a = 1, b = 2;
 
-        CU_ASSERT(cdc_list_ctor_l(&l, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, NULL) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)cdc_list_front(l)) == a);
 
         cdc_list_dtor(l);
@@ -137,7 +136,7 @@ void test_list_back()
         cdc_list_t *l;
         int a = 1, b = 2;
 
-        CU_ASSERT(cdc_list_ctor_l(&l, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, NULL) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)cdc_list_back(l)) == b);
 
         cdc_list_dtor(l);
@@ -149,7 +148,7 @@ void test_list_pop_back()
         int a = 0, b = 1, c = 2, d = 3;
         void *elem;
 
-        CU_ASSERT(cdc_list_ctor_l(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
 
         elem = cdc_list_back(l);
         CU_ASSERT(cdc_list_pop_back(l) == CDC_STATUS_OK);
@@ -180,7 +179,7 @@ void test_list_pop_front()
         int a = 0, b = 1, c = 2, d = 3;
         void *elem;
 
-        CU_ASSERT(cdc_list_ctor_l(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
 
         elem = cdc_list_front(l);
         CU_ASSERT(cdc_list_pop_front(l) == CDC_STATUS_OK);
@@ -210,8 +209,8 @@ void test_list_swap()
         cdc_list_t *v, *w;
         int a = 0, b = 1, c = 2, d = 3;
 
-        CU_ASSERT(cdc_list_ctor_l(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
-        CU_ASSERT(cdc_list_ctor_l(&w, NULL, &a, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&w, NULL, &a, &d, NULL) == CDC_STATUS_OK);
 
         cdc_list_swap(v, w);
 
@@ -252,7 +251,7 @@ void test_list_erase()
         int a = 0, b = 1, c = 2, d = 3;
         void *elem;
 
-        CU_ASSERT(cdc_list_ctor_l(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
 
         CU_ASSERT(cdc_list_erase(l, 0, &elem) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)elem) == a);
@@ -277,7 +276,7 @@ void test_list_clear()
         cdc_list_t *l;
         int a = 0, b = 1, c = 2, d = 3;
 
-        CU_ASSERT(cdc_list_ctor_l(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
 
         cdc_list_clear(l);
 

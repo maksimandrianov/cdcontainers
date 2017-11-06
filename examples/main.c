@@ -1,4 +1,4 @@
-#include "cdstructures.h"
+#include <cdcontainers/cdstructures.h>
 #include <stdio.h>
 
 
@@ -50,7 +50,7 @@ int main(int argc, char** argv)
         cdc_vector_dtor(v);
 
 
-        if ((ret = cdc_vector_ctor_l(&v, NULL, &a, &b, &c, &d, &f, NULL))
+        if ((ret = cdc_vector_ctorl(&v, NULL, &a, &b, &c, &d, &f, NULL))
                         != CDC_STATUS_OK)
                 exit_wiht_stat(ret);
 
@@ -59,11 +59,11 @@ int main(int argc, char** argv)
         cdc_vector_dtor(v);
 
 
-        if ((ret = cdc_vector_ctor_l(&v, NULL, &c, &d, NULL))
+        if ((ret = cdc_vector_ctorl(&v, NULL, &c, &d, NULL))
                         != CDC_STATUS_OK)
                 exit_wiht_stat(ret);
 
-        if ((ret = cdc_vector_ctor_l(&w, NULL, &a, &b, NULL))
+        if ((ret = cdc_vector_ctorl(&w, NULL, &a, &b, NULL))
                         != CDC_STATUS_OK)
                 exit_wiht_stat(ret);
 

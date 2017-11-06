@@ -1,11 +1,10 @@
-#include "list.h"
+#include "cdcontainers/list.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include <stdarg.h>
 #include <stdint.h>
-#include "common.h"
+#include "cdcontainers/common.h"
 
 struct node {
         struct node *next;
@@ -17,7 +16,7 @@ struct cdc_list {
         struct node *head;
         struct node *tail;
         size_t size;
-        void (*fp_free)(void *);
+        cdc_free_func_t fp_free;
 };
 
 static inline void cdc_list_add(struct node *new_node,
@@ -75,7 +74,7 @@ static inline struct node *cdc_list_get_node(cdc_list_t *l, size_t index)
         return node;
 }
 
-enum cdc_stat cdc_list_ctor(cdc_list_t **l, void (*fp_free)(void *))
+enum cdc_stat cdc_list_ctor(cdc_list_t **l, cdc_free_func_t func)
 {
         cdc_list_t *tmp;
         enum cdc_stat ret;
@@ -87,14 +86,14 @@ enum cdc_stat cdc_list_ctor(cdc_list_t **l, void (*fp_free)(void *))
         tmp->head    = NULL;
         tmp->tail    = NULL;
         tmp->size    = 0;
-        tmp->fp_free = fp_free;
+        tmp->fp_free = func;
 
         *l = tmp;
 
         return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_list_ctor_l(cdc_list_t **l, void (*fp_free)(void *), ...)
+enum cdc_stat cdc_list_ctorl(cdc_list_t **l, cdc_free_func_t func, ...)
 {
         assert(l != NULL);
 
@@ -102,11 +101,11 @@ enum cdc_stat cdc_list_ctor_l(cdc_list_t **l, void (*fp_free)(void *), ...)
         va_list args;
         void *elem;
 
-        ret = cdc_list_ctor(l, fp_free);
+        ret = cdc_list_ctor(l, func);
         if (ret != CDC_STATUS_OK)
                 return ret;
 
-        va_start(args, fp_free);
+        va_start(args, func);
         while ((elem = va_arg(args, void *)) != NULL) {
                 ret = cdc_list_push_back(*l, elem);
                 if (ret != CDC_STATUS_OK) {
@@ -118,6 +117,11 @@ enum cdc_stat cdc_list_ctor_l(cdc_list_t **l, void (*fp_free)(void *), ...)
         va_end(args);
 
         return CDC_STATUS_OK;
+}
+
+enum cdc_stat cdc_list_ctorv(cdc_list_t **l, cdc_free_func_t func, va_list args)
+{
+
 }
 
 void cdc_list_dtor(cdc_list_t *l)
@@ -332,10 +336,10 @@ void cdc_list_swap(cdc_list_t *a, cdc_list_t *b)
         assert(a != NULL);
         assert(b != NULL);
 
-        CDC_SWAP(struct node *,  a->head,     b->head);
-        CDC_SWAP(struct node *,  a->tail,     b->tail);
-        CDC_SWAP(size_t,         a->size,     b->size);
-        CDC_SWAP(void *,         a->fp_free,  b->fp_free);
+        CDC_SWAP(struct node *,   a->head,     b->head);
+        CDC_SWAP(struct node *,   a->tail,     b->tail);
+        CDC_SWAP(size_t,          a->size,     b->size);
+        CDC_SWAP(cdc_free_func_t, a->fp_free,  b->fp_free);
 }
 
 size_t cdc_list_size(cdc_list_t *l)

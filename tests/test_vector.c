@@ -3,7 +3,6 @@
 #include <CUnit/Basic.h>
 #include <float.h>
 #include <stdarg.h>
-#include "cdstructures.h"
 
 static bool vector_range_int_eq(cdc_vector_t *v, size_t count, ...)
 {
@@ -40,7 +39,7 @@ void test_vector_ctor_list()
         int a = 0, b = 1, c = 2, d = 3;
         size_t count_elements = 4;
 
-        CU_ASSERT(cdc_vector_ctor_l(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_vector_size(v) == count_elements);
         CU_ASSERT(cdc_vector_capacity(v) == CDC_VECTOR_MIN_CAPACITY);
         CU_ASSERT_DOUBLE_EQUAL(cdc_vector_cap_exp(v), CDC_VECTOR_COPACITY_EXP,
@@ -70,7 +69,7 @@ void test_vector_data()
         cdc_vector_t *v;
         int a = 0, b = 1, c = 2, d = 3;
 
-        CU_ASSERT(cdc_vector_ctor_l(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)(cdc_vector_data(v)[0])) == a);
         CU_ASSERT(*((int *)(cdc_vector_data(v)[1])) == b);
         CU_ASSERT(*((int *)(cdc_vector_data(v)[2])) == c);
@@ -84,7 +83,7 @@ void test_vector_get()
         cdc_vector_t *v;
         int a = 0, b = 1;
 
-        CU_ASSERT(cdc_vector_ctor_l(&v, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, NULL) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)cdc_vector_get(v, 0)) == a);
         CU_ASSERT(*((int *)cdc_vector_get(v, 1)) == b);
 
@@ -98,7 +97,7 @@ void test_vector_at()
         void *elem = NULL;
         size_t index;
 
-        CU_ASSERT(cdc_vector_ctor_l(&v, NULL, &a, &b, &c, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, &c, NULL) == CDC_STATUS_OK);
 
         CU_ASSERT(cdc_vector_at(v, 0, &elem) == CDC_STATUS_OK);
         CU_ASSERT(*(int *)elem == a);
@@ -118,7 +117,7 @@ void test_vector_front()
         cdc_vector_t *v;
         int a = 1, b = 2;
 
-        CU_ASSERT(cdc_vector_ctor_l(&v, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, NULL) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)cdc_vector_front(v)) == a);
 
         cdc_vector_dtor(v);
@@ -129,7 +128,7 @@ void test_vector_back()
         cdc_vector_t *v;
         int a = 1, b = 2;
 
-        CU_ASSERT(cdc_vector_ctor_l(&v, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, NULL) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)cdc_vector_back(v)) == b);
 
         cdc_vector_dtor(v);
@@ -141,7 +140,7 @@ void test_vector_insert()
         int a = 1, b = 2;
         int i1 = 3, i2 = 4, i3 = 5;
 
-        CU_ASSERT(cdc_vector_ctor_l(&v, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, NULL) == CDC_STATUS_OK);
 
         CU_ASSERT(cdc_vector_insert(v, 0, &i1) == CDC_STATUS_OK);
         CU_ASSERT(cdc_vector_size(v) == 3);
@@ -164,7 +163,7 @@ void test_vector_erase()
         int a = 0, b = 1, c = 2, d = 3;
         void *elem = NULL;
 
-        CU_ASSERT(cdc_vector_ctor_l(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
 
         CU_ASSERT(cdc_vector_erase(v, 2, &elem) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)elem) == c);
@@ -189,7 +188,7 @@ void test_vector_clear()
         cdc_vector_t *v;
         int a = 0, b = 1, c = 2, d = 3;
 
-        CU_ASSERT(cdc_vector_ctor_l(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
 
         cdc_vector_clear(v);
 
@@ -226,7 +225,7 @@ void test_vector_pop_back()
         int a = 0, b = 1, c = 2, d = 3;
         void *elem;
 
-        CU_ASSERT(cdc_vector_ctor_l(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
 
         elem = cdc_vector_back(v);
         CU_ASSERT(cdc_vector_pop_back(v) == CDC_STATUS_OK);
@@ -256,8 +255,8 @@ void test_vector_swap()
         cdc_vector_t *v, *w;
         int a = 0, b = 1, c = 2, d = 3;
 
-        CU_ASSERT(cdc_vector_ctor_l(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
-        CU_ASSERT(cdc_vector_ctor_l(&w, NULL, &a, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_vector_ctorl(&w, NULL, &a, &d, NULL) == CDC_STATUS_OK);
 
         cdc_vector_swap(v, w);
 

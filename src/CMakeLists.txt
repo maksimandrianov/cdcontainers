@@ -5,10 +5,11 @@ project(${LIBRARY_NAME})
 set(SOURCE
         vector.c
         list.c
+        stackl.c
+        stackv.c
         status.c
         common.c
-        common.h
-        )
+)
 
 
 include_directories("${PROJECT_INCLUDE_DIR}")

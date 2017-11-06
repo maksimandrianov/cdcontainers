@@ -1,14 +1,17 @@
-#ifndef CDCONTAINERS_INCLUDE_LIST_H
-#define CDCONTAINERS_INCLUDE_LIST_H
+#ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_LIST_H
+#define CDCONTAINERS_INCLUDE_CDCONTAINERS_LIST_H
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include "status.h"
+#include <stdarg.h>
+#include <cdcontainers/status.h>
+#include <cdcontainers/common.h>
 
 typedef struct cdc_list cdc_list_t;
 
-enum cdc_stat cdc_list_ctor      (cdc_list_t **l, void (*fp_free)(void *));
-enum cdc_stat cdc_list_ctor_l    (cdc_list_t **l, void (*fp_free)(void *), ...);
+enum cdc_stat cdc_list_ctor      (cdc_list_t **l, cdc_free_func_t func);
+enum cdc_stat cdc_list_ctorl     (cdc_list_t **l, cdc_free_func_t func, ...);
+enum cdc_stat cdc_list_ctorv     (cdc_list_t **l, cdc_free_func_t func, va_list args);
 void          cdc_list_dtor      (cdc_list_t *l);
 
 // Element access
@@ -33,4 +36,4 @@ void          cdc_list_swap      (cdc_list_t *a, cdc_list_t *b);
 void          cdc_list_foreach   (cdc_list_t *l, void (*cb)(void *, size_t));
 
 
-#endif  // CDSTRUCTURES_INCLUDE_LIST_H
+#endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_LIST_H

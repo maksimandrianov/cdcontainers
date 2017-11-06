@@ -1,9 +1,11 @@
-#ifndef CDCONTAINERS_INCLUDE_VECTOR_H
-#define CDCONTAINERS_INCLUDE_VECTOR_H
+#ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_VECTOR_H
+#define CDCONTAINERS_INCLUDE_CDCONTAINERS_VECTOR_H
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include "status.h"
+#include <stdarg.h>
+#include <cdcontainers/status.h>
+#include <cdcontainers/common.h>
 
 #define CDC_VECTOR_MIN_CAPACITY     (4)
 #define CDC_VECTOR_COPACITY_EXP     (2.0f)
@@ -12,8 +14,9 @@
 
 typedef struct cdc_vector cdc_vector_t;
 
-enum cdc_stat cdc_vector_ctor     (cdc_vector_t **v, void (*fp_free)(void *));
-enum cdc_stat cdc_vector_ctor_l   (cdc_vector_t **v, void (*fp_free)(void *), ...);
+enum cdc_stat cdc_vector_ctor     (cdc_vector_t **v, cdc_free_func_t func);
+enum cdc_stat cdc_vector_ctorl    (cdc_vector_t **v, cdc_free_func_t func, ...);
+enum cdc_stat cdc_vector_ctorv    (cdc_vector_t **l, cdc_free_func_t func, va_list args);
 void          cdc_vector_dtor     (cdc_vector_t *v);
 
 // Element access
@@ -38,4 +41,4 @@ enum cdc_stat cdc_vector_push_back(cdc_vector_t *v, void *elem);
 enum cdc_stat cdc_vector_pop_back (cdc_vector_t *v);
 void          cdc_vector_swap     (cdc_vector_t *a, cdc_vector_t *b);
 
-#endif  // CDSTRUCTURES_INCLUDE_VECTOR_H
+#endif  // CDSTRUCTURES_INCLUDE_CDCONTAINERS_VECTOR_H

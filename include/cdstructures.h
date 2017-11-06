@@ -1,8 +1,0 @@
-#ifndef CDCONTAINERS_INCLUDE_CDSTRUCTURES_H
-#define CDCONTAINERS_INCLUDE_CDSTRUCTURES_H
-
-#include "vector.h"
-#include "list.h"
-
-
-#endif  // CDSTRUCTURES_INCLUDE_CDSTRUCTURES_H

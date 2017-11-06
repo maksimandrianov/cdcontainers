@@ -1,0 +1,7 @@
+#ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_STACK_H
+#define CDCONTAINERS_INCLUDE_CDCONTAINERS_STACK_H
+
+#include <cdcontainers/stackl.h>
+#include <cdcontainers/stackv.h>
+
+#endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_STACK_H

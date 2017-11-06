@@ -1,6 +1,8 @@
 #ifndef CDCONTAINERS_TESTS_TESTS_COMMON_H
 #define CDCONTAINERS_TESTS_TESTS_COMMON_H
 
+#include <cdcontainers/cdstructures.h>
+
 // Vector tests
 void test_vector_ctor();
 void test_vector_ctor_list();

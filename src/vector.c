@@ -1,18 +1,16 @@
-#include "vector.h"
+#include "cdcontainers/vector.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include <stdarg.h>
 #include <stdint.h>
-#include "common.h"
 
 struct cdc_vector {
         size_t size;
         size_t capacity;
         float cop_exp;
         void **buffer;
-        void (*fp_free)(void *);
+        cdc_free_func_t fp_free;
 };
 
 static inline bool cdc_vector_should_shrink(cdc_vector_t *v)
@@ -111,7 +109,7 @@ static inline void cdc_vector_free_range(cdc_vector_t *v, size_t start,
                 (*v->fp_free)(v->buffer[i]);
 }
 
-enum cdc_stat cdc_vector_ctor(cdc_vector_t **v, void (*fp_free)(void *))
+enum cdc_stat cdc_vector_ctor(cdc_vector_t **v, cdc_free_func_t func)
 {
         assert(v != NULL);
 
@@ -126,7 +124,7 @@ enum cdc_stat cdc_vector_ctor(cdc_vector_t **v, void (*fp_free)(void *))
         tmp->capacity = 0;
         tmp->cop_exp  = CDC_VECTOR_COPACITY_EXP;
         tmp->buffer   = NULL;
-        tmp->fp_free  = fp_free;
+        tmp->fp_free  = func;
 
         ret = cdc_vector_reserve(tmp, CDC_VECTOR_MIN_CAPACITY);
         if (ret != CDC_STATUS_OK) {
@@ -139,7 +137,7 @@ enum cdc_stat cdc_vector_ctor(cdc_vector_t **v, void (*fp_free)(void *))
         return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_vector_ctor_l(cdc_vector_t **v, void (*fp_free)(void *), ...)
+enum cdc_stat cdc_vector_ctorl(cdc_vector_t **v, cdc_free_func_t func, ...)
 {
         assert(v != NULL);
 
@@ -147,11 +145,11 @@ enum cdc_stat cdc_vector_ctor_l(cdc_vector_t **v, void (*fp_free)(void *), ...)
         va_list args;
         void *elem;
 
-        ret = cdc_vector_ctor(v, fp_free);
+        ret = cdc_vector_ctor(v, func);
         if (ret != CDC_STATUS_OK)
                 return ret;
 
-        va_start(args, fp_free);
+        va_start(args, func);
         while ((elem = va_arg(args, void *)) != NULL) {
                 ret = cdc_vector_push_back(*v, elem);
                 if (ret != CDC_STATUS_OK) {
@@ -163,6 +161,12 @@ enum cdc_stat cdc_vector_ctor_l(cdc_vector_t **v, void (*fp_free)(void *), ...)
         va_end(args);
 
         return CDC_STATUS_OK;
+}
+
+enum cdc_stat cdc_vector_ctorv(cdc_vector_t **l, cdc_free_func_t func,
+                               va_list args)
+{
+
 }
 
 void cdc_vector_dtor(cdc_vector_t *v)
@@ -284,11 +288,11 @@ void cdc_vector_swap(cdc_vector_t *a, cdc_vector_t *b)
         assert(a != NULL);
         assert(b != NULL);
 
-        CDC_SWAP(size_t,  a->size,     b->size);
-        CDC_SWAP(size_t,  a->capacity, b->capacity);
-        CDC_SWAP(float,   a->cop_exp,  b->cop_exp);
-        CDC_SWAP(void **, a->buffer,   b->buffer);
-        CDC_SWAP(void *,  a->fp_free,  b->fp_free);
+        CDC_SWAP(size_t,          a->size,     b->size);
+        CDC_SWAP(size_t,          a->capacity, b->capacity);
+        CDC_SWAP(float,           a->cop_exp,  b->cop_exp);
+        CDC_SWAP(void **,         a->buffer,   b->buffer);
+        CDC_SWAP(cdc_free_func_t, a->fp_free,  b->fp_free);
 }
 
 void *cdc_vector_get(cdc_vector_t *v, size_t index)

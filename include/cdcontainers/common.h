@@ -1,7 +1,5 @@
-#ifndef CDCONTAINERS_SRC_COMMON_H
-#define CDCONTAINERS_SRC_COMMON_H
-
-#include <stdlib.h>
+#ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_COMMON_H
+#define CDCONTAINERS_INCLUDE_CDCONTAINERS_COMMON_H
 
 #define CDC_MAX(a, b) ((a) > (b) ? (a) : (b))
 #define CDC_MIN(a, b) ((a) < (b) ? (a) : (b))
@@ -12,4 +10,6 @@
                 y = tmp; \
         } while (0)
 
-#endif  // CDSTRUCTURES_CDSTRUCTURES_COMMON_H
+typedef void (*cdc_free_func_t)(void *);
+
+#endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_COMMON_H

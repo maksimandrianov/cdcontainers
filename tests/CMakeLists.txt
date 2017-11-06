@@ -27,6 +27,8 @@ set(SOURCE
       test_common.h
       test_vector.c
       test_list.c
+      test_stackl.c
+      test_stackv.c
       test_main.c
 )
 
