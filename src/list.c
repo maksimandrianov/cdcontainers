@@ -76,6 +76,57 @@ static inline struct node *cdc_list_get_node(cdc_list_t *l, size_t index)
         return node;
 }
 
+static inline void cdc_free_node(cdc_list_t *l, struct node *node, bool free)
+{
+        assert(node != NULL);
+
+        if (free && l->fp_free)
+                (*l->fp_free)(node->data);
+        free(l);
+}
+
+static inline enum cdc_stat cdc_list_pop_back_f(cdc_list_t *l, bool free)
+{
+        assert(l != NULL);
+        assert(l->tail != NULL);
+
+        struct node *new_tail = l->tail->prev;
+
+        cdc_free_node(l, l->tail, free);
+        --l->size;
+
+        if (new_tail) {
+                cdc_list_remove(new_tail, NULL);
+                l->tail = new_tail;
+        } else {
+                l->tail = NULL;
+                l->head = NULL;
+        }
+
+        return CDC_STATUS_OK;
+}
+
+static inline enum cdc_stat cdc_list_pop_front_f(cdc_list_t *l, bool free)
+{
+        assert(l != NULL);
+        assert(l->head != NULL);
+
+        struct node *new_head = l->head->next;
+
+        cdc_free_node(l, l->head, free);
+        --l->size;
+
+        if (new_head) {
+                cdc_list_remove(NULL, new_head);
+                l->head = new_head;
+        } else {
+                l->tail = NULL;
+                l->head = NULL;
+        }
+
+        return CDC_STATUS_OK;
+}
+
 static inline enum cdc_stat cdc_list_init_varg(cdc_list_t *l, va_list args)
 {
         assert(l != NULL);
@@ -180,21 +231,7 @@ enum cdc_stat cdc_list_pop_back(cdc_list_t *l)
         assert(l != NULL);
         assert(l->tail != NULL);
 
-        struct node *new_tail = l->tail->prev;
-
-        // remove tail data
-        free(l->tail);
-        --l->size;
-
-        if (new_tail) {
-                cdc_list_remove(new_tail, NULL);
-                l->tail = new_tail;
-        } else {
-                l->tail = NULL;
-                l->head = NULL;
-        }
-
-        return CDC_STATUS_OK;
+        return cdc_list_pop_back_f(l, true);
 }
 
 enum cdc_stat cdc_list_push_front(cdc_list_t *l, void *elem)
@@ -255,21 +292,7 @@ enum cdc_stat cdc_list_pop_front(cdc_list_t *l)
         assert(l != NULL);
         assert(l->head != NULL);
 
-        struct node *new_head = l->head->next;
-
-        // remove head data
-        free(l->head);
-        --l->size;
-
-        if (new_head) {
-                cdc_list_remove(NULL, new_head);
-                l->head = new_head;
-        } else {
-                l->tail = NULL;
-                l->head = NULL;
-        }
-
-        return CDC_STATUS_OK;
+        return cdc_list_pop_front_f(l, true);
 }
 
 enum cdc_stat cdc_list_insert(cdc_list_t *l, size_t index, void *elem)
@@ -306,12 +329,12 @@ enum cdc_stat cdc_list_erase(cdc_list_t *l, size_t index, void **elem)
 
         if (index == l->size - 1) {
                 *elem = l->tail->data;
-                return cdc_list_pop_back(l);
+                return cdc_list_pop_back_f(l, false);
         }
 
         if (index == 0) {
                 *elem = l->head->data;
-                return cdc_list_pop_front(l);
+                return cdc_list_pop_front_f(l, false);
         }
 
         node = cdc_list_get_node(l, index);
