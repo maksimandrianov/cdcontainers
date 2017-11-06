@@ -186,9 +186,7 @@ enum cdc_stat cdc_list_ctorv(cdc_list_t **l, cdc_free_func_t func, va_list args)
         if (ret != CDC_STATUS_OK)
                 return ret;
 
-        ret = cdc_list_init_varg(*l, args);
-
-        return ret;
+        return cdc_list_init_varg(*l, args);
 }
 
 void cdc_list_dtor(cdc_list_t *l)

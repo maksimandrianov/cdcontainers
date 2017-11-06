@@ -197,9 +197,7 @@ enum cdc_stat cdc_vector_ctorv(cdc_vector_t **v, cdc_free_func_t func,
         if (ret != CDC_STATUS_OK)
                 return ret;
 
-        ret = cdc_vector_init_varg(*v, args);
-
-        return ret;
+        return cdc_vector_init_varg(*v, args);
 }
 
 void cdc_vector_dtor(cdc_vector_t *v)

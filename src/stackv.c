@@ -53,9 +53,7 @@ enum cdc_stat cdc_stackv_ctorv(cdc_stackv_t **s, cdc_free_func_t func,
         if (ret != CDC_STATUS_OK)
                 return ret;
 
-        ret = cdc_vector_ctorv(&(*s)->vector, func, args);
-
-        return ret;
+        return cdc_vector_ctorv(&(*s)->vector, func, args);
 }
 
 void cdc_stackv_dtor(cdc_stackv_t *s)
