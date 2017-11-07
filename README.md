@@ -7,9 +7,45 @@ The library contains the following data containers and collections:
 * stack (based on vector - stackv or list - stackl)
 * queue (based on list - queuel)
 
-### Building & installing - Unix
+### Usage
 
-Packages needed for the build, or the build requires:
+Example of using a vector from a library cdcontainers:
+
+```c
+#define CDC_USE_SHORT_NAMES  // for short names (functions and struct without prefix cdc_*)
+#include <cdcontainers/vector.h>
+#include <stdio.h>
+
+int main(int argc, char** argv)
+{
+    vector_t *v;
+    int a = 7, b = 8, i;
+
+    if (vector_ctor(&v, NULL) != CDC_STATUS_OK)
+        /* handle error */;
+
+    if (vector_push_back(v, &a) != CDC_STATUS_OK)
+        /* handle error */;
+
+    if (vector_push_back(v, &b) != CDC_STATUS_OK)
+        /* handle error */;
+
+    for (i = 0; i < vector_size(v); ++i)
+        printf("%i ", *((int *)vector_get(v, i)));
+
+    printf("\n");
+
+    vector_dtor(v);
+}
+```
+
+The output of this program is the following
+
+    $ 7 8
+
+### Installation - Unix
+
+To build cdcontainers from source, the following tools are needed:
 * make
 * cmake
 * gcc
@@ -19,7 +55,7 @@ On Ubuntu, you can install them with:
 
     $  sudo apt-get install cmake gcc make libcunit1-dev
 
-To build cdstructures, do the following steps:
+To build and install cdstructures, do the following steps:
 
     $ git clone https://github.com/maksimandrianov/cdcontainers
     $ cd cdcontainers
