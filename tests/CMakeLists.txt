@@ -29,6 +29,7 @@ set(SOURCE
       test_list.c
       test_stackl.c
       test_stackv.c
+      test_queuel.c
       test_main.c
 )
 

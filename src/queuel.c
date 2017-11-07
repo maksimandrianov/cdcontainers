@@ -58,7 +58,7 @@ enum cdc_stat cdc_queuel_ctorv(cdc_queuel_t **q, cdc_free_func_t func,
         return cdc_list_ctorv(&(*q)->list, func, args);
 }
 
-void cdc_queuel_dtor (cdc_queuel_t *q)
+void cdc_queuel_dtor(cdc_queuel_t *q)
 {
         assert(q != NULL);
 

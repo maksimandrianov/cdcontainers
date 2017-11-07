@@ -48,6 +48,13 @@ void test_stackv_push();
 void test_stackv_pop();
 void test_stackv_swap();
 
-
+// Queuel tests
+void test_queuel_ctor();
+void test_queuel_ctorl();
+void test_queuel_push();
+void test_queuel_pop();
+void test_queuel_front();
+void test_queuel_back();
+void test_queuel_swap();
 
 #endif  // CDSTRUCTURES_TESTS_TESTS_COMMON_H

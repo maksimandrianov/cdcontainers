@@ -86,6 +86,23 @@ int main(int argc, char** argv)
                 return CU_get_error();
         }
 
+        p_suite = CU_add_suite("QUEUEL TESTS", NULL, NULL);
+        if (p_suite == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
+        if (CU_add_test(p_suite, "test_ctor", test_queuel_ctor) == NULL ||
+            CU_add_test(p_suite, "test_ctorl", test_queuel_ctorl) == NULL ||
+            CU_add_test(p_suite, "test_push", test_queuel_push) == NULL ||
+            CU_add_test(p_suite, "test_pop", test_queuel_pop) == NULL ||
+            CU_add_test(p_suite, "test_front", test_queuel_front) == NULL ||
+            CU_add_test(p_suite, "test_back", test_queuel_back) == NULL ||
+            CU_add_test(p_suite, "test_swap", test_queuel_swap) == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
         CU_basic_set_mode(CU_BRM_VERBOSE);
         CU_basic_run_tests();
         CU_cleanup_registry();
