@@ -55,7 +55,7 @@ static inline enum cdc_stat cdc_vector_reallocate(cdc_vector_t *v,
         if (!tmp)
                 return CDC_STATUS_BAD_ALLOC;
 
-        memcpy(tmp, v->buffer, CDC_MIN(v->size, capacity) * sizeof(void *));
+        memcpy(tmp, v->buffer, v->size * sizeof(void *));
         free(v->buffer);
 
         v->capacity = capacity;
