@@ -22,13 +22,13 @@ int main(int argc, char** argv)
     int a = 7, b = 8, i;
 
     if (vector_ctor(&v, NULL) != CDC_STATUS_OK)
-        /* handle error */;
+        /* error handling */;
 
     if (vector_push_back(v, &a) != CDC_STATUS_OK)
-        /* handle error */;
+        /* error handling */;
 
     if (vector_push_back(v, &b) != CDC_STATUS_OK)
-        /* handle error */;
+        /* error handling */;
 
     for (i = 0; i < vector_size(v); ++i)
         printf("%i ", *((int *)vector_get(v, i)));
