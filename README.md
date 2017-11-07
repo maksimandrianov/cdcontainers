@@ -1,11 +1,13 @@
 # cdcontainers - data containers and collections for C
 
-Library of data containers and collections for C programming language.
+Library of data containers and collections for C programming language. The cdcontainers interface is similar to C ++ STL.
 The library contains the following data containers and collections:
 * vector
 * list
 * stack (based on vector - stackv or list - stackl)
 * queue (based on list - queuel)
+
+
 
 ### Usage
 
