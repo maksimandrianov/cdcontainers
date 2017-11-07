@@ -47,7 +47,7 @@ The output of this program is the following
 
 ### Installation - Unix
 
-To build cdcontainers from source, the following tools are needed:
+To build and install cdcontainers from source, the following tools are needed:
 * make
 * cmake
 * gcc
