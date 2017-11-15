@@ -223,14 +223,14 @@ enum cdc_stat cdc_vector_insert(cdc_vector_t *v, size_t index, void *elem)
         assert(v != NULL);
         assert(index <= v->size);
 
+        if (index == v->size)
+                return cdc_vector_push_back(v,elem);
+
         if (cdc_vector_should_grow(v)) {
                 enum cdc_stat ret = cdc_vector_grow(v);
                 if (ret != CDC_STATUS_OK)
                         return ret;
         }
-
-        if (index == v->size)
-                return cdc_vector_push_back(v,elem);
 
         cdc_vector_move_right(v, index);
 

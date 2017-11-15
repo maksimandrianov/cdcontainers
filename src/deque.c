@@ -156,9 +156,9 @@ static inline void cdc_deque_free_range(cdc_deque_t *d, size_t start,
         assert(end <= d->size);
 
         size_t nstart = (d->head + start) % d->capacity;
-        size_t i, count = end - start;
+        size_t i;
 
-        for (i = 0; i < count; ++i) {
+        for (i = end - start; i > 0; --i) {
                 (*d->fp_free)(d->buffer[nstart]);
                 nstart = ++nstart % d->capacity;
         }
@@ -314,17 +314,17 @@ enum cdc_stat cdc_deque_insert(cdc_deque_t *d, size_t index, void *elem)
 
         size_t idx;
 
-        if (cdc_deque_should_grow(d)) {
-                enum cdc_stat ret = cdc_deque_grow(d);
-                if (ret != CDC_STATUS_OK)
-                        return ret;
-        }
-
         if (index == 0)
                 return cdc_deque_push_front(d, elem);
 
         if (index == d->size)
                 return cdc_deque_push_back(d, elem);
+
+        if (cdc_deque_should_grow(d)) {
+                enum cdc_stat ret = cdc_deque_grow(d);
+                if (ret != CDC_STATUS_OK)
+                        return ret;
+        }
 
         cdc_deque_move_right(d, index);
 
