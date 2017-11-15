@@ -18,7 +18,7 @@ static inline bool cdc_vector_should_shrink(cdc_vector_t *v)
         assert(v != NULL);
         assert(v->size <= v->capacity);
 
-        return v->size <= v->capacity * CDC_VECTOR_SHRINK_THRESHOLD;
+        return v->size * CDC_VECTOR_SHRINK_THRESHOLD <= v->capacity;
 }
 
 static inline bool cdc_vector_reach_limit_size(cdc_vector_t *v)
