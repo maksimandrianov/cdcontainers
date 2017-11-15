@@ -113,7 +113,6 @@ static inline enum cdc_stat cdc_deque_pop_front_f(cdc_deque_t *d,
         assert(d != NULL);
         assert(d->size > 0);
 
-
         if (must_free && d->fp_free)
                 (*d->fp_free)(d->buffer[d->head]);
 
@@ -140,9 +139,9 @@ static inline void cdc_deque_move_right(cdc_deque_t *d, size_t index,
 {
         assert(d != NULL);
 
-        size_t i, idx, end = (d->head + d->size - 1) % d->capacity;
+        size_t idx, end = (d->tail - 1) % d->capacity;
 
-        for (i = count; i > 0; --i) {
+        while (count--) {
                 idx = (end + 1) % d->capacity;
                 d->buffer[idx] = d->buffer[end];
                 end = --end % d->capacity;
@@ -157,9 +156,9 @@ static inline void cdc_deque_free_range(cdc_deque_t *d, size_t start,
         assert(end <= d->size);
 
         size_t nstart = (d->head + start) % d->capacity;
-        size_t i;
+        size_t count = end - start;
 
-        for (i = end - start; i > 0; --i) {
+        while (count--) {
                 (*d->fp_free)(d->buffer[nstart]);
                 nstart = ++nstart % d->capacity;
         }
@@ -283,7 +282,7 @@ void *cdc_deque_front(cdc_deque_t *d)
         assert(d != NULL);
         assert(d->size > 0);
 
-        return cdc_deque_get(d, 0);
+        return d->buffer[d->head];
 }
 
 void *cdc_deque_back(cdc_deque_t *d)
@@ -291,7 +290,9 @@ void *cdc_deque_back(cdc_deque_t *d)
         assert(d != NULL);
         assert(d->size > 0);
 
-        return cdc_deque_get(d, d->size - 1);
+        ssize_t idx = (d->tail - 1 + d->capacity) % d->capacity;
+
+        return d->buffer[idx];
 }
 
 bool cdc_deque_empty(cdc_deque_t *d)
