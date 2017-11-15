@@ -64,7 +64,7 @@ To build and install cdstructures, do the following steps:
     $ mkdir cmake && cd cmake
     $ cmake ..
     $ make
-    $ make install
+    $ sudo make install
 
 #### Hint on install location
 
