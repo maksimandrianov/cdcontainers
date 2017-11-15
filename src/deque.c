@@ -6,11 +6,6 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#define CDC_DEQUE_MIN_CAPACITY     (4)
-#define CDC_DEQUE_COPACITY_EXP     (2.0f)
-#define CDC_DEQUE_SHRINK_THRESHOLD (1.0 / 4.0)
-#define CDC_DEQUE_MAX_LEN          (SIZE_MAX)
-
 struct cdc_deque {
         void **buffer;
         size_t head;
@@ -25,7 +20,7 @@ static inline bool cdc_deque_should_shrink(cdc_deque_t *d)
         assert(d != NULL);
         assert(d->size <= d->capacity);
 
-        return d->size <= d->capacity * CDC_DEQUE_SHRINK_THRESHOLD;
+        return d->size * CDC_DEQUE_SHRINK_THRESHOLD <= d->capacity;
 }
 
 static inline bool cdc_deque_should_grow(cdc_deque_t *d)

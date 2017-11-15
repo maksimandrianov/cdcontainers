@@ -7,11 +7,16 @@
 #include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
 
+#define CDC_DEQUE_MIN_CAPACITY     (4)
+#define CDC_DEQUE_COPACITY_EXP     (2.0f)
+#define CDC_DEQUE_SHRINK_THRESHOLD (4.0f)
+#define CDC_DEQUE_MAX_LEN          (SIZE_MAX)
+
 typedef struct cdc_deque cdc_deque_t;
 
 enum cdc_stat cdc_deque_ctor      (cdc_deque_t **d, cdc_free_func_t func);
 enum cdc_stat cdc_deque_ctorl     (cdc_deque_t **d, cdc_free_func_t func, ...);
-enum cdc_stat cdc_deque_ctorv     (cdc_deque_t **d, cdc_free_func_t func, va_deque args);
+enum cdc_stat cdc_deque_ctorv     (cdc_deque_t **d, cdc_free_func_t func, va_list args);
 void          cdc_deque_dtor      (cdc_deque_t *d);
 
 // Element access
