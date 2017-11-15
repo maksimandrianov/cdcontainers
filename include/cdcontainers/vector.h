@@ -34,6 +34,7 @@ size_t        cdc_vector_capacity (cdc_vector_t *v);
 float         cdc_vector_cap_exp  (cdc_vector_t *v);
 
 // Modifiers
+void          cdc_vector_set      (cdc_vector_t *v, size_t index, void *elem);
 enum cdc_stat cdc_vector_insert   (cdc_vector_t *v, size_t index, void *elem);
 enum cdc_stat cdc_vector_erase    (cdc_vector_t *v, size_t index, void **elem);
 void          cdc_vector_clear    (cdc_vector_t *v);
@@ -65,6 +66,7 @@ typedef cdc_vector_t vector_t;
 #define vector_cap_exp(...)   cdc_vector_cap_exp(__VA_ARGS__)
 
 // Modifiers
+#define vector_set(...)       cdc_vector_set(__VA_ARGS__)
 #define vector_insert(...)    cdc_vector_insert(__VA_ARGS__)
 #define vector_erase(...)     cdc_vector_erase(__VA_ARGS__)
 #define vector_clear(...)     cdc_vector_clear(__VA_ARGS__)

@@ -21,6 +21,7 @@ int main(int argc, char** argv)
             CU_add_test(p_suite, "test_data", test_vector_data) == NULL ||
             CU_add_test(p_suite, "test_get", test_vector_get) == NULL ||
             CU_add_test(p_suite, "test_at", test_vector_at) == NULL ||
+            CU_add_test(p_suite, "test_set", test_vector_set) == NULL ||
             CU_add_test(p_suite, "test_front", test_vector_front) == NULL ||
             CU_add_test(p_suite, "test_back", test_vector_back) == NULL ||
             CU_add_test(p_suite, "test_insert", test_vector_insert) == NULL ||

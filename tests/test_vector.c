@@ -112,6 +112,22 @@ void test_vector_at()
         cdc_vector_dtor(v);
 }
 
+void test_vector_set()
+{
+        cdc_vector_t *v;
+        int a = 1, b = 2;
+
+        CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+
+        cdc_vector_set(v, 0, &b);
+        CU_ASSERT(vector_range_int_eq(v, 2, b, b));
+
+        cdc_vector_set(v, 1, &a);
+        CU_ASSERT(vector_range_int_eq(v, 2, b, a));
+
+        cdc_vector_dtor(v);
+}
+
 void test_vector_front()
 {
         cdc_vector_t *v;

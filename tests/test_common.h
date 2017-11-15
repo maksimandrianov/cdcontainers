@@ -10,6 +10,7 @@ void test_vector_reserve();
 void test_vector_data();
 void test_vector_get();
 void test_vector_at();
+void test_vector_set();
 void test_vector_front();
 void test_vector_back();
 void test_vector_insert();

@@ -339,6 +339,13 @@ enum cdc_stat cdc_vector_at(cdc_vector_t *v, size_t index, void **elem)
         return CDC_STATUS_OK;
 }
 
+void cdc_vector_set(cdc_vector_t *v, size_t index, void *elem)
+{
+        assert(v != NULL);
+        assert(index < v->size);
+
+        v->buffer[index] = elem;
+}
 
 void *cdc_vector_front(cdc_vector_t *v)
 {
