@@ -64,6 +64,7 @@ void test_deque_push_back();
 void test_deque_push_front();
 void test_deque_get();
 void test_deque_at();
+void test_deque_set();
 void test_deque_front();
 void test_deque_back();
 void test_deque_pop_back();

@@ -115,6 +115,7 @@ int main(int argc, char** argv)
             CU_add_test(p_suite, "test_push_front", test_deque_push_front) == NULL ||
             CU_add_test(p_suite, "test_get", test_deque_get) == NULL ||
             CU_add_test(p_suite, "test_at", test_deque_at) == NULL ||
+            CU_add_test(p_suite, "test_set", test_deque_set) == NULL ||
             CU_add_test(p_suite, "test_front", test_deque_front) == NULL ||
             CU_add_test(p_suite, "test_back", test_deque_back) == NULL ||
             CU_add_test(p_suite, "test_pop_back", test_deque_pop_back) == NULL ||

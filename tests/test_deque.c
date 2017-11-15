@@ -5,6 +5,15 @@
 #include <stdarg.h>
 #include <assert.h>
 
+static void deque_int_print(cdc_deque_t *d)
+{
+        int i;
+
+        printf("\n");
+        for (i = 0; i < cdc_deque_size(d); ++i)
+                printf("%u\n", *((int *)cdc_deque_get(d, i)));
+}
+
 static bool deque_range_int_eq(cdc_deque_t *d, size_t count, ...)
 {
         assert(cdc_deque_size(d) >= count);
@@ -145,6 +154,22 @@ void test_deque_at()
         cdc_deque_dtor(d);
 }
 
+void test_deque_set()
+{
+        cdc_deque_t *d;
+        int a = 1, b = 2;
+
+        CU_ASSERT(cdc_deque_ctorl(&d, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+
+        cdc_deque_set(d, 0, &b);
+        CU_ASSERT(deque_range_int_eq(d, 2, b, b));
+
+        cdc_deque_set(d, 1, &a);
+        CU_ASSERT(deque_range_int_eq(d, 2, b, a));
+
+        cdc_deque_dtor(d);
+}
+
 void test_deque_front()
 {
         cdc_deque_t *d;
@@ -279,7 +304,34 @@ void test_deque_insert()
 
 void test_deque_erase()
 {
+        cdc_deque_t *deq;
+        int a = 0, b = 1, c = 2, d = 3;
+        void *elem = NULL;
 
+        CU_ASSERT(cdc_deque_ctorl(&deq, NULL, &a, &b, &c, &d, &a, &b, &c, NULL) == CDC_STATUS_OK);
+
+        CU_ASSERT(cdc_deque_erase(deq, 2, &elem) == CDC_STATUS_OK);
+        CU_ASSERT(*((int *)elem) == c);
+        CU_ASSERT(cdc_deque_size(deq) == 6);
+        CU_ASSERT(deque_range_int_eq(deq, 3, a, b, d, a, b, c));
+
+        CU_ASSERT(cdc_deque_erase(deq, 4, &elem) == CDC_STATUS_OK);
+        CU_ASSERT(*((int *)elem) == b);
+        CU_ASSERT(cdc_deque_size(deq) == 5);
+        CU_ASSERT(deque_range_int_eq(deq, 5, a, b, d, a, c));
+
+
+        CU_ASSERT(cdc_deque_erase(deq, 0, &elem) == CDC_STATUS_OK);
+        CU_ASSERT(*((int *)elem) == a);
+        CU_ASSERT(cdc_deque_size(deq) == 4);
+        CU_ASSERT(deque_range_int_eq(deq, 4, b, d, a, c));
+
+        CU_ASSERT(cdc_deque_erase(deq, cdc_deque_size(deq) - 1, &elem) == CDC_STATUS_OK);
+        CU_ASSERT(*((int *)elem) == c);
+        CU_ASSERT(cdc_deque_size(deq) == 3);
+        CU_ASSERT(deque_range_int_eq(deq, 3, b, d, a));
+
+        cdc_deque_dtor(deq);
 }
 
 void test_deque_clear()
@@ -298,5 +350,50 @@ void test_deque_clear()
 
 void test_deque_pop_push()
 {
+        cdc_deque_t *d;
+        int i;
+        int a = 1, b = 2, c = 3;
+        int i1 = 3, i2 = 4, i3 = 5;
 
+        CU_ASSERT(cdc_deque_ctorl(&d, NULL, &a, &b, &c, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_size(d) == 3);
+
+        for (i = 0; i < 5; ++i) {
+                CU_ASSERT(cdc_deque_push_front(d, &a) == CDC_STATUS_OK);
+                CU_ASSERT(cdc_deque_pop_back(d) == CDC_STATUS_OK);
+                CU_ASSERT(cdc_deque_push_front(d, &b) == CDC_STATUS_OK);
+                CU_ASSERT(cdc_deque_pop_back(d) == CDC_STATUS_OK)
+        }
+
+        CU_ASSERT(deque_range_int_eq(d, 3, b, a, b));
+        CU_ASSERT(cdc_deque_size(d) == 3);
+
+        for (i = 0; i < 5; ++i) {
+                CU_ASSERT(cdc_deque_push_back(d, &a) == CDC_STATUS_OK);
+                CU_ASSERT(cdc_deque_pop_front(d) == CDC_STATUS_OK);
+                CU_ASSERT(cdc_deque_push_back(d, &b) == CDC_STATUS_OK);
+                CU_ASSERT(cdc_deque_pop_front(d) == CDC_STATUS_OK);
+        }
+        CU_ASSERT(deque_range_int_eq(d, 3, b, a, b));
+        CU_ASSERT(cdc_deque_size(d) == 3);
+
+        CU_ASSERT(cdc_deque_insert(d, 0, &i1) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_size(d) == 4);
+        CU_ASSERT(deque_range_int_eq(d, 4, i1, b, a, b));
+
+        CU_ASSERT(cdc_deque_insert(d, cdc_deque_size(d), &i2) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_size(d) == 5);
+        CU_ASSERT(deque_range_int_eq(d, 5, i1, b, a, b, i2));
+
+        CU_ASSERT(cdc_deque_insert(d, 2, &i3) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_size(d) == 6);
+        CU_ASSERT(deque_range_int_eq(d, 6, i1, b, i3, a, b, i2));
+
+        CU_ASSERT(cdc_deque_insert(d, 4, &i1) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_size(d) == 7);
+        CU_ASSERT(deque_range_int_eq(d, 7, i1, b, i3, a, i1, b, i2));
+
+        CU_ASSERT(cdc_deque_insert(d, 1, &i2) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_size(d) == 8);
+        CU_ASSERT(deque_range_int_eq(d, 8, i1, i2, b, i3, a, i1, b, i2));
 }

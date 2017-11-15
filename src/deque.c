@@ -6,6 +6,11 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#define CDC_DEQUE_MIN_CAPACITY     (4)
+#define CDC_DEQUE_COPACITY_EXP     (2.0f)
+#define CDC_DEQUE_SHRINK_THRESHOLD (1.0 / 4.0)
+#define CDC_DEQUE_MAX_LEN          (SIZE_MAX)
+
 struct cdc_deque {
         void **buffer;
         size_t head;
@@ -128,10 +133,19 @@ static inline enum cdc_stat cdc_deque_pop_front_f(cdc_deque_t *d,
         return CDC_STATUS_OK;
 }
 
-static inline void cdc_deque_move_left(cdc_deque_t *d, size_t index)
+static inline void cdc_deque_move_left(cdc_deque_t *d, size_t index,
+                                       size_t count)
 {
         assert(d != NULL);
 
+        size_t i, from;
+        size_t to = (d->head + index - count - 1 + d->capacity) % d->capacity;
+
+        for (i = 0; i < count; ++i) {
+                from = (to + 1) % d->capacity;
+                d->buffer[to] = d->buffer[from];
+                to = (to + 1) % d->capacity;
+        }
 }
 
 static inline void cdc_deque_move_right(cdc_deque_t *d, size_t index,
@@ -139,12 +153,12 @@ static inline void cdc_deque_move_right(cdc_deque_t *d, size_t index,
 {
         assert(d != NULL);
 
-        size_t idx, end = (d->tail - 1) % d->capacity;
+        size_t i, from, to = (d->head + index + count) % d->capacity;
 
-        while (count--) {
-                idx = (end + 1) % d->capacity;
-                d->buffer[idx] = d->buffer[end];
-                end = --end % d->capacity;
+        for (i = 0; i < count; ++i) {
+                from = (to - 1 + d->capacity) % d->capacity;
+                d->buffer[to] = d->buffer[from];
+                to = (to - 1  + d->capacity) % d->capacity;
         }
 }
 
@@ -160,7 +174,7 @@ static inline void cdc_deque_free_range(cdc_deque_t *d, size_t start,
 
         while (count--) {
                 (*d->fp_free)(d->buffer[nstart]);
-                nstart = ++nstart % d->capacity;
+                nstart = (nstart + 1) % d->capacity;
         }
 }
 
@@ -258,7 +272,12 @@ void *cdc_deque_get(cdc_deque_t *d, size_t index)
 
 void cdc_deque_set(cdc_deque_t *d, size_t index, void *elem)
 {
+        assert(d != NULL);
+        assert(index < d->size);
 
+        size_t idx = (d->head + index) % d->capacity;
+
+        d->buffer[idx] = elem;
 }
 
 enum cdc_stat cdc_deque_at(cdc_deque_t *d, size_t index, void **elem)
@@ -328,11 +347,16 @@ enum cdc_stat cdc_deque_insert(cdc_deque_t *d, size_t index, void *elem)
                         return ret;
         }
 
-        cdc_deque_move_right(d, index, d->size - index);
+        if (index > d->size / 2) {
+                cdc_deque_move_right(d, index, d->size - index);
+                d->tail = (d->tail + 1) % d->capacity;
+        } else {
+                cdc_deque_move_left(d, index, index);
+                d->head = (d->head - 1 + d->capacity) % d->capacity;
+        }
 
-        idx = (d->head + index) % d->capacity;
+        idx  = (d->head + index) % d->capacity;
         d->buffer[idx] = elem;
-        d->tail = (d->tail + 1) % d->capacity;
         ++d->size;
 
         return CDC_STATUS_OK;
@@ -340,7 +364,37 @@ enum cdc_stat cdc_deque_insert(cdc_deque_t *d, size_t index, void *elem)
 
 enum cdc_stat cdc_deque_erase(cdc_deque_t *d, size_t index, void **elem)
 {
+        assert(d != NULL);
+        assert(elem != NULL);
+        assert(index < d->size);
 
+        size_t idx = (d->head + index) % d->capacity;
+
+        *elem = d->buffer[idx];
+
+        if (index == d->size - 1)
+                return cdc_deque_pop_back_f(d, false);
+
+        if (index == 0)
+                return cdc_deque_pop_front_f(d, false);
+
+        if (index < d->size / 2) {
+                cdc_deque_move_right(d, 0, index);
+                d->head = (d->head + 1) % d->capacity;
+        } else {
+                cdc_deque_move_left(d, d->size + 1, d->size - index);
+                d->tail = (d->tail + 1) % d->capacity;
+        }
+
+        --d->size;
+
+        if (cdc_deque_should_shrink(d)) {
+                enum cdc_stat ret = cdc_deque_shrink(d);
+                if (ret != CDC_STATUS_OK)
+                        return ret;
+        }
+
+        return CDC_STATUS_OK;
 }
 
 void cdc_deque_clear(cdc_deque_t *d)
