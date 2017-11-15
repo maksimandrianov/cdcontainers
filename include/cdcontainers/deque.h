@@ -21,7 +21,6 @@ void          cdc_deque_dtor      (cdc_deque_t *d);
 
 // Element access
 void *        cdc_deque_get       (cdc_deque_t *d, size_t index);
-void          cdc_deque_set       (cdc_deque_t *d, size_t index, void *elem);
 enum cdc_stat cdc_deque_at        (cdc_deque_t *d, size_t index, void **elem);
 void *        cdc_deque_front     (cdc_deque_t *d);
 void *        cdc_deque_back      (cdc_deque_t *d);
@@ -31,6 +30,7 @@ bool          cdc_deque_empty     (cdc_deque_t *d);
 size_t        cdc_deque_size      (cdc_deque_t *d);
 
 // Modifiers
+void          cdc_deque_set       (cdc_deque_t *d, size_t index, void *elem);
 enum cdc_stat cdc_deque_insert    (cdc_deque_t *d, size_t index, void *elem);
 enum cdc_stat cdc_deque_erase     (cdc_deque_t *d, size_t index, void **elem);
 void          cdc_deque_clear     (cdc_deque_t *d);
