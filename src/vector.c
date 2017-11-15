@@ -345,7 +345,7 @@ void *cdc_vector_front(cdc_vector_t *v)
         assert(v != NULL);
         assert(v->size > 0);
 
-        return cdc_vector_get(v, 0);
+        return v->buffer[0];
 }
 
 void *cdc_vector_back(cdc_vector_t *v)
@@ -353,7 +353,7 @@ void *cdc_vector_back(cdc_vector_t *v)
         assert(v != NULL);
         assert(v->size > 0);
 
-        return cdc_vector_get(v, v->size - 1);
+        return v->buffer[v->size - 1];
 }
 
 bool cdc_vector_empty(cdc_vector_t *v)
