@@ -5,7 +5,7 @@ The library contains the following data containers and collections:
 * vector
 * list
 * stack (based on vector - stackv or list - stackl)
-* queue (based on list - queuel)
+* queue (based on deque - queued(default) or based on list - queuel)
 
 
 

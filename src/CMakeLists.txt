@@ -13,6 +13,7 @@ set(SOURCE
         stackl.c
         stackv.c
         queuel.c
+        queued.c
         deque.c
         status.c
         common.c

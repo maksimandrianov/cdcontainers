@@ -58,6 +58,15 @@ void test_queuel_front();
 void test_queuel_back();
 void test_queuel_swap();
 
+// Queued tests
+void test_queued_ctor();
+void test_queued_ctorl();
+void test_queued_push();
+void test_queued_pop();
+void test_queued_front();
+void test_queued_back();
+void test_queued_swap();
+
 // Deque tests
 void test_deque_ctor();
 void test_deque_ctorl();
