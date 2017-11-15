@@ -24,15 +24,15 @@ include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_INCLUDE_DIR}")
 
 set(SOURCE
-      test_common.h
-      test_vector.c
-      test_list.c
-      test_stackl.c
-      test_stackv.c
-      test_queuel.c
-      test_queued.c
-      test_deque.c
-      test_main.c
+      test-common.h
+      test-vector.c
+      test-list.c
+      test-stackl.c
+      test-stackv.c
+      test-queuel.c
+      test-queued.c
+      test-deque.c
+      test-main.c
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE})
