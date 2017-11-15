@@ -103,6 +103,31 @@ int main(int argc, char** argv)
                 return CU_get_error();
         }
 
+        p_suite = CU_add_suite("DEQUE TESTS", NULL, NULL);
+        if (p_suite == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
+        if (CU_add_test(p_suite, "test_ctor", test_deque_ctor) == NULL ||
+            CU_add_test(p_suite, "test_ctorl", test_deque_ctorl) == NULL ||
+            CU_add_test(p_suite, "test_push_back", test_deque_push_back) == NULL ||
+            CU_add_test(p_suite, "test_push_front", test_deque_push_front) == NULL ||
+            CU_add_test(p_suite, "test_get", test_deque_get) == NULL ||
+            CU_add_test(p_suite, "test_at", test_deque_at) == NULL ||
+            CU_add_test(p_suite, "test_front", test_deque_front) == NULL ||
+            CU_add_test(p_suite, "test_back", test_deque_back) == NULL ||
+            CU_add_test(p_suite, "test_pop_back", test_deque_pop_back) == NULL ||
+            CU_add_test(p_suite, "test_pop_front", test_deque_pop_front) == NULL ||
+            CU_add_test(p_suite, "test_swap", test_deque_swap) == NULL ||
+            CU_add_test(p_suite, "test_insert", test_deque_insert) == NULL ||
+            CU_add_test(p_suite, "test_erase", test_deque_erase) == NULL ||
+            CU_add_test(p_suite, "test_clear", test_deque_clear) == NULL ||
+            CU_add_test(p_suite, "test_pop_push", test_deque_pop_push) == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
         CU_basic_set_mode(CU_BRM_VERBOSE);
         CU_basic_run_tests();
         CU_cleanup_registry();

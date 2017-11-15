@@ -57,4 +57,20 @@ void test_queuel_front();
 void test_queuel_back();
 void test_queuel_swap();
 
+// Deque tests
+void test_deque_ctor();
+void test_deque_ctorl();
+void test_deque_push_back();
+void test_deque_push_front();
+void test_deque_get();
+void test_deque_at();
+void test_deque_front();
+void test_deque_back();
+void test_deque_pop_back();
+void test_deque_pop_front();
+void test_deque_swap();
+void test_deque_insert();
+void test_deque_erase();
+void test_deque_clear();
+
 #endif  // CDSTRUCTURES_TESTS_TESTS_COMMON_H

@@ -30,6 +30,7 @@ set(SOURCE
       test_stackl.c
       test_stackv.c
       test_queuel.c
+      test_deque.c
       test_main.c
 )
 
