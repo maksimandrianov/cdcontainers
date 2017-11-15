@@ -42,7 +42,7 @@ static inline enum cdc_stat cdc_vector_reallocate(cdc_vector_t *v,
 {
         assert(v != NULL);
 
-        void *tmp;
+        void **tmp;
 
         if (capacity < CDC_VECTOR_MIN_CAPACITY) {
                 if (v->capacity > CDC_VECTOR_MIN_CAPACITY)
@@ -51,7 +51,7 @@ static inline enum cdc_stat cdc_vector_reallocate(cdc_vector_t *v,
                         return CDC_STATUS_OK;
         }
 
-        tmp = malloc(capacity * sizeof (void *));
+        tmp = (void **)malloc(capacity * sizeof (void *));
         if (!tmp)
                 return CDC_STATUS_BAD_ALLOC;
 
@@ -161,7 +161,7 @@ enum cdc_stat cdc_vector_ctor(cdc_vector_t **v, cdc_free_func_t func)
         tmp->buffer   = NULL;
         tmp->fp_free  = func;
 
-        ret = cdc_vector_reserve(tmp, CDC_VECTOR_MIN_CAPACITY);
+        ret = cdc_vector_reallocate(tmp, CDC_VECTOR_MIN_CAPACITY);
         if (ret != CDC_STATUS_OK) {
                 free(tmp);
                 return ret;
