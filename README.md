@@ -4,7 +4,7 @@ Library of data containers and collections for C programming language. The cdcon
 The library contains the following data containers and collections:
 * vector
 * list
-* stack (based on vector - stackv or list - stackl)
+* stack (based on vector - stackv(default) or list - stackl)
 * queue (based on deque - queued(default) or based on list - queuel)
 
 
