@@ -19,7 +19,6 @@ set(SOURCE
         common.c
 )
 
-
 include_directories("${PROJECT_INCLUDE_DIR}")
 file(GLOB_RECURSE HEADERS "${PROJECT_INCLUDE_DIR}/*.h")
 
