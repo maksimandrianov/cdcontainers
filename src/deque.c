@@ -135,15 +135,16 @@ static inline void cdc_deque_move_left(cdc_deque_t *d, size_t index)
 
 }
 
-static inline void cdc_deque_move_right(cdc_deque_t *d, size_t index)
+static inline void cdc_deque_move_right(cdc_deque_t *d, size_t index,
+                                        size_t count)
 {
         assert(d != NULL);
 
         size_t i, idx, end = (d->head + d->size - 1) % d->capacity;
 
-        for (i = d->size - index; i > 0; --i) {
+        for (i = count; i > 0; --i) {
                 idx = (end + 1) % d->capacity;
-                d->buffer[(end + 1) % d->capacity] = d->buffer[end];
+                d->buffer[idx] = d->buffer[end];
                 end = --end % d->capacity;
         }
 }
@@ -326,7 +327,7 @@ enum cdc_stat cdc_deque_insert(cdc_deque_t *d, size_t index, void *elem)
                         return ret;
         }
 
-        cdc_deque_move_right(d, index);
+        cdc_deque_move_right(d, index, d->size - index);
 
         idx = (d->head + index) % d->capacity;
         d->buffer[idx] = elem;

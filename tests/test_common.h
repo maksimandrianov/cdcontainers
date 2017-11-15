@@ -72,5 +72,6 @@ void test_deque_swap();
 void test_deque_insert();
 void test_deque_erase();
 void test_deque_clear();
+void test_deque_pop_push();
 
 #endif  // CDSTRUCTURES_TESTS_TESTS_COMMON_H
