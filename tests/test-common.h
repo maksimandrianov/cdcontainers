@@ -85,4 +85,21 @@ void test_deque_erase();
 void test_deque_clear();
 void test_deque_pop_push();
 
+// Heap tests
+void test_heap_ctor();
+void test_heap_ctorl();
+void test_heap_top();
+void test_heap_extract_top();
+void test_heap_insert();
+void test_heap_increase_key();
+void test_heap_swap();
+
+// Priority queue tests
+void test_priority_queue_ctor();
+void test_priority_queue_ctorl();
+void test_priority_queue_push();
+void test_priority_queue_pop();
+void test_priority_queue_top();
+void test_priority_queue_swap();
+
 #endif  // CDSTRUCTURES_TESTS_TESTS_COMMON_H

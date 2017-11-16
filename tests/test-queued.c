@@ -32,6 +32,8 @@ void test_queued_ctorl()
         CU_ASSERT(*((int *)elem) == b);
         CU_ASSERT(cdc_queued_pop(q) == CDC_STATUS_OK);
         CU_ASSERT(cdc_queued_size(q) == 0);
+
+        cdc_queued_dtor(q);
 }
 
 void test_queued_push()

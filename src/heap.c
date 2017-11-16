@@ -166,6 +166,9 @@ enum cdc_stat cdc_heap_extract_top(cdc_heap_t *h)
         if (ret != CDC_STATUS_OK)
                 return ret;
 
+        if (cdc_vector_empty(h->vector))
+                return ret;
+
         cdc_vector_set(h->vector, 0, elem);
         cdc_heap_heapify(h, 0);
 
@@ -204,7 +207,7 @@ enum cdc_stat cdc_heap_insert(cdc_heap_t *h, void *key)
         if (ret != CDC_STATUS_OK)
                 return ret;
 
-        i = cdc_vector_size(h->vector);
+        i = cdc_vector_size(h->vector) - 1;
         parent = cdc_heap_parent(i);
         while (i > 0 && (*h->compar)(data[i], data[parent])) {
                 CDC_SWAP(void *, data[i], data[parent]);
