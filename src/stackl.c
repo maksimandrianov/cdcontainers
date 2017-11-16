@@ -49,13 +49,21 @@ enum cdc_stat cdc_stackl_ctorv(cdc_stackl_t **s, cdc_free_func_t func,
 {
         assert(s != NULL);
 
+        cdc_stackl_t *tmp;
         enum cdc_stat ret;
 
-        ret = cdc_stackl_ctor(s, func);
-        if (ret != CDC_STATUS_OK)
-                return ret;
+        tmp = (cdc_stackl_t *)malloc(sizeof(cdc_stackl_t));
+        if (!tmp)
+                return CDC_STATUS_BAD_ALLOC;
 
-        return cdc_list_ctorv(&(*s)->list, func, args);
+        *s = tmp;
+        ret = cdc_list_ctorv(&(*s)->list, func, args);
+        if (ret != CDC_STATUS_OK) {
+                free(tmp);
+                return ret;
+        }
+
+        return ret;
 }
 
 void cdc_stackl_dtor(cdc_stackl_t *s)
@@ -98,7 +106,7 @@ enum cdc_stat cdc_stackl_push(cdc_stackl_t *s, void *elem)
 enum cdc_stat cdc_stackl_pop(cdc_stackl_t *s)
 {
         assert(s != NULL);
-        assert(cdc_list_size(s->list) > 0);
+        assert(cdc_stackl_size(s) > 0);
 
         return cdc_list_pop_back(s->list);
 }

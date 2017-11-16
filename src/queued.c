@@ -49,13 +49,21 @@ enum cdc_stat cdc_queued_ctorv(cdc_queued_t **q, cdc_free_func_t func,
 {
         assert(q != NULL);
 
+        cdc_queued_t *tmp;
         enum cdc_stat ret;
 
-        ret = cdc_queued_ctor(q, func);
-        if (ret != CDC_STATUS_OK)
-                return ret;
+        tmp = (cdc_queued_t *)malloc(sizeof(cdc_queued_t));
+        if (!tmp)
+                return CDC_STATUS_BAD_ALLOC;
 
-        return cdc_deque_ctorv(&(*q)->deque, func, args);
+        *q = tmp;
+        ret = cdc_deque_ctorv(&(*q)->deque, func, args);
+        if (ret != CDC_STATUS_OK) {
+                free(tmp);
+                return ret;
+        }
+
+        return ret;
 }
 
 void cdc_queued_dtor(cdc_queued_t *q)

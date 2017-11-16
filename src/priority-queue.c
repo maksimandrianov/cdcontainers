@@ -60,11 +60,6 @@ enum cdc_stat cdc_priority_queue_ctorv(cdc_priority_queue_t **q, cdc_free_func_t
         if (!tmp)
                 return CDC_STATUS_BAD_ALLOC;
 
-        if (ret != CDC_STATUS_OK) {
-                free(tmp);
-                return ret;
-        }
-
         *q = tmp;
         ret = cdc_heap_ctorv(&(*q)->heap, func, compar, args);
         if (ret != CDC_STATUS_OK) {
