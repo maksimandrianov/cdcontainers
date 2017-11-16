@@ -5,8 +5,10 @@ The library contains the following data containers and collections:
 * vector
 * list
 * deque
+* heap
 * stack (based on vector - stackv(default) or list - stackl)
 * queue (based on deque - queued(default) or based on list - queuel)
+* proirity_queue (based on heap)
 
 ### Usage
 
