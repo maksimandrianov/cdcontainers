@@ -1,6 +1,6 @@
 #include <cdcontainers/cdcontainers.h>
 #include <stdio.h>
-
+#include "cdcontainers/vector.h"
 
 void exit_wiht_stat(enum cdc_stat s)
 {
@@ -8,7 +8,7 @@ void exit_wiht_stat(enum cdc_stat s)
         exit(EXIT_FAILURE);
 }
 
-void print_int_vector(cdc_vector_t *v)
+void print_int_vector(struct cdc_vector *v)
 {
         int i;
 
@@ -19,7 +19,7 @@ void print_int_vector(cdc_vector_t *v)
 int main(int argc, char** argv)
 {
 
-        cdc_vector_t *v, *w;
+        struct cdc_vector *v, *w;
         enum cdc_stat ret;
 
         if ((ret = cdc_vector_ctor(&v, NULL)) != CDC_STATUS_OK)

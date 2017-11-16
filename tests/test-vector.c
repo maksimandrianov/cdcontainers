@@ -4,7 +4,7 @@
 #include <float.h>
 #include <stdarg.h>
 
-static bool vector_range_int_eq(cdc_vector_t *v, size_t count, ...)
+static bool vector_range_int_eq(struct cdc_vector *v, size_t count, ...)
 {
         va_list args;
         int elem;
@@ -22,28 +22,22 @@ static bool vector_range_int_eq(cdc_vector_t *v, size_t count, ...)
 
 void test_vector_ctor()
 {
-        cdc_vector_t *v;
+        struct cdc_vector *v;
 
         CU_ASSERT(cdc_vector_ctor(&v, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_vector_size(v) == 0);
-        CU_ASSERT(cdc_vector_capacity(v) == CDC_VECTOR_MIN_CAPACITY);
-        CU_ASSERT_DOUBLE_EQUAL(cdc_vector_cap_exp(v), CDC_VECTOR_COPACITY_EXP,
-                               FLT_EPSILON);
 
         cdc_vector_dtor(v);
 }
 
 void test_vector_ctorl()
 {
-        cdc_vector_t *v;
+        struct cdc_vector *v;
         int a = 0, b = 1, c = 2, d = 3;
         size_t count_elements = 4;
 
         CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_vector_size(v) == count_elements);
-        CU_ASSERT(cdc_vector_capacity(v) == CDC_VECTOR_MIN_CAPACITY);
-        CU_ASSERT_DOUBLE_EQUAL(cdc_vector_cap_exp(v), CDC_VECTOR_COPACITY_EXP,
-                               FLT_EPSILON);
         CU_ASSERT(vector_range_int_eq(v, count_elements, a, b, c, d));
 
         cdc_vector_dtor(v);
@@ -51,7 +45,7 @@ void test_vector_ctorl()
 
 void test_vector_reserve()
 {
-        cdc_vector_t *v;
+        struct cdc_vector *v;
         size_t count_reserved= 10;
 
         CU_ASSERT(cdc_vector_ctor(&v, NULL) == CDC_STATUS_OK);
@@ -66,7 +60,7 @@ void test_vector_reserve()
 
 void test_vector_data()
 {
-        cdc_vector_t *v;
+        struct cdc_vector *v;
         int a = 0, b = 1, c = 2, d = 3;
 
         CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
@@ -80,7 +74,7 @@ void test_vector_data()
 
 void test_vector_get()
 {
-        cdc_vector_t *v;
+        struct cdc_vector *v;
         int a = 0, b = 1;
 
         CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, NULL) == CDC_STATUS_OK);
@@ -92,7 +86,7 @@ void test_vector_get()
 
 void test_vector_at()
 {
-        cdc_vector_t *v;
+        struct cdc_vector *v;
         int a = 0, b = 1, c = 2;
         void *elem = NULL;
         size_t index;
@@ -114,7 +108,7 @@ void test_vector_at()
 
 void test_vector_set()
 {
-        cdc_vector_t *v;
+        struct cdc_vector *v;
         int a = 1, b = 2;
 
         CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, NULL) == CDC_STATUS_OK);
@@ -130,7 +124,7 @@ void test_vector_set()
 
 void test_vector_front()
 {
-        cdc_vector_t *v;
+        struct cdc_vector *v;
         int a = 1, b = 2;
 
         CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, NULL) == CDC_STATUS_OK);
@@ -141,7 +135,7 @@ void test_vector_front()
 
 void test_vector_back()
 {
-        cdc_vector_t *v;
+        struct cdc_vector *v;
         int a = 1, b = 2;
 
         CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, NULL) == CDC_STATUS_OK);
@@ -152,7 +146,7 @@ void test_vector_back()
 
 void test_vector_insert()
 {
-        cdc_vector_t *v;
+        struct cdc_vector *v;
         int a = 1, b = 2;
         int i1 = 3, i2 = 4, i3 = 5;
 
@@ -175,7 +169,7 @@ void test_vector_insert()
 
 void test_vector_erase()
 {
-        cdc_vector_t *v;
+        struct cdc_vector *v;
         int a = 0, b = 1, c = 2, d = 3;
         void *elem = NULL;
 
@@ -201,7 +195,7 @@ void test_vector_erase()
 
 void test_vector_clear()
 {
-        cdc_vector_t *v;
+        struct cdc_vector *v;
         int a = 0, b = 1, c = 2, d = 3;
 
         CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
@@ -215,7 +209,7 @@ void test_vector_clear()
 
 void test_vector_push_back()
 {
-        cdc_vector_t *v;
+        struct cdc_vector *v;
         int a = 0, b = 1, c = 2;
 
         CU_ASSERT(cdc_vector_ctor(&v, NULL) == CDC_STATUS_OK);
@@ -237,7 +231,7 @@ void test_vector_push_back()
 
 void test_vector_pop_back()
 {
-        cdc_vector_t *v;
+        struct cdc_vector *v;
         int a = 0, b = 1, c = 2, d = 3;
         void *elem;
 
@@ -268,7 +262,7 @@ void test_vector_pop_back()
 
 void test_vector_swap()
 {
-        cdc_vector_t *v, *w;
+        struct cdc_vector *v, *w;
         int a = 0, b = 1, c = 2, d = 3;
 
         CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);

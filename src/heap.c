@@ -7,7 +7,7 @@
 #include "cdcontainers/vector.h"
 
 struct cdc_heap {
-        cdc_vector_t *vector;
+        struct cdc_vector *vector;
         cdc_compar_func_t compar;
 };
 
@@ -39,12 +39,12 @@ static inline void cdc_heap_heapify(cdc_heap_t *h, size_t i)
                 l = cdc_heap_left(i);
                 r = cdc_heap_right(i);
 
-                if (l <= size && (*h->compar)(data[l], data[i]))
+                if (l <= size && h->compar(data[l], data[i]))
                         largest = l;
                 else
                         largest = i;
 
-                if (r <= size && (*h->compar)(data[r], data[largest]))
+                if (r <= size && h->compar(data[r], data[largest]))
                         largest = r;
 
                 if (cond = (largest != i)) {
@@ -184,12 +184,12 @@ void cdc_heap_increase_key(cdc_heap_t *h, size_t i, void *key)
         size_t parent;
         void **data = cdc_vector_data(h->vector);
 
-        if ((*h->compar)(data[i], key))
+        if (h->compar(data[i], key))
                 return;
 
         cdc_vector_set(h->vector, i, key);
         parent = cdc_heap_parent(i);
-        while (i > 0 && (*h->compar)(data[i], data[parent])) {
+        while (i > 0 && h->compar(data[i], data[parent])) {
                 CDC_SWAP(void *, data[i], data[parent]);
                 i = cdc_heap_parent(i);
         }
@@ -209,7 +209,7 @@ enum cdc_stat cdc_heap_insert(cdc_heap_t *h, void *key)
 
         i = cdc_vector_size(h->vector) - 1;
         parent = cdc_heap_parent(i);
-        while (i > 0 && (*h->compar)(data[i], data[parent])) {
+        while (i > 0 && h->compar(data[i], data[parent])) {
                 CDC_SWAP(void *, data[i], data[parent]);
                 i = cdc_heap_parent(i);
         }
@@ -236,6 +236,6 @@ void cdc_heap_swap (cdc_heap_t *a, cdc_heap_t *b)
         assert(a != NULL);
         assert(b != NULL);
 
-        CDC_SWAP(cdc_vector_t *,    a->vector, b->vector);
-        CDC_SWAP(cdc_compar_func_t, a->compar, b->compar);
+        CDC_SWAP(struct cdc_vector *, a->vector, b->vector);
+        CDC_SWAP(cdc_compar_func_t,   a->compar, b->compar);
 }
