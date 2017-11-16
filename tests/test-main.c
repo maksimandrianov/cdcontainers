@@ -1,5 +1,5 @@
 #include <CUnit/Basic.h>
-#include "test_common.h"
+#include "test-common.h"
 
 
 int main(int argc, char** argv)

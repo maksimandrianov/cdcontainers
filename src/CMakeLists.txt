@@ -10,11 +10,13 @@ set(LIB_FULL_VERSION ${LIB_VERSION_MAJOR}.${LIB_VERSION_MINOR}.${LIB_VERSION_PAT
 set(SOURCE
         vector.c
         list.c
+        deque.c
+        heap.c
         stackl.c
         stackv.c
         queuel.c
         queued.c
-        deque.c
+        priority-queue.c
         status.c
         common.c
 )

@@ -11,5 +11,6 @@
         } while (0)
 
 typedef void (*cdc_free_func_t)(void *);
+typedef int (*cdc_compar_func_t)(const void *, const void *);
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_COMMON_H

@@ -27,11 +27,13 @@ set(SOURCE
       test-common.h
       test-vector.c
       test-list.c
+      test-deque.c
+      test-heap.c
       test-stackl.c
       test-stackv.c
       test-queuel.c
       test-queued.c
-      test-deque.c
+      test-priority-queue.c
       test-main.c
 )
 

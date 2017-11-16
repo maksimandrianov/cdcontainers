@@ -1,4 +1,4 @@
-#include "test_common.h"
+#include "test-common.h"
 
 #include <CUnit/Basic.h>
 #include <float.h>
