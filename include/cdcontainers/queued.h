@@ -1,5 +1,5 @@
-#ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_queued_H
-#define CDCONTAINERS_INCLUDE_CDCONTAINERS_queued_H
+#ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_QUEUED_H
+#define CDCONTAINERS_INCLUDE_CDCONTAINERS_QUEUED_H
 
 #include <stdlib.h>
 #include <stdbool.h>
@@ -50,4 +50,4 @@ typedef cdc_queued_t queued_t;
 #define queued_swap(...)   cdc_queued_swap(__VA_ARGS__)
 #endif
 
-#endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_queued_H
+#endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_QUEUED_H
