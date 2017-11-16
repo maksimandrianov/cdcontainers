@@ -1,7 +1,7 @@
 /**
   * @file
-  * @author Maksim Anrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_vector is a struct that provides a dynamic array
+  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
+  * @brief The cdc_vector is a struct and functions that provides a dynamic array
   */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_VECTOR_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_VECTOR_H
