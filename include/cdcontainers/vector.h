@@ -21,7 +21,7 @@ struct cdc_vector {
         size_t size;
         size_t capacity;
         void **buffer;
-        struct cdc_data_info *info;
+        struct cdc_data_info *dinfo;
 };
 
 /**

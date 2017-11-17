@@ -26,11 +26,13 @@ struct cdc_data_info {
         size_t size;
 };
 
-#define CDC_HAS_FREE(container) (container->info && container->info->free)
-#define CDC_HAS_LT(container) (container->info && container->info->lt)
-#define CDC_HAS_GT(container) (container->info && container->info->gt)
-#define CDC_HAS_EQ(container) (container->info && container->info->eq)
-#define CDC_HAS_SIZE(container) (container->info && container->info->size > 0)
+struct cdc_data_info *cdc_data_info_dcopy(struct cdc_data_info *other);
+
+#define CDC_HAS_FREE(container) (container->dinfo && container->dinfo->free)
+#define CDC_HAS_LT(container) (container->dinfo && container->dinfo->lt)
+#define CDC_HAS_GT(container) (container->dinfo && container->dinfo->gt)
+#define CDC_HAS_EQ(container) (container->dinfo && container->dinfo->eq)
+#define CDC_HAS_SIZE(container) (container->dinfo && container->dinfo->size > 0)
 
 typedef int (*cdc_compar_func_t)(const void *, const void *);
 

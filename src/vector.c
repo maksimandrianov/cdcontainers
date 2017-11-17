@@ -79,13 +79,13 @@ static inline void free_range(struct cdc_vector *v, size_t start, size_t end)
         size_t i;
 
         for (i = start; i < end; ++i)
-                v->info->free(v->buffer[i]);
+                v->dinfo->free(v->buffer[i]);
 }
 
 static inline enum cdc_stat pop_back(struct cdc_vector *v, bool must_free)
 {
         if (must_free && CDC_HAS_FREE(v))
-                v->info->free(v->buffer[v->size - 1]);
+                v->dinfo->free(v->buffer[v->size - 1]);
 
         --v->size;
 
@@ -126,7 +126,7 @@ enum cdc_stat cdc_vector_ctor(struct cdc_vector **v, struct cdc_data_info *info)
         tmp->size     = 0;
         tmp->capacity = 0;
         tmp->buffer   = NULL;
-        tmp->info     = info;
+        tmp->dinfo     = info ? cdc_data_info_dcopy(info) : NULL;
 
         ret = reallocate(tmp, VECTOR_MIN_CAPACITY);
         if (ret != CDC_STATUS_OK) {
@@ -176,6 +176,7 @@ void cdc_vector_dtor(struct cdc_vector *v)
                 free_range(v, 0, v->size);
 
         free(v->buffer);
+        free(v->dinfo);
         free(v);
 }
 
@@ -282,7 +283,7 @@ void cdc_vector_swap(struct cdc_vector *a, struct cdc_vector *b)
         CDC_SWAP(size_t, a->size, b->size);
         CDC_SWAP(size_t, a->capacity, b->capacity);
         CDC_SWAP(void **, a->buffer, b->buffer);
-        CDC_SWAP(struct cdc_data_info *, a->info, b->info);
+        CDC_SWAP(struct cdc_data_info *, a->dinfo, b->dinfo);
 }
 
 enum cdc_stat cdc_vector_at(struct cdc_vector *v, size_t index, void **elem)
