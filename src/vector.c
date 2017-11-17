@@ -126,7 +126,7 @@ enum cdc_stat cdc_vector_ctor(struct cdc_vector **v, struct cdc_data_info *info)
         tmp->size     = 0;
         tmp->capacity = 0;
         tmp->buffer   = NULL;
-        tmp->dinfo     = info ? cdc_data_info_dcopy(info) : NULL;
+        tmp->dinfo    = info ? cdc_data_info_dcopy(info) : NULL;
 
         ret = reallocate(tmp, VECTOR_MIN_CAPACITY);
         if (ret != CDC_STATUS_OK) {
