@@ -69,21 +69,6 @@ void cdc_stackv_dtor(struct cdc_stackv *s)
         free(s);
 }
 
-enum cdc_stat cdc_stackv_push(struct cdc_stackv *s, void *elem)
-{
-        assert(s != NULL);
-
-        return cdc_vector_push_back(s->vector, elem);
-}
-
-enum cdc_stat cdc_stackv_pop(struct cdc_stackv *s)
-{
-        assert(s != NULL);
-        assert(cdc_vector_size(s->vector) > 0);
-
-        return cdc_vector_pop_back(s->vector);
-}
-
 void cdc_stackv_swap(struct cdc_stackv *a, struct cdc_stackv *b)
 {
         assert(a != NULL);

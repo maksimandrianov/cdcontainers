@@ -91,14 +91,25 @@ static inline size_t cdc_stackv_size(struct cdc_stackv *s)
  * @brief Adds element t to the top of the stack. Returned CDC_STATUS_OK in a
  * successful case or an excellent value indicating an error
  */
-enum cdc_stat cdc_stackv_push(struct cdc_stackv *s, void *elem);
+static inline enum cdc_stat cdc_stackv_push(struct cdc_stackv *s, void *elem)
+{
+        assert(s != NULL);
+
+        return cdc_vector_push_back(s->vector, elem);
+}
 
 /**
  * @brief Removes the top item from the stack.
  * This function assumes that the stack isn't empty. Returned CDC_STATUS_OK in
  * a successful case or an excellent value indicating an error
  */
-enum cdc_stat cdc_stackv_pop(struct cdc_stackv *s);
+static inline enum cdc_stat cdc_stackv_pop(struct cdc_stackv *s)
+{
+        assert(s != NULL);
+        assert(cdc_vector_size(s->vector) > 0);
+
+        return cdc_vector_pop_back(s->vector);
+}
 
 /**
  * @brief Swaps stack a and b. This operation is very fast and never fails.
@@ -115,7 +126,7 @@ typedef struct cdc_stackv stackv_t;
 #define stackv_dtor(...)   cdc_stackv_dtor(__VA_ARGS__)
 
 // Element access
-#define stackv_top(...)    struct cdc_stackvop(__VA_ARGS__)
+#define stackv_top(...)    cdc_stackv_top(__VA_ARGS__)
 
 // Capacity
 #define stackv_empty(...)  cdc_stackv_empty(__VA_ARGS__)
