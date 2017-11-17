@@ -5,7 +5,7 @@
 #include "cdcontainers/common.h"
 
 struct cdc_stack_list {
-        cdc_list_t *list;
+        struct cdc_list *list;
 };
 
 enum cdc_stat cdc_stackl_ctor(cdc_stackl_t **s, cdc_free_func_t func)
@@ -116,5 +116,5 @@ void cdc_stackl_swap(cdc_stackl_t *a, cdc_stackl_t *b)
         assert(a != NULL);
         assert(b != NULL);
 
-        CDC_SWAP(cdc_list_t *, a->list, b->list);
+        CDC_SWAP(struct cdc_list *, a->list, b->list);
 }

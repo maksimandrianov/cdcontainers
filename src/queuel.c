@@ -5,7 +5,7 @@
 #include "cdcontainers/common.h"
 
 struct cdc_queue_list {
-        cdc_list_t *list;
+        struct cdc_list *list;
 };
 
 enum cdc_stat cdc_queuel_ctor(cdc_queuel_t **q, cdc_free_func_t func)
@@ -122,5 +122,5 @@ void cdc_queuel_swap(cdc_queuel_t *a, cdc_queuel_t *b)
         assert(a != NULL);
         assert(b != NULL);
 
-        CDC_SWAP(cdc_list_t *, a->list, b->list);
+        CDC_SWAP(struct cdc_list *, a->list, b->list);
 }
