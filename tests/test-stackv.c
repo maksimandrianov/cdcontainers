@@ -6,7 +6,7 @@
 
 void test_stackv_ctor()
 {
-        cdc_stackv_t *s;
+        struct cdc_stackv *s;
 
         CU_ASSERT(cdc_stackv_ctor(&s, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_stackv_size(s) == 0);
@@ -16,7 +16,7 @@ void test_stackv_ctor()
 
 void test_stackv_ctorl()
 {
-        cdc_stackv_t *s;
+        struct cdc_stackv *s;
         int a = 2, b = 3;
         void *elem;
 
@@ -37,7 +37,7 @@ void test_stackv_ctorl()
 
 void test_stackv_push()
 {
-        cdc_stackv_t *s;
+        struct cdc_stackv *s;
         int a = 0, b = 1, c = 2;
         void *elem;
 
@@ -63,7 +63,7 @@ void test_stackv_push()
 
 void test_stackv_pop()
 {
-        cdc_stackv_t *s;
+        struct cdc_stackv *s;
         int a = 0, b = 1, c = 2, d = 3;
         void *elem;
 
@@ -94,7 +94,7 @@ void test_stackv_pop()
 
 void test_stackv_swap()
 {
-        cdc_stackv_t *v, *w;
+        struct cdc_stackv *v, *w;
         int a = 2, b = 3, c = 4;
 
         CU_ASSERT(cdc_stackv_ctorl(&v, NULL, &b, NULL) == CDC_STATUS_OK);
