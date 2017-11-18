@@ -1,7 +1,7 @@
 /**
   * @file
   * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_queue is a struct and functions that provides a queue
+  * @brief The cdc_queue is a struct and functions that provide a queue
   */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_QUEUE_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_QUEUE_H
@@ -129,7 +129,7 @@ static inline size_t cdc_queue_size(struct cdc_queue *q)
 
 // Modifiers
 /**
- * @brief Adds value t to the tail of the queue. Returned CDC_STATUS_OK in a
+ * @brief Adds value elem to the tail of the queue. Returned CDC_STATUS_OK in a
  * successful case or an excellent value indicating an error
  */
 static inline enum cdc_stat cdc_queue_push(struct cdc_queue *q, void *elem)
@@ -144,11 +144,11 @@ static inline enum cdc_stat cdc_queue_push(struct cdc_queue *q, void *elem)
  * This function assumes that the queue isn't empty. Returned CDC_STATUS_OK in
  * a successful case or an excellent value indicating an error
  */
-static inline enum cdc_stat cdc_queue_pop(struct cdc_queue *s)
+static inline enum cdc_stat cdc_queue_pop(struct cdc_queue *q)
 {
-        assert(s != NULL);
+        assert(q != NULL);
 
-        return s->table->pop(s->container);
+        return q->table->pop(q->container);
 }
 
 /**

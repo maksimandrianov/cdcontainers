@@ -3,7 +3,7 @@
 #include <assert.h>
 #include "cdcontainers/vector.h"
 
-static enum cdc_stat cdc_stackv_ctor(void **cntr, struct cdc_data_info *info)
+static enum cdc_stat stackv_ctor(void **cntr, struct cdc_data_info *info)
 {
         assert(cntr != NULL);
 
@@ -12,8 +12,8 @@ static enum cdc_stat cdc_stackv_ctor(void **cntr, struct cdc_data_info *info)
         return cdc_vector_ctor(vector, info);
 }
 
-static enum cdc_stat cdc_stackv_ctorv(void **cntr,
-                                      struct cdc_data_info *info, va_list args)
+static enum cdc_stat stackv_ctorv(void **cntr, struct cdc_data_info *info,
+                                  va_list args)
 {
         assert(cntr != NULL);
 
@@ -22,8 +22,7 @@ static enum cdc_stat cdc_stackv_ctorv(void **cntr,
         return cdc_vector_ctorv(vector, info, args);
 }
 
-static enum cdc_stat cdc_stackv_ctorl(void **cntr,
-                                      struct cdc_data_info *info, ...)
+static enum cdc_stat stackv_ctorl(void **cntr, struct cdc_data_info *info, ...)
 {
         assert(cntr != NULL);
 
@@ -31,13 +30,13 @@ static enum cdc_stat cdc_stackv_ctorl(void **cntr,
         va_list args;
 
         va_start(args, info);
-        ret = cdc_stackv_ctorv(cntr, info, args);
+        ret = stackv_ctorv(cntr, info, args);
         va_end(args);
 
         return ret;
 }
 
-static void *cdc_stackv_top(void *cntr)
+static void *stackv_top(void *cntr)
 {
         assert(cntr != NULL);
 
@@ -46,7 +45,7 @@ static void *cdc_stackv_top(void *cntr)
         return cdc_vector_back(vector);
 }
 
-static bool cdc_stackv_empty(void *cntr)
+static bool stackv_empty(void *cntr)
 {
         assert(cntr != NULL);
 
@@ -55,7 +54,7 @@ static bool cdc_stackv_empty(void *cntr)
         return cdc_vector_empty(vector);
 }
 
-static size_t cdc_stackv_size(void *cntr)
+static size_t stackv_size(void *cntr)
 {
         assert(cntr != NULL);
 
@@ -64,7 +63,7 @@ static size_t cdc_stackv_size(void *cntr)
         return cdc_vector_size(vector);
 }
 
-static enum cdc_stat cdc_stackv_push(void *cntr, void *elem)
+static enum cdc_stat stackv_push(void *cntr, void *elem)
 {
         assert(cntr != NULL);
 
@@ -73,7 +72,7 @@ static enum cdc_stat cdc_stackv_push(void *cntr, void *elem)
         return cdc_vector_push_back(vector, elem);
 }
 
-static enum cdc_stat cdc_stackv_pop(void *cntr)
+static enum cdc_stat stackv_pop(void *cntr)
 {
         assert(cntr != NULL);
 
@@ -83,7 +82,7 @@ static enum cdc_stat cdc_stackv_pop(void *cntr)
 }
 
 
-static void cdc_stackv_dtor(void *cntr)
+static void stackv_dtor(void *cntr)
 {
         assert(cntr != NULL);
 
@@ -92,16 +91,16 @@ static void cdc_stackv_dtor(void *cntr)
         cdc_vector_dtor(vector);
 }
 
-static const struct cdc_stack_table _cdc_stackv_table = {
-        .ctor = cdc_stackv_ctor,
-        .ctorv = cdc_stackv_ctorv,
-        .dtor = cdc_stackv_dtor,
-        .top = cdc_stackv_top,
-        .empty = cdc_stackv_empty,
-        .size = cdc_stackv_size,
-        .push = cdc_stackv_push,
-        .pop = cdc_stackv_pop
+static const struct cdc_stack_table _stackv_table = {
+        .ctor = stackv_ctor,
+        .ctorv = stackv_ctorv,
+        .dtor = stackv_dtor,
+        .top = stackv_top,
+        .empty = stackv_empty,
+        .size = stackv_size,
+        .push = stackv_push,
+        .pop = stackv_pop
 };
 
-const void *cdc_stackv_table = &_cdc_stackv_table;
+const void *cdc_stackv_table = &_stackv_table;
 

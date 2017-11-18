@@ -1,7 +1,7 @@
 /**
   * @file
   * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_deque is a struct and functions that provides a
+  * @brief The cdc_deque is a struct and functions that provide a
   * double-ended queue
   */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_DEQUE_H
@@ -72,7 +72,7 @@ static inline void *cdc_deque_get(struct cdc_deque *d, size_t index)
 }
 
 /**
- * @brief Writes to a elem the item at index position index in the deque.
+ * @brief Writes to a elem the item at index position in the deque.
  * Index must be a valid index position in the deque. Returned CDC_STATUS_OK
  * in a successful case or an excellent value indicating an error
  */
@@ -106,7 +106,7 @@ static inline void *cdc_deque_back(struct cdc_deque *d)
 
 // Capacity
 /**
- * @brief Returns the number of items in the deque.
+ * @brief Returns true if the deque has size 0; otherwise returns false.
  */
 static inline bool cdc_deque_empty(struct cdc_deque *d)
 {
@@ -116,7 +116,7 @@ static inline bool cdc_deque_empty(struct cdc_deque *d)
 }
 
 /**
- * @brief Returns true if the deque has size 0; otherwise returns false.
+ * @brief Returns the number of items in the deque.
  */
 static inline size_t cdc_deque_size(struct cdc_deque *d)
 {
@@ -127,7 +127,7 @@ static inline size_t cdc_deque_size(struct cdc_deque *d)
 
 // Modifiers
 /**
- * @brief Sets the deque at position index to the value
+ * @brief Sets the deque at index position to the value
  */
 static inline void cdc_deque_set(struct cdc_deque *d, size_t index, void *value)
 {
@@ -140,14 +140,14 @@ static inline void cdc_deque_set(struct cdc_deque *d, size_t index, void *value)
 }
 
 /**
- * @brief Inserts value at index position i in the deque. If i is 0, the value
- * is prepended to the deque. If i is cdc_deque_size(), the value is appended
+ * @brief Inserts value at index position in the deque. If index is 0, the value
+ * is prepended to the deque. If index is cdc_deque_size(), the value is appended
  * to the deque.
  */
 enum cdc_stat cdc_deque_insert(struct cdc_deque *d, size_t index, void *value);
 
 /**
- * @brief Removes the element at index position index.
+ * @brief Removes the element at index position.
  * The pointer will be written in elem. Index must be a valid index position
  * in the deque. The function is not called to free memory.
  * Returned CDC_STATUS_OK in a successful case or an excellent value
@@ -166,7 +166,7 @@ void cdc_deque_clear(struct cdc_deque *d);
  * @brief Inserts value at the end of the deque. Returned CDC_STATUS_OK in a
  * successful case or an excellent value indicating an error
  */
-enum cdc_stat cdc_deque_push_back(struct cdc_deque *d, void *elem);
+enum cdc_stat cdc_deque_push_back(struct cdc_deque *d, void *value);
 
 /**
  * @brief Removes the last item in the deque. If a function has been installed
@@ -179,7 +179,7 @@ enum cdc_stat cdc_deque_pop_back(struct cdc_deque *d);
  * @brief Inserts value at the beginning of the deque. Returned CDC_STATUS_OK in
  * a successful case or an excellent value indicating an error
  */
-enum cdc_stat cdc_deque_push_front(struct cdc_deque *d, void *elem);
+enum cdc_stat cdc_deque_push_front(struct cdc_deque *d, void *value);
 
 /**
  * @brief Removes the first item in the deque. If a function has been installed

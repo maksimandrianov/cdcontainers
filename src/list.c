@@ -191,7 +191,7 @@ void cdc_list_dtor(struct cdc_list *l)
         free(l);
 }
 
-enum cdc_stat cdc_list_push_back(struct cdc_list *l, void *elem)
+enum cdc_stat cdc_list_push_back(struct cdc_list *l, void *value)
 {
         assert(l != NULL);
 
@@ -201,7 +201,7 @@ enum cdc_stat cdc_list_push_back(struct cdc_list *l, void *elem)
         if (!node)
                 return CDC_STATUS_BAD_ALLOC;
 
-        node->data = elem;
+        node->data = value;
         if (l->tail == NULL) {
                 ladd(node, NULL, NULL);
                 l->head = node;
@@ -224,7 +224,7 @@ enum cdc_stat cdc_list_pop_back(struct cdc_list *l)
         return pop_back_f(l, true);
 }
 
-enum cdc_stat cdc_list_push_front(struct cdc_list *l, void *elem)
+enum cdc_stat cdc_list_push_front(struct cdc_list *l, void *value)
 {
         assert(l != NULL);
 
@@ -234,7 +234,7 @@ enum cdc_stat cdc_list_push_front(struct cdc_list *l, void *elem)
         if (node == NULL)
                 return CDC_STATUS_BAD_ALLOC;
 
-        node->data = elem;
+        node->data = value;
         if (l->head == NULL) {
                 ladd(node, NULL, NULL);
                 l->head = node;

@@ -1,7 +1,7 @@
 /**
   * @file
   * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_vector is a struct and functions that provides a dynamic array
+  * @brief The cdc_vector is a struct and functions that provide a dynamic array
   */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_VECTOR_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_VECTOR_H
@@ -55,7 +55,7 @@ void cdc_vector_dtor(struct cdc_vector *v);
 
 // Element access
 /**
- * @brief Returns the item at index position index in the vector.
+ * @brief Returns the item at index position in the vector.
  * Index must be a valid index position in the vector.
  */
 static inline void *cdc_vector_get(struct cdc_vector *v, size_t index)
@@ -67,7 +67,7 @@ static inline void *cdc_vector_get(struct cdc_vector *v, size_t index)
 }
 
 /**
- * @brief Writes to a value the item at index position index in the vector.
+ * @brief Writes to a value the item at index position in the vector.
  * Index must be a valid index position in the vector. Returned CDC_STATUS_OK
  * in a successful case or an excellent value indicating an error
  */
@@ -116,6 +116,8 @@ enum cdc_stat cdc_vector_reserve(struct cdc_vector *v, size_t capacity);
  */
 static inline bool cdc_vector_empty(struct cdc_vector *v)
 {
+        assert(v != NULL);
+
         return v->size == 0;
 }
 
@@ -142,7 +144,7 @@ static inline size_t cdc_vector_capacity(struct cdc_vector *v)
 
 // Modifiers
 /**
- * @brief Sets the vector at position index to the value
+ * @brief Sets the vector at index position to the value
  */
 static inline void cdc_vector_set(struct cdc_vector *v, size_t index, void *value)
 {
@@ -153,14 +155,14 @@ static inline void cdc_vector_set(struct cdc_vector *v, size_t index, void *valu
 }
 
 /**
- * @brief Inserts value at index position i in the vector. If i is 0, the value
- * is prepended to the vector. If i is cdc_vector_size(), the value is appended
- * to the vector.
+ * @brief Inserts value at index position in the vector. If index is 0, the value
+ * is prepended to the vector. If index is cdc_vector_size(), the value
+ * is appended to the vector.
  */
 enum cdc_stat cdc_vector_insert(struct cdc_vector *v, size_t index, void *value);
 
 /**
- * @brief Removes the element at index position index.
+ * @brief Removes the element at index position.
  * The pointer will be written in elem. Index must be a valid index position
  * in the vector. The function is not called to free memory.
  * Returned CDC_STATUS_OK in a successful case or an excellent value

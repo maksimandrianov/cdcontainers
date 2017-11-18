@@ -1,7 +1,7 @@
 /**
   * @file
   * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_stack is a struct and functions that provides stack
+  * @brief The cdc_stack is a struct and functions that provide a stack
   */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_STACK_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_STACK_H
@@ -116,7 +116,7 @@ static inline size_t cdc_stack_size(struct cdc_stack *s)
 
 // Modifiers
 /**
- * @brief Adds element t to the top of the stack. Returned CDC_STATUS_OK in a
+ * @brief Adds element elem to the top of the stack. Returned CDC_STATUS_OK in a
  * successful case or an excellent value indicating an error
  */
 static inline enum cdc_stat cdc_stack_push(struct cdc_stack *s, void *elem)

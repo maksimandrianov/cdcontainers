@@ -3,7 +3,7 @@
 #include <assert.h>
 #include "cdcontainers/deque.h"
 
-static enum cdc_stat cdc_queued_ctor(void **cntr, struct cdc_data_info *info)
+static enum cdc_stat queued_ctor(void **cntr, struct cdc_data_info *info)
 {
         assert(cntr != NULL);
 
@@ -12,8 +12,8 @@ static enum cdc_stat cdc_queued_ctor(void **cntr, struct cdc_data_info *info)
         return cdc_deque_ctor(deque, info);
 }
 
-static enum cdc_stat cdc_queued_ctorv(void **cntr,
-                                      struct cdc_data_info *info, va_list args)
+static enum cdc_stat queued_ctorv(void **cntr, struct cdc_data_info *info,
+                                  va_list args)
 {
         assert(cntr != NULL);
 
@@ -22,8 +22,7 @@ static enum cdc_stat cdc_queued_ctorv(void **cntr,
         return cdc_deque_ctorv(deque, info, args);
 }
 
-static enum cdc_stat cdc_queued_ctorl(void **cntr,
-                                      struct cdc_data_info *info, ...)
+static enum cdc_stat queued_ctorl(void **cntr, struct cdc_data_info *info, ...)
 {
         assert(cntr != NULL);
 
@@ -31,13 +30,13 @@ static enum cdc_stat cdc_queued_ctorl(void **cntr,
         va_list args;
 
         va_start(args, info);
-        ret = cdc_queued_ctorv(cntr, info, args);
+        ret = queued_ctorv(cntr, info, args);
         va_end(args);
 
         return ret;
 }
 
-static void cdc_queued_dtor(void *cntr)
+static void queued_dtor(void *cntr)
 {
         assert(cntr != NULL);
 
@@ -46,7 +45,7 @@ static void cdc_queued_dtor(void *cntr)
         cdc_deque_dtor(deque);
 }
 
-static void *cdc_queued_front(void *cntr)
+static void *queued_front(void *cntr)
 {
         assert(cntr != NULL);
 
@@ -55,7 +54,7 @@ static void *cdc_queued_front(void *cntr)
         return cdc_deque_front(deque);
 }
 
-static void *cdc_queued_back(void *cntr)
+static void *queued_back(void *cntr)
 {
         assert(cntr != NULL);
 
@@ -64,7 +63,7 @@ static void *cdc_queued_back(void *cntr)
         return cdc_deque_back(deque);
 }
 
-static bool cdc_queued_empty(void *cntr)
+static bool queued_empty(void *cntr)
 {
         assert(cntr != NULL);
 
@@ -73,7 +72,7 @@ static bool cdc_queued_empty(void *cntr)
         return cdc_deque_empty(deque);
 }
 
-static size_t cdc_queued_size(void *cntr)
+static size_t queued_size(void *cntr)
 {
         assert(cntr != NULL);
 
@@ -82,7 +81,7 @@ static size_t cdc_queued_size(void *cntr)
         return cdc_deque_size(deque);
 }
 
-static enum cdc_stat cdc_queued_push(void *cntr, void *elem)
+static enum cdc_stat queued_push(void *cntr, void *elem)
 {
         assert(cntr != NULL);
 
@@ -91,26 +90,26 @@ static enum cdc_stat cdc_queued_push(void *cntr, void *elem)
         return cdc_deque_push_back(deque, elem);
 }
 
-static enum cdc_stat cdc_queued_pop(void *cntr)
+static enum cdc_stat queued_pop(void *cntr)
 {
         assert(cntr != NULL);
-        assert(cdc_queued_size(cntr) > 0);
+        assert(queued_size(cntr) > 0);
 
         struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
         return cdc_deque_pop_front(deque);
 }
 
-static const struct cdc_queue_table _cdc_queued_table = {
-        .ctor = cdc_queued_ctor,
-        .ctorv = cdc_queued_ctorv,
-        .dtor = cdc_queued_dtor,
-        .front = cdc_queued_front,
-        .back = cdc_queued_back,
-        .empty = cdc_queued_empty,
-        .size = cdc_queued_size,
-        .push = cdc_queued_push,
-        .pop = cdc_queued_pop
+static const struct cdc_queue_table _queued_table = {
+        .ctor = queued_ctor,
+        .ctorv = queued_ctorv,
+        .dtor = queued_dtor,
+        .front = queued_front,
+        .back = queued_back,
+        .empty = queued_empty,
+        .size = queued_size,
+        .push = queued_push,
+        .pop = queued_pop
 };
 
-const void *cdc_queued_table = &_cdc_queued_table;
+const void *cdc_queued_table = &_queued_table;
