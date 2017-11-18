@@ -1,120 +1,106 @@
-#include "cdcontainers/stackl.h"
+#include "cdcontainers/stack.h"
 
 #include <assert.h>
 #include "cdcontainers/list.h"
-#include "cdcontainers/common.h"
 
-struct cdc_stack_list {
-        struct cdc_list *list;
-};
-
-enum cdc_stat cdc_stackl_ctor(cdc_stackl_t **s, cdc_free_func_t func)
+static enum cdc_stat cdc_stackl_ctor(void **cntr, struct cdc_data_info *info)
 {
-        assert(s != NULL);
+        assert(cntr != NULL);
 
-        cdc_stackl_t *tmp;
-        enum cdc_stat ret;
+        struct cdc_list **list = (struct cdc_list **)cntr;
 
-        tmp = (cdc_stackl_t *)malloc(sizeof(cdc_stackl_t));
-        if (!tmp)
-                return CDC_STATUS_BAD_ALLOC;
-
-         ret = cdc_list_ctor(&tmp->list, func);
-         if (ret != CDC_STATUS_OK) {
-                 free(tmp);
-                 return ret;
-         }
-
-         *s = tmp;
-
-         return CDC_STATUS_OK;
+        return cdc_list_ctor(list, info);
 }
 
-enum cdc_stat cdc_stackl_ctorl(cdc_stackl_t **s, cdc_free_func_t func, ...)
+static enum cdc_stat cdc_stackl_ctorv(void **cntr,
+                                      struct cdc_data_info *info, va_list args)
 {
-        assert(s != NULL);
+        assert(cntr != NULL);
+
+        struct cdc_list **list = (struct cdc_list **)cntr;
+
+        return cdc_list_ctorv(list, info, args);
+}
+
+static enum cdc_stat cdc_stackl_ctorl(void **cntr,
+                                      struct cdc_data_info *info, ...)
+{
+        assert(cntr != NULL);
 
         enum cdc_stat ret;
         va_list args;
 
-        va_start(args, func);
-        ret = cdc_stackl_ctorv(s, func, args);
+        va_start(args, info);
+        ret = cdc_stackl_ctorv(cntr, info, args);
         va_end(args);
 
         return ret;
 }
 
-enum cdc_stat cdc_stackl_ctorv(cdc_stackl_t **s, cdc_free_func_t func,
-                               va_list args)
+static void *cdc_stackl_top(void *cntr)
 {
-        assert(s != NULL);
+        assert(cntr != NULL);
 
-        cdc_stackl_t *tmp;
-        enum cdc_stat ret;
+        struct cdc_list *list = (struct cdc_list *)cntr;
 
-        tmp = (cdc_stackl_t *)malloc(sizeof(cdc_stackl_t));
-        if (!tmp)
-                return CDC_STATUS_BAD_ALLOC;
-
-        *s = tmp;
-        ret = cdc_list_ctorv(&(*s)->list, func, args);
-        if (ret != CDC_STATUS_OK) {
-                free(tmp);
-                return ret;
-        }
-
-        return ret;
+        return cdc_list_back(list);
 }
 
-void cdc_stackl_dtor(cdc_stackl_t *s)
+static bool cdc_stackl_empty(void *cntr)
 {
-        assert(s != NULL);
+        assert(cntr != NULL);
 
-        cdc_list_dtor(s->list);
-        free(s);
+        struct cdc_list *list = (struct cdc_list *)cntr;
+
+        return cdc_list_empty(list);
 }
 
-void *cdc_stackl_top(cdc_stackl_t *s)
+static size_t cdc_stackl_size(void *cntr)
 {
-        assert(s != NULL);
-        assert(cdc_list_size(s->list) > 0);
+        assert(cntr != NULL);
 
-        return cdc_list_back(s->list);
+        struct cdc_list *list = (struct cdc_list *)cntr;
+
+        return cdc_list_size(list);
 }
 
-bool cdc_stackl_empty(cdc_stackl_t *s)
+static enum cdc_stat cdc_stackl_push(void *cntr, void *elem)
 {
-      assert(s != NULL);
+        assert(cntr != NULL);
 
-      return cdc_list_empty(s->list);
+        struct cdc_list *list = (struct cdc_list *)cntr;
+
+        return cdc_list_push_back(list, elem);
 }
 
-size_t cdc_stackl_size(cdc_stackl_t *s)
+static enum cdc_stat cdc_stackl_pop(void *cntr)
 {
-        assert(s != NULL);
+        assert(cntr != NULL);
 
-        return cdc_list_size(s->list);
+        struct cdc_list *list = (struct cdc_list *)cntr;
+
+        return cdc_list_pop_back(list);
 }
 
-enum cdc_stat cdc_stackl_push(cdc_stackl_t *s, void *elem)
-{
-        assert(s != NULL);
 
-        return cdc_list_push_back(s->list, elem);
+static void cdc_stackl_dtor(void *cntr)
+{
+        assert(cntr != NULL);
+
+        struct cdc_list *list = (struct cdc_list *)cntr;
+
+        cdc_list_dtor(list);
 }
 
-enum cdc_stat cdc_stackl_pop(cdc_stackl_t *s)
-{
-        assert(s != NULL);
-        assert(cdc_stackl_size(s) > 0);
+static const struct cdc_stack_table _cdc_stackl_table = {
+        .ctor = cdc_stackl_ctor,
+        .ctorv = cdc_stackl_ctorv,
+        .dtor = cdc_stackl_dtor,
+        .top = cdc_stackl_top,
+        .empty = cdc_stackl_empty,
+        .size = cdc_stackl_size,
+        .push = cdc_stackl_push,
+        .pop = cdc_stackl_pop
+};
 
-        return cdc_list_pop_back(s->list);
-}
-
-void cdc_stackl_swap(cdc_stackl_t *a, cdc_stackl_t *b)
-{
-        assert(a != NULL);
-        assert(b != NULL);
-
-        CDC_SWAP(struct cdc_list *, a->list, b->list);
-}
+const void *cdc_stackl_table = &_cdc_stackl_table;

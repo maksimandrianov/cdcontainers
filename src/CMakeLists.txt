@@ -12,6 +12,7 @@ set(SOURCE
         list.c
         deque.c
         heap.c
+        stack.c
         stackl.c
         stackv.c
         queuel.c

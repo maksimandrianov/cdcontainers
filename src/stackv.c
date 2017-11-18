@@ -1,78 +1,107 @@
-#include "cdcontainers/stackv.h"
+#include "cdcontainers/stack.h"
 
 #include <assert.h>
+#include "cdcontainers/vector.h"
 
-enum cdc_stat cdc_stackv_ctor(struct cdc_stackv **s, struct cdc_data_info *info)
+static enum cdc_stat cdc_stackv_ctor(void **cntr, struct cdc_data_info *info)
 {
-        assert(s != NULL);
+        assert(cntr != NULL);
 
-        struct cdc_stackv *tmp;
-        enum cdc_stat ret;
+        struct cdc_vector **vector = (struct cdc_vector **)cntr;
 
-        tmp = (struct cdc_stackv *)malloc(sizeof(struct cdc_stackv));
-        if (!tmp)
-                return CDC_STATUS_BAD_ALLOC;
-
-         ret = cdc_vector_ctor(&tmp->vector, info);
-         if (ret != CDC_STATUS_OK) {
-                 free(tmp);
-                 return ret;
-         }
-
-         *s = tmp;
-
-         return CDC_STATUS_OK;
+        return cdc_vector_ctor(vector, info);
 }
 
-enum cdc_stat cdc_stackv_ctorl(struct cdc_stackv **s,
-                               struct cdc_data_info *info, ...)
+static enum cdc_stat cdc_stackv_ctorv(void **cntr,
+                                      struct cdc_data_info *info, va_list args)
 {
-        assert(s != NULL);
+        assert(cntr != NULL);
+
+        struct cdc_vector **vector = (struct cdc_vector **)cntr;
+
+        return cdc_vector_ctorv(vector, info, args);
+}
+
+static enum cdc_stat cdc_stackv_ctorl(void **cntr,
+                                      struct cdc_data_info *info, ...)
+{
+        assert(cntr != NULL);
 
         enum cdc_stat ret;
         va_list args;
 
         va_start(args, info);
-        ret = cdc_stackv_ctorv(s, info, args);
+        ret = cdc_stackv_ctorv(cntr, info, args);
         va_end(args);
 
         return ret;
 }
 
-enum cdc_stat cdc_stackv_ctorv(struct cdc_stackv **s,
-                               struct cdc_data_info *info, va_list args)
+static void *cdc_stackv_top(void *cntr)
 {
-        assert(s != NULL);
+        assert(cntr != NULL);
 
-        struct cdc_stackv *tmp;
-        enum cdc_stat ret;
+        struct cdc_vector *vector = (struct cdc_vector *)cntr;
 
-        tmp = (struct cdc_stackv *)malloc(sizeof(struct cdc_stackv));
-        if (!tmp)
-                return CDC_STATUS_BAD_ALLOC;
-
-        *s = tmp;
-        ret = cdc_vector_ctorv(&(*s)->vector, info, args);
-        if (ret != CDC_STATUS_OK) {
-                free(tmp);
-                return ret;
-        }
-
-        return ret;
+        return cdc_vector_back(vector);
 }
 
-void cdc_stackv_dtor(struct cdc_stackv *s)
+static bool cdc_stackv_empty(void *cntr)
 {
-        assert(s != NULL);
+        assert(cntr != NULL);
 
-        cdc_vector_dtor(s->vector);
-        free(s);
+        struct cdc_vector *vector = (struct cdc_vector *)cntr;
+
+        return cdc_vector_empty(vector);
 }
 
-void cdc_stackv_swap(struct cdc_stackv *a, struct cdc_stackv *b)
+static size_t cdc_stackv_size(void *cntr)
 {
-        assert(a != NULL);
-        assert(b != NULL);
+        assert(cntr != NULL);
 
-        CDC_SWAP(struct cdc_vector *, a->vector, b->vector);
+        struct cdc_vector *vector = (struct cdc_vector *)cntr;
+
+        return cdc_vector_size(vector);
 }
+
+static enum cdc_stat cdc_stackv_push(void *cntr, void *elem)
+{
+        assert(cntr != NULL);
+
+        struct cdc_vector *vector = (struct cdc_vector *)cntr;
+
+        return cdc_vector_push_back(vector, elem);
+}
+
+static enum cdc_stat cdc_stackv_pop(void *cntr)
+{
+        assert(cntr != NULL);
+
+        struct cdc_vector *vector = (struct cdc_vector *)cntr;
+
+        return cdc_vector_pop_back(vector);
+}
+
+
+static void cdc_stackv_dtor(void *cntr)
+{
+        assert(cntr != NULL);
+
+        struct cdc_vector *vector = (struct cdc_vector *)cntr;
+
+        cdc_vector_dtor(vector);
+}
+
+static const struct cdc_stack_table _cdc_stackv_table = {
+        .ctor = cdc_stackv_ctor,
+        .ctorv = cdc_stackv_ctorv,
+        .dtor = cdc_stackv_dtor,
+        .top = cdc_stackv_top,
+        .empty = cdc_stackv_empty,
+        .size = cdc_stackv_size,
+        .push = cdc_stackv_push,
+        .pop = cdc_stackv_pop
+};
+
+const void *cdc_stackv_table = &_cdc_stackv_table;
+
