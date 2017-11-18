@@ -1,48 +1,201 @@
+/**
+  * @file
+  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
+  * @brief The cdc_deque is a struct and functions that provides a
+  * double-ended queue
+  */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_DEQUE_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_DEQUE_H
 
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdarg.h>
+#include <assert.h>
 #include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
 
-#define CDC_DEQUE_MIN_CAPACITY     (4)
-#define CDC_DEQUE_COPACITY_EXP     (2.0f)
-#define CDC_DEQUE_SHRINK_THRESHOLD (4.0f)
-#define CDC_DEQUE_MAX_LEN          (SIZE_MAX)
+/**
+ * @brief The cdc_deque struct
+ * @warning To avoid problems, do not change the structure fields in the code.
+ * Use only special functions to access and change structure fields.
+ */
+struct cdc_deque {
+        void **buffer;
+        size_t head;
+        size_t tail;
+        size_t size;
+        size_t capacity;
+        struct cdc_data_info *dinfo;
+};
 
-typedef struct cdc_deque cdc_deque_t;
+/**
+ * @brief Constructs an empty deque.
+ * Returned CDC_STATUS_OK in a successful case or an excellent value
+ * indicating an error
+ */
+enum cdc_stat cdc_deque_ctor(struct cdc_deque **d, struct cdc_data_info *info);
 
-enum cdc_stat cdc_deque_ctor      (cdc_deque_t **d, cdc_free_func_t func);
-enum cdc_stat cdc_deque_ctorl     (cdc_deque_t **d, cdc_free_func_t func, ...);
-enum cdc_stat cdc_deque_ctorv     (cdc_deque_t **d, cdc_free_func_t func, va_list args);
-void          cdc_deque_dtor      (cdc_deque_t *d);
+/**
+ * @brief Constructs a deque, initialized by an arbitrary number of pointers.
+ * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
+ * or an excellent value indicating an error
+ */
+enum cdc_stat cdc_deque_ctorl(struct cdc_deque **d,
+                              struct cdc_data_info *info, ...);
+
+/**
+ * @brief Constructs a deque, initialized by args
+ * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
+ * or an excellent value indicating an error
+ */
+enum cdc_stat cdc_deque_ctorv(struct cdc_deque **d,
+                              struct cdc_data_info *info, va_list args);
+
+/**
+ * @brief Destroys the deque.
+ */
+void cdc_deque_dtor(struct cdc_deque *d);
 
 // Element access
-void *        cdc_deque_get       (cdc_deque_t *d, size_t index);
-enum cdc_stat cdc_deque_at        (cdc_deque_t *d, size_t index, void **elem);
-void *        cdc_deque_front     (cdc_deque_t *d);
-void *        cdc_deque_back      (cdc_deque_t *d);
+/**
+ * @brief Returns the item at index position index in the deque.
+ * Index must be a valid index position in the deque.
+ */
+static inline void *cdc_deque_get(struct cdc_deque *d, size_t index)
+{
+        assert(d != NULL);
+        assert(index < d->size);
+
+        size_t idx = (d->head + index) % d->capacity;
+
+        return d->buffer[idx];
+}
+
+/**
+ * @brief Writes to a elem the item at index position index in the deque.
+ * Index must be a valid index position in the deque. Returned CDC_STATUS_OK
+ * in a successful case or an excellent value indicating an error
+ */
+enum cdc_stat cdc_deque_at(struct cdc_deque *d, size_t index, void **elem);
+
+/**
+ * @brief Returns a pointer to the first item in the deque.
+ * This function assumes that the deque isn't empty.
+ */
+static inline void *cdc_deque_front(struct cdc_deque *d)
+{
+        assert(d != NULL);
+        assert(d->size > 0);
+
+        return d->buffer[d->head];
+}
+
+/**
+ * @brief Returns a pointer to the last item in the deque.
+ * This function assumes that the deque isn't empty.
+ */
+static inline void *cdc_deque_back(struct cdc_deque *d)
+{
+        assert(d != NULL);
+        assert(d->size > 0);
+
+        ssize_t idx = (d->tail - 1 + d->capacity) % d->capacity;
+
+        return d->buffer[idx];
+}
 
 // Capacity
-bool          cdc_deque_empty     (cdc_deque_t *d);
-size_t        cdc_deque_size      (cdc_deque_t *d);
+/**
+ * @brief Returns the number of items in the deque.
+ */
+static inline bool cdc_deque_empty(struct cdc_deque *d)
+{
+        assert(d != NULL);
+
+        return d->size == 0;
+}
+
+/**
+ * @brief Returns true if the deque has size 0; otherwise returns false.
+ */
+static inline size_t cdc_deque_size(struct cdc_deque *d)
+{
+        assert(d != NULL);
+
+        return d->size;
+}
 
 // Modifiers
-void          cdc_deque_set       (cdc_deque_t *d, size_t index, void *elem);
-enum cdc_stat cdc_deque_insert    (cdc_deque_t *d, size_t index, void *elem);
-enum cdc_stat cdc_deque_erase     (cdc_deque_t *d, size_t index, void **elem);
-void          cdc_deque_clear     (cdc_deque_t *d);
-enum cdc_stat cdc_deque_push_back (cdc_deque_t *d, void *elem);
-enum cdc_stat cdc_deque_pop_back  (cdc_deque_t *d);
-enum cdc_stat cdc_deque_push_front(cdc_deque_t *d, void *elem);
-enum cdc_stat cdc_deque_pop_front (cdc_deque_t *d);
-void          cdc_deque_swap      (cdc_deque_t *a, cdc_deque_t *b);
+/**
+ * @brief Sets the deque at position index to the value
+ */
+static inline void cdc_deque_set(struct cdc_deque *d, size_t index, void *value)
+{
+        assert(d != NULL);
+        assert(index < d->size);
+
+        size_t idx = (d->head + index) % d->capacity;
+
+        d->buffer[idx] = value;
+}
+
+/**
+ * @brief Inserts value at index position i in the deque. If i is 0, the value
+ * is prepended to the deque. If i is cdc_deque_size(), the value is appended
+ * to the deque.
+ */
+enum cdc_stat cdc_deque_insert(struct cdc_deque *d, size_t index, void *value);
+
+/**
+ * @brief Removes the element at index position index.
+ * The pointer will be written in elem. Index must be a valid index position
+ * in the deque. The function is not called to free memory.
+ * Returned CDC_STATUS_OK in a successful case or an excellent value
+ * indicating an error
+ */
+enum cdc_stat cdc_deque_erase(struct cdc_deque *d, size_t index, void **elem);
+
+/**
+ * @brief Removes all the elements from the deque. If a function has been
+ * installed to delete an item, it will be called for each item. Index must be
+ * a valid index position in the deque
+ */
+void cdc_deque_clear(struct cdc_deque *d);
+
+/**
+ * @brief Inserts value at the end of the deque. Returned CDC_STATUS_OK in a
+ * successful case or an excellent value indicating an error
+ */
+enum cdc_stat cdc_deque_push_back(struct cdc_deque *d, void *elem);
+
+/**
+ * @brief Removes the last item in the deque. If a function has been installed
+ * to delete an item, it will be called for last item. Returned CDC_STATUS_OK
+ * in a successful case or an excellent value indicating an error
+ */
+enum cdc_stat cdc_deque_pop_back(struct cdc_deque *d);
+
+/**
+ * @brief Inserts value at the beginning of the deque. Returned CDC_STATUS_OK in
+ * a successful case or an excellent value indicating an error
+ */
+enum cdc_stat cdc_deque_push_front(struct cdc_deque *d, void *elem);
+
+/**
+ * @brief Removes the first item in the deque. If a function has been installed
+ * to delete an item, it will be called for last item. Returned CDC_STATUS_OK
+ * in a successful case or an excellent value indicating an error
+ */
+enum cdc_stat cdc_deque_pop_front(struct cdc_deque *d);
+
+/**
+ * @brief Swaps deques a and b. This operation is very fast and never fails.
+ */
+void cdc_deque_swap(struct cdc_deque *a, struct cdc_deque *b);
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
-typedef cdc_deque_t deque_t;
+typedef struct cdc_deque deque_t;
 
 #define deque_ctor(...)       cdc_deque_ctor(__VA_ARGS__)
 #define deque_ctorl(...)      cdc_deque_ctorl(__VA_ARGS__)

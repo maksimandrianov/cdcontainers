@@ -5,7 +5,7 @@
 #include "cdcontainers/common.h"
 
 struct cdc_queue_deque {
-        cdc_deque_t *deque;
+        struct cdc_deque *deque;
 };
 
 enum cdc_stat cdc_queued_ctor(cdc_queued_t **q, cdc_free_func_t func)
@@ -122,5 +122,5 @@ void cdc_queued_swap(cdc_queued_t *a, cdc_queued_t *b)
         assert(a != NULL);
         assert(b != NULL);
 
-        CDC_SWAP(cdc_deque_t *, a->deque, b->deque);
+        CDC_SWAP(struct cdc_deque *, a->deque, b->deque);
 }

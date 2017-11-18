@@ -5,7 +5,7 @@
 #include <stdarg.h>
 #include <assert.h>
 
-static void deque_int_print(cdc_deque_t *d)
+static void deque_int_print(struct cdc_deque *d)
 {
         int i;
 
@@ -14,7 +14,7 @@ static void deque_int_print(cdc_deque_t *d)
                 printf("%u\n", *((int *)cdc_deque_get(d, i)));
 }
 
-static bool deque_range_int_eq(cdc_deque_t *d, size_t count, ...)
+static bool deque_range_int_eq(struct cdc_deque *d, size_t count, ...)
 {
         assert(cdc_deque_size(d) >= count);
 
@@ -38,7 +38,7 @@ static bool deque_range_int_eq(cdc_deque_t *d, size_t count, ...)
 
 void test_deque_ctor()
 {
-        cdc_deque_t *d = NULL;
+        struct cdc_deque *d = NULL;
 
         CU_ASSERT(cdc_deque_ctor(&d, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_deque_size(d) == 0);
@@ -48,7 +48,7 @@ void test_deque_ctor()
 
 void test_deque_ctorl()
 {
-        cdc_deque_t *deq = NULL;
+        struct cdc_deque *deq = NULL;
         int a = 0, b = 1, c = 2, d =3;
         void *f;
 
@@ -61,7 +61,7 @@ void test_deque_ctorl()
 
 void test_deque_push_back()
 {
-        cdc_deque_t *d;
+        struct cdc_deque *d;
         int a = 0, b = 1, c = 2;
 
         CU_ASSERT(cdc_deque_ctor(&d, NULL) == CDC_STATUS_OK);
@@ -91,7 +91,7 @@ void test_deque_push_back()
 
 void test_deque_push_front()
 {
-        cdc_deque_t *d = NULL;
+        struct cdc_deque *d = NULL;
         int a = 0, b = 1, c = 2;
 
         CU_ASSERT(cdc_deque_ctor(&d, NULL) == CDC_STATUS_OK);
@@ -122,7 +122,7 @@ void test_deque_push_front()
 
 void test_deque_get()
 {
-        cdc_deque_t *d;
+        struct cdc_deque *d;
         int a = 0, b = 1;
 
         CU_ASSERT(cdc_deque_ctorl(&d, NULL, &a, &b, NULL) == CDC_STATUS_OK);
@@ -134,7 +134,7 @@ void test_deque_get()
 
 void test_deque_at()
 {
-        cdc_deque_t *d;
+        struct cdc_deque *d;
         int a = 0, b = 1, c = 2;
         void *elem = NULL;
         size_t index;
@@ -156,7 +156,7 @@ void test_deque_at()
 
 void test_deque_set()
 {
-        cdc_deque_t *d;
+        struct cdc_deque *d;
         int a = 1, b = 2;
 
         CU_ASSERT(cdc_deque_ctorl(&d, NULL, &a, &b, NULL) == CDC_STATUS_OK);
@@ -172,7 +172,7 @@ void test_deque_set()
 
 void test_deque_front()
 {
-        cdc_deque_t *d;
+        struct cdc_deque *d;
         int a = 1, b = 2;
 
         CU_ASSERT(cdc_deque_ctorl(&d, NULL, &a, &b, NULL) == CDC_STATUS_OK);
@@ -186,7 +186,7 @@ void test_deque_front()
 
 void test_deque_back()
 {
-        cdc_deque_t *d;
+        struct cdc_deque *d;
         int a = 1, b = 2;
 
         CU_ASSERT(cdc_deque_ctorl(&d, NULL, &a, &b, NULL) == CDC_STATUS_OK);
@@ -200,7 +200,7 @@ void test_deque_back()
 
 void test_deque_pop_back()
 {
-        cdc_deque_t *deq;
+        struct cdc_deque *deq;
         int a = 0, b = 1, c = 2, d = 3;
         void *elem;
 
@@ -231,7 +231,7 @@ void test_deque_pop_back()
 
 void test_deque_pop_front()
 {
-        cdc_deque_t *deq;
+        struct cdc_deque *deq;
         int a = 0, b = 1, c = 2, d = 3;
         void *elem;
 
@@ -262,7 +262,7 @@ void test_deque_pop_front()
 
 void test_deque_swap()
 {
-        cdc_deque_t *v, *w;
+        struct cdc_deque *v, *w;
         int a = 0, b = 1, c = 2, d = 3;
 
         CU_ASSERT(cdc_deque_ctorl(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
@@ -281,7 +281,7 @@ void test_deque_swap()
 
 void test_deque_insert()
 {
-        cdc_deque_t *d;
+        struct cdc_deque *d;
         int a = 1, b = 2;
         int i1 = 3, i2 = 4, i3 = 5;
 
@@ -304,7 +304,7 @@ void test_deque_insert()
 
 void test_deque_erase()
 {
-        cdc_deque_t *deq;
+        struct cdc_deque *deq;
         int a = 0, b = 1, c = 2, d = 3;
         void *elem = NULL;
 
@@ -336,7 +336,7 @@ void test_deque_erase()
 
 void test_deque_clear()
 {
-        cdc_deque_t *deq;
+        struct cdc_deque *deq;
         int a = 0, b = 1, c = 2, d = 3;
 
         CU_ASSERT(cdc_deque_ctorl(&deq, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
@@ -350,7 +350,7 @@ void test_deque_clear()
 
 void test_deque_pop_push()
 {
-        cdc_deque_t *d;
+        struct cdc_deque *d;
         int i;
         int a = 1, b = 2, c = 3;
         int i1 = 3, i2 = 4, i3 = 5;
