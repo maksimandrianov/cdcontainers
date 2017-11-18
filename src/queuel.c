@@ -1,126 +1,116 @@
-#include "cdcontainers/queuel.h"
+#include "cdcontainers/queue.h"
 
 #include <assert.h>
 #include "cdcontainers/list.h"
-#include "cdcontainers/common.h"
 
-struct cdc_queue_list {
-        struct cdc_list *list;
-};
-
-enum cdc_stat cdc_queuel_ctor(cdc_queuel_t **q, cdc_free_func_t func)
+static enum cdc_stat cdc_queuel_ctor(void **cntr, struct cdc_data_info *info)
 {
-        assert(q != NULL);
+        assert(cntr != NULL);
 
-        cdc_queuel_t *tmp;
-        enum cdc_stat ret;
+        struct cdc_list **list = (struct cdc_list **)cntr;
 
-        tmp = (cdc_queuel_t *)malloc(sizeof(cdc_queuel_t));
-        if (!tmp)
-                return CDC_STATUS_BAD_ALLOC;
-
-        ret = cdc_list_ctor(&tmp->list, func);
-        if (ret != CDC_STATUS_OK) {
-                free(tmp);
-                return ret;
-        }
-
-        *q = tmp;
-
-        return CDC_STATUS_OK;
+        return cdc_list_ctor(list, info);
 }
 
-enum cdc_stat cdc_queuel_ctorl(cdc_queuel_t **q, cdc_free_func_t func, ...)
+static enum cdc_stat cdc_queuel_ctorv(void **cntr,
+                                      struct cdc_data_info *info, va_list args)
 {
-        assert(q != NULL);
+        assert(cntr != NULL);
+
+        struct cdc_list **list = (struct cdc_list **)cntr;
+
+        return cdc_list_ctorv(list, info, args);
+}
+
+static enum cdc_stat cdc_queuel_ctorl(void **cntr,
+                                      struct cdc_data_info *info, ...)
+{
+        assert(cntr != NULL);
 
         enum cdc_stat ret;
         va_list args;
 
-        va_start(args, func);
-        ret = cdc_queuel_ctorv(q, func, args);
+        va_start(args, info);
+        ret = cdc_queuel_ctorv(cntr, info, args);
         va_end(args);
 
         return ret;
 }
 
-enum cdc_stat cdc_queuel_ctorv(cdc_queuel_t **q, cdc_free_func_t func,
-                               va_list args)
+static void cdc_queuel_dtor(void *cntr)
 {
-        assert(q != NULL);
+        assert(cntr != NULL);
 
-        cdc_queuel_t *tmp;
-        enum cdc_stat ret;
+        struct cdc_list *list = (struct cdc_list *)cntr;
 
-        tmp = (cdc_queuel_t *)malloc(sizeof(cdc_queuel_t));
-        if (!tmp)
-                return CDC_STATUS_BAD_ALLOC;
-
-        *q = tmp;
-        ret = cdc_list_ctorv(&(*q)->list, func, args);
-        if (ret != CDC_STATUS_OK) {
-                free(tmp);
-                return ret;
-        }
-
-        return ret;
+        cdc_list_dtor(list);
 }
 
-void cdc_queuel_dtor(cdc_queuel_t *q)
+static void *cdc_queuel_front(void *cntr)
 {
-        assert(q != NULL);
+        assert(cntr != NULL);
 
-        cdc_list_dtor(q->list);
-        free(q);
+        struct cdc_list *list = (struct cdc_list *)cntr;
+
+        return cdc_list_front(list);
 }
 
-void *cdc_queuel_front(cdc_queuel_t *q)
+static void *cdc_queuel_back(void *cntr)
 {
-        assert(q != NULL);
+        assert(cntr != NULL);
 
-        return cdc_list_front(q->list);
+        struct cdc_list *list = (struct cdc_list *)cntr;
+
+        return cdc_list_back(list);
 }
 
-void *cdc_queuel_back(cdc_queuel_t *q)
+static bool cdc_queuel_empty(void *cntr)
 {
-        assert(q != NULL);
+        assert(cntr != NULL);
 
-        return cdc_list_back(q->list);
+        struct cdc_list *list = (struct cdc_list *)cntr;
+
+        return cdc_list_empty(list);
 }
 
-bool cdc_queuel_empty(cdc_queuel_t *q)
+static size_t cdc_queuel_size(void *cntr)
 {
-        assert(q != NULL);
+        assert(cntr != NULL);
 
-        return cdc_list_empty(q->list);
+        struct cdc_list *list = (struct cdc_list *)cntr;
+
+        return cdc_list_size(list);
 }
 
-size_t cdc_queuel_size(cdc_queuel_t *q)
+static enum cdc_stat cdc_queuel_push(void *cntr, void *elem)
 {
-        assert(q != NULL);
+        assert(cntr != NULL);
 
-        return cdc_list_size(q->list);
+        struct cdc_list *list = (struct cdc_list *)cntr;
+
+        return cdc_list_push_back(list, elem);
 }
 
-enum cdc_stat cdc_queuel_push(cdc_queuel_t *q, void *elem)
+static enum cdc_stat cdc_queuel_pop(void *cntr)
 {
-        assert(q != NULL);
+        assert(cntr != NULL);
+        assert(cdc_queuel_size(cntr) > 0);
 
-        return cdc_list_push_back(q->list, elem);
+        struct cdc_list *list = (struct cdc_list *)cntr;
+
+        return cdc_list_pop_front(list);
 }
 
-enum cdc_stat cdc_queuel_pop(cdc_queuel_t *q)
-{
-        assert(q != NULL);
-        assert(cdc_queuel_size(q) > 0);
+static const struct cdc_queue_table _cdc_queuel_table = {
+        .ctor = cdc_queuel_ctor,
+        .ctorv = cdc_queuel_ctorv,
+        .dtor = cdc_queuel_dtor,
+        .front = cdc_queuel_front,
+        .back = cdc_queuel_back,
+        .empty = cdc_queuel_empty,
+        .size = cdc_queuel_size,
+        .push = cdc_queuel_push,
+        .pop = cdc_queuel_pop
+};
 
-        return cdc_list_pop_front(q->list);
-}
-
-void cdc_queuel_swap(cdc_queuel_t *a, cdc_queuel_t *b)
-{
-        assert(a != NULL);
-        assert(b != NULL);
-
-        CDC_SWAP(struct cdc_list *, a->list, b->list);
-}
+const void *cdc_queuel_table = &_cdc_queuel_table;

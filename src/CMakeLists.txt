@@ -15,6 +15,7 @@ set(SOURCE
         stack.c
         stackl.c
         stackv.c
+        queue.c
         queuel.c
         queued.c
         priority-queue.c
