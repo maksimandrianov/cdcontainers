@@ -8,7 +8,7 @@
 #include <cdcontainers/common.h>
 
 typedef struct cdc_priority_queue cdc_priority_queue_t;
-
+typedef void *cdc_free_func_t;
 enum cdc_stat cdc_priority_queue_ctor (cdc_priority_queue_t **q, cdc_free_func_t func, cdc_compar_func_t compar);
 enum cdc_stat cdc_priority_queue_ctorl(cdc_priority_queue_t **q, cdc_free_func_t func, cdc_compar_func_t compar, ...);
 enum cdc_stat cdc_priority_queue_ctorv(cdc_priority_queue_t **q, cdc_free_func_t func, cdc_compar_func_t compar, va_list args);

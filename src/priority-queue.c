@@ -7,7 +7,7 @@
 #include "cdcontainers/heap.h"
 
 struct cdc_priority_queue {
-        cdc_heap_t *heap;
+        struct cdc_heap *heap;
 };
 
 enum cdc_stat cdc_priority_queue_ctor(cdc_priority_queue_t **q, cdc_free_func_t func,
@@ -119,5 +119,5 @@ void cdc_priority_queue_swap(cdc_priority_queue_t *a, cdc_priority_queue_t *b)
         assert(a != NULL);
         assert(b != NULL);
 
-        CDC_SWAP(cdc_heap_t *, a->heap, b->heap);
+        CDC_SWAP(struct cdc_heap *, a->heap, b->heap);
 }

@@ -13,7 +13,7 @@ static int gt_int(const void *a, const void *b)
 
 void test_heap_ctor()
 {
-        cdc_heap_t *h;
+        struct cdc_heap *h;
 
         CU_ASSERT(cdc_heap_ctor(&h, NULL, gt_int) == CDC_STATUS_OK);
         CU_ASSERT(cdc_heap_size(h) == 0);
@@ -23,7 +23,7 @@ void test_heap_ctor()
 
 void test_heap_ctorl()
 {
-        cdc_heap_t *h;
+        struct cdc_heap *h;
         int a = 2, b = 3;
         void *elem;
 
@@ -45,7 +45,7 @@ void test_heap_ctorl()
 
 void test_heap_top()
 {
-        cdc_heap_t *h;
+        struct cdc_heap *h;
         int a = 1, b = 10, c = 2;
 
         CU_ASSERT(cdc_heap_ctorl(&h, NULL, gt_int, &a, &b, &c, NULL) == CDC_STATUS_OK);
@@ -56,7 +56,7 @@ void test_heap_top()
 
 void test_heap_extract_top()
 {
-        cdc_heap_t *h;
+        struct cdc_heap *h;
         int a = 0, b = 3, c = 2, d = 1;
         void *elem;
 
@@ -87,7 +87,7 @@ void test_heap_extract_top()
 
 void test_heap_insert()
 {
-        cdc_heap_t *h;
+        struct cdc_heap *h;
         int a = 0, b = 1, c = 2;
         void *elem;
 
@@ -118,7 +118,7 @@ void test_heap_increase_key()
 
 void test_heap_swap()
 {
-        cdc_heap_t *v, *w;
+        struct cdc_heap *v, *w;
         int a = 2, b = 3, c = 4;
 
         CU_ASSERT(cdc_heap_ctorl(&v, NULL, gt_int, &b, NULL) == CDC_STATUS_OK);

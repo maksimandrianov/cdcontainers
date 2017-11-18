@@ -13,16 +13,11 @@
                 y = tmp; \
         } while (0)
 
-typedef void (*cdc_free_func_t)(void *);
-typedef bool (*cdc_lt_func_t)(const void *, const void *);
-typedef bool (*cdc_gt_func_t)(const void *, const void *);
-typedef bool (*cdc_eq_func_t)(const void *, const void *);
-
 struct cdc_data_info {
-        cdc_free_func_t free;
-        cdc_lt_func_t lt;
-        cdc_gt_func_t gt;
-        cdc_eq_func_t eq;
+        void (*free)(void *);
+        bool (*lt)(const void *, const void *);
+        bool (*gt)(const void *, const void *);
+        bool (*eq)(const void *, const void *);
         size_t size;
 };
 

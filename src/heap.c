@@ -6,27 +6,22 @@
 #include <stdint.h>
 #include "cdcontainers/vector.h"
 
-struct cdc_heap {
-        struct cdc_vector *vector;
-        cdc_compar_func_t compar;
-};
-
-static inline size_t cdc_heap_parent(size_t i)
+static inline size_t parent(size_t i)
 {
         return i / 2;
 }
 
-static inline size_t cdc_heap_left(size_t i)
+static inline size_t left(size_t i)
 {
         return 2 * i;
 }
 
-static inline size_t cdc_heap_right(size_t i)
+static inline size_t right(size_t i)
 {
         return 2 * i + 1;
 }
 
-static inline void cdc_heap_heapify(cdc_heap_t *h, size_t i)
+static inline void heapify(struct cdc_heap *h, size_t i)
 {
         assert(h != NULL);
 
@@ -36,8 +31,8 @@ static inline void cdc_heap_heapify(cdc_heap_t *h, size_t i)
         bool cond;
 
         do {
-                l = cdc_heap_left(i);
-                r = cdc_heap_right(i);
+                l = left(i);
+                r = right(i);
 
                 if (l <= size && h->compar(data[l], data[i]))
                         largest = l;
@@ -55,17 +50,17 @@ static inline void cdc_heap_heapify(cdc_heap_t *h, size_t i)
         } while (cond);
 }
 
-static inline void cdc_heap_build(cdc_heap_t *h)
+static inline void build_heap(struct cdc_heap *h)
 {
         assert(h != NULL);
 
         size_t i;
 
         for (i = cdc_vector_size(h->vector) / 2; i > 0; --i)
-                cdc_heap_heapify(h, i);
+                heapify(h, i);
 }
 
-static inline enum cdc_stat cdc_heap_init_varg(cdc_heap_t *h, va_list args)
+static inline enum cdc_stat init_varg(struct cdc_heap *h, va_list args)
 {
         assert(h != NULL);
 
@@ -81,21 +76,21 @@ static inline enum cdc_stat cdc_heap_init_varg(cdc_heap_t *h, va_list args)
         return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_heap_ctor(cdc_heap_t **h, cdc_free_func_t func,
+enum cdc_stat cdc_heap_ctor(struct cdc_heap **h, struct cdc_data_info *info,
                             cdc_compar_func_t compar)
 {
         assert(h != NULL);
         assert(compar != NULL);
 
-        cdc_heap_t *tmp;
+        struct cdc_heap *tmp;
         enum cdc_stat ret;
 
-        tmp = (cdc_heap_t *)malloc(sizeof(cdc_heap_t));
+        tmp = (struct cdc_heap *)malloc(sizeof(struct cdc_heap));
         if (!tmp)
                 return CDC_STATUS_BAD_ALLOC;
 
         tmp->compar = compar;
-        ret = cdc_vector_ctor(&tmp->vector, func);
+        ret = cdc_vector_ctor(&tmp->vector, info);
         if (ret != CDC_STATUS_OK) {
                 free(tmp);
                 return ret;
@@ -106,7 +101,7 @@ enum cdc_stat cdc_heap_ctor(cdc_heap_t **h, cdc_free_func_t func,
         return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_heap_ctorl(cdc_heap_t **h, cdc_free_func_t func,
+enum cdc_stat cdc_heap_ctorl(struct cdc_heap **h, struct cdc_data_info *info,
                              cdc_compar_func_t compar, ...)
 {
         assert(h != NULL);
@@ -116,13 +111,13 @@ enum cdc_stat cdc_heap_ctorl(cdc_heap_t **h, cdc_free_func_t func,
         va_list args;
 
         va_start(args, compar);
-        ret = cdc_heap_ctorv(h, func, compar, args);
+        ret = cdc_heap_ctorv(h, info, compar, args);
         va_end(args);
 
         return ret;
 }
 
-enum cdc_stat cdc_heap_ctorv(cdc_heap_t **h, cdc_free_func_t func,
+enum cdc_stat cdc_heap_ctorv(struct cdc_heap **h, struct cdc_data_info *info,
                              cdc_compar_func_t compar, va_list args)
 {
         assert(h != NULL);
@@ -131,14 +126,14 @@ enum cdc_stat cdc_heap_ctorv(cdc_heap_t **h, cdc_free_func_t func,
 
         enum cdc_stat ret;
 
-        ret = cdc_heap_ctor(h, func, compar);
+        ret = cdc_heap_ctor(h, info, compar);
         if (ret != CDC_STATUS_OK)
                 return ret;
 
-        return cdc_heap_init_varg(*h, args);
+        return init_varg(*h, args);
 }
 
-void cdc_heap_dtor(cdc_heap_t *h)
+void cdc_heap_dtor(struct cdc_heap *h)
 {
         assert(h != NULL);
 
@@ -146,7 +141,7 @@ void cdc_heap_dtor(cdc_heap_t *h)
         free(h);
 }
 
-void *cdc_heap_top(cdc_heap_t *h)
+void *cdc_heap_top(struct cdc_heap *h)
 {
         assert(h != NULL);
         assert(cdc_heap_size(h) > 0);
@@ -154,7 +149,7 @@ void *cdc_heap_top(cdc_heap_t *h)
         return cdc_vector_front(h->vector);
 }
 
-enum cdc_stat cdc_heap_extract_top(cdc_heap_t *h)
+enum cdc_stat cdc_heap_extract_top(struct cdc_heap *h)
 {
         assert(h != NULL);
         assert(cdc_heap_size(h) > 0);
@@ -170,37 +165,37 @@ enum cdc_stat cdc_heap_extract_top(cdc_heap_t *h)
                 return ret;
 
         cdc_vector_set(h->vector, 0, elem);
-        cdc_heap_heapify(h, 0);
+        heapify(h, 0);
 
         return ret;
 }
 
-void cdc_heap_increase_key(cdc_heap_t *h, size_t i, void *key)
+void cdc_heap_increase_key(struct cdc_heap *h, size_t i, void *key)
 {
         assert(h != NULL);
         assert(i < cdc_heap_size(h));
         assert(cdc_heap_size(h) > 0);
 
-        size_t parent;
+        size_t p;
         void **data = cdc_vector_data(h->vector);
 
         if (h->compar(data[i], key))
                 return;
 
         cdc_vector_set(h->vector, i, key);
-        parent = cdc_heap_parent(i);
-        while (i > 0 && h->compar(data[i], data[parent])) {
-                CDC_SWAP(void *, data[i], data[parent]);
-                i = cdc_heap_parent(i);
+        p = parent(i);
+        while (i > 0 && h->compar(data[i], data[p])) {
+                CDC_SWAP(void *, data[i], data[p]);
+                i = parent(i);
         }
 }
 
-enum cdc_stat cdc_heap_insert(cdc_heap_t *h, void *key)
+enum cdc_stat cdc_heap_insert(struct cdc_heap *h, void *key)
 {
         assert(h != NULL);
 
         enum cdc_stat ret;
-        size_t i, parent;
+        size_t i, p;
         void **data = cdc_vector_data(h->vector);
 
         ret = cdc_vector_push_back(h->vector, key);
@@ -208,34 +203,35 @@ enum cdc_stat cdc_heap_insert(cdc_heap_t *h, void *key)
                 return ret;
 
         i = cdc_vector_size(h->vector) - 1;
-        parent = cdc_heap_parent(i);
-        while (i > 0 && h->compar(data[i], data[parent])) {
-                CDC_SWAP(void *, data[i], data[parent]);
-                i = cdc_heap_parent(i);
+        p = parent(i);
+        while (i > 0 && h->compar(data[i], data[p])) {
+                CDC_SWAP(void *, data[i], data[p]);
+                i = parent(i);
         }
 
         return ret;
 }
 
-size_t cdc_heap_size(cdc_heap_t *h)
+size_t cdc_heap_size(struct cdc_heap *h)
 {
         assert(h != NULL);
 
         return cdc_vector_size(h->vector);
 }
 
-bool cdc_heap_empty(cdc_heap_t *h)
+bool cdc_heap_empty(struct cdc_heap *h)
 {
         assert(h != NULL);
 
         return cdc_vector_size(h->vector) == 0;
 }
 
-void cdc_heap_swap (cdc_heap_t *a, cdc_heap_t *b)
+void cdc_heap_swap (struct cdc_heap *a, struct cdc_heap *b)
 {
         assert(a != NULL);
         assert(b != NULL);
 
         CDC_SWAP(struct cdc_vector *, a->vector, b->vector);
-        CDC_SWAP(cdc_compar_func_t,   a->compar, b->compar);
+        CDC_SWAP(cdc_compar_func_t, a->compar, b->compar);
+        CDC_SWAP(struct cdc_data_info *, a->dinfo, b->dinfo);
 }

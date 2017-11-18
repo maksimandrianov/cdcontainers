@@ -33,8 +33,8 @@ struct cdc_list_node {
 struct cdc_list {
         struct cdc_list_node *head;
         struct cdc_list_node *tail;
-        struct cdc_data_info *dinfo;
         size_t size;
+        struct cdc_data_info *dinfo;
 };
 
 /**
