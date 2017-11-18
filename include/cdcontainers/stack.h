@@ -77,7 +77,7 @@ enum cdc_stat cdc_stack_ctorv(const struct cdc_stack_table *table,
                               struct cdc_data_info *info, va_list args);
 
 /**
- * @brief Destroys the vector.
+ * @brief Destroys the stack.
  */
 void cdc_stack_dtor(struct cdc_stack *s);
 
