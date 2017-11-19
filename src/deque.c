@@ -191,14 +191,9 @@ enum cdc_stat cdc_deque_ctor(struct cdc_deque **d, struct cdc_data_info *info)
         struct cdc_deque *tmp;
         enum cdc_stat ret;
 
-        tmp = (struct cdc_deque *)malloc(sizeof(struct cdc_deque));
+        tmp = (struct cdc_deque *)calloc(sizeof(struct cdc_deque), 1);
         if (!tmp)
                 return CDC_STATUS_BAD_ALLOC;
-
-        tmp->size     = 0;
-        tmp->capacity = 0;
-        tmp->buffer   = NULL;
-        tmp->dinfo    = NULL;
 
         if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
                 ret = CDC_STATUS_BAD_ALLOC;

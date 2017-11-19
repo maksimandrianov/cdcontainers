@@ -120,14 +120,9 @@ enum cdc_stat cdc_vector_ctor(struct cdc_vector **v, struct cdc_data_info *info)
         struct cdc_vector *tmp;
         enum cdc_stat ret;
 
-        tmp = (struct cdc_vector *)malloc(sizeof(struct cdc_vector));
+        tmp = (struct cdc_vector *)calloc(sizeof(struct cdc_vector), 1);
         if (!tmp)
                 return CDC_STATUS_BAD_ALLOC;
-
-        tmp->size = 0;
-        tmp->capacity = 0;
-        tmp->buffer = NULL;
-        tmp->dinfo = NULL;
 
         if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
                 ret = CDC_STATUS_BAD_ALLOC;

@@ -86,13 +86,11 @@ enum cdc_stat cdc_heap_ctor(struct cdc_heap **h, struct cdc_data_info *info,
         struct cdc_heap *tmp;
         enum cdc_stat ret;
 
-        tmp = (struct cdc_heap *)malloc(sizeof(struct cdc_heap));
+        tmp = (struct cdc_heap *)calloc(sizeof(struct cdc_heap), 1);
         if (!tmp)
                 return CDC_STATUS_BAD_ALLOC;
 
         tmp->compar = compar;
-        tmp->dinfo = NULL;
-
         if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
                 ret = CDC_STATUS_BAD_ALLOC;
                 goto error1;
@@ -103,7 +101,6 @@ enum cdc_stat cdc_heap_ctor(struct cdc_heap **h, struct cdc_data_info *info,
                 goto error2;
 
         *h = tmp;
-
         return CDC_STATUS_OK;
 error2:
         cdc_di_shared_dtor(tmp->dinfo);

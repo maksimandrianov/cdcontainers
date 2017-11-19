@@ -137,14 +137,9 @@ enum cdc_stat cdc_list_ctor(struct cdc_list **l, struct cdc_data_info *info)
         struct cdc_list *tmp;
         enum cdc_stat ret;
 
-        tmp = (struct cdc_list *)malloc(sizeof(struct cdc_list));
+        tmp = (struct cdc_list *)calloc(sizeof(struct cdc_list), 1);
         if (!tmp)
                 return CDC_STATUS_BAD_ALLOC;
-
-        tmp->head  = NULL;
-        tmp->tail  = NULL;
-        tmp->size  = 0;
-        tmp->dinfo = NULL;
 
         if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
                 free(tmp);
