@@ -4,6 +4,7 @@
 #include <string.h>
 #include <assert.h>
 #include <stdint.h>
+#include "data-info.h"
 #include "cdcontainers/vector.h"
 
 static inline size_t parent(size_t i)
@@ -90,15 +91,25 @@ enum cdc_stat cdc_heap_ctor(struct cdc_heap **h, struct cdc_data_info *info,
                 return CDC_STATUS_BAD_ALLOC;
 
         tmp->compar = compar;
-        ret = cdc_vector_ctor(&tmp->vector, info);
-        if (ret != CDC_STATUS_OK) {
-                free(tmp);
-                return ret;
+        tmp->dinfo = NULL;
+
+        if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
+                ret = CDC_STATUS_BAD_ALLOC;
+                goto error1;
         }
+
+        ret = cdc_vector_ctor(&tmp->vector, tmp->dinfo);
+        if (ret != CDC_STATUS_OK)
+                goto error2;
 
         *h = tmp;
 
         return CDC_STATUS_OK;
+error2:
+        cdc_di_shared_dtor(tmp->dinfo);
+error1:
+        free(tmp);
+        return ret;
 }
 
 enum cdc_stat cdc_heap_ctorl(struct cdc_heap **h, struct cdc_data_info *info,
@@ -123,7 +134,6 @@ enum cdc_stat cdc_heap_ctorv(struct cdc_heap **h, struct cdc_data_info *info,
         assert(h != NULL);
         assert(compar != NULL);
 
-
         enum cdc_stat ret;
 
         ret = cdc_heap_ctor(h, info, compar);
@@ -138,6 +148,7 @@ void cdc_heap_dtor(struct cdc_heap *h)
         assert(h != NULL);
 
         cdc_vector_dtor(h->vector);
+        cdc_di_shared_dtor(h->dinfo);
         free(h);
 }
 

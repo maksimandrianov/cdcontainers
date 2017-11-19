@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <stddef.h>
+#include "data-info.h"
 
 #define CDC_DEQUE_MIN_CAPACITY     4
 #define CDC_DEQUE_COPACITY_EXP     2.0f
@@ -197,17 +198,25 @@ enum cdc_stat cdc_deque_ctor(struct cdc_deque **d, struct cdc_data_info *info)
         tmp->size     = 0;
         tmp->capacity = 0;
         tmp->buffer   = NULL;
-        tmp->dinfo    = info ? cdc_data_info_dcopy(info) : NULL;;
+        tmp->dinfo    = NULL;
 
-        ret = reallocate(tmp, CDC_DEQUE_MIN_CAPACITY);
-        if (ret != CDC_STATUS_OK) {
-                free(tmp);
-                return ret;
+        if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
+                ret = CDC_STATUS_BAD_ALLOC;
+                goto error1;
         }
 
-        *d = tmp;
+        ret = reallocate(tmp, CDC_DEQUE_MIN_CAPACITY);
+        if (ret != CDC_STATUS_OK)
+                goto error2;
 
+        *d = tmp;
         return CDC_STATUS_OK;
+
+error2:
+        cdc_di_shared_dtor(tmp->dinfo);
+error1:
+        free(tmp);
+        return ret;
 }
 
 enum cdc_stat cdc_deque_ctorl(struct cdc_deque **d,
@@ -246,6 +255,7 @@ void cdc_deque_dtor(struct cdc_deque *d)
         if (CDC_HAS_FREE(d))
                 free_range(d, 0, d->size);
 
+        cdc_di_shared_dtor(d->dinfo);
         free(d->buffer);
         free(d);
 }

@@ -2,7 +2,7 @@
 
 #include <string.h>
 #include <stdint.h>
-#include "cdcontainers/common.h"
+#include "data-info.h"
 
 static inline void ladd(struct cdc_list_node *new_node,
                         struct cdc_list_node *prev_node,
@@ -144,10 +144,14 @@ enum cdc_stat cdc_list_ctor(struct cdc_list **l, struct cdc_data_info *info)
         tmp->head  = NULL;
         tmp->tail  = NULL;
         tmp->size  = 0;
-        tmp->dinfo = info ? cdc_data_info_dcopy(info) : NULL;
+        tmp->dinfo = NULL;
+
+        if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
+                free(tmp);
+                return CDC_STATUS_BAD_ALLOC;
+        }
 
         *l = tmp;
-
         return CDC_STATUS_OK;
 }
 
@@ -187,7 +191,7 @@ void cdc_list_dtor(struct cdc_list *l)
         if (l->head != NULL)
                 free_all_nodes(l);
 
-        free(l->dinfo);
+        cdc_di_shared_dtor(l->dinfo);
         free(l);
 }
 

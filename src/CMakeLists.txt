@@ -21,6 +21,8 @@ set(SOURCE
         priority-queue.c
         status.c
         common.c
+        data-info.h
+        data-info.c
 )
 
 include_directories("${PROJECT_INCLUDE_DIR}")

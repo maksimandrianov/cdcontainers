@@ -5,6 +5,7 @@
 #include <string.h>
 #include <assert.h>
 #include <stdint.h>
+#include "data-info.h"
 
 #define VECTOR_MIN_CAPACITY     4
 #define VECTOR_COPACITY_EXP     2.0f
@@ -123,20 +124,27 @@ enum cdc_stat cdc_vector_ctor(struct cdc_vector **v, struct cdc_data_info *info)
         if (!tmp)
                 return CDC_STATUS_BAD_ALLOC;
 
-        tmp->size     = 0;
+        tmp->size = 0;
         tmp->capacity = 0;
-        tmp->buffer   = NULL;
-        tmp->dinfo    = info ? cdc_data_info_dcopy(info) : NULL;
+        tmp->buffer = NULL;
+        tmp->dinfo = NULL;
 
-        ret = reallocate(tmp, VECTOR_MIN_CAPACITY);
-        if (ret != CDC_STATUS_OK) {
-                free(tmp);
-                return ret;
+        if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
+                ret = CDC_STATUS_BAD_ALLOC;
+                goto error1;
         }
 
-        *v = tmp;
+        ret = reallocate(tmp, VECTOR_MIN_CAPACITY);
+        if (ret != CDC_STATUS_OK)
+                goto error2;
 
+        *v = tmp;
         return CDC_STATUS_OK;
+error2:
+        cdc_di_shared_dtor(tmp->dinfo);
+error1:
+        free(tmp);
+        return ret;
 }
 
 enum cdc_stat cdc_vector_ctorl(struct cdc_vector **v,
@@ -161,8 +169,7 @@ enum cdc_stat cdc_vector_ctorv(struct cdc_vector **v,
 
         enum cdc_stat ret;
 
-        ret = cdc_vector_ctor(v, info);
-        if (ret != CDC_STATUS_OK)
+        if ((ret = cdc_vector_ctor(v, info)) != CDC_STATUS_OK)
                 return ret;
 
         return init_varg(*v, args);
@@ -176,7 +183,7 @@ void cdc_vector_dtor(struct cdc_vector *v)
                 free_range(v, 0, v->size);
 
         free(v->buffer);
-        free(v->dinfo);
+        cdc_di_shared_dtor(v->dinfo);
         free(v);
 }
 

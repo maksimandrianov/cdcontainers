@@ -12,6 +12,7 @@
                 x = y; \
                 y = tmp; \
         } while (0)
+#define CDC_INIT_STRUCT {0,}
 
 struct cdc_data_info {
         void (*free)(void *);
@@ -19,15 +20,8 @@ struct cdc_data_info {
         bool (*gt)(const void *, const void *);
         bool (*eq)(const void *, const void *);
         size_t size;
+        size_t __cnt;
 };
-
-struct cdc_data_info *cdc_data_info_dcopy(struct cdc_data_info *other);
-
-#define CDC_HAS_FREE(container) (container->dinfo && container->dinfo->free)
-#define CDC_HAS_LT(container) (container->dinfo && container->dinfo->lt)
-#define CDC_HAS_GT(container) (container->dinfo && container->dinfo->gt)
-#define CDC_HAS_EQ(container) (container->dinfo && container->dinfo->eq)
-#define CDC_HAS_SIZE(container) (container->dinfo && container->dinfo->size > 0)
 
 typedef int (*cdc_compar_func_t)(const void *, const void *);
 
