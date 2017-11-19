@@ -41,6 +41,9 @@ struct cdc_priority_queue {
         const struct cdc_priority_queue_table *table;
 };
 
+/**
+ * @brief Table for the priority queue based on the heap
+ */
 extern const void *cdc_priority_queueh_table;
 
 /**
