@@ -270,8 +270,8 @@ void cdc_deque_dtor(struct cdc_deque *d)
         if (CDC_HAS_FREE(d))
                 free_range(d, 0, d->size);
 
-        cdc_di_shared_dtor(d->dinfo);
         free(d->buffer);
+        cdc_di_shared_dtor(d->dinfo);
         free(d);
 }
 
