@@ -5,7 +5,6 @@
 #include <assert.h>
 #include <stdint.h>
 #include "data-info.h"
-#include "cdcontainers/vector.h"
 
 static inline size_t parent(size_t i)
 {
@@ -150,14 +149,6 @@ void cdc_heap_dtor(struct cdc_heap *h)
         free(h);
 }
 
-void *cdc_heap_top(struct cdc_heap *h)
-{
-        assert(h != NULL);
-        assert(cdc_heap_size(h) > 0);
-
-        return cdc_vector_front(h->vector);
-}
-
 enum cdc_stat cdc_heap_extract_top(struct cdc_heap *h)
 {
         assert(h != NULL);
@@ -219,20 +210,6 @@ enum cdc_stat cdc_heap_insert(struct cdc_heap *h, void *key)
         }
 
         return ret;
-}
-
-size_t cdc_heap_size(struct cdc_heap *h)
-{
-        assert(h != NULL);
-
-        return cdc_vector_size(h->vector);
-}
-
-bool cdc_heap_empty(struct cdc_heap *h)
-{
-        assert(h != NULL);
-
-        return cdc_vector_size(h->vector) == 0;
 }
 
 void cdc_heap_swap (struct cdc_heap *a, struct cdc_heap *b)
