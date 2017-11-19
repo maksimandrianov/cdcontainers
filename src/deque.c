@@ -53,7 +53,7 @@ static inline enum cdc_stat reallocate(struct cdc_deque *d, size_t capacity)
         if (!tmp)
                 return CDC_STATUS_BAD_ALLOC;
 
-        for (i = 0, head = d->head; i < d->size; ++i, head = ++head % d->size)
+        for (i = 0, head = d->head; i < d->size; ++i, head = (head + 1) % d->size)
                 tmp[i] = d->buffer[head];
 
         free(d->buffer);

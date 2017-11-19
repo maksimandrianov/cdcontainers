@@ -135,7 +135,6 @@ enum cdc_stat cdc_list_ctor(struct cdc_list **l, struct cdc_data_info *info)
         assert(l !=  NULL);
 
         struct cdc_list *tmp;
-        enum cdc_stat ret;
 
         tmp = (struct cdc_list *)calloc(sizeof(struct cdc_list), 1);
         if (!tmp)

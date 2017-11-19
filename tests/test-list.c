@@ -4,11 +4,6 @@
 #include <float.h>
 #include <stdarg.h>
 
-static void list_int_print(void *val, size_t index)
-{
-        printf("%u\n", *((int *)val));
-}
-
 static bool list_range_int_eq(struct cdc_list *l, size_t count, ...)
 {
         va_list args;
@@ -43,7 +38,6 @@ void test_list_ctorl()
 {
         struct cdc_list *l = NULL;
         int a = 0, b = 1, c = 2, d =3;
-        void *f;
 
         CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_list_size(l) == 4);

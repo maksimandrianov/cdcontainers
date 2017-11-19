@@ -43,7 +43,8 @@ static inline void heapify(struct cdc_heap *h, size_t i)
                 if (r <= size && h->compar(data[r], data[largest]))
                         largest = r;
 
-                if (cond = (largest != i)) {
+                cond = largest != i;
+                if (cond) {
                         CDC_SWAP(void *, data[i], data[largest]);
                         i = largest;
                 }

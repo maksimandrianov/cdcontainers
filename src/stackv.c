@@ -22,20 +22,6 @@ static enum cdc_stat stackv_ctorv(void **cntr, struct cdc_data_info *info,
         return cdc_vector_ctorv(vector, info, args);
 }
 
-static enum cdc_stat stackv_ctorl(void **cntr, struct cdc_data_info *info, ...)
-{
-        assert(cntr != NULL);
-
-        enum cdc_stat ret;
-        va_list args;
-
-        va_start(args, info);
-        ret = stackv_ctorv(cntr, info, args);
-        va_end(args);
-
-        return ret;
-}
-
 static void *stackv_top(void *cntr)
 {
         assert(cntr != NULL);

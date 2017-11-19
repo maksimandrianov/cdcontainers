@@ -5,15 +5,6 @@
 #include <stdarg.h>
 #include <assert.h>
 
-static void deque_int_print(struct cdc_deque *d)
-{
-        int i;
-
-        printf("\n");
-        for (i = 0; i < cdc_deque_size(d); ++i)
-                printf("%u\n", *((int *)cdc_deque_get(d, i)));
-}
-
 static bool deque_range_int_eq(struct cdc_deque *d, size_t count, ...)
 {
         assert(cdc_deque_size(d) >= count);
@@ -50,7 +41,6 @@ void test_deque_ctorl()
 {
         struct cdc_deque *deq = NULL;
         int a = 0, b = 1, c = 2, d =3;
-        void *f;
 
         CU_ASSERT(cdc_deque_ctorl(&deq, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_deque_size(deq) == 4);

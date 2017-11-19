@@ -22,20 +22,6 @@ static enum cdc_stat queued_ctorv(void **cntr, struct cdc_data_info *info,
         return cdc_deque_ctorv(deque, info, args);
 }
 
-static enum cdc_stat queued_ctorl(void **cntr, struct cdc_data_info *info, ...)
-{
-        assert(cntr != NULL);
-
-        enum cdc_stat ret;
-        va_list args;
-
-        va_start(args, info);
-        ret = queued_ctorv(cntr, info, args);
-        va_end(args);
-
-        return ret;
-}
-
 static void queued_dtor(void *cntr)
 {
         assert(cntr != NULL);

@@ -91,7 +91,7 @@ static inline void *cdc_queue_front(struct cdc_queue *q)
 {
         assert(q != NULL);
 
-        q->table->front(q->container);
+        return q->table->front(q->container);
 }
 
 
@@ -103,7 +103,7 @@ static inline void *cdc_queue_back(struct cdc_queue *q)
 {
         assert(q != NULL);
 
-        q->table->back(q->container);
+        return q->table->back(q->container);
 }
 
 // Capacity

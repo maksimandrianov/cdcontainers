@@ -90,7 +90,7 @@ static inline void *cdc_stack_top(struct cdc_stack *s)
 {
         assert(s != NULL);
 
-        s->table->top(s->container);
+        return s->table->top(s->container);
 }
 
 // Capacity
