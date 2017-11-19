@@ -87,77 +87,97 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">priority-queue.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>The <a class="el" href="structcdc__priority__queue.html" title="The cdc_priority_queue struct. ">cdc_priority_queue</a> is a struct and functions that provide a priority queue.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &lt;stdarg.h&gt;</code><br />
+<code>#include &lt;assert.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="status_8h_source.html">cdcontainers/status.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="common_8h_source.html">cdcontainers/common.h</a>&gt;</code><br />
 </div>
 <p><a href="priority-queue_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:adf5be2ab152ef02c00d924031f1c368f"><td class="memItemLeft" align="right" valign="top">typedef struct cdc_priority_queue&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a></td></tr>
-<tr class="separator:adf5be2ab152ef02c00d924031f1c368f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__priority__queue__table.html">cdc_priority_queue_table</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="structcdc__priority__queue__table.html" title="The cdc_priority_queue_table struct. ">cdc_priority_queue_table</a> struct.  <a href="structcdc__priority__queue__table.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="structcdc__priority__queue.html" title="The cdc_priority_queue struct. ">cdc_priority_queue</a> struct.  <a href="structcdc__priority__queue.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a993cdd8e1bb7fba3779e0795a4c21fc4"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#a993cdd8e1bb7fba3779e0795a4c21fc4">cdc_priority_queue_ctor</a> (<a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> **q, <a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a> func, <a class="el" href="common_8h.html#a407302f725e3a96869ce15e661229cb3">cdc_compar_func_t</a> compar)</td></tr>
-<tr class="separator:a993cdd8e1bb7fba3779e0795a4c21fc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca709237b0e5ae03abc994f89b2d80dd"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#aca709237b0e5ae03abc994f89b2d80dd">cdc_priority_queue_ctorl</a> (<a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> **q, <a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a> func, <a class="el" href="common_8h.html#a407302f725e3a96869ce15e661229cb3">cdc_compar_func_t</a> compar,...)</td></tr>
-<tr class="separator:aca709237b0e5ae03abc994f89b2d80dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fea92e497a9c0bea27e32427a112823"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#a4fea92e497a9c0bea27e32427a112823">cdc_priority_queue_ctorv</a> (<a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> **q, <a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a> func, <a class="el" href="common_8h.html#a407302f725e3a96869ce15e661229cb3">cdc_compar_func_t</a> compar, va_list args)</td></tr>
-<tr class="separator:a4fea92e497a9c0bea27e32427a112823"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab80be621d148dc56d9f08e8472585bd4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#ab80be621d148dc56d9f08e8472585bd4">cdc_priority_queue_dtor</a> (<a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *q)</td></tr>
-<tr class="separator:ab80be621d148dc56d9f08e8472585bd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2829384b2428b885f829db3df0b4c58e"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#a2829384b2428b885f829db3df0b4c58e">cdc_priority_queue_top</a> (<a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *q)</td></tr>
-<tr class="separator:a2829384b2428b885f829db3df0b4c58e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae73027046ee01e7d912dcb659709a70a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#ae73027046ee01e7d912dcb659709a70a">cdc_priority_queue_empty</a> (<a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *q)</td></tr>
-<tr class="separator:ae73027046ee01e7d912dcb659709a70a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34914572023402fb18a56dba6176d7be"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#a34914572023402fb18a56dba6176d7be">cdc_priority_queue_size</a> (<a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *q)</td></tr>
-<tr class="separator:a34914572023402fb18a56dba6176d7be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e4d7d59279f0f84f13db9b613e22b3b"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#a2e4d7d59279f0f84f13db9b613e22b3b">cdc_priority_queue_push</a> (<a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *q, void *elem)</td></tr>
-<tr class="separator:a2e4d7d59279f0f84f13db9b613e22b3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a256d721cef3654ba0542e1a50e92bed6"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#a256d721cef3654ba0542e1a50e92bed6">cdc_priority_queue_pop</a> (<a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *q)</td></tr>
-<tr class="separator:a256d721cef3654ba0542e1a50e92bed6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02a34ed36b237965d3eba3582e37e2e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#a02a34ed36b237965d3eba3582e37e2e2">cdc_priority_queue_swap</a> (<a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *a, <a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *b)</td></tr>
-<tr class="separator:a02a34ed36b237965d3eba3582e37e2e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78827890bccbfa66175081d71374f55d"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#a78827890bccbfa66175081d71374f55d">cdc_priority_queue_ctor</a> (const struct <a class="el" href="structcdc__priority__queue__table.html">cdc_priority_queue_table</a> *table, struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> **q, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info, <a class="el" href="common_8h.html#a407302f725e3a96869ce15e661229cb3">cdc_compar_func_t</a> compar)</td></tr>
+<tr class="memdesc:a78827890bccbfa66175081d71374f55d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty priority queue. The function compar specifies the ordering of items. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a78827890bccbfa66175081d71374f55d">More...</a><br /></td></tr>
+<tr class="separator:a78827890bccbfa66175081d71374f55d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acca7b9ec2d5155dae8904305ca48f0ac"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#acca7b9ec2d5155dae8904305ca48f0ac">cdc_priority_queue_ctorl</a> (const struct <a class="el" href="structcdc__priority__queue__table.html">cdc_priority_queue_table</a> *table, struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> **q, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info, <a class="el" href="common_8h.html#a407302f725e3a96869ce15e661229cb3">cdc_compar_func_t</a> compar,...)</td></tr>
+<tr class="memdesc:acca7b9ec2d5155dae8904305ca48f0ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a priority queue, initialized by an arbitrary number of pointers. The function compar specifies the ordering of items. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#acca7b9ec2d5155dae8904305ca48f0ac">More...</a><br /></td></tr>
+<tr class="separator:acca7b9ec2d5155dae8904305ca48f0ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a393663511e54c1b720f8731d258fdffa"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#a393663511e54c1b720f8731d258fdffa">cdc_priority_queue_ctorv</a> (const struct <a class="el" href="structcdc__priority__queue__table.html">cdc_priority_queue_table</a> *table, struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> **q, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info, <a class="el" href="common_8h.html#a407302f725e3a96869ce15e661229cb3">cdc_compar_func_t</a> compar, va_list args)</td></tr>
+<tr class="memdesc:a393663511e54c1b720f8731d258fdffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a priority queue, initialized by args. The function compar specifies the ordering of items. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a393663511e54c1b720f8731d258fdffa">More...</a><br /></td></tr>
+<tr class="separator:a393663511e54c1b720f8731d258fdffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70c402eb56e440e46a7e23dd28f682d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#a70c402eb56e440e46a7e23dd28f682d3">cdc_priority_queue_dtor</a> (struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *q)</td></tr>
+<tr class="memdesc:a70c402eb56e440e46a7e23dd28f682d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the priority queue.  <a href="#a70c402eb56e440e46a7e23dd28f682d3">More...</a><br /></td></tr>
+<tr class="separator:a70c402eb56e440e46a7e23dd28f682d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8846674a336d4c39998e32cb1f5b218"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#af8846674a336d4c39998e32cb1f5b218">cdc_priority_queue_top</a> (struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *q)</td></tr>
+<tr class="memdesc:af8846674a336d4c39998e32cb1f5b218"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the priority queue's top item. This function assumes that the priority queue isn't empty.  <a href="#af8846674a336d4c39998e32cb1f5b218">More...</a><br /></td></tr>
+<tr class="separator:af8846674a336d4c39998e32cb1f5b218"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a697c711c8ac9f1939244dd3f6de5b9bf"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#a697c711c8ac9f1939244dd3f6de5b9bf">cdc_priority_queue_empty</a> (struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *q)</td></tr>
+<tr class="memdesc:a697c711c8ac9f1939244dd3f6de5b9bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the priority queue has size 0; otherwise returns false.  <a href="#a697c711c8ac9f1939244dd3f6de5b9bf">More...</a><br /></td></tr>
+<tr class="separator:a697c711c8ac9f1939244dd3f6de5b9bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53de6085d22941118c14245ffc539668"><td class="memItemLeft" align="right" valign="top">static size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#a53de6085d22941118c14245ffc539668">cdc_priority_queue_size</a> (struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *q)</td></tr>
+<tr class="memdesc:a53de6085d22941118c14245ffc539668"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of items in the priority queue.  <a href="#a53de6085d22941118c14245ffc539668">More...</a><br /></td></tr>
+<tr class="separator:a53de6085d22941118c14245ffc539668"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeee83de7c56e63e71ccae94f085e3dad"><td class="memItemLeft" align="right" valign="top">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#aeee83de7c56e63e71ccae94f085e3dad">cdc_priority_queue_push</a> (struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *q, void *elem)</td></tr>
+<tr class="memdesc:aeee83de7c56e63e71ccae94f085e3dad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds element elem to the priority queue. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#aeee83de7c56e63e71ccae94f085e3dad">More...</a><br /></td></tr>
+<tr class="separator:aeee83de7c56e63e71ccae94f085e3dad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52b66588b31eb32a0714058298aa6383"><td class="memItemLeft" align="right" valign="top">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#a52b66588b31eb32a0714058298aa6383">cdc_priority_queue_pop</a> (struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *q)</td></tr>
+<tr class="separator:a52b66588b31eb32a0714058298aa6383"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b0a2413f77125039e8e52447856069f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#a8b0a2413f77125039e8e52447856069f">cdc_priority_queue_swap</a> (struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *a, struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *b)</td></tr>
+<tr class="memdesc:a8b0a2413f77125039e8e52447856069f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swaps priority queues a and b. This operation is very fast and never fails.  <a href="#a8b0a2413f77125039e8e52447856069f">More...</a><br /></td></tr>
+<tr class="separator:a8b0a2413f77125039e8e52447856069f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:aaf6572423e564cd06b73e25e9c215123"><td class="memItemLeft" align="right" valign="top">const void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="priority-queue_8h.html#aaf6572423e564cd06b73e25e9c215123">cdc_priority_queueh_table</a></td></tr>
+<tr class="memdesc:aaf6572423e564cd06b73e25e9c215123"><td class="mdescLeft">&#160;</td><td class="mdescRight">Table for the priority queue based on the heap.  <a href="#aaf6572423e564cd06b73e25e9c215123">More...</a><br /></td></tr>
+<tr class="separator:aaf6572423e564cd06b73e25e9c215123"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a class="anchor" id="adf5be2ab152ef02c00d924031f1c368f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef struct cdc_priority_queue <a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a993cdd8e1bb7fba3779e0795a4c21fc4"></a>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="structcdc__priority__queue.html" title="The cdc_priority_queue struct. ">cdc_priority_queue</a> is a struct and functions that provide a priority queue. </p>
+<dl class="section author"><dt>Author</dt><dd>Maksim Andrianov <a href="#" onclick="location.href='mai'+'lto:'+'mak'+'si'+'man'+'dr'+'ian'+'ov'+'1@y'+'an'+'dex'+'.r'+'u'; return false;">maksi<span style="display: none;">.nosp@m.</span>mand<span style="display: none;">.nosp@m.</span>riano<span style="display: none;">.nosp@m.</span>v1@y<span style="display: none;">.nosp@m.</span>andex<span style="display: none;">.nosp@m.</span>.ru</a> </dd></dl>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a78827890bccbfa66175081d71374f55d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_priority_queue_ctor </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> **&#160;</td>
+          <td class="paramtype">const struct <a class="el" href="structcdc__priority__queue__table.html">cdc_priority_queue_table</a> *&#160;</td>
+          <td class="paramname"><em>table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> **&#160;</td>
           <td class="paramname"><em>q</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a>&#160;</td>
-          <td class="paramname"><em>func</em>, </td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -173,23 +193,31 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs an empty priority queue. The function compar specifies the ordering of items. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="aca709237b0e5ae03abc994f89b2d80dd"></a>
+<a class="anchor" id="acca7b9ec2d5155dae8904305ca48f0ac"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_priority_queue_ctorl </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> **&#160;</td>
+          <td class="paramtype">const struct <a class="el" href="structcdc__priority__queue__table.html">cdc_priority_queue_table</a> *&#160;</td>
+          <td class="paramname"><em>table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> **&#160;</td>
           <td class="paramname"><em>q</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a>&#160;</td>
-          <td class="paramname"><em>func</em>, </td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -211,23 +239,31 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs a priority queue, initialized by an arbitrary number of pointers. The function compar specifies the ordering of items. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="a4fea92e497a9c0bea27e32427a112823"></a>
+<a class="anchor" id="a393663511e54c1b720f8731d258fdffa"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_priority_queue_ctorv </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> **&#160;</td>
+          <td class="paramtype">const struct <a class="el" href="structcdc__priority__queue__table.html">cdc_priority_queue_table</a> *&#160;</td>
+          <td class="paramname"><em>table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> **&#160;</td>
           <td class="paramname"><em>q</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a>&#160;</td>
-          <td class="paramname"><em>func</em>, </td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -249,64 +285,90 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs a priority queue, initialized by args. The function compar specifies the ordering of items. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="ab80be621d148dc56d9f08e8472585bd4"></a>
+<a class="anchor" id="a70c402eb56e440e46a7e23dd28f682d3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cdc_priority_queue_dtor </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *&#160;</td>
           <td class="paramname"><em>q</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Destroys the priority queue. </p>
+
 </div>
 </div>
-<a class="anchor" id="ae73027046ee01e7d912dcb659709a70a"></a>
+<a class="anchor" id="a697c711c8ac9f1939244dd3f6de5b9bf"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool cdc_priority_queue_empty </td>
+          <td class="memname">static bool cdc_priority_queue_empty </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *&#160;</td>
           <td class="paramname"><em>q</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Returns true if the priority queue has size 0; otherwise returns false. </p>
 
 </div>
 </div>
-<a class="anchor" id="a256d721cef3654ba0542e1a50e92bed6"></a>
+<a class="anchor" id="a52b66588b31eb32a0714058298aa6383"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_priority_queue_pop </td>
+          <td class="memname">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_priority_queue_pop </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *&#160;</td>
           <td class="paramname"><em>q</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+<p>a pointer to the stack's top item. This function assumes that the priority queue isn't empty. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error </p>
 
 </div>
 </div>
-<a class="anchor" id="a2e4d7d59279f0f84f13db9b613e22b3b"></a>
+<a class="anchor" id="aeee83de7c56e63e71ccae94f085e3dad"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_priority_queue_push </td>
+          <td class="memname">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_priority_queue_push </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *&#160;</td>
           <td class="paramname"><em>q</em>, </td>
         </tr>
         <tr>
@@ -321,40 +383,57 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Adds element elem to the priority queue. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
 
 </div>
 </div>
-<a class="anchor" id="a34914572023402fb18a56dba6176d7be"></a>
+<a class="anchor" id="a53de6085d22941118c14245ffc539668"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t cdc_priority_queue_size </td>
+          <td class="memname">static size_t cdc_priority_queue_size </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *&#160;</td>
           <td class="paramname"><em>q</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Returns the number of items in the priority queue. </p>
 
 </div>
 </div>
-<a class="anchor" id="a02a34ed36b237965d3eba3582e37e2e2"></a>
+<a class="anchor" id="a8b0a2413f77125039e8e52447856069f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cdc_priority_queue_swap </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
@@ -365,21 +444,48 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Swaps priority queues a and b. This operation is very fast and never fails. </p>
+
 </div>
 </div>
-<a class="anchor" id="a2829384b2428b885f829db3df0b4c58e"></a>
+<a class="anchor" id="af8846674a336d4c39998e32cb1f5b218"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void* cdc_priority_queue_top </td>
+          <td class="memname">static void* cdc_priority_queue_top </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="priority-queue_8h.html#adf5be2ab152ef02c00d924031f1c368f">cdc_priority_queue_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__priority__queue.html">cdc_priority_queue</a> *&#160;</td>
           <td class="paramname"><em>q</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Returns a pointer to the priority queue's top item. This function assumes that the priority queue isn't empty. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a class="anchor" id="aaf6572423e564cd06b73e25e9c215123"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const void* cdc_priority_queueh_table</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Table for the priority queue based on the heap. </p>
 
 </div>
 </div>

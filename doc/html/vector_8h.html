@@ -94,7 +94,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> is a struct that provides a dynamic array.  
+<p>The <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> is a struct and functions that provide a dynamic array.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &lt;stdarg.h&gt;</code><br />
@@ -125,10 +125,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:a80c556761c364ce4d96862b52dcf2b01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the vector.  <a href="#a80c556761c364ce4d96862b52dcf2b01">More...</a><br /></td></tr>
 <tr class="separator:a80c556761c364ce4d96862b52dcf2b01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6385f8e20d3c4f60dde92fc14cb958d8"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#a6385f8e20d3c4f60dde92fc14cb958d8">cdc_vector_get</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v, size_t index)</td></tr>
-<tr class="memdesc:a6385f8e20d3c4f60dde92fc14cb958d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the item at index position index in the vector. Index must be a valid index position in the vector.  <a href="#a6385f8e20d3c4f60dde92fc14cb958d8">More...</a><br /></td></tr>
+<tr class="memdesc:a6385f8e20d3c4f60dde92fc14cb958d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the item at index position in the vector. Index must be a valid index position in the vector.  <a href="#a6385f8e20d3c4f60dde92fc14cb958d8">More...</a><br /></td></tr>
 <tr class="separator:a6385f8e20d3c4f60dde92fc14cb958d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72c5c91bad869260a517ace42414b5ee"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#a72c5c91bad869260a517ace42414b5ee">cdc_vector_at</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v, size_t index, void **elem)</td></tr>
-<tr class="memdesc:a72c5c91bad869260a517ace42414b5ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes to a value the item at index position index in the vector. Index must be a valid index position in the vector. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a72c5c91bad869260a517ace42414b5ee">More...</a><br /></td></tr>
+<tr class="memdesc:a72c5c91bad869260a517ace42414b5ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes to a value the item at index position in the vector. Index must be a valid index position in the vector. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a72c5c91bad869260a517ace42414b5ee">More...</a><br /></td></tr>
 <tr class="separator:a72c5c91bad869260a517ace42414b5ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8891f99c310581713306aab4e4c2ebeb"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#a8891f99c310581713306aab4e4c2ebeb">cdc_vector_front</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v)</td></tr>
 <tr class="memdesc:a8891f99c310581713306aab4e4c2ebeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the first item in the vector. This function assumes that the vector isn't empty.  <a href="#a8891f99c310581713306aab4e4c2ebeb">More...</a><br /></td></tr>
@@ -152,13 +152,13 @@ Functions</h2></td></tr>
 <tr class="memdesc:a749f8d2b36cb4a26b6189701af41f3a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the maximum number of items that can be stored in the vector without forcing a reallocation.  <a href="#a749f8d2b36cb4a26b6189701af41f3a6">More...</a><br /></td></tr>
 <tr class="separator:a749f8d2b36cb4a26b6189701af41f3a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1652ca3d7ce32df197fb1ab910d9c07"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#ad1652ca3d7ce32df197fb1ab910d9c07">cdc_vector_set</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v, size_t index, void *value)</td></tr>
-<tr class="memdesc:ad1652ca3d7ce32df197fb1ab910d9c07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the vector at position index to the value.  <a href="#ad1652ca3d7ce32df197fb1ab910d9c07">More...</a><br /></td></tr>
+<tr class="memdesc:ad1652ca3d7ce32df197fb1ab910d9c07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the vector at index position to the value.  <a href="#ad1652ca3d7ce32df197fb1ab910d9c07">More...</a><br /></td></tr>
 <tr class="separator:ad1652ca3d7ce32df197fb1ab910d9c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99b79e4c707de27da795f35b339e5873"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#a99b79e4c707de27da795f35b339e5873">cdc_vector_insert</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v, size_t index, void *value)</td></tr>
-<tr class="memdesc:a99b79e4c707de27da795f35b339e5873"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts value at index position i in the vector. If i is 0, the value is prepended to the vector. If i is <a class="el" href="vector_8h.html#a91dc783231b29b9ab11eaa44017c693d" title="Returns the number of items in the vector. ">cdc_vector_size()</a>, the value is appended to the vector.  <a href="#a99b79e4c707de27da795f35b339e5873">More...</a><br /></td></tr>
+<tr class="memdesc:a99b79e4c707de27da795f35b339e5873"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts value at index position in the vector. If index is 0, the value is prepended to the vector. If index is <a class="el" href="vector_8h.html#a91dc783231b29b9ab11eaa44017c693d" title="Returns the number of items in the vector. ">cdc_vector_size()</a>, the value is appended to the vector.  <a href="#a99b79e4c707de27da795f35b339e5873">More...</a><br /></td></tr>
 <tr class="separator:a99b79e4c707de27da795f35b339e5873"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6378dda71d6533c234105aab59dd03bb"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#a6378dda71d6533c234105aab59dd03bb">cdc_vector_erase</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v, size_t index, void **elem)</td></tr>
-<tr class="memdesc:a6378dda71d6533c234105aab59dd03bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the element at index position index. The pointer will be written in elem. Index must be a valid index position in the vector. The function is not called to free memory. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a6378dda71d6533c234105aab59dd03bb">More...</a><br /></td></tr>
+<tr class="memdesc:a6378dda71d6533c234105aab59dd03bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the element at index position. The pointer will be written in elem. Index must be a valid index position in the vector. The function is not called to free memory. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a6378dda71d6533c234105aab59dd03bb">More...</a><br /></td></tr>
 <tr class="separator:a6378dda71d6533c234105aab59dd03bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa847c5297f800c1bbbfe45800646ef4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#aa847c5297f800c1bbbfe45800646ef4b">cdc_vector_clear</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v)</td></tr>
 <tr class="memdesc:aa847c5297f800c1bbbfe45800646ef4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all the elements from the vector. If a function has been installed to delete an item, it will be called for each item. Index must be a valid index position in the vector.  <a href="#aa847c5297f800c1bbbfe45800646ef4b">More...</a><br /></td></tr>
@@ -174,8 +174,8 @@ Functions</h2></td></tr>
 <tr class="separator:afa6a9cf89bfa09ae0619292c02b53c4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> is a struct that provides a dynamic array. </p>
-<dl class="section author"><dt>Author</dt><dd>Maksim Anrianov <a href="#" onclick="location.href='mai'+'lto:'+'mak'+'si'+'man'+'dr'+'ian'+'ov'+'1@y'+'an'+'dex'+'.r'+'u'; return false;">maksi<span style="display: none;">.nosp@m.</span>mand<span style="display: none;">.nosp@m.</span>riano<span style="display: none;">.nosp@m.</span>v1@y<span style="display: none;">.nosp@m.</span>andex<span style="display: none;">.nosp@m.</span>.ru</a> </dd></dl>
+<div class="textblock"><p>The <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> is a struct and functions that provide a dynamic array. </p>
+<dl class="section author"><dt>Author</dt><dd>Maksim Andrianov <a href="#" onclick="location.href='mai'+'lto:'+'mak'+'si'+'man'+'dr'+'ian'+'ov'+'1@y'+'an'+'dex'+'.r'+'u'; return false;">maksi<span style="display: none;">.nosp@m.</span>mand<span style="display: none;">.nosp@m.</span>riano<span style="display: none;">.nosp@m.</span>v1@y<span style="display: none;">.nosp@m.</span>andex<span style="display: none;">.nosp@m.</span>.ru</a> </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a72c5c91bad869260a517ace42414b5ee"></a>
 <div class="memitem">
@@ -207,7 +207,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Writes to a value the item at index position index in the vector. Index must be a valid index position in the vector. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+<p>Writes to a value the item at index position in the vector. Index must be a valid index position in the vector. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
 
 </div>
 </div>
@@ -469,7 +469,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Removes the element at index position index. The pointer will be written in elem. Index must be a valid index position in the vector. The function is not called to free memory. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+<p>Removes the element at index position. The pointer will be written in elem. Index must be a valid index position in the vector. The function is not called to free memory. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
 
 </div>
 </div>
@@ -531,7 +531,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the item at index position index in the vector. Index must be a valid index position in the vector. </p>
+<p>Returns the item at index position in the vector. Index must be a valid index position in the vector. </p>
 
 </div>
 </div>
@@ -565,7 +565,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Inserts value at index position i in the vector. If i is 0, the value is prepended to the vector. If i is <a class="el" href="vector_8h.html#a91dc783231b29b9ab11eaa44017c693d" title="Returns the number of items in the vector. ">cdc_vector_size()</a>, the value is appended to the vector. </p>
+<p>Inserts value at index position in the vector. If index is 0, the value is prepended to the vector. If index is <a class="el" href="vector_8h.html#a91dc783231b29b9ab11eaa44017c693d" title="Returns the number of items in the vector. ">cdc_vector_size()</a>, the value is appended to the vector. </p>
 
 </div>
 </div>
@@ -681,7 +681,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Sets the vector at position index to the value. </p>
+<p>Sets the vector at index position to the value. </p>
 
 </div>
 </div>

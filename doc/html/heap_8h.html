@@ -87,79 +87,85 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">heap.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>The <a class="el" href="structcdc__heap.html" title="The cdc_heap struct. ">cdc_heap</a> is a struct and functions that provide a heap.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &lt;stdarg.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="status_8h_source.html">cdcontainers/status.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="common_8h_source.html">cdcontainers/common.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="vector_8h_source.html">cdcontainers/vector.h</a>&gt;</code><br />
 </div>
 <p><a href="heap_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a016b5050428bccba92b4f1673d7096bd"><td class="memItemLeft" align="right" valign="top">typedef struct cdc_heap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a></td></tr>
-<tr class="separator:a016b5050428bccba92b4f1673d7096bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__heap.html">cdc_heap</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="structcdc__heap.html" title="The cdc_heap struct. ">cdc_heap</a> struct.  <a href="structcdc__heap.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad2578e8d173d77559892685b210b63d7"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#ad2578e8d173d77559892685b210b63d7">cdc_heap_ctor</a> (<a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> **h, <a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a> func, <a class="el" href="common_8h.html#a407302f725e3a96869ce15e661229cb3">cdc_compar_func_t</a> compar)</td></tr>
-<tr class="separator:ad2578e8d173d77559892685b210b63d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6299b70093b13c898f1375a2345c4ae"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#ae6299b70093b13c898f1375a2345c4ae">cdc_heap_ctorl</a> (<a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> **h, <a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a> func, <a class="el" href="common_8h.html#a407302f725e3a96869ce15e661229cb3">cdc_compar_func_t</a> compar,...)</td></tr>
-<tr class="separator:ae6299b70093b13c898f1375a2345c4ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d564f78a0f2635f3285b775b5649de5"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#a9d564f78a0f2635f3285b775b5649de5">cdc_heap_ctorv</a> (<a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> **h, <a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a> func, <a class="el" href="common_8h.html#a407302f725e3a96869ce15e661229cb3">cdc_compar_func_t</a> compar, va_list args)</td></tr>
-<tr class="separator:a9d564f78a0f2635f3285b775b5649de5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bf0568e81241d2983d11761341dc601"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#a5bf0568e81241d2983d11761341dc601">cdc_heap_dtor</a> (<a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *h)</td></tr>
-<tr class="separator:a5bf0568e81241d2983d11761341dc601"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab98845f531e7b4ae53d71b582271b167"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#ab98845f531e7b4ae53d71b582271b167">cdc_heap_top</a> (<a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *h)</td></tr>
-<tr class="separator:ab98845f531e7b4ae53d71b582271b167"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea7dce2847dafbb0967ffb54fca58c28"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#aea7dce2847dafbb0967ffb54fca58c28">cdc_heap_size</a> (<a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *h)</td></tr>
-<tr class="separator:aea7dce2847dafbb0967ffb54fca58c28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37b67f114adede0731a2edc52a558d79"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#a37b67f114adede0731a2edc52a558d79">cdc_heap_empty</a> (<a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *h)</td></tr>
-<tr class="separator:a37b67f114adede0731a2edc52a558d79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19ffbae9485da73914f3b2de9d898c7b"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#a19ffbae9485da73914f3b2de9d898c7b">cdc_heap_extract_top</a> (<a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *h)</td></tr>
-<tr class="separator:a19ffbae9485da73914f3b2de9d898c7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a306f8c12a0cffc699d1779a0a47b851c"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#a306f8c12a0cffc699d1779a0a47b851c">cdc_heap_insert</a> (<a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *h, void *key)</td></tr>
-<tr class="separator:a306f8c12a0cffc699d1779a0a47b851c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5e7120f9932c43ce87482212d1466a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#ae5e7120f9932c43ce87482212d1466a2">cdc_heap_increase_key</a> (<a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *h, size_t i, void *key)</td></tr>
-<tr class="separator:ae5e7120f9932c43ce87482212d1466a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5a9d19a7eff6855b0af3f7d0a2d2f11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#ac5a9d19a7eff6855b0af3f7d0a2d2f11">cdc_heap_swap</a> (<a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *a, <a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *b)</td></tr>
-<tr class="separator:ac5a9d19a7eff6855b0af3f7d0a2d2f11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ea601bc3f53b0e859927264384cdb24"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#a3ea601bc3f53b0e859927264384cdb24">cdc_heap_ctor</a> (struct <a class="el" href="structcdc__heap.html">cdc_heap</a> **h, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info, <a class="el" href="common_8h.html#a407302f725e3a96869ce15e661229cb3">cdc_compar_func_t</a> compar)</td></tr>
+<tr class="memdesc:a3ea601bc3f53b0e859927264384cdb24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty heap. The function compar specifies the ordering of items. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a3ea601bc3f53b0e859927264384cdb24">More...</a><br /></td></tr>
+<tr class="separator:a3ea601bc3f53b0e859927264384cdb24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f41752a2872cd11bde00f364cf99f8f"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#a8f41752a2872cd11bde00f364cf99f8f">cdc_heap_ctorl</a> (struct <a class="el" href="structcdc__heap.html">cdc_heap</a> **h, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info, <a class="el" href="common_8h.html#a407302f725e3a96869ce15e661229cb3">cdc_compar_func_t</a> compar,...)</td></tr>
+<tr class="memdesc:a8f41752a2872cd11bde00f364cf99f8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a heap, initialized by an arbitrary number of pointers. The function compar specifies the ordering of items. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a8f41752a2872cd11bde00f364cf99f8f">More...</a><br /></td></tr>
+<tr class="separator:a8f41752a2872cd11bde00f364cf99f8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a397d8202c1155164b9ffc55d6d42b202"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#a397d8202c1155164b9ffc55d6d42b202">cdc_heap_ctorv</a> (struct <a class="el" href="structcdc__heap.html">cdc_heap</a> **h, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info, <a class="el" href="common_8h.html#a407302f725e3a96869ce15e661229cb3">cdc_compar_func_t</a> compar, va_list args)</td></tr>
+<tr class="memdesc:a397d8202c1155164b9ffc55d6d42b202"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a heap, initialized by args. The function compar specifies the ordering of items. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a397d8202c1155164b9ffc55d6d42b202">More...</a><br /></td></tr>
+<tr class="separator:a397d8202c1155164b9ffc55d6d42b202"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6c49923ef442db1b37d7cca8e6dc3ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#af6c49923ef442db1b37d7cca8e6dc3ef">cdc_heap_dtor</a> (struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *h)</td></tr>
+<tr class="memdesc:af6c49923ef442db1b37d7cca8e6dc3ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the heap.  <a href="#af6c49923ef442db1b37d7cca8e6dc3ef">More...</a><br /></td></tr>
+<tr class="separator:af6c49923ef442db1b37d7cca8e6dc3ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab65432a509b3e40761cc7eb07b1f9426"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#ab65432a509b3e40761cc7eb07b1f9426">cdc_heap_top</a> (struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *h)</td></tr>
+<tr class="memdesc:ab65432a509b3e40761cc7eb07b1f9426"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the heap's top item. This function assumes that the heap isn't empty.  <a href="#ab65432a509b3e40761cc7eb07b1f9426">More...</a><br /></td></tr>
+<tr class="separator:ab65432a509b3e40761cc7eb07b1f9426"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a244e5437e9bcee3d8d5aaa39b84cd1ee"><td class="memItemLeft" align="right" valign="top">static size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#a244e5437e9bcee3d8d5aaa39b84cd1ee">cdc_heap_size</a> (struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *h)</td></tr>
+<tr class="memdesc:a244e5437e9bcee3d8d5aaa39b84cd1ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of items in the heap.  <a href="#a244e5437e9bcee3d8d5aaa39b84cd1ee">More...</a><br /></td></tr>
+<tr class="separator:a244e5437e9bcee3d8d5aaa39b84cd1ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af337e2375cfd585dcdb060cbcf83c3ff"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#af337e2375cfd585dcdb060cbcf83c3ff">cdc_heap_empty</a> (struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *h)</td></tr>
+<tr class="memdesc:af337e2375cfd585dcdb060cbcf83c3ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the heap has size 0; otherwise returns false.  <a href="#af337e2375cfd585dcdb060cbcf83c3ff">More...</a><br /></td></tr>
+<tr class="separator:af337e2375cfd585dcdb060cbcf83c3ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ebd0169ee577af9629cf2216a8739fb"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#a4ebd0169ee577af9629cf2216a8739fb">cdc_heap_extract_top</a> (struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *h)</td></tr>
+<tr class="memdesc:a4ebd0169ee577af9629cf2216a8739fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extracts the top item from the heap. This function assumes that the heap isn't empty. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a4ebd0169ee577af9629cf2216a8739fb">More...</a><br /></td></tr>
+<tr class="separator:a4ebd0169ee577af9629cf2216a8739fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7033cd5f9f1d5c5c87e184bb6a834e0"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#ab7033cd5f9f1d5c5c87e184bb6a834e0">cdc_heap_insert</a> (struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *h, void *key)</td></tr>
+<tr class="memdesc:ab7033cd5f9f1d5c5c87e184bb6a834e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts element key to the heap. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#ab7033cd5f9f1d5c5c87e184bb6a834e0">More...</a><br /></td></tr>
+<tr class="separator:ab7033cd5f9f1d5c5c87e184bb6a834e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6399bcc211fe69b1ca8eb6f3a14c29cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#a6399bcc211fe69b1ca8eb6f3a14c29cb">cdc_heap_increase_key</a> (struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *h, size_t i, void *key)</td></tr>
+<tr class="memdesc:a6399bcc211fe69b1ca8eb6f3a14c29cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Increases the item key on the index position in the heap.  <a href="#a6399bcc211fe69b1ca8eb6f3a14c29cb">More...</a><br /></td></tr>
+<tr class="separator:a6399bcc211fe69b1ca8eb6f3a14c29cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5681dcba74dbe351f193df6c10e8b69e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8h.html#a5681dcba74dbe351f193df6c10e8b69e">cdc_heap_swap</a> (struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *a, struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *b)</td></tr>
+<tr class="memdesc:a5681dcba74dbe351f193df6c10e8b69e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swaps heaps a and b. This operation is very fast and never fails.  <a href="#a5681dcba74dbe351f193df6c10e8b69e">More...</a><br /></td></tr>
+<tr class="separator:a5681dcba74dbe351f193df6c10e8b69e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a class="anchor" id="a016b5050428bccba92b4f1673d7096bd"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef struct cdc_heap <a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ad2578e8d173d77559892685b210b63d7"></a>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="structcdc__heap.html" title="The cdc_heap struct. ">cdc_heap</a> is a struct and functions that provide a heap. </p>
+<dl class="section author"><dt>Author</dt><dd>Maksim Andrianov <a href="#" onclick="location.href='mai'+'lto:'+'mak'+'si'+'man'+'dr'+'ian'+'ov'+'1@y'+'an'+'dex'+'.r'+'u'; return false;">maksi<span style="display: none;">.nosp@m.</span>mand<span style="display: none;">.nosp@m.</span>riano<span style="display: none;">.nosp@m.</span>v1@y<span style="display: none;">.nosp@m.</span>andex<span style="display: none;">.nosp@m.</span>.ru</a> </dd></dl>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a3ea601bc3f53b0e859927264384cdb24"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_heap_ctor </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> **&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__heap.html">cdc_heap</a> **&#160;</td>
           <td class="paramname"><em>h</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a>&#160;</td>
-          <td class="paramname"><em>func</em>, </td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -175,23 +181,25 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs an empty heap. The function compar specifies the ordering of items. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="ae6299b70093b13c898f1375a2345c4ae"></a>
+<a class="anchor" id="a8f41752a2872cd11bde00f364cf99f8f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_heap_ctorl </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> **&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__heap.html">cdc_heap</a> **&#160;</td>
           <td class="paramname"><em>h</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a>&#160;</td>
-          <td class="paramname"><em>func</em>, </td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -213,23 +221,25 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs a heap, initialized by an arbitrary number of pointers. The function compar specifies the ordering of items. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="a9d564f78a0f2635f3285b775b5649de5"></a>
+<a class="anchor" id="a397d8202c1155164b9ffc55d6d42b202"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_heap_ctorv </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> **&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__heap.html">cdc_heap</a> **&#160;</td>
           <td class="paramname"><em>h</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a>&#160;</td>
-          <td class="paramname"><em>func</em>, </td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -251,64 +261,80 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs a heap, initialized by args. The function compar specifies the ordering of items. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="a5bf0568e81241d2983d11761341dc601"></a>
+<a class="anchor" id="af6c49923ef442db1b37d7cca8e6dc3ef"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cdc_heap_dtor </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Destroys the heap. </p>
+
 </div>
 </div>
-<a class="anchor" id="a37b67f114adede0731a2edc52a558d79"></a>
+<a class="anchor" id="af337e2375cfd585dcdb060cbcf83c3ff"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool cdc_heap_empty </td>
+          <td class="memname">static bool cdc_heap_empty </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Returns true if the heap has size 0; otherwise returns false. </p>
 
 </div>
 </div>
-<a class="anchor" id="a19ffbae9485da73914f3b2de9d898c7b"></a>
+<a class="anchor" id="a4ebd0169ee577af9629cf2216a8739fb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_heap_extract_top </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Extracts the top item from the heap. This function assumes that the heap isn't empty. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="ae5e7120f9932c43ce87482212d1466a2"></a>
+<a class="anchor" id="a6399bcc211fe69b1ca8eb6f3a14c29cb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cdc_heap_increase_key </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *&#160;</td>
           <td class="paramname"><em>h</em>, </td>
         </tr>
         <tr>
@@ -331,16 +357,18 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Increases the item key on the index position in the heap. </p>
+
 </div>
 </div>
-<a class="anchor" id="a306f8c12a0cffc699d1779a0a47b851c"></a>
+<a class="anchor" id="ab7033cd5f9f1d5c5c87e184bb6a834e0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_heap_insert </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *&#160;</td>
           <td class="paramname"><em>h</em>, </td>
         </tr>
         <tr>
@@ -357,38 +385,50 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Inserts element key to the heap. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="aea7dce2847dafbb0967ffb54fca58c28"></a>
+<a class="anchor" id="a244e5437e9bcee3d8d5aaa39b84cd1ee"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t cdc_heap_size </td>
+          <td class="memname">static size_t cdc_heap_size </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Returns the number of items in the heap. </p>
 
 </div>
 </div>
-<a class="anchor" id="ac5a9d19a7eff6855b0af3f7d0a2d2f11"></a>
+<a class="anchor" id="a5681dcba74dbe351f193df6c10e8b69e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cdc_heap_swap </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
@@ -399,21 +439,33 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Swaps heaps a and b. This operation is very fast and never fails. </p>
+
 </div>
 </div>
-<a class="anchor" id="ab98845f531e7b4ae53d71b582271b167"></a>
+<a class="anchor" id="ab65432a509b3e40761cc7eb07b1f9426"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void* cdc_heap_top </td>
+          <td class="memname">static void* cdc_heap_top </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="heap_8h.html#a016b5050428bccba92b4f1673d7096bd">cdc_heap_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__heap.html">cdc_heap</a> *&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Returns a pointer to the heap's top item. This function assumes that the heap isn't empty. </p>
 
 </div>
 </div>

@@ -94,60 +94,74 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:aa4963b5b9902744d812930b974f2a892"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__data__info.html#aa4963b5b9902744d812930b974f2a892">free</a></td></tr>
-<tr class="separator:aa4963b5b9902744d812930b974f2a892"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c2e597f9fe1724ff778dc49649e060c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a2516892f83fae289f2f2c4ccc466a64d">cdc_lt_func_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__data__info.html#a1c2e597f9fe1724ff778dc49649e060c">lt</a></td></tr>
-<tr class="separator:a1c2e597f9fe1724ff778dc49649e060c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51548861965b2493b3ee52a2133f0d71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a51dffcf6165b35123dda958d077fb694">cdc_gt_func_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__data__info.html#a51548861965b2493b3ee52a2133f0d71">gt</a></td></tr>
-<tr class="separator:a51548861965b2493b3ee52a2133f0d71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1ea62fee15658c0ff09b48b247abb96"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a67b1732a33c4cd21d3ad6acdec0d068f">cdc_eq_func_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__data__info.html#aa1ea62fee15658c0ff09b48b247abb96">eq</a></td></tr>
-<tr class="separator:aa1ea62fee15658c0ff09b48b247abb96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00cac9e5111cbc007e391e5017fa5af5"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__data__info.html#a00cac9e5111cbc007e391e5017fa5af5">free</a> )(void *)</td></tr>
+<tr class="separator:a00cac9e5111cbc007e391e5017fa5af5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4f1dd865aed622c2499708a0c8aa543"><td class="memItemLeft" align="right" valign="top">bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__data__info.html#af4f1dd865aed622c2499708a0c8aa543">lt</a> )(const void *, const void *)</td></tr>
+<tr class="separator:af4f1dd865aed622c2499708a0c8aa543"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5497d78b7be49d3c7fbc1945621321b2"><td class="memItemLeft" align="right" valign="top">bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__data__info.html#a5497d78b7be49d3c7fbc1945621321b2">gt</a> )(const void *, const void *)</td></tr>
+<tr class="separator:a5497d78b7be49d3c7fbc1945621321b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5330be8e027c5bceb5d23fbb66189fbc"><td class="memItemLeft" align="right" valign="top">bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__data__info.html#a5330be8e027c5bceb5d23fbb66189fbc">eq</a> )(const void *, const void *)</td></tr>
+<tr class="separator:a5330be8e027c5bceb5d23fbb66189fbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a854352f53b148adc24983a58a1866d66"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__data__info.html#a854352f53b148adc24983a58a1866d66">size</a></td></tr>
 <tr class="separator:a854352f53b148adc24983a58a1866d66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f3433001ef63a5e771385a4434de00a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__data__info.html#a8f3433001ef63a5e771385a4434de00a">__cnt</a></td></tr>
+<tr class="separator:a8f3433001ef63a5e771385a4434de00a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Field Documentation</h2>
-<a class="anchor" id="aa1ea62fee15658c0ff09b48b247abb96"></a>
+<a class="anchor" id="a8f3433001ef63a5e771385a4434de00a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a67b1732a33c4cd21d3ad6acdec0d068f">cdc_eq_func_t</a> eq</td>
+          <td class="memname">size_t __cnt</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="aa4963b5b9902744d812930b974f2a892"></a>
+<a class="anchor" id="a5330be8e027c5bceb5d23fbb66189fbc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a> free</td>
+          <td class="memname">bool(* eq) (const void *, const void *)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a51548861965b2493b3ee52a2133f0d71"></a>
+<a class="anchor" id="a00cac9e5111cbc007e391e5017fa5af5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a51dffcf6165b35123dda958d077fb694">cdc_gt_func_t</a> gt</td>
+          <td class="memname">void(* free) (void *)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a1c2e597f9fe1724ff778dc49649e060c"></a>
+<a class="anchor" id="a5497d78b7be49d3c7fbc1945621321b2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a2516892f83fae289f2f2c4ccc466a64d">cdc_lt_func_t</a> lt</td>
+          <td class="memname">bool(* gt) (const void *, const void *)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="af4f1dd865aed622c2499708a0c8aa543"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool(* lt) (const void *, const void *)</td>
         </tr>
       </table>
 </div><div class="memdoc">

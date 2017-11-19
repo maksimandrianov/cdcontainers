@@ -112,105 +112,21 @@ Macros</h2></td></tr>
 <tr class="separator:adc84b03168b6402e2a224936bf42b173"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a440cdaa5b6850290c9bb7a00f913f5f1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a440cdaa5b6850290c9bb7a00f913f5f1">CDC_SWAP</a>(T,  x,  y)</td></tr>
 <tr class="separator:a440cdaa5b6850290c9bb7a00f913f5f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ccf7386530cdcc02f96e7135f6ae5aa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a4ccf7386530cdcc02f96e7135f6ae5aa">CDC_HAS_FREE</a>(container)&#160;&#160;&#160;(container-&gt;info &amp;&amp; container-&gt;info-&gt;free)</td></tr>
-<tr class="separator:a4ccf7386530cdcc02f96e7135f6ae5aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac07512d5351e9b96992c80f2dbf4307f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#ac07512d5351e9b96992c80f2dbf4307f">CDC_HAS_LT</a>(container)&#160;&#160;&#160;(container-&gt;info &amp;&amp; container-&gt;info-&gt;lt)</td></tr>
-<tr class="separator:ac07512d5351e9b96992c80f2dbf4307f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4aa15c60428f1ba0c3407a55efd467e8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a4aa15c60428f1ba0c3407a55efd467e8">CDC_HAS_GT</a>(container)&#160;&#160;&#160;(container-&gt;info &amp;&amp; container-&gt;info-&gt;gt)</td></tr>
-<tr class="separator:a4aa15c60428f1ba0c3407a55efd467e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a784f29454c3ab738b313eca94b4a1594"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a784f29454c3ab738b313eca94b4a1594">CDC_HAS_EQ</a>(container)&#160;&#160;&#160;(container-&gt;info &amp;&amp; container-&gt;info-&gt;eq)</td></tr>
-<tr class="separator:a784f29454c3ab738b313eca94b4a1594"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c0b0176cbddd2b0ae13f55646b05a8e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a4c0b0176cbddd2b0ae13f55646b05a8e">CDC_HAS_SIZE</a>(container)&#160;&#160;&#160;(container-&gt;info &amp;&amp; container-&gt;info-&gt;size &gt; 0)</td></tr>
-<tr class="separator:a4c0b0176cbddd2b0ae13f55646b05a8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a2525aad2bb83f497f6fe002aaf7763"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a4a2525aad2bb83f497f6fe002aaf7763">CDC_INIT_STRUCT</a>&#160;&#160;&#160;{0,}</td></tr>
+<tr class="separator:a4a2525aad2bb83f497f6fe002aaf7763"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ae01474469200a501121a252d985c90e7"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a>) (void *)</td></tr>
-<tr class="separator:ae01474469200a501121a252d985c90e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2516892f83fae289f2f2c4ccc466a64d"><td class="memItemLeft" align="right" valign="top">typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a2516892f83fae289f2f2c4ccc466a64d">cdc_lt_func_t</a>) (const void *, const void *)</td></tr>
-<tr class="separator:a2516892f83fae289f2f2c4ccc466a64d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51dffcf6165b35123dda958d077fb694"><td class="memItemLeft" align="right" valign="top">typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a51dffcf6165b35123dda958d077fb694">cdc_gt_func_t</a>) (const void *, const void *)</td></tr>
-<tr class="separator:a51dffcf6165b35123dda958d077fb694"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67b1732a33c4cd21d3ad6acdec0d068f"><td class="memItemLeft" align="right" valign="top">typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a67b1732a33c4cd21d3ad6acdec0d068f">cdc_eq_func_t</a>) (const void *, const void *)</td></tr>
-<tr class="separator:a67b1732a33c4cd21d3ad6acdec0d068f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a407302f725e3a96869ce15e661229cb3"><td class="memItemLeft" align="right" valign="top">typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a407302f725e3a96869ce15e661229cb3">cdc_compar_func_t</a>) (const void *, const void *)</td></tr>
 <tr class="separator:a407302f725e3a96869ce15e661229cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="a784f29454c3ab738b313eca94b4a1594"></a>
+<a class="anchor" id="a4a2525aad2bb83f497f6fe002aaf7763"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CDC_HAS_EQ</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">container</td><td>)</td>
-          <td>&#160;&#160;&#160;(container-&gt;info &amp;&amp; container-&gt;info-&gt;eq)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a4ccf7386530cdcc02f96e7135f6ae5aa"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_HAS_FREE</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">container</td><td>)</td>
-          <td>&#160;&#160;&#160;(container-&gt;info &amp;&amp; container-&gt;info-&gt;free)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a4aa15c60428f1ba0c3407a55efd467e8"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_HAS_GT</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">container</td><td>)</td>
-          <td>&#160;&#160;&#160;(container-&gt;info &amp;&amp; container-&gt;info-&gt;gt)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ac07512d5351e9b96992c80f2dbf4307f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_HAS_LT</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">container</td><td>)</td>
-          <td>&#160;&#160;&#160;(container-&gt;info &amp;&amp; container-&gt;info-&gt;lt)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a4c0b0176cbddd2b0ae13f55646b05a8e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_HAS_SIZE</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">container</td><td>)</td>
-          <td>&#160;&#160;&#160;(container-&gt;info &amp;&amp; container-&gt;info-&gt;size &gt; 0)</td>
+          <td class="memname">#define CDC_INIT_STRUCT&#160;&#160;&#160;{0,}</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -308,54 +224,6 @@ Typedefs</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">typedef int(* cdc_compar_func_t) (const void *, const void *)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a67b1732a33c4cd21d3ad6acdec0d068f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef bool(* cdc_eq_func_t) (const void *, const void *)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ae01474469200a501121a252d985c90e7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef void(* cdc_free_func_t) (void *)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a51dffcf6165b35123dda958d077fb694"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef bool(* cdc_gt_func_t) (const void *, const void *)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a2516892f83fae289f2f2c4ccc466a64d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef bool(* cdc_lt_func_t) (const void *, const void *)</td>
         </tr>
       </table>
 </div><div class="memdoc">

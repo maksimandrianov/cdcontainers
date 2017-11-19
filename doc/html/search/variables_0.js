@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['buffer',['buffer',['../structcdc__vector.html#a35d30b657817ecdcb47609da9ce1e0dc',1,'cdc_vector']]]
+  ['_5f_5fcnt',['__cnt',['../structcdc__data__info.html#a8f3433001ef63a5e771385a4434de00a',1,'cdc_data_info']]]
 ];

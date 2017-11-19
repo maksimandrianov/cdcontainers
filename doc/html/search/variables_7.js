@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['size',['size',['../structcdc__data__info.html#a854352f53b148adc24983a58a1866d66',1,'cdc_data_info::size()'],['../structcdc__vector.html#a854352f53b148adc24983a58a1866d66',1,'cdc_vector::size()']]]
+  ['head',['head',['../structcdc__deque.html#a75844ce74940ef333d11ae090e07c9af',1,'cdc_deque::head()'],['../structcdc__list.html#a836288c49ef8e7edc1ba50e6b5fb409d',1,'cdc_list::head()']]]
 ];

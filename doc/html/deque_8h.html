@@ -87,149 +87,102 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">deque.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>The <a class="el" href="structcdc__deque.html" title="The cdc_deque struct. ">cdc_deque</a> is a struct and functions that provide a double-ended queue.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &lt;stdarg.h&gt;</code><br />
+<code>#include &lt;assert.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="status_8h_source.html">cdcontainers/status.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="common_8h_source.html">cdcontainers/common.h</a>&gt;</code><br />
 </div>
 <p><a href="deque_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:ac179b4b7c4d29232748df7f697dcc0be"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#ac179b4b7c4d29232748df7f697dcc0be">CDC_DEQUE_MIN_CAPACITY</a>&#160;&#160;&#160;(4)</td></tr>
-<tr class="separator:ac179b4b7c4d29232748df7f697dcc0be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e4ec88bee3969a3336b15d68a785987"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a8e4ec88bee3969a3336b15d68a785987">CDC_DEQUE_COPACITY_EXP</a>&#160;&#160;&#160;(2.0f)</td></tr>
-<tr class="separator:a8e4ec88bee3969a3336b15d68a785987"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c4ded72d2fafdbc2146f454e0288e8f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a3c4ded72d2fafdbc2146f454e0288e8f">CDC_DEQUE_SHRINK_THRESHOLD</a>&#160;&#160;&#160;(4.0f)</td></tr>
-<tr class="separator:a3c4ded72d2fafdbc2146f454e0288e8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fb29fe028910fd844b41cc09e44c205"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a4fb29fe028910fd844b41cc09e44c205">CDC_DEQUE_MAX_LEN</a>&#160;&#160;&#160;(SIZE_MAX)</td></tr>
-<tr class="separator:a4fb29fe028910fd844b41cc09e44c205"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:aae06935660d7036261e9469c4ac9eb50"><td class="memItemLeft" align="right" valign="top">typedef struct cdc_deque&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a></td></tr>
-<tr class="separator:aae06935660d7036261e9469c4ac9eb50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__deque.html">cdc_deque</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="structcdc__deque.html" title="The cdc_deque struct. ">cdc_deque</a> struct.  <a href="structcdc__deque.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:abcdaa2613e03221b3dee61b9a9765335"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#abcdaa2613e03221b3dee61b9a9765335">cdc_deque_ctor</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> **d, <a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a> func)</td></tr>
-<tr class="separator:abcdaa2613e03221b3dee61b9a9765335"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a365a2edd53f05d6715571198c82f31cb"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a365a2edd53f05d6715571198c82f31cb">cdc_deque_ctorl</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> **d, <a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a> func,...)</td></tr>
-<tr class="separator:a365a2edd53f05d6715571198c82f31cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78868dba314641be05916ebede1b2f43"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a78868dba314641be05916ebede1b2f43">cdc_deque_ctorv</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> **d, <a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a> func, va_list args)</td></tr>
-<tr class="separator:a78868dba314641be05916ebede1b2f43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a017d34ffac014fd962e6835db56991"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a7a017d34ffac014fd962e6835db56991">cdc_deque_dtor</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *d)</td></tr>
-<tr class="separator:a7a017d34ffac014fd962e6835db56991"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76a3ca1c5f6f057b083e63c4b5078918"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a76a3ca1c5f6f057b083e63c4b5078918">cdc_deque_get</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *d, size_t index)</td></tr>
-<tr class="separator:a76a3ca1c5f6f057b083e63c4b5078918"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a3bb12900081507d54c265ad4f9d23c"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a8a3bb12900081507d54c265ad4f9d23c">cdc_deque_at</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *d, size_t index, void **elem)</td></tr>
-<tr class="separator:a8a3bb12900081507d54c265ad4f9d23c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc8d964abca49f0bf2af4f34e7752d13"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#adc8d964abca49f0bf2af4f34e7752d13">cdc_deque_front</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *d)</td></tr>
-<tr class="separator:adc8d964abca49f0bf2af4f34e7752d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a223889b1a5253144b378c827dc82b42e"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a223889b1a5253144b378c827dc82b42e">cdc_deque_back</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *d)</td></tr>
-<tr class="separator:a223889b1a5253144b378c827dc82b42e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec3f225cb7a2d54262017d53c3fa4ae9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#aec3f225cb7a2d54262017d53c3fa4ae9">cdc_deque_empty</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *d)</td></tr>
-<tr class="separator:aec3f225cb7a2d54262017d53c3fa4ae9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27c72a1422d2589e56e22a8c2e8086e8"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a27c72a1422d2589e56e22a8c2e8086e8">cdc_deque_size</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *d)</td></tr>
-<tr class="separator:a27c72a1422d2589e56e22a8c2e8086e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adcb8e0fb0fef73630575dc62a41bf4b2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#adcb8e0fb0fef73630575dc62a41bf4b2">cdc_deque_set</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *d, size_t index, void *elem)</td></tr>
-<tr class="separator:adcb8e0fb0fef73630575dc62a41bf4b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d51072a6e0a7c99eb66577536f19dae"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a3d51072a6e0a7c99eb66577536f19dae">cdc_deque_insert</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *d, size_t index, void *elem)</td></tr>
-<tr class="separator:a3d51072a6e0a7c99eb66577536f19dae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0c0d9d977600b4d83f83399b5ca2060"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#aa0c0d9d977600b4d83f83399b5ca2060">cdc_deque_erase</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *d, size_t index, void **elem)</td></tr>
-<tr class="separator:aa0c0d9d977600b4d83f83399b5ca2060"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3467a52011d9725af6186d83d221e6ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a3467a52011d9725af6186d83d221e6ab">cdc_deque_clear</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *d)</td></tr>
-<tr class="separator:a3467a52011d9725af6186d83d221e6ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2df4beae3c21fedb4e194b4cfe74b9a"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#aa2df4beae3c21fedb4e194b4cfe74b9a">cdc_deque_push_back</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *d, void *elem)</td></tr>
-<tr class="separator:aa2df4beae3c21fedb4e194b4cfe74b9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab27ded4a85247af874e90d085f1a1a4c"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#ab27ded4a85247af874e90d085f1a1a4c">cdc_deque_pop_back</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *d)</td></tr>
-<tr class="separator:ab27ded4a85247af874e90d085f1a1a4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60ddf8f356297b84d6d12248c4cee6e4"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a60ddf8f356297b84d6d12248c4cee6e4">cdc_deque_push_front</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *d, void *elem)</td></tr>
-<tr class="separator:a60ddf8f356297b84d6d12248c4cee6e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee3922dd7aa6ddcd8930e839a25c503a"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#aee3922dd7aa6ddcd8930e839a25c503a">cdc_deque_pop_front</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *d)</td></tr>
-<tr class="separator:aee3922dd7aa6ddcd8930e839a25c503a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4246966866f7c16bfeaad300352105ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a4246966866f7c16bfeaad300352105ce">cdc_deque_swap</a> (<a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *a, <a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *b)</td></tr>
-<tr class="separator:a4246966866f7c16bfeaad300352105ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7926a1bd5fdc87f5d527eee30534f4c"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#ac7926a1bd5fdc87f5d527eee30534f4c">cdc_deque_ctor</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> **d, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info)</td></tr>
+<tr class="memdesc:ac7926a1bd5fdc87f5d527eee30534f4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty deque. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#ac7926a1bd5fdc87f5d527eee30534f4c">More...</a><br /></td></tr>
+<tr class="separator:ac7926a1bd5fdc87f5d527eee30534f4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a24c55c0a62369dad7c3787b60d0d6d"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a5a24c55c0a62369dad7c3787b60d0d6d">cdc_deque_ctorl</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> **d, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info,...)</td></tr>
+<tr class="memdesc:a5a24c55c0a62369dad7c3787b60d0d6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a deque, initialized by an arbitrary number of pointers. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a5a24c55c0a62369dad7c3787b60d0d6d">More...</a><br /></td></tr>
+<tr class="separator:a5a24c55c0a62369dad7c3787b60d0d6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab404c59734fd7b944a3060cc38e88cc0"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#ab404c59734fd7b944a3060cc38e88cc0">cdc_deque_ctorv</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> **d, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info, va_list args)</td></tr>
+<tr class="memdesc:ab404c59734fd7b944a3060cc38e88cc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a deque, initialized by args The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#ab404c59734fd7b944a3060cc38e88cc0">More...</a><br /></td></tr>
+<tr class="separator:ab404c59734fd7b944a3060cc38e88cc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad789c00009c1bc3a1e352cb90541f097"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#ad789c00009c1bc3a1e352cb90541f097">cdc_deque_dtor</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *d)</td></tr>
+<tr class="memdesc:ad789c00009c1bc3a1e352cb90541f097"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the deque.  <a href="#ad789c00009c1bc3a1e352cb90541f097">More...</a><br /></td></tr>
+<tr class="separator:ad789c00009c1bc3a1e352cb90541f097"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad94e76629331eaf17d88fdebd0bda014"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#ad94e76629331eaf17d88fdebd0bda014">cdc_deque_get</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *d, size_t index)</td></tr>
+<tr class="memdesc:ad94e76629331eaf17d88fdebd0bda014"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the item at index position index in the deque. Index must be a valid index position in the deque.  <a href="#ad94e76629331eaf17d88fdebd0bda014">More...</a><br /></td></tr>
+<tr class="separator:ad94e76629331eaf17d88fdebd0bda014"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9df4bfd60b66faa09b4a6ae083a5789a"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a9df4bfd60b66faa09b4a6ae083a5789a">cdc_deque_at</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *d, size_t index, void **elem)</td></tr>
+<tr class="memdesc:a9df4bfd60b66faa09b4a6ae083a5789a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes to a elem the item at index position in the deque. Index must be a valid index position in the deque. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a9df4bfd60b66faa09b4a6ae083a5789a">More...</a><br /></td></tr>
+<tr class="separator:a9df4bfd60b66faa09b4a6ae083a5789a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2837693e9b8aaa1b6cc5505a4ccf00b"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#ae2837693e9b8aaa1b6cc5505a4ccf00b">cdc_deque_front</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *d)</td></tr>
+<tr class="memdesc:ae2837693e9b8aaa1b6cc5505a4ccf00b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the first item in the deque. This function assumes that the deque isn't empty.  <a href="#ae2837693e9b8aaa1b6cc5505a4ccf00b">More...</a><br /></td></tr>
+<tr class="separator:ae2837693e9b8aaa1b6cc5505a4ccf00b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e6ed33271f8ac0bac63570b4201edd5"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a1e6ed33271f8ac0bac63570b4201edd5">cdc_deque_back</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *d)</td></tr>
+<tr class="memdesc:a1e6ed33271f8ac0bac63570b4201edd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the last item in the deque. This function assumes that the deque isn't empty.  <a href="#a1e6ed33271f8ac0bac63570b4201edd5">More...</a><br /></td></tr>
+<tr class="separator:a1e6ed33271f8ac0bac63570b4201edd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6892df0f3647aacfe1ecc2bfd77963ed"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a6892df0f3647aacfe1ecc2bfd77963ed">cdc_deque_empty</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *d)</td></tr>
+<tr class="memdesc:a6892df0f3647aacfe1ecc2bfd77963ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the deque has size 0; otherwise returns false.  <a href="#a6892df0f3647aacfe1ecc2bfd77963ed">More...</a><br /></td></tr>
+<tr class="separator:a6892df0f3647aacfe1ecc2bfd77963ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3521e06a25ffc6e33015f61d13bd36d8"><td class="memItemLeft" align="right" valign="top">static size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a3521e06a25ffc6e33015f61d13bd36d8">cdc_deque_size</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *d)</td></tr>
+<tr class="memdesc:a3521e06a25ffc6e33015f61d13bd36d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of items in the deque.  <a href="#a3521e06a25ffc6e33015f61d13bd36d8">More...</a><br /></td></tr>
+<tr class="separator:a3521e06a25ffc6e33015f61d13bd36d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a125255e949ff95dedfdc230248b66c03"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a125255e949ff95dedfdc230248b66c03">cdc_deque_set</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *d, size_t index, void *value)</td></tr>
+<tr class="memdesc:a125255e949ff95dedfdc230248b66c03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the deque at index position to the value.  <a href="#a125255e949ff95dedfdc230248b66c03">More...</a><br /></td></tr>
+<tr class="separator:a125255e949ff95dedfdc230248b66c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95189b49f2a7f9cd8199479591a6821f"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a95189b49f2a7f9cd8199479591a6821f">cdc_deque_insert</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *d, size_t index, void *value)</td></tr>
+<tr class="memdesc:a95189b49f2a7f9cd8199479591a6821f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts value at index position in the deque. If index is 0, the value is prepended to the deque. If index is <a class="el" href="deque_8h.html#a3521e06a25ffc6e33015f61d13bd36d8" title="Returns the number of items in the deque. ">cdc_deque_size()</a>, the value is appended to the deque.  <a href="#a95189b49f2a7f9cd8199479591a6821f">More...</a><br /></td></tr>
+<tr class="separator:a95189b49f2a7f9cd8199479591a6821f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5f715d8dc932b532d131469f666156f"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#ab5f715d8dc932b532d131469f666156f">cdc_deque_erase</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *d, size_t index, void **elem)</td></tr>
+<tr class="memdesc:ab5f715d8dc932b532d131469f666156f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the element at index position. The pointer will be written in elem. Index must be a valid index position in the deque. The function is not called to free memory. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#ab5f715d8dc932b532d131469f666156f">More...</a><br /></td></tr>
+<tr class="separator:ab5f715d8dc932b532d131469f666156f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3108747a8fc1a988706ae34e8b21f6c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a3108747a8fc1a988706ae34e8b21f6c5">cdc_deque_clear</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *d)</td></tr>
+<tr class="memdesc:a3108747a8fc1a988706ae34e8b21f6c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all the elements from the deque. If a function has been installed to delete an item, it will be called for each item. Index must be a valid index position in the deque.  <a href="#a3108747a8fc1a988706ae34e8b21f6c5">More...</a><br /></td></tr>
+<tr class="separator:a3108747a8fc1a988706ae34e8b21f6c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a280fbf021f872d9f2908ec3dd133d798"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a280fbf021f872d9f2908ec3dd133d798">cdc_deque_push_back</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *d, void *value)</td></tr>
+<tr class="memdesc:a280fbf021f872d9f2908ec3dd133d798"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts value at the end of the deque. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a280fbf021f872d9f2908ec3dd133d798">More...</a><br /></td></tr>
+<tr class="separator:a280fbf021f872d9f2908ec3dd133d798"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dadf05030c943a0d8395e787e0e22c8"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a6dadf05030c943a0d8395e787e0e22c8">cdc_deque_pop_back</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *d)</td></tr>
+<tr class="memdesc:a6dadf05030c943a0d8395e787e0e22c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the last item in the deque. If a function has been installed to delete an item, it will be called for last item. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a6dadf05030c943a0d8395e787e0e22c8">More...</a><br /></td></tr>
+<tr class="separator:a6dadf05030c943a0d8395e787e0e22c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa37f619fa405ba0aea21d2acd5d4e837"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#aa37f619fa405ba0aea21d2acd5d4e837">cdc_deque_push_front</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *d, void *value)</td></tr>
+<tr class="memdesc:aa37f619fa405ba0aea21d2acd5d4e837"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts value at the beginning of the deque. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#aa37f619fa405ba0aea21d2acd5d4e837">More...</a><br /></td></tr>
+<tr class="separator:aa37f619fa405ba0aea21d2acd5d4e837"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac851dcf9a2d39e19fb503a2cdb5d24e3"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#ac851dcf9a2d39e19fb503a2cdb5d24e3">cdc_deque_pop_front</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *d)</td></tr>
+<tr class="memdesc:ac851dcf9a2d39e19fb503a2cdb5d24e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the first item in the deque. If a function has been installed to delete an item, it will be called for last item. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#ac851dcf9a2d39e19fb503a2cdb5d24e3">More...</a><br /></td></tr>
+<tr class="separator:ac851dcf9a2d39e19fb503a2cdb5d24e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f05de1dcb5c4f96053db3b8b23b0b8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deque_8h.html#a0f05de1dcb5c4f96053db3b8b23b0b8e">cdc_deque_swap</a> (struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *a, struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *b)</td></tr>
+<tr class="memdesc:a0f05de1dcb5c4f96053db3b8b23b0b8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swaps deques a and b. This operation is very fast and never fails.  <a href="#a0f05de1dcb5c4f96053db3b8b23b0b8e">More...</a><br /></td></tr>
+<tr class="separator:a0f05de1dcb5c4f96053db3b8b23b0b8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="a8e4ec88bee3969a3336b15d68a785987"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_DEQUE_COPACITY_EXP&#160;&#160;&#160;(2.0f)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a4fb29fe028910fd844b41cc09e44c205"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_DEQUE_MAX_LEN&#160;&#160;&#160;(SIZE_MAX)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ac179b4b7c4d29232748df7f697dcc0be"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_DEQUE_MIN_CAPACITY&#160;&#160;&#160;(4)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a3c4ded72d2fafdbc2146f454e0288e8f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CDC_DEQUE_SHRINK_THRESHOLD&#160;&#160;&#160;(4.0f)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a class="anchor" id="aae06935660d7036261e9469c4ac9eb50"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef struct cdc_deque <a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a8a3bb12900081507d54c265ad4f9d23c"></a>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="structcdc__deque.html" title="The cdc_deque struct. ">cdc_deque</a> is a struct and functions that provide a double-ended queue. </p>
+<dl class="section author"><dt>Author</dt><dd>Maksim Andrianov <a href="#" onclick="location.href='mai'+'lto:'+'mak'+'si'+'man'+'dr'+'ian'+'ov'+'1@y'+'an'+'dex'+'.r'+'u'; return false;">maksi<span style="display: none;">.nosp@m.</span>mand<span style="display: none;">.nosp@m.</span>riano<span style="display: none;">.nosp@m.</span>v1@y<span style="display: none;">.nosp@m.</span>andex<span style="display: none;">.nosp@m.</span>.ru</a> </dd></dl>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a9df4bfd60b66faa09b4a6ae083a5789a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_deque_at </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>d</em>, </td>
         </tr>
         <tr>
@@ -252,55 +205,69 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Writes to a elem the item at index position in the deque. Index must be a valid index position in the deque. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="a223889b1a5253144b378c827dc82b42e"></a>
+<a class="anchor" id="a1e6ed33271f8ac0bac63570b4201edd5"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void* cdc_deque_back </td>
+          <td class="memname">static void* cdc_deque_back </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>d</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Returns a pointer to the last item in the deque. This function assumes that the deque isn't empty. </p>
 
 </div>
 </div>
-<a class="anchor" id="a3467a52011d9725af6186d83d221e6ab"></a>
+<a class="anchor" id="a3108747a8fc1a988706ae34e8b21f6c5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cdc_deque_clear </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>d</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Removes all the elements from the deque. If a function has been installed to delete an item, it will be called for each item. Index must be a valid index position in the deque. </p>
+
 </div>
 </div>
-<a class="anchor" id="abcdaa2613e03221b3dee61b9a9765335"></a>
+<a class="anchor" id="ac7926a1bd5fdc87f5d527eee30534f4c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_deque_ctor </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> **&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> **&#160;</td>
           <td class="paramname"><em>d</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a>&#160;</td>
-          <td class="paramname"><em>func</em>&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -310,23 +277,25 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs an empty deque. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="a365a2edd53f05d6715571198c82f31cb"></a>
+<a class="anchor" id="a5a24c55c0a62369dad7c3787b60d0d6d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_deque_ctorl </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> **&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> **&#160;</td>
           <td class="paramname"><em>d</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a>&#160;</td>
-          <td class="paramname"><em>func</em>, </td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -342,23 +311,25 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs a deque, initialized by an arbitrary number of pointers. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="a78868dba314641be05916ebede1b2f43"></a>
+<a class="anchor" id="ab404c59734fd7b944a3060cc38e88cc0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_deque_ctorv </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> **&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> **&#160;</td>
           <td class="paramname"><em>d</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a>&#160;</td>
-          <td class="paramname"><em>func</em>, </td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -374,48 +345,62 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs a deque, initialized by args The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="a7a017d34ffac014fd962e6835db56991"></a>
+<a class="anchor" id="ad789c00009c1bc3a1e352cb90541f097"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cdc_deque_dtor </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>d</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Destroys the deque. </p>
+
 </div>
 </div>
-<a class="anchor" id="aec3f225cb7a2d54262017d53c3fa4ae9"></a>
+<a class="anchor" id="a6892df0f3647aacfe1ecc2bfd77963ed"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool cdc_deque_empty </td>
+          <td class="memname">static bool cdc_deque_empty </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>d</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Returns true if the deque has size 0; otherwise returns false. </p>
 
 </div>
 </div>
-<a class="anchor" id="aa0c0d9d977600b4d83f83399b5ca2060"></a>
+<a class="anchor" id="ab5f715d8dc932b532d131469f666156f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_deque_erase </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>d</em>, </td>
         </tr>
         <tr>
@@ -438,32 +423,47 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Removes the element at index position. The pointer will be written in elem. Index must be a valid index position in the deque. The function is not called to free memory. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="adc8d964abca49f0bf2af4f34e7752d13"></a>
+<a class="anchor" id="ae2837693e9b8aaa1b6cc5505a4ccf00b"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void* cdc_deque_front </td>
+          <td class="memname">static void* cdc_deque_front </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>d</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Returns a pointer to the first item in the deque. This function assumes that the deque isn't empty. </p>
 
 </div>
 </div>
-<a class="anchor" id="a76a3ca1c5f6f057b083e63c4b5078918"></a>
+<a class="anchor" id="ad94e76629331eaf17d88fdebd0bda014"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void* cdc_deque_get </td>
+          <td class="memname">static void* cdc_deque_get </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>d</em>, </td>
         </tr>
         <tr>
@@ -478,18 +478,25 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Returns the item at index position index in the deque. Index must be a valid index position in the deque. </p>
 
 </div>
 </div>
-<a class="anchor" id="a3d51072a6e0a7c99eb66577536f19dae"></a>
+<a class="anchor" id="a95189b49f2a7f9cd8199479591a6821f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_deque_insert </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>d</em>, </td>
         </tr>
         <tr>
@@ -502,7 +509,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>elem</em>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -512,55 +519,61 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Inserts value at index position in the deque. If index is 0, the value is prepended to the deque. If index is <a class="el" href="deque_8h.html#a3521e06a25ffc6e33015f61d13bd36d8" title="Returns the number of items in the deque. ">cdc_deque_size()</a>, the value is appended to the deque. </p>
+
 </div>
 </div>
-<a class="anchor" id="ab27ded4a85247af874e90d085f1a1a4c"></a>
+<a class="anchor" id="a6dadf05030c943a0d8395e787e0e22c8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_deque_pop_back </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>d</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Removes the last item in the deque. If a function has been installed to delete an item, it will be called for last item. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="aee3922dd7aa6ddcd8930e839a25c503a"></a>
+<a class="anchor" id="ac851dcf9a2d39e19fb503a2cdb5d24e3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_deque_pop_front </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>d</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Removes the first item in the deque. If a function has been installed to delete an item, it will be called for last item. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="aa2df4beae3c21fedb4e194b4cfe74b9a"></a>
+<a class="anchor" id="a280fbf021f872d9f2908ec3dd133d798"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_deque_push_back </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>d</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>elem</em>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -570,23 +583,25 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Inserts value at the end of the deque. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="a60ddf8f356297b84d6d12248c4cee6e4"></a>
+<a class="anchor" id="aa37f619fa405ba0aea21d2acd5d4e837"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_deque_push_front </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>d</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>elem</em>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -596,16 +611,21 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Inserts value at the beginning of the deque. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="adcb8e0fb0fef73630575dc62a41bf4b2"></a>
+<a class="anchor" id="a125255e949ff95dedfdc230248b66c03"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void cdc_deque_set </td>
+          <td class="memname">static void cdc_deque_set </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>d</em>, </td>
         </tr>
         <tr>
@@ -618,7 +638,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>elem</em>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -626,40 +646,57 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Sets the deque at index position to the value. </p>
 
 </div>
 </div>
-<a class="anchor" id="a27c72a1422d2589e56e22a8c2e8086e8"></a>
+<a class="anchor" id="a3521e06a25ffc6e33015f61d13bd36d8"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t cdc_deque_size </td>
+          <td class="memname">static size_t cdc_deque_size </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>d</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Returns the number of items in the deque. </p>
 
 </div>
 </div>
-<a class="anchor" id="a4246966866f7c16bfeaad300352105ce"></a>
+<a class="anchor" id="a0f05de1dcb5c4f96053db3b8b23b0b8e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cdc_deque_swap </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="deque_8h.html#aae06935660d7036261e9469c4ac9eb50">cdc_deque_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__deque.html">cdc_deque</a> *&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
@@ -669,6 +706,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Swaps deques a and b. This operation is very fast and never fails. </p>
 
 </div>
 </div>

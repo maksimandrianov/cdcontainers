@@ -87,86 +87,102 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">list.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>The <a class="el" href="structcdc__list.html" title="The cdc_list struct. ">cdc_list</a> is a struct and functions that provide a doubly linked list.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &lt;stdarg.h&gt;</code><br />
+<code>#include &lt;assert.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="status_8h_source.html">cdcontainers/status.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="common_8h_source.html">cdcontainers/common.h</a>&gt;</code><br />
 </div>
 <p><a href="list_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a6f862d36d29ca72e40966bdae2667a0c"><td class="memItemLeft" align="right" valign="top">typedef struct cdc_list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a></td></tr>
-<tr class="separator:a6f862d36d29ca72e40966bdae2667a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__list__node.html">cdc_list_node</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="structcdc__list__node.html" title="The cdc_list_node struct. ">cdc_list_node</a> struct.  <a href="structcdc__list__node.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcdc__list.html">cdc_list</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="structcdc__list.html" title="The cdc_list struct. ">cdc_list</a> struct.  <a href="structcdc__list.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a677e60abb5423475b90f56b3c37ea765"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a677e60abb5423475b90f56b3c37ea765">cdc_list_ctor</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> **l, <a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a> func)</td></tr>
-<tr class="separator:a677e60abb5423475b90f56b3c37ea765"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9de4342669a53c24b623775ad3ca0bc4"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a9de4342669a53c24b623775ad3ca0bc4">cdc_list_ctorl</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> **l, <a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a> func,...)</td></tr>
-<tr class="separator:a9de4342669a53c24b623775ad3ca0bc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc8c632654184fb00cdf4615fa688d69"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#afc8c632654184fb00cdf4615fa688d69">cdc_list_ctorv</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> **l, <a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a> func, va_list args)</td></tr>
-<tr class="separator:afc8c632654184fb00cdf4615fa688d69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf055e278773be0588a23dca74e02e23"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#aaf055e278773be0588a23dca74e02e23">cdc_list_dtor</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *l)</td></tr>
-<tr class="separator:aaf055e278773be0588a23dca74e02e23"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa51bcea2b0dea8b4ecdb4e47a8c641ab"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#aa51bcea2b0dea8b4ecdb4e47a8c641ab">cdc_list_at</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *l, size_t index, void **elem)</td></tr>
-<tr class="separator:aa51bcea2b0dea8b4ecdb4e47a8c641ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ad64154b6194a7759039e126c85cfd4"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a3ad64154b6194a7759039e126c85cfd4">cdc_list_front</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *l)</td></tr>
-<tr class="separator:a3ad64154b6194a7759039e126c85cfd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeeb1d8a0dd7105f0b700dbdf51377d84"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#aeeb1d8a0dd7105f0b700dbdf51377d84">cdc_list_back</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *l)</td></tr>
-<tr class="separator:aeeb1d8a0dd7105f0b700dbdf51377d84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6c5b44eb61fff421480a628dbf7d2a2"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#aa6c5b44eb61fff421480a628dbf7d2a2">cdc_list_size</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *l)</td></tr>
-<tr class="separator:aa6c5b44eb61fff421480a628dbf7d2a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a257f01633ac99b56ccea7e320dfe01e4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a257f01633ac99b56ccea7e320dfe01e4">cdc_list_empty</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *l)</td></tr>
-<tr class="separator:a257f01633ac99b56ccea7e320dfe01e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76f54873287705ad703f0b77fc383f8b"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a76f54873287705ad703f0b77fc383f8b">cdc_list_push_back</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *l, void *elem)</td></tr>
-<tr class="separator:a76f54873287705ad703f0b77fc383f8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8298595f091385b3b4540cc2faf23095"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a8298595f091385b3b4540cc2faf23095">cdc_list_pop_back</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *l)</td></tr>
-<tr class="separator:a8298595f091385b3b4540cc2faf23095"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e4d836b150fb60d7d993d9ac9ad014e"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a4e4d836b150fb60d7d993d9ac9ad014e">cdc_list_push_front</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *l, void *elem)</td></tr>
-<tr class="separator:a4e4d836b150fb60d7d993d9ac9ad014e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1374781cfd619ae3ff6b1bd526d9ad0"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#ac1374781cfd619ae3ff6b1bd526d9ad0">cdc_list_pop_front</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *l)</td></tr>
-<tr class="separator:ac1374781cfd619ae3ff6b1bd526d9ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a639e97d15246e6a743d06647c58f39ca"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a639e97d15246e6a743d06647c58f39ca">cdc_list_insert</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *l, size_t index, void *elem)</td></tr>
-<tr class="separator:a639e97d15246e6a743d06647c58f39ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9830abde1f298c0bc898100f9b4a093e"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a9830abde1f298c0bc898100f9b4a093e">cdc_list_erase</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *l, size_t index, void **elem)</td></tr>
-<tr class="separator:a9830abde1f298c0bc898100f9b4a093e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ad83ca65bc1642f142273d4a32634a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a2ad83ca65bc1642f142273d4a32634a8">cdc_list_clear</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *l)</td></tr>
-<tr class="separator:a2ad83ca65bc1642f142273d4a32634a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10804e0110dc6339cbaf74806cd48e10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a10804e0110dc6339cbaf74806cd48e10">cdc_list_swap</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *a, <a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *b)</td></tr>
-<tr class="separator:a10804e0110dc6339cbaf74806cd48e10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55625134fb0512317eb0028488c976e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a55625134fb0512317eb0028488c976e7">cdc_list_foreach</a> (<a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *l, void(*cb)(void *))</td></tr>
-<tr class="separator:a55625134fb0512317eb0028488c976e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a848c24729f6ea77a8e0518f2f9c0c53a"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a848c24729f6ea77a8e0518f2f9c0c53a">cdc_list_ctor</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> **l, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info)</td></tr>
+<tr class="memdesc:a848c24729f6ea77a8e0518f2f9c0c53a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty list. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a848c24729f6ea77a8e0518f2f9c0c53a">More...</a><br /></td></tr>
+<tr class="separator:a848c24729f6ea77a8e0518f2f9c0c53a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bc11caee1043ce5ce65239675d1cf6b"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a3bc11caee1043ce5ce65239675d1cf6b">cdc_list_ctorl</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> **l, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info,...)</td></tr>
+<tr class="memdesc:a3bc11caee1043ce5ce65239675d1cf6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a list, initialized by an arbitrary number of pointers. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a3bc11caee1043ce5ce65239675d1cf6b">More...</a><br /></td></tr>
+<tr class="separator:a3bc11caee1043ce5ce65239675d1cf6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86c8d63d735e80423df928e38cb4ba1a"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a86c8d63d735e80423df928e38cb4ba1a">cdc_list_ctorv</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> **l, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info, va_list args)</td></tr>
+<tr class="memdesc:a86c8d63d735e80423df928e38cb4ba1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a list, initialized by args The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a86c8d63d735e80423df928e38cb4ba1a">More...</a><br /></td></tr>
+<tr class="separator:a86c8d63d735e80423df928e38cb4ba1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29751313ee8dcf71c90a9812660c3329"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a29751313ee8dcf71c90a9812660c3329">cdc_list_dtor</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> *l)</td></tr>
+<tr class="memdesc:a29751313ee8dcf71c90a9812660c3329"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the list.  <a href="#a29751313ee8dcf71c90a9812660c3329">More...</a><br /></td></tr>
+<tr class="separator:a29751313ee8dcf71c90a9812660c3329"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cf76197d13f9466ae434e77df5b375e"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a9cf76197d13f9466ae434e77df5b375e">cdc_list_at</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> *l, size_t index, void **elem)</td></tr>
+<tr class="memdesc:a9cf76197d13f9466ae434e77df5b375e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes to a value the item at index position in the list. Index must be a valid index position in the list. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a9cf76197d13f9466ae434e77df5b375e">More...</a><br /></td></tr>
+<tr class="separator:a9cf76197d13f9466ae434e77df5b375e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae531e57b41871fd438e04a771ccf56ca"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#ae531e57b41871fd438e04a771ccf56ca">cdc_list_front</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> *l)</td></tr>
+<tr class="memdesc:ae531e57b41871fd438e04a771ccf56ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the first item in the list. This function assumes that the list isn't empty.  <a href="#ae531e57b41871fd438e04a771ccf56ca">More...</a><br /></td></tr>
+<tr class="separator:ae531e57b41871fd438e04a771ccf56ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a62aff406d6e736e3c0451ff7b5696a"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a6a62aff406d6e736e3c0451ff7b5696a">cdc_list_back</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> *l)</td></tr>
+<tr class="memdesc:a6a62aff406d6e736e3c0451ff7b5696a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the last item in the list. This function assumes that the list isn't empty.  <a href="#a6a62aff406d6e736e3c0451ff7b5696a">More...</a><br /></td></tr>
+<tr class="separator:a6a62aff406d6e736e3c0451ff7b5696a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9552b5709adf88c8c4833e146a7bb4ab"><td class="memItemLeft" align="right" valign="top">static size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a9552b5709adf88c8c4833e146a7bb4ab">cdc_list_size</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> *l)</td></tr>
+<tr class="memdesc:a9552b5709adf88c8c4833e146a7bb4ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of items in the list.  <a href="#a9552b5709adf88c8c4833e146a7bb4ab">More...</a><br /></td></tr>
+<tr class="separator:a9552b5709adf88c8c4833e146a7bb4ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacb53ee74e3c02d1e9ddc61c54c9d294"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#aacb53ee74e3c02d1e9ddc61c54c9d294">cdc_list_empty</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> *l)</td></tr>
+<tr class="memdesc:aacb53ee74e3c02d1e9ddc61c54c9d294"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the list has size 0; otherwise returns false.  <a href="#aacb53ee74e3c02d1e9ddc61c54c9d294">More...</a><br /></td></tr>
+<tr class="separator:aacb53ee74e3c02d1e9ddc61c54c9d294"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c92888caaf52c673e4e6615e2f98972"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a1c92888caaf52c673e4e6615e2f98972">cdc_list_push_back</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> *l, void *value)</td></tr>
+<tr class="memdesc:a1c92888caaf52c673e4e6615e2f98972"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts value at the end of the list. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a1c92888caaf52c673e4e6615e2f98972">More...</a><br /></td></tr>
+<tr class="separator:a1c92888caaf52c673e4e6615e2f98972"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f53edb8e3e80b66fa384a0c5776ee14"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a9f53edb8e3e80b66fa384a0c5776ee14">cdc_list_pop_back</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> *l)</td></tr>
+<tr class="memdesc:a9f53edb8e3e80b66fa384a0c5776ee14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the last item in the list. If a function has been installed to delete an item, it will be called for last item. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a9f53edb8e3e80b66fa384a0c5776ee14">More...</a><br /></td></tr>
+<tr class="separator:a9f53edb8e3e80b66fa384a0c5776ee14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46b9744bc4cff08cd35713b04e851528"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a46b9744bc4cff08cd35713b04e851528">cdc_list_push_front</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> *l, void *value)</td></tr>
+<tr class="memdesc:a46b9744bc4cff08cd35713b04e851528"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts value at the beginning of the list. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a46b9744bc4cff08cd35713b04e851528">More...</a><br /></td></tr>
+<tr class="separator:a46b9744bc4cff08cd35713b04e851528"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7afb7fc898c6ddd3ea731278e9e57d93"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a7afb7fc898c6ddd3ea731278e9e57d93">cdc_list_pop_front</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> *l)</td></tr>
+<tr class="memdesc:a7afb7fc898c6ddd3ea731278e9e57d93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the first item in the list. If a function has been installed to delete an item, it will be called for last item. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a7afb7fc898c6ddd3ea731278e9e57d93">More...</a><br /></td></tr>
+<tr class="separator:a7afb7fc898c6ddd3ea731278e9e57d93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb7589456a5a3f610d79e84cd694937f"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#abb7589456a5a3f610d79e84cd694937f">cdc_list_insert</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> *l, size_t index, void *value)</td></tr>
+<tr class="memdesc:abb7589456a5a3f610d79e84cd694937f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts value at index position in the list. If index is 0, the value is prepended to the list. If index is <a class="el" href="list_8h.html#a9552b5709adf88c8c4833e146a7bb4ab" title="Returns the number of items in the list. ">cdc_list_size()</a>, the value is appended to the list.  <a href="#abb7589456a5a3f610d79e84cd694937f">More...</a><br /></td></tr>
+<tr class="separator:abb7589456a5a3f610d79e84cd694937f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43705fefcab0861b7c47a173875f4fa9"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a43705fefcab0861b7c47a173875f4fa9">cdc_list_erase</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> *l, size_t index, void **elem)</td></tr>
+<tr class="memdesc:a43705fefcab0861b7c47a173875f4fa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the element at index position. The pointer will be written in elem. Index must be a valid index position in the list. The function is not called to free memory. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a43705fefcab0861b7c47a173875f4fa9">More...</a><br /></td></tr>
+<tr class="separator:a43705fefcab0861b7c47a173875f4fa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5828c967653cb7887d3d72c11dca7e12"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a5828c967653cb7887d3d72c11dca7e12">cdc_list_clear</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> *l)</td></tr>
+<tr class="memdesc:a5828c967653cb7887d3d72c11dca7e12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all the elements from the list. If a function has been installed to delete an item, it will be called for each item. Index must be a valid index position in the list.  <a href="#a5828c967653cb7887d3d72c11dca7e12">More...</a><br /></td></tr>
+<tr class="separator:a5828c967653cb7887d3d72c11dca7e12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70f33ae6ea78a4ce9276d70a1960c1e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a70f33ae6ea78a4ce9276d70a1960c1e8">cdc_list_swap</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> *a, struct <a class="el" href="structcdc__list.html">cdc_list</a> *b)</td></tr>
+<tr class="memdesc:a70f33ae6ea78a4ce9276d70a1960c1e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swaps lists a and b. This operation is very fast and never fails.  <a href="#a70f33ae6ea78a4ce9276d70a1960c1e8">More...</a><br /></td></tr>
+<tr class="separator:a70f33ae6ea78a4ce9276d70a1960c1e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbb01300128a1543a61cff426e995cf5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#afbb01300128a1543a61cff426e995cf5">cdc_list_foreach</a> (struct <a class="el" href="structcdc__list.html">cdc_list</a> *l, void(*cb)(void *))</td></tr>
+<tr class="memdesc:afbb01300128a1543a61cff426e995cf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function cb is applied to each item of the list.  <a href="#afbb01300128a1543a61cff426e995cf5">More...</a><br /></td></tr>
+<tr class="separator:afbb01300128a1543a61cff426e995cf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a class="anchor" id="a6f862d36d29ca72e40966bdae2667a0c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef struct cdc_list <a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="aa51bcea2b0dea8b4ecdb4e47a8c641ab"></a>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="structcdc__list.html" title="The cdc_list struct. ">cdc_list</a> is a struct and functions that provide a doubly linked list. </p>
+<dl class="section author"><dt>Author</dt><dd>Maksim Andrianov <a href="#" onclick="location.href='mai'+'lto:'+'mak'+'si'+'man'+'dr'+'ian'+'ov'+'1@y'+'an'+'dex'+'.r'+'u'; return false;">maksi<span style="display: none;">.nosp@m.</span>mand<span style="display: none;">.nosp@m.</span>riano<span style="display: none;">.nosp@m.</span>v1@y<span style="display: none;">.nosp@m.</span>andex<span style="display: none;">.nosp@m.</span>.ru</a> </dd></dl>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a9cf76197d13f9466ae434e77df5b375e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_list_at </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>l</em>, </td>
         </tr>
         <tr>
@@ -189,55 +205,69 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Writes to a value the item at index position in the list. Index must be a valid index position in the list. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="aeeb1d8a0dd7105f0b700dbdf51377d84"></a>
+<a class="anchor" id="a6a62aff406d6e736e3c0451ff7b5696a"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void* cdc_list_back </td>
+          <td class="memname">static void* cdc_list_back </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>l</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Returns a pointer to the last item in the list. This function assumes that the list isn't empty. </p>
 
 </div>
 </div>
-<a class="anchor" id="a2ad83ca65bc1642f142273d4a32634a8"></a>
+<a class="anchor" id="a5828c967653cb7887d3d72c11dca7e12"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cdc_list_clear </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>l</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Removes all the elements from the list. If a function has been installed to delete an item, it will be called for each item. Index must be a valid index position in the list. </p>
+
 </div>
 </div>
-<a class="anchor" id="a677e60abb5423475b90f56b3c37ea765"></a>
+<a class="anchor" id="a848c24729f6ea77a8e0518f2f9c0c53a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_list_ctor </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> **&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> **&#160;</td>
           <td class="paramname"><em>l</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a>&#160;</td>
-          <td class="paramname"><em>func</em>&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -247,23 +277,25 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs an empty list. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="a9de4342669a53c24b623775ad3ca0bc4"></a>
+<a class="anchor" id="a3bc11caee1043ce5ce65239675d1cf6b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_list_ctorl </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> **&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> **&#160;</td>
           <td class="paramname"><em>l</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a>&#160;</td>
-          <td class="paramname"><em>func</em>, </td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -279,23 +311,25 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs a list, initialized by an arbitrary number of pointers. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="afc8c632654184fb00cdf4615fa688d69"></a>
+<a class="anchor" id="a86c8d63d735e80423df928e38cb4ba1a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_list_ctorv </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> **&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> **&#160;</td>
           <td class="paramname"><em>l</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="common_8h.html#ae01474469200a501121a252d985c90e7">cdc_free_func_t</a>&#160;</td>
-          <td class="paramname"><em>func</em>, </td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -311,48 +345,62 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs a list, initialized by args The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="aaf055e278773be0588a23dca74e02e23"></a>
+<a class="anchor" id="a29751313ee8dcf71c90a9812660c3329"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cdc_list_dtor </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>l</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Destroys the list. </p>
+
 </div>
 </div>
-<a class="anchor" id="a257f01633ac99b56ccea7e320dfe01e4"></a>
+<a class="anchor" id="aacb53ee74e3c02d1e9ddc61c54c9d294"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool cdc_list_empty </td>
+          <td class="memname">static bool cdc_list_empty </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>l</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Returns true if the list has size 0; otherwise returns false. </p>
 
 </div>
 </div>
-<a class="anchor" id="a9830abde1f298c0bc898100f9b4a093e"></a>
+<a class="anchor" id="a43705fefcab0861b7c47a173875f4fa9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_list_erase </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>l</em>, </td>
         </tr>
         <tr>
@@ -375,16 +423,18 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Removes the element at index position. The pointer will be written in elem. Index must be a valid index position in the list. The function is not called to free memory. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="a55625134fb0512317eb0028488c976e7"></a>
+<a class="anchor" id="afbb01300128a1543a61cff426e995cf5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cdc_list_foreach </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>l</em>, </td>
         </tr>
         <tr>
@@ -401,32 +451,44 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>A function cb is applied to each item of the list. </p>
+
 </div>
 </div>
-<a class="anchor" id="a3ad64154b6194a7759039e126c85cfd4"></a>
+<a class="anchor" id="ae531e57b41871fd438e04a771ccf56ca"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void* cdc_list_front </td>
+          <td class="memname">static void* cdc_list_front </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>l</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Returns a pointer to the first item in the list. This function assumes that the list isn't empty. </p>
 
 </div>
 </div>
-<a class="anchor" id="a639e97d15246e6a743d06647c58f39ca"></a>
+<a class="anchor" id="abb7589456a5a3f610d79e84cd694937f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_list_insert </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>l</em>, </td>
         </tr>
         <tr>
@@ -439,7 +501,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>elem</em>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -449,55 +511,61 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Inserts value at index position in the list. If index is 0, the value is prepended to the list. If index is <a class="el" href="list_8h.html#a9552b5709adf88c8c4833e146a7bb4ab" title="Returns the number of items in the list. ">cdc_list_size()</a>, the value is appended to the list. </p>
+
 </div>
 </div>
-<a class="anchor" id="a8298595f091385b3b4540cc2faf23095"></a>
+<a class="anchor" id="a9f53edb8e3e80b66fa384a0c5776ee14"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_list_pop_back </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>l</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Removes the last item in the list. If a function has been installed to delete an item, it will be called for last item. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="ac1374781cfd619ae3ff6b1bd526d9ad0"></a>
+<a class="anchor" id="a7afb7fc898c6ddd3ea731278e9e57d93"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_list_pop_front </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>l</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Removes the first item in the list. If a function has been installed to delete an item, it will be called for last item. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="a76f54873287705ad703f0b77fc383f8b"></a>
+<a class="anchor" id="a1c92888caaf52c673e4e6615e2f98972"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_list_push_back </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>l</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>elem</em>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -507,23 +575,25 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Inserts value at the end of the list. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="a4e4d836b150fb60d7d993d9ac9ad014e"></a>
+<a class="anchor" id="a46b9744bc4cff08cd35713b04e851528"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_list_push_front </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>l</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>elem</em>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -533,38 +603,50 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Inserts value at the beginning of the list. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
 </div>
 </div>
-<a class="anchor" id="aa6c5b44eb61fff421480a628dbf7d2a2"></a>
+<a class="anchor" id="a9552b5709adf88c8c4833e146a7bb4ab"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t cdc_list_size </td>
+          <td class="memname">static size_t cdc_list_size </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>l</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Returns the number of items in the list. </p>
 
 </div>
 </div>
-<a class="anchor" id="a10804e0110dc6339cbaf74806cd48e10"></a>
+<a class="anchor" id="a70f33ae6ea78a4ce9276d70a1960c1e8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void cdc_list_swap </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="list_8h.html#a6f862d36d29ca72e40966bdae2667a0c">cdc_list_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__list.html">cdc_list</a> *&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
@@ -574,6 +656,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Swaps lists a and b. This operation is very fast and never fails. </p>
 
 </div>
 </div>
