@@ -1,51 +1,170 @@
+/**
+  * @file
+  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
+  * @brief The cdc_priority_queue is a struct and functions that provide a priority queue
+  */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_PRIORITY_QUEUE_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_PRIORITY_QUEUE_H
 
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdarg.h>
+#include <assert.h>
 #include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
 
-typedef struct cdc_priority_queue cdc_priority_queue_t;
-typedef void *cdc_free_func_t;
-enum cdc_stat cdc_priority_queue_ctor (cdc_priority_queue_t **q, cdc_free_func_t func, cdc_compar_func_t compar);
-enum cdc_stat cdc_priority_queue_ctorl(cdc_priority_queue_t **q, cdc_free_func_t func, cdc_compar_func_t compar, ...);
-enum cdc_stat cdc_priority_queue_ctorv(cdc_priority_queue_t **q, cdc_free_func_t func, cdc_compar_func_t compar, va_list args);
-void          cdc_priority_queue_dtor (cdc_priority_queue_t *q);
+/**
+ * @brief The cdc_priority_queue_table struct
+ * @warning To avoid problems, do not change the structure fields in the code.
+ * Use only special functions to access and change structure fields.
+ */
+struct cdc_priority_queue_table {
+        enum cdc_stat (*ctor)(void **cntr, struct cdc_data_info *info,
+                              cdc_compar_func_t compar);
+        enum cdc_stat (*ctorv)(void **cntr, struct cdc_data_info *info,
+                               cdc_compar_func_t compar, va_list args);
+        void (*dtor)(void *cntr);
+        void *(*top)(void *cntr);
+        bool (*empty)(void *cntr);
+        size_t (*size)(void *cntr);
+        enum cdc_stat (*push)(void *cntr, void *elem);
+        enum cdc_stat (*pop)(void *cntr);
+};
+
+/**
+ * @brief The cdc_priority_queue struct
+ * @warning To avoid problems, do not change the structure fields in the code.
+ * Use only special functions to access and change structure fields.
+ */
+struct cdc_priority_queue {
+        void *container;
+        const struct cdc_priority_queue_table *table;
+};
+
+extern const void *cdc_priority_queueh_table;
+
+/**
+ * @brief Constructs an empty priority queue.
+ * The function compar specifies the ordering of items.
+ * Returned CDC_STATUS_OK in a successful case or an excellent value
+ * indicating an error
+ */
+enum cdc_stat cdc_priority_queue_ctor(const struct cdc_priority_queue_table *table,
+                                      struct cdc_priority_queue **q,
+                                      struct cdc_data_info *info,
+                                      cdc_compar_func_t compar);
+
+/**
+ * @brief Constructs a priority queue, initialized by an arbitrary number of pointers.
+ * The function compar specifies the ordering of items.
+ * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
+ * or an excellent value indicating an error
+ */
+enum cdc_stat cdc_priority_queue_ctorl(const struct cdc_priority_queue_table *table,
+                                       struct cdc_priority_queue **q,
+                                       struct cdc_data_info *info,
+                                       cdc_compar_func_t compar, ...);
+
+/**
+ * @brief Constructs a priority queue, initialized by args.
+ * The function compar specifies the ordering of items.
+ * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
+ * or an excellent value indicating an error
+ */
+enum cdc_stat cdc_priority_queue_ctorv(const struct cdc_priority_queue_table *table,
+                                       struct cdc_priority_queue **q,
+                                       struct cdc_data_info *info,
+                                       cdc_compar_func_t compar, va_list args);
+
+/**
+ * @brief Destroys the priority queue.
+ */
+void cdc_priority_queue_dtor(struct cdc_priority_queue *q);
 
 // Element access
-void *        cdc_priority_queue_top  (cdc_priority_queue_t *q);
+/**
+ * @brief Returns a pointer to the priority queue's top item. This function assumes
+ * that the priority queue isn't empty.
+ */
+static inline void *cdc_priority_queue_top(struct cdc_priority_queue *q)
+{
+        assert(q != NULL);
+
+        return q->table->top(q->container);
+}
 
 // Capacity
-bool          cdc_priority_queue_empty(cdc_priority_queue_t *q);
-size_t        cdc_priority_queue_size (cdc_priority_queue_t *q);
+/**
+ * @brief Returns true if the priority queue has size 0; otherwise returns false.
+ */
+static inline bool cdc_priority_queue_empty(struct cdc_priority_queue *q)
+{
+        assert(q != NULL);
+
+        return q->table->empty(q->container);
+}
+
+/**
+ * @brief Returns the number of items in the priority queue.
+ */
+static inline size_t cdc_priority_queue_size(struct cdc_priority_queue *q)
+{
+        assert(q != NULL);
+
+        return q->table->size(q->container);
+}
 
 // Modifiers
-enum cdc_stat cdc_priority_queue_push (cdc_priority_queue_t *q, void *elem);
-enum cdc_stat cdc_priority_queue_pop  (cdc_priority_queue_t *q);
-void          cdc_priority_queue_swap (cdc_priority_queue_t *a, cdc_priority_queue_t *b);
+/**
+ * @brief Adds element elem to the priority queue. Returned CDC_STATUS_OK in a
+ * successful case or an excellent value indicating an error
+ */
+static inline enum cdc_stat cdc_priority_queue_push(struct cdc_priority_queue *q,
+                                                    void *elem)
+{
+        assert(q != NULL);
+
+        return q->table->push(q->container, elem);
+}
+
+/**
+ * @briefReturns a pointer to the stack's top item.
+ * This function assumes that the priority queue isn't empty. Returned CDC_STATUS_OK in
+ * a successful case or an excellent value indicating an error
+ */
+static inline enum cdc_stat cdc_priority_queue_pop(struct cdc_priority_queue *q)
+{
+        assert(q != NULL);
+
+        return q->table->pop(q->container);
+}
+
+/**
+ * @brief Swaps priority queues a and b. This operation is very fast and never fails.
+ */
+void cdc_priority_queue_swap(struct cdc_priority_queue *a,
+                             struct cdc_priority_queue *b);
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
-typedef cdc_priority_queue_t priority_queue_t;
+typedef struct cdc_priority_queue priority_queue_t;
 
-#define priority_queue_ctor(...)   cdc_priority_queue_ctor(__VA_ARGS__)
-#define priority_queue_ctorl(...)  cdc_priority_queue_ctorl(__VA_ARGS__)
-#define priority_queue_ctorv(...)  cdc_priority_queue_ctorv(__VA_ARGS__)
-#define priority_queue_dtor(...)   cdc_priority_queue_dtor(__VA_ARGS__)
+#define priority_queue_ctor(...)  cdc_priority_queue_ctor(__VA_ARGS__)
+#define priority_queue_ctorl(...) cdc_priority_queue_ctorl(__VA_ARGS__)
+#define priority_queue_ctorv(...) cdc_priority_queue_ctorv(__VA_ARGS__)
+#define priority_queue_dtor(...)  cdc_priority_queue_dtor(__VA_ARGS__)
 
 // Element access
-#define priority_queue_top(...)    cdc_priority_queue_top(__VA_ARGS__)
+#define priority_queue_top(...)   cdc_priority_queue_top(__VA_ARGS__)
 
 // Capacity
-#define priority_queue_empty(...)  cdc_priority_queue_empty(__VA_ARGS__)
-#define priority_queue_size(...)   cdc_priority_queue_size(__VA_ARGS__)
+#define priority_queue_empty(...) cdc_priority_queue_empty(__VA_ARGS__)
+#define priority_queue_size(...)  cdc_priority_queue_size(__VA_ARGS__)
 
 // Modifiers
-#define priority_queue_push(...)   cdc_priority_queue_push(__VA_ARGS__)
-#define priority_queue_pop(...)    cdc_priority_queue_pop(__VA_ARGS__)
-#define priority_queue_swap(...)   cdc_priority_queue_swap(__VA_ARGS__)
+#define priority_queue_push(...)  cdc_priority_queue_push(__VA_ARGS__)
+#define priority_queue_pop(...)   cdc_priority_queue_pop(__VA_ARGS__)
+#define priority_queue_swap(...)  cdc_priority_queue_swap(__VA_ARGS__)
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_PRIORITY_QUEUE_H

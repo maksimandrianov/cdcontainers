@@ -19,6 +19,7 @@ set(SOURCE
         queuel.c
         queued.c
         priority-queue.c
+        priority-queueh.c
         status.c
         common.c
         data-info.c

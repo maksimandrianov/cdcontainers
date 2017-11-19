@@ -1,28 +1,23 @@
 #include "cdcontainers/priority-queue.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <assert.h>
-#include <stdint.h>
-#include "cdcontainers/heap.h"
-
-struct cdc_priority_queue {
-        struct cdc_heap *heap;
-};
-
-enum cdc_stat cdc_priority_queue_ctor(cdc_priority_queue_t **q, cdc_free_func_t func,
+enum cdc_stat cdc_priority_queue_ctor(const struct cdc_priority_queue_table *table,
+                                      struct cdc_priority_queue **q,
+                                      struct cdc_data_info *info,
                                       cdc_compar_func_t compar)
 {
+        assert(table != NULL);
         assert(q != NULL);
 
-        cdc_priority_queue_t *tmp;
+        struct cdc_priority_queue *tmp;
         enum cdc_stat ret;
 
-        tmp = (cdc_priority_queue_t *)malloc(sizeof(cdc_priority_queue_t));
+        tmp = (struct cdc_priority_queue *)malloc(
+                                sizeof(struct cdc_priority_queue));
         if (!tmp)
                 return CDC_STATUS_BAD_ALLOC;
 
-        ret = cdc_heap_ctor(&tmp->heap, func, compar);
+        tmp->table = table;
+        ret = tmp->table->ctor(&tmp->container, info, compar);
         if (ret != CDC_STATUS_OK) {
                 free(tmp);
                 return ret;
@@ -33,91 +28,66 @@ enum cdc_stat cdc_priority_queue_ctor(cdc_priority_queue_t **q, cdc_free_func_t 
         return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_priority_queue_ctorl(cdc_priority_queue_t **q, cdc_free_func_t func,
+enum cdc_stat cdc_priority_queue_ctorl(const struct cdc_priority_queue_table *table,
+                                       struct cdc_priority_queue **q,
+                                       struct cdc_data_info *info,
                                        cdc_compar_func_t compar, ...)
 {
+        assert(table != NULL);
         assert(q != NULL);
 
         enum cdc_stat ret;
         va_list args;
 
         va_start(args, compar);
-        ret = cdc_priority_queue_ctorv(q, func, compar, args);
+        ret = cdc_priority_queue_ctorv(table, q, info, compar, args);
         va_end(args);
 
         return ret;
 }
 
-enum cdc_stat cdc_priority_queue_ctorv(cdc_priority_queue_t **q, cdc_free_func_t func,
+enum cdc_stat cdc_priority_queue_ctorv(const struct cdc_priority_queue_table *table,
+                                       struct cdc_priority_queue **q,
+                                       struct cdc_data_info *info,
                                        cdc_compar_func_t compar, va_list args)
 {
+        assert(table != NULL);
         assert(q != NULL);
 
-        cdc_priority_queue_t *tmp;
+        struct cdc_priority_queue *tmp;
         enum cdc_stat ret;
 
-        tmp = (cdc_priority_queue_t *)malloc(sizeof(cdc_priority_queue_t));
+        tmp = (struct cdc_priority_queue *)malloc(
+                                sizeof(struct cdc_priority_queue));
         if (!tmp)
                 return CDC_STATUS_BAD_ALLOC;
 
-        *q = tmp;
-        ret = cdc_heap_ctorv(&(*q)->heap, func, compar, args);
+        tmp->table = table;
+        ret = tmp->table->ctorv(&tmp->container, info, compar, args);
         if (ret != CDC_STATUS_OK) {
                 free(tmp);
                 return ret;
         }
 
+        *q = tmp;
+
         return ret;
 }
 
-void cdc_priority_queue_dtor(cdc_priority_queue_t *q)
+void cdc_priority_queue_dtor(struct cdc_priority_queue *q)
 {
         assert(q != NULL);
 
-        cdc_heap_dtor(q->heap);
+        q->table->dtor(q->container);
         free(q);
 }
 
-void *cdc_priority_queue_top(cdc_priority_queue_t *q)
-{
-        assert(q != NULL);
-
-        return cdc_heap_top(q->heap);
-}
-
-bool cdc_priority_queue_empty(cdc_priority_queue_t *q)
-{
-        assert(q != NULL);
-
-        return cdc_heap_empty(q->heap);
-}
-
-size_t cdc_priority_queue_size(cdc_priority_queue_t *q)
-{
-        assert(q != NULL);
-
-        return cdc_heap_size(q->heap);
-}
-
-enum cdc_stat cdc_priority_queue_push(cdc_priority_queue_t *q, void *elem)
-{
-        assert(q != NULL);
-
-        return cdc_heap_insert(q->heap, elem);
-}
-
-enum cdc_stat cdc_priority_queue_pop(cdc_priority_queue_t *q)
-{
-        assert(q != NULL);
-        assert(cdc_priority_queue_size(q) > 0);
-
-        return cdc_heap_extract_top(q->heap);
-}
-
-void cdc_priority_queue_swap(cdc_priority_queue_t *a, cdc_priority_queue_t *b)
+void cdc_priority_queue_swap(struct cdc_priority_queue *a,
+                             struct cdc_priority_queue *b)
 {
         assert(a != NULL);
         assert(b != NULL);
+        assert(a->table == b->table);
 
-        CDC_SWAP(struct cdc_heap *, a->heap, b->heap);
+        CDC_SWAP(void *, a->container, b->container);
 }
