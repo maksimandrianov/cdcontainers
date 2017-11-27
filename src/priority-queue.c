@@ -111,3 +111,19 @@ void cdc_priority_queue_swap(struct cdc_priority_queue *a,
 
         CDC_SWAP(void *, a->container, b->container);
 }
+
+enum cdc_stat cdc_priority_queueh_ctorl(struct cdc_priority_queue **q,
+                                        struct cdc_data_info *info,
+                                        cdc_compar_func_t compar, ...)
+{
+        assert(q != NULL);
+
+        enum cdc_stat ret;
+        va_list args;
+
+        va_start(args, compar);
+        ret = cdc_priority_queueh_ctorv(q, info, compar, args);
+        va_end(args);
+
+        return ret;
+}

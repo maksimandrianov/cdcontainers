@@ -100,6 +100,50 @@ enum cdc_stat cdc_priority_queue_ctorv(const struct cdc_priority_queue_table *ta
                                        cdc_compar_func_t compar, va_list args);
 
 /**
+ * @brief Constructs an empty priority queue based on heap.
+ * The function compar specifies the ordering of items.
+ * Returned CDC_STATUS_OK in a successful case or an excellent value
+ * indicating an error
+ */
+static inline enum cdc_stat cdc_priority_queueh_ctor(struct cdc_priority_queue **q,
+                                                     struct cdc_data_info *info,
+                                                     cdc_compar_func_t compar)
+{
+        assert(q != NULL);
+
+        return cdc_priority_queue_ctor(cdc_priority_queueh_table, q, info,
+                                       compar);
+}
+
+/**
+ * @brief Constructs a priority queue based on heap, initialized by an arbitrary
+ * number of pointers.
+ * The function compar specifies the ordering of items.
+ * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
+ * or an excellent value indicating an error
+ */
+enum cdc_stat cdc_priority_queueh_ctorl(struct cdc_priority_queue **q,
+                                        struct cdc_data_info *info,
+                                        cdc_compar_func_t compar, ...);
+
+/**
+ * @brief Constructs a priority queue based on heap, initialized by args.
+ * The function compar specifies the ordering of items.
+ * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
+ * or an excellent value indicating an error
+ */
+static inline enum cdc_stat cdc_priority_queueh_ctorv(struct cdc_priority_queue **q,
+                                                      struct cdc_data_info *info,
+                                                      cdc_compar_func_t compar,
+                                                      va_list args)
+{
+        assert(q != NULL);
+
+        return cdc_priority_queue_ctorv(cdc_priority_queueh_table, q, info,
+                                        compar, args);
+}
+
+/**
  * @brief Destroys the priority queue.
  */
 void cdc_priority_queue_dtor(struct cdc_priority_queue *q);
