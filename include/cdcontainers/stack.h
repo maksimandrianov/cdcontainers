@@ -133,6 +133,42 @@ static inline enum cdc_stat cdc_stackl_ctorv(struct cdc_stack **s,
 }
 
 /**
+ * @brief Constructs an empty stack based on vector.
+ * Returned CDC_STATUS_OK in a successful case or an excellent value
+ * indicating an error
+ */
+static inline enum cdc_stat cdc_stackv_ctor(struct cdc_stack **s,
+                                            struct cdc_data_info *info)
+{
+        assert(s != NULL);
+
+        return cdc_stack_ctor(cdc_stackv_table, s, info);
+}
+
+/**
+ * @brief Constructs a stack based on vector, initialized by
+ * an arbitrary number of pointers.
+ * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
+ * or an excellent value indicating an error
+ */
+enum cdc_stat cdc_stackv_ctorl(struct cdc_stack **s,
+                               struct cdc_data_info *info, ...);
+
+/**
+ * @brief Constructs a stack based on vector, initialized by args
+ * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
+ * or an excellent value indicating an error
+ */
+static inline enum cdc_stat cdc_stackv_ctorv(struct cdc_stack **s,
+                                             struct cdc_data_info *info,
+                                             va_list args)
+{
+        assert(s != NULL);
+
+        return cdc_stack_ctorv(cdc_stackv_table, s, info, args);
+}
+
+/**
  * @brief Destroys the stack.
  */
 void cdc_stack_dtor(struct cdc_stack *s);

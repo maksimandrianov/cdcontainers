@@ -119,3 +119,18 @@ enum cdc_stat cdc_stackl_ctorl(struct cdc_stack **s,
 
         return ret;
 }
+
+enum cdc_stat cdc_stackv_ctorl(struct cdc_stack **s,
+                               struct cdc_data_info *info, ...)
+{
+        assert(s != NULL);
+
+        enum cdc_stat ret;
+        va_list args;
+
+        va_start(args, info);
+        ret = cdc_stackv_ctorv(s, info, args);
+        va_end(args);
+
+        return ret;
+}

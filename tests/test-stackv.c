@@ -28,7 +28,7 @@ void test_stackv_ctor()
 {
         struct cdc_stack *s;
 
-        CU_ASSERT(cdc_stack_ctor(cdc_stackv_table, &s, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_stackv_ctor(&s, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_stack_size(s) == 0);
 
         cdc_stack_dtor(s);
@@ -40,7 +40,7 @@ void test_stackv_ctorl()
         int a = 2, b = 3;
         void *elem;
 
-        CU_ASSERT(cdc_stack_ctorl(cdc_stackv_table, &s, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_stackv_ctorl(&s, NULL, &a, &b, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_stack_size(s) == 2);
 
         elem = cdc_stack_top(s);
@@ -61,7 +61,7 @@ void test_stackv_push()
         int a = 0, b = 1, c = 2;
         void *elem;
 
-        CU_ASSERT(cdc_stack_ctor(cdc_stackv_table, &s, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_stackv_ctor(&s, NULL) == CDC_STATUS_OK);
 
         cdc_stack_push(s, &a);
         CU_ASSERT(cdc_stack_size(s) == 1);
@@ -87,7 +87,7 @@ void test_stackv_pop()
         int a = 0, b = 1, c = 2, d = 3;
         void *elem;
 
-        CU_ASSERT(cdc_stack_ctorl(cdc_stackv_table, &s, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_stackv_ctorl(&s, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
 
         elem = cdc_stack_top(s);
         CU_ASSERT(cdc_stack_pop(s) == CDC_STATUS_OK);
@@ -117,8 +117,8 @@ void test_stackv_swap()
         struct cdc_stack *v, *w;
         int a = 2, b = 3, c = 4;
 
-        CU_ASSERT(cdc_stack_ctorl(cdc_stackv_table, &v, NULL, &b, NULL) == CDC_STATUS_OK);
-        CU_ASSERT(cdc_stack_ctorl(cdc_stackv_table, &w, NULL, &a, &c, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_stackv_ctorl(&v, NULL, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_stackv_ctorl(&w, NULL, &a, &c, NULL) == CDC_STATUS_OK);
 
         cdc_stack_swap(v, w);
 
