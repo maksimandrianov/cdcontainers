@@ -119,3 +119,18 @@ enum cdc_stat cdc_queuel_ctorl(struct cdc_queue **q,
 
         return ret;
 }
+
+enum cdc_stat cdc_queued_ctorl(struct cdc_queue **q,
+                               struct cdc_data_info *info, ...)
+{
+        assert(q != NULL);
+
+        enum cdc_stat ret;
+        va_list args;
+
+        va_start(args, info);
+        ret = cdc_queued_ctorv(q, info, args);
+        va_end(args);
+
+        return ret;
+}

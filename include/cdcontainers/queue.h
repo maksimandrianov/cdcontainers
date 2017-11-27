@@ -134,6 +134,42 @@ static inline enum cdc_stat cdc_queuel_ctorv(struct cdc_queue **q,
 }
 
 /**
+ * @brief Constructs an empty queue based on deque.
+ * Returned CDC_STATUS_OK in a successful case or an excellent value
+ * indicating an error
+ */
+static inline enum cdc_stat cdc_queued_ctor(struct cdc_queue **q,
+                                            struct cdc_data_info *info)
+{
+        assert(q != NULL);
+
+        return cdc_queue_ctor(cdc_queued_table, q, info);
+}
+
+/**
+ * @brief Constructs a queue based on deque, initialized by an
+ * arbitrary number of pointers.
+ * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
+ * or an excellent value indicating an error
+ */
+enum cdc_stat cdc_queued_ctorl(struct cdc_queue **q,
+                               struct cdc_data_info *info, ...);
+
+/**
+ * @brief Constructs a queue based on deque, initialized by args
+ * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
+ * or an excellent value indicating an error
+ */
+static inline enum cdc_stat cdc_queued_ctorv(struct cdc_queue **q,
+                                             struct cdc_data_info *info,
+                                             va_list args)
+{
+        assert(q != NULL);
+
+        return cdc_queue_ctorv(cdc_queued_table, q, info, args);
+}
+
+/**
  * @brief Destroys the queue.
  */
 void cdc_queue_dtor(struct cdc_queue *q);

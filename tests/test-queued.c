@@ -28,7 +28,7 @@ void test_queued_ctor()
 {
         struct cdc_queue *q;
 
-        CU_ASSERT(cdc_queue_ctor(cdc_queued_table, &q, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_queued_ctor(&q, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_queue_size(q) == 0);
 
         cdc_queue_dtor(q);
@@ -40,7 +40,7 @@ void test_queued_ctorl()
         int a = 2, b = 3;
         void *elem;
 
-        CU_ASSERT(cdc_queue_ctorl(cdc_queued_table, &q, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_queued_ctorl(&q, NULL, &a, &b, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_queue_size(q) == 2);
 
         elem = cdc_queue_front(q);
@@ -62,7 +62,7 @@ void test_queued_push()
         int a = 0, b = 1, c = 2;
         void *elem;
 
-        CU_ASSERT(cdc_queue_ctor(cdc_queued_table, &q, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_queued_ctor(&q, NULL) == CDC_STATUS_OK);
 
         cdc_queue_push(q, &a);
         CU_ASSERT(cdc_queue_size(q) == 1);
@@ -88,7 +88,7 @@ void test_queued_pop()
         int a = 0, b = 1, c = 2, d = 3;
         void *elem;
 
-        CU_ASSERT(cdc_queue_ctorl(cdc_queued_table, &q, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_queued_ctorl(&q, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
 
         elem = cdc_queue_front(q);
         CU_ASSERT(cdc_queue_pop(q) == CDC_STATUS_OK);
@@ -118,7 +118,7 @@ void test_queued_front()
         struct cdc_queue *q;
         int a = 1, b = 2;
 
-        CU_ASSERT(cdc_queue_ctorl(cdc_queued_table, &q, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_queued_ctorl(&q, NULL, &a, &b, NULL) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)cdc_queue_front(q)) == a);
 
         cdc_queue_dtor(q);
@@ -129,7 +129,7 @@ void test_queued_back()
         struct cdc_queue *q;
         int a = 1, b = 2;
 
-        CU_ASSERT(cdc_queue_ctorl(cdc_queued_table, &q, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_queued_ctorl(&q, NULL, &a, &b, NULL) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)cdc_queue_back(q)) == b);
 
         cdc_queue_dtor(q);
@@ -140,8 +140,8 @@ void test_queued_swap()
         struct cdc_queue *v, *w;
         int a = 2, b = 3, c = 4;
 
-        CU_ASSERT(cdc_queue_ctorl(cdc_queued_table, &v, NULL, &b, NULL) == CDC_STATUS_OK);
-        CU_ASSERT(cdc_queue_ctorl(cdc_queued_table, &w, NULL, &a, &c, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_queued_ctorl(&v, NULL, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_queued_ctorl(&w, NULL, &a, &c, NULL) == CDC_STATUS_OK);
 
         cdc_queue_swap(v, w);
 
