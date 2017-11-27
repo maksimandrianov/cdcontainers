@@ -13,13 +13,13 @@ set(SOURCE
         deque.c
         heap.c
         stack.c
-        stackl.c
-        stackv.c
+        stack-list-table.c
+        stack-vector-table.c
         queue.c
-        queuel.c
-        queued.c
+        queue-list-table.c
+        queue-deque-table.c
         priority-queue.c
-        priority-queueh.c
+        priority-queue-heap.c
         status.c
         common.c
         data-info.c
