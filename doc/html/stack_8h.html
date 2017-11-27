@@ -126,6 +126,24 @@ Functions</h2></td></tr>
 <tr class="memitem:a155c2320be5605a2c3840855f108ab01"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#a155c2320be5605a2c3840855f108ab01">cdc_stack_ctorv</a> (const struct <a class="el" href="structcdc__stack__table.html">cdc_stack_table</a> *table, struct <a class="el" href="structcdc__stack.html">cdc_stack</a> **s, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info, va_list args)</td></tr>
 <tr class="memdesc:a155c2320be5605a2c3840855f108ab01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a stack, initialized by args The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a155c2320be5605a2c3840855f108ab01">More...</a><br /></td></tr>
 <tr class="separator:a155c2320be5605a2c3840855f108ab01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf1236443504f8b53728fb4b26b22b17"><td class="memItemLeft" align="right" valign="top">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#adf1236443504f8b53728fb4b26b22b17">cdc_stackl_ctor</a> (struct <a class="el" href="structcdc__stack.html">cdc_stack</a> **s, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info)</td></tr>
+<tr class="memdesc:adf1236443504f8b53728fb4b26b22b17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty stack based on list. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#adf1236443504f8b53728fb4b26b22b17">More...</a><br /></td></tr>
+<tr class="separator:adf1236443504f8b53728fb4b26b22b17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d4ddaa61ab4e9136d14ae8bc52f7970"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#a5d4ddaa61ab4e9136d14ae8bc52f7970">cdc_stackl_ctorl</a> (struct <a class="el" href="structcdc__stack.html">cdc_stack</a> **s, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info,...)</td></tr>
+<tr class="memdesc:a5d4ddaa61ab4e9136d14ae8bc52f7970"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a stack based on list, initialized by an arbitrary number of pointers. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a5d4ddaa61ab4e9136d14ae8bc52f7970">More...</a><br /></td></tr>
+<tr class="separator:a5d4ddaa61ab4e9136d14ae8bc52f7970"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6739410feda8b081a4b9320aa289558a"><td class="memItemLeft" align="right" valign="top">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#a6739410feda8b081a4b9320aa289558a">cdc_stackl_ctorv</a> (struct <a class="el" href="structcdc__stack.html">cdc_stack</a> **s, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info, va_list args)</td></tr>
+<tr class="memdesc:a6739410feda8b081a4b9320aa289558a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a stack based on list, initialized by args The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a6739410feda8b081a4b9320aa289558a">More...</a><br /></td></tr>
+<tr class="separator:a6739410feda8b081a4b9320aa289558a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7d88c484933e68c478b04fd5ba7b6ef"><td class="memItemLeft" align="right" valign="top">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#af7d88c484933e68c478b04fd5ba7b6ef">cdc_stackv_ctor</a> (struct <a class="el" href="structcdc__stack.html">cdc_stack</a> **s, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info)</td></tr>
+<tr class="memdesc:af7d88c484933e68c478b04fd5ba7b6ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty stack based on vector. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#af7d88c484933e68c478b04fd5ba7b6ef">More...</a><br /></td></tr>
+<tr class="separator:af7d88c484933e68c478b04fd5ba7b6ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecf95f970e7d3a4c99a462283cc8d7f7"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#aecf95f970e7d3a4c99a462283cc8d7f7">cdc_stackv_ctorl</a> (struct <a class="el" href="structcdc__stack.html">cdc_stack</a> **s, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info,...)</td></tr>
+<tr class="memdesc:aecf95f970e7d3a4c99a462283cc8d7f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a stack based on vector, initialized by an arbitrary number of pointers. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#aecf95f970e7d3a4c99a462283cc8d7f7">More...</a><br /></td></tr>
+<tr class="separator:aecf95f970e7d3a4c99a462283cc8d7f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22a2d7e58933fa6136aca6af43ba043f"><td class="memItemLeft" align="right" valign="top">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#a22a2d7e58933fa6136aca6af43ba043f">cdc_stackv_ctorv</a> (struct <a class="el" href="structcdc__stack.html">cdc_stack</a> **s, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info, va_list args)</td></tr>
+<tr class="memdesc:a22a2d7e58933fa6136aca6af43ba043f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a stack based on vector, initialized by args The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a22a2d7e58933fa6136aca6af43ba043f">More...</a><br /></td></tr>
+<tr class="separator:a22a2d7e58933fa6136aca6af43ba043f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab05f4d3c13657891151511ac7b1104a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#ab05f4d3c13657891151511ac7b1104a9">cdc_stack_dtor</a> (struct <a class="el" href="structcdc__stack.html">cdc_stack</a> *s)</td></tr>
 <tr class="memdesc:ab05f4d3c13657891151511ac7b1104a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the stack.  <a href="#ab05f4d3c13657891151511ac7b1104a9">More...</a><br /></td></tr>
 <tr class="separator:ab05f4d3c13657891151511ac7b1104a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -458,6 +476,230 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns a pointer to the stack's top item. This function assumes that the stack isn't empty. </p>
+
+</div>
+</div>
+<a class="anchor" id="adf1236443504f8b53728fb4b26b22b17"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_stackl_ctor </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__stack.html">cdc_stack</a> **&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs an empty stack based on list. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
+</div>
+</div>
+<a class="anchor" id="a5d4ddaa61ab4e9136d14ae8bc52f7970"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_stackl_ctorl </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__stack.html">cdc_stack</a> **&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs a stack based on list, initialized by an arbitrary number of pointers. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
+</div>
+</div>
+<a class="anchor" id="a6739410feda8b081a4b9320aa289558a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_stackl_ctorv </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__stack.html">cdc_stack</a> **&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">va_list&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a stack based on list, initialized by args The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
+</div>
+</div>
+<a class="anchor" id="af7d88c484933e68c478b04fd5ba7b6ef"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_stackv_ctor </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__stack.html">cdc_stack</a> **&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs an empty stack based on vector. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
+</div>
+</div>
+<a class="anchor" id="aecf95f970e7d3a4c99a462283cc8d7f7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_stackv_ctorl </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__stack.html">cdc_stack</a> **&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs a stack based on vector, initialized by an arbitrary number of pointers. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
+</div>
+</div>
+<a class="anchor" id="a22a2d7e58933fa6136aca6af43ba043f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_stackv_ctorv </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__stack.html">cdc_stack</a> **&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">va_list&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a stack based on vector, initialized by args The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
 
 </div>
 </div>

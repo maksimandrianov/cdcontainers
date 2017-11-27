@@ -126,6 +126,24 @@ Functions</h2></td></tr>
 <tr class="memitem:ac316df6da7fc5619e36b622d0fec787c"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="queue_8h.html#ac316df6da7fc5619e36b622d0fec787c">cdc_queue_ctorv</a> (const struct <a class="el" href="structcdc__queue__table.html">cdc_queue_table</a> *table, struct <a class="el" href="structcdc__queue.html">cdc_queue</a> **q, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info, va_list args)</td></tr>
 <tr class="memdesc:ac316df6da7fc5619e36b622d0fec787c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a queue, initialized by args The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#ac316df6da7fc5619e36b622d0fec787c">More...</a><br /></td></tr>
 <tr class="separator:ac316df6da7fc5619e36b622d0fec787c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad30295a37b484176f7c621a5c500f1b1"><td class="memItemLeft" align="right" valign="top">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="queue_8h.html#ad30295a37b484176f7c621a5c500f1b1">cdc_queuel_ctor</a> (struct <a class="el" href="structcdc__queue.html">cdc_queue</a> **q, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info)</td></tr>
+<tr class="memdesc:ad30295a37b484176f7c621a5c500f1b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty queue based on list. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#ad30295a37b484176f7c621a5c500f1b1">More...</a><br /></td></tr>
+<tr class="separator:ad30295a37b484176f7c621a5c500f1b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53836603372733561897c7006d52c33e"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="queue_8h.html#a53836603372733561897c7006d52c33e">cdc_queuel_ctorl</a> (struct <a class="el" href="structcdc__queue.html">cdc_queue</a> **q, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info,...)</td></tr>
+<tr class="memdesc:a53836603372733561897c7006d52c33e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a queue based on list, initialized by an arbitrary number of pointers. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a53836603372733561897c7006d52c33e">More...</a><br /></td></tr>
+<tr class="separator:a53836603372733561897c7006d52c33e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b3b344d35a306ea6584456e81ef5e1c"><td class="memItemLeft" align="right" valign="top">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="queue_8h.html#a1b3b344d35a306ea6584456e81ef5e1c">cdc_queuel_ctorv</a> (struct <a class="el" href="structcdc__queue.html">cdc_queue</a> **q, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info, va_list args)</td></tr>
+<tr class="memdesc:a1b3b344d35a306ea6584456e81ef5e1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a queue based on list, initialized by args The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a1b3b344d35a306ea6584456e81ef5e1c">More...</a><br /></td></tr>
+<tr class="separator:a1b3b344d35a306ea6584456e81ef5e1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f6c0fffcc8c2403770935d1a1be8fbc"><td class="memItemLeft" align="right" valign="top">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="queue_8h.html#a1f6c0fffcc8c2403770935d1a1be8fbc">cdc_queued_ctor</a> (struct <a class="el" href="structcdc__queue.html">cdc_queue</a> **q, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info)</td></tr>
+<tr class="memdesc:a1f6c0fffcc8c2403770935d1a1be8fbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty queue based on deque. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a1f6c0fffcc8c2403770935d1a1be8fbc">More...</a><br /></td></tr>
+<tr class="separator:a1f6c0fffcc8c2403770935d1a1be8fbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b6722749762a773605c3d318ec8f5f5"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="queue_8h.html#a0b6722749762a773605c3d318ec8f5f5">cdc_queued_ctorl</a> (struct <a class="el" href="structcdc__queue.html">cdc_queue</a> **q, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info,...)</td></tr>
+<tr class="memdesc:a0b6722749762a773605c3d318ec8f5f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a queue based on deque, initialized by an arbitrary number of pointers. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#a0b6722749762a773605c3d318ec8f5f5">More...</a><br /></td></tr>
+<tr class="separator:a0b6722749762a773605c3d318ec8f5f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa91fefb336443e2fd3490b7247150d94"><td class="memItemLeft" align="right" valign="top">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="queue_8h.html#aa91fefb336443e2fd3490b7247150d94">cdc_queued_ctorv</a> (struct <a class="el" href="structcdc__queue.html">cdc_queue</a> **q, struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *info, va_list args)</td></tr>
+<tr class="memdesc:aa91fefb336443e2fd3490b7247150d94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a queue based on deque, initialized by args The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error.  <a href="#aa91fefb336443e2fd3490b7247150d94">More...</a><br /></td></tr>
+<tr class="separator:aa91fefb336443e2fd3490b7247150d94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa5c27b349a789a2b38d5530c652746d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="queue_8h.html#afa5c27b349a789a2b38d5530c652746d">cdc_queue_dtor</a> (struct <a class="el" href="structcdc__queue.html">cdc_queue</a> *q)</td></tr>
 <tr class="memdesc:afa5c27b349a789a2b38d5530c652746d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the queue.  <a href="#afa5c27b349a789a2b38d5530c652746d">More...</a><br /></td></tr>
 <tr class="separator:afa5c27b349a789a2b38d5530c652746d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -487,6 +505,230 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Swaps queues a and b. This operation is very fast and never fails. </p>
+
+</div>
+</div>
+<a class="anchor" id="a1f6c0fffcc8c2403770935d1a1be8fbc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_queued_ctor </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__queue.html">cdc_queue</a> **&#160;</td>
+          <td class="paramname"><em>q</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs an empty queue based on deque. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
+</div>
+</div>
+<a class="anchor" id="a0b6722749762a773605c3d318ec8f5f5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_queued_ctorl </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__queue.html">cdc_queue</a> **&#160;</td>
+          <td class="paramname"><em>q</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs a queue based on deque, initialized by an arbitrary number of pointers. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
+</div>
+</div>
+<a class="anchor" id="aa91fefb336443e2fd3490b7247150d94"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_queued_ctorv </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__queue.html">cdc_queue</a> **&#160;</td>
+          <td class="paramname"><em>q</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">va_list&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a queue based on deque, initialized by args The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
+</div>
+</div>
+<a class="anchor" id="ad30295a37b484176f7c621a5c500f1b1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_queuel_ctor </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__queue.html">cdc_queue</a> **&#160;</td>
+          <td class="paramname"><em>q</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs an empty queue based on list. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
+</div>
+</div>
+<a class="anchor" id="a53836603372733561897c7006d52c33e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_queuel_ctorl </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__queue.html">cdc_queue</a> **&#160;</td>
+          <td class="paramname"><em>q</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs a queue based on list, initialized by an arbitrary number of pointers. The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
+
+</div>
+</div>
+<a class="anchor" id="a1b3b344d35a306ea6584456e81ef5e1c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_queuel_ctorv </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__queue.html">cdc_queue</a> **&#160;</td>
+          <td class="paramname"><em>q</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__data__info.html">cdc_data_info</a> *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">va_list&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a queue based on list, initialized by args The last item must be NULL. Returned CDC_STATUS_OK in a successful case or an excellent value indicating an error. </p>
 
 </div>
 </div>
