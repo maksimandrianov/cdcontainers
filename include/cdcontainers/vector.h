@@ -121,7 +121,12 @@ static inline void *cdc_vector_back(struct cdc_vector *v)
  * @brief Returns a pointer to the data stored in the vector.
  * The pointer can be used to access and modify the items in the vector
  */
-void **cdc_vector_data(struct cdc_vector *v);
+static inline void **cdc_vector_data(struct cdc_vector *v)
+{
+        assert(v != NULL);
+
+        return v->buffer;
+}
 
 // Capacity
 /**

@@ -202,13 +202,6 @@ void cdc_vector_dtor(struct cdc_vector *v)
         free(v);
 }
 
-void **cdc_vector_data(struct cdc_vector *v)
-{
-        assert(v != NULL);
-
-        return v->buffer;
-}
-
 enum cdc_stat cdc_vector_insert(struct cdc_vector *v, size_t index, void *value)
 {
         assert(v != NULL);

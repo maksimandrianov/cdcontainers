@@ -100,8 +100,7 @@ static inline enum cdc_stat shrink(struct cdc_deque *d)
         return reallocate(d, d->capacity / CDC_DEQUE_COPACITY_EXP);
 }
 
-static inline enum cdc_stat pop_back_f(struct cdc_deque *d,
-                                       bool must_free)
+static inline enum cdc_stat pop_back_f(struct cdc_deque *d, bool must_free)
 {
         assert(d != NULL);
         assert(d->size > 0);
@@ -122,8 +121,7 @@ static inline enum cdc_stat pop_back_f(struct cdc_deque *d,
         return CDC_STATUS_OK;
 }
 
-static inline enum cdc_stat pop_front_f(struct cdc_deque *d,
-                                        bool must_free)
+static inline enum cdc_stat pop_front_f(struct cdc_deque *d, bool must_free)
 {
         assert(d != NULL);
         assert(d->size > 0);
@@ -143,8 +141,7 @@ static inline enum cdc_stat pop_front_f(struct cdc_deque *d,
         return CDC_STATUS_OK;
 }
 
-static inline void move_left(struct cdc_deque *d, size_t index,
-                             size_t count)
+static inline void move_left(struct cdc_deque *d, size_t index, size_t count)
 {
         assert(d != NULL);
 
@@ -158,8 +155,7 @@ static inline void move_left(struct cdc_deque *d, size_t index,
         }
 }
 
-static inline void move_right(struct cdc_deque *d, size_t index,
-                              size_t count)
+static inline void move_right(struct cdc_deque *d, size_t index, size_t count)
 {
         assert(d != NULL);
 
@@ -172,8 +168,7 @@ static inline void move_right(struct cdc_deque *d, size_t index,
         }
 }
 
-static inline void free_range(struct cdc_deque *d, size_t start,
-                              size_t end)
+static inline void free_range(struct cdc_deque *d, size_t start, size_t end)
 {
         assert(d != NULL);
         assert(start < d->size);
