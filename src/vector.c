@@ -100,13 +100,13 @@ static inline void free_range(struct cdc_vector *v, size_t start, size_t end)
         size_t i;
 
         for (i = start; i < end; ++i)
-                v->dinfo->free(v->buffer[i]);
+                v->dinfo->dfree(v->buffer[i]);
 }
 
 static inline enum cdc_stat pop_back(struct cdc_vector *v, bool must_free)
 {
-        if (must_free && CDC_HAS_FREE(v))
-                v->dinfo->free(v->buffer[v->size - 1]);
+        if (must_free && CDC_HAS_DFREE(v))
+                v->dinfo->dfree(v->buffer[v->size - 1]);
 
         --v->size;
 
@@ -194,7 +194,7 @@ void cdc_vector_dtor(struct cdc_vector *v)
 {
         assert(v != NULL);
 
-        if (CDC_HAS_FREE(v))
+        if (CDC_HAS_DFREE(v))
                 free_range(v, 0, v->size);
 
         free(v->buffer);
@@ -228,7 +228,7 @@ void cdc_vector_clear(struct cdc_vector *v)
 {
         assert(v != NULL);
 
-        if (CDC_HAS_FREE(v))
+        if (CDC_HAS_DFREE(v))
                 free_range(v, 0, v->size);
 
         v->size = 0;

@@ -18,13 +18,46 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+#ifndef CDCONTAINERS_SRC_DATA_INFO_H
+#define CDCONTAINERS_SRC_DATA_INFO_H
+
 #include "cdcontainers/common.h"
 
 struct cdc_data_info *cdc_di_shared_ctorc(struct cdc_data_info *other);
 void cdc_di_shared_dtor(struct cdc_data_info *info);
 
-#define CDC_HAS_FREE(container) (container->dinfo && container->dinfo->free)
+#define CDC_HAS_DFREE(container) (container->dinfo && container->dinfo->dfree)
 #define CDC_HAS_LT(container) (container->dinfo && container->dinfo->lt)
-#define CDC_HAS_GT(container) (container->dinfo && container->dinfo->gt)
-#define CDC_HAS_EQ(container) (container->dinfo && container->dinfo->eq)
-#define CDC_HAS_SIZE(container) (container->dinfo && container->dinfo->size > 0)
+#define CDC_HAS_SIZE(container) (container->dinfo && container->dinfo->size != 0)
+
+static inline bool cdc_eq(bool (*lt)(const void *, const void *),
+                          const void *l, const void *r)
+{
+        return !(lt(l, r) || lt(r, l));
+}
+
+static inline bool cdc_not_eq(bool (*lt)(const void *, const void *),
+                          const void *l, const void *r)
+{
+        return lt(l, r) || lt(r, l);
+}
+
+static inline bool cdc_gt(bool (*lt)(const void *, const void *),
+                          const void *l, const void *r)
+{
+        return lt(r, l);
+}
+
+static inline bool cdc_gte(bool (*lt)(const void *, const void *),
+                          const void *l, const void *r)
+{
+        return !lt(l, r);
+}
+
+static inline bool cdc_lte(bool (*lt)(const void *, const void *),
+                          const void *l, const void *r)
+{
+        return !lt(r, l);
+}
+
+#endif  // CDCONTAINERS_SRC_DATA_INFO_Hs

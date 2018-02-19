@@ -107,8 +107,8 @@ static inline enum cdc_stat pop_back_f(struct cdc_deque *d, bool must_free)
 
         d->tail = (d->tail - 1 + d->capacity) % d->capacity;
 
-        if (must_free && CDC_HAS_FREE(d))
-                d->dinfo->free(d->buffer[d->tail]);
+        if (must_free && CDC_HAS_DFREE(d))
+                d->dinfo->dfree(d->buffer[d->tail]);
 
         --d->size;
 
@@ -126,8 +126,8 @@ static inline enum cdc_stat pop_front_f(struct cdc_deque *d, bool must_free)
         assert(d != NULL);
         assert(d->size > 0);
 
-        if (must_free && CDC_HAS_FREE(d))
-                d->dinfo->free(d->buffer[d->head]);
+        if (must_free && CDC_HAS_DFREE(d))
+                d->dinfo->dfree(d->buffer[d->head]);
 
         d->head = (d->head + 1) % d->capacity;
         --d->size;
@@ -178,7 +178,7 @@ static inline void free_range(struct cdc_deque *d, size_t start, size_t end)
         size_t count = end - start;
 
         while (count--) {
-                d->dinfo->free(d->buffer[nstart]);
+                d->dinfo->dfree(d->buffer[nstart]);
                 nstart = (nstart + 1) % d->capacity;
         }
 }
@@ -262,7 +262,7 @@ void cdc_deque_dtor(struct cdc_deque *d)
 {
         assert(d != NULL);
 
-        if (CDC_HAS_FREE(d))
+        if (CDC_HAS_DFREE(d))
                 free_range(d, 0, d->size);
 
         free(d->buffer);
@@ -359,7 +359,7 @@ void cdc_deque_clear(struct cdc_deque *d)
 {
         assert(d != NULL);
 
-        if (CDC_HAS_FREE(d))
+        if (CDC_HAS_DFREE(d))
                 free_range(d, 0, d->size);
 
         d->tail = 0;

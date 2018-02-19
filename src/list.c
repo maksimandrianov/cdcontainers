@@ -59,8 +59,8 @@ static inline void free_all_nodes(struct cdc_list *l)
 
         do {
                 next = current->next;
-                if (CDC_HAS_FREE(l))
-                        l->dinfo->free(current->data);
+                if (CDC_HAS_DFREE(l))
+                        l->dinfo->dfree(current->data);
                 free(current);
                 current = next;
 
@@ -86,8 +86,8 @@ static inline void free_node(struct cdc_list *l, struct cdc_list_node *node,
 {
         assert(node != NULL);
 
-        if (must_free && CDC_HAS_FREE(l))
-                l->dinfo->free(node->data);
+        if (must_free && CDC_HAS_DFREE(l))
+                l->dinfo->dfree(node->data);
 
         free(node);
 }
