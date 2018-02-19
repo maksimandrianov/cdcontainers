@@ -27,10 +27,10 @@
 #define CDC_MAX(a, b) ((a) > (b) ? (a) : (b))
 #define CDC_MIN(a, b) ((a) < (b) ? (a) : (b))
 #define CDC_SWAP(T, x, y) do \
-{ \
-        T tmp = x;  \
-        x = y; \
-        y = tmp; \
+        { \
+                T tmp = x;  \
+                x = y; \
+                y = tmp; \
         } while (0)
 #define CDC_INIT_STRUCT {0,}
 
