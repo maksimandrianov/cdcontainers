@@ -15,7 +15,7 @@ The library contains the following data containers and collections:
 Example of using a vector from a library cdcontainers:
 
 ```c
-#define CDC_USE_SHORT_NAMES  // for short names (functions and struct without prefix cdc_*)
+#define CDC_USE_SHORT_NAMES  // for short names (functions and structs without prefix cdc_*)
 #include <cdcontainers/vector.h>
 #include <stdio.h>
 
