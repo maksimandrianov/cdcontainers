@@ -24,6 +24,7 @@
 #include <float.h>
 #include <stdarg.h>
 #include <assert.h>
+#include <stdio.h>
 
 static bool deque_range_int_eq(struct cdc_deque *d, size_t count, ...)
 {
@@ -45,6 +46,20 @@ static bool deque_range_int_eq(struct cdc_deque *d, size_t count, ...)
         }
 
         return true;
+}
+
+static void deque_range_int_print(struct cdc_deque *d)
+{
+        int i;
+        void *val;
+        enum cdc_stat ret;
+
+        printf("\n");
+        for (i = 0; i < cdc_deque_size(d); ++i) {
+                if ((ret = cdc_deque_at(d, i, &val)) == CDC_STATUS_OK)
+                        printf("%d ", *((int *)val));
+        }
+        printf("\n");
 }
 
 void test_deque_ctor()
@@ -296,7 +311,6 @@ void test_deque_insert()
         int i1 = 3, i2 = 4, i3 = 5;
 
         CU_ASSERT(cdc_deque_ctorl(&d, NULL, &a, &b, NULL) == CDC_STATUS_OK);
-
         CU_ASSERT(cdc_deque_insert(d, 0, &i1) == CDC_STATUS_OK);
         CU_ASSERT(cdc_deque_size(d) == 3);
         CU_ASSERT(deque_range_int_eq(d, 3, i1, a, b));
@@ -308,6 +322,26 @@ void test_deque_insert()
         CU_ASSERT(cdc_deque_insert(d, 2, &i3) == CDC_STATUS_OK);
         CU_ASSERT(cdc_deque_size(d) == 5);
         CU_ASSERT(deque_range_int_eq(d, 5, i1, a, i3, b, i2));
+
+        CU_ASSERT(cdc_deque_push_front(d, &a) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_push_front(d, &b) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_push_front(d, &i1) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_push_front(d, &i2) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_push_front(d, &i3) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_push_front(d, &a) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_push_front(d, &b) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_push_front(d, &i1) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_push_front(d, &i3) == CDC_STATUS_OK);
+        CU_ASSERT(deque_range_int_eq(d, 14, i3, i1, b, a,
+                                     i3, i2, i1, b, a, i1, a, i3, b, i2));
+
+        CU_ASSERT(cdc_deque_insert(d, 1, &a) == CDC_STATUS_OK);
+        CU_ASSERT(deque_range_int_eq(d, 15, i3, a, i1, b, a,
+                                     i3, i2, i1, b, a, i1, a, i3, b, i2));
+
+        CU_ASSERT(cdc_deque_insert(d, cdc_deque_size(d) - 2, &a) == CDC_STATUS_OK);
+        CU_ASSERT(deque_range_int_eq(d, 16, i3, a, i1, b, a,
+                                     i3, i2, i1, b, a, i1, a, i3, a, b, i2));
 
         cdc_deque_dtor(d);
 }
@@ -340,6 +374,28 @@ void test_deque_erase()
         CU_ASSERT(*((int *)elem) == c);
         CU_ASSERT(cdc_deque_size(deq) == 3);
         CU_ASSERT(deque_range_int_eq(deq, 3, b, d, a));
+
+        cdc_deque_clear(deq);
+
+        CU_ASSERT(cdc_deque_push_front(deq, &a) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_push_front(deq, &b) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_push_front(deq, &c) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_push_front(deq, &d) == CDC_STATUS_OK);
+        CU_ASSERT(deque_range_int_eq(deq, 4, d, c, b, a));
+        CU_ASSERT(cdc_deque_erase(deq, 1, &elem) == CDC_STATUS_OK);
+        CU_ASSERT(*((int *)elem) == c);
+        CU_ASSERT(cdc_deque_size(deq) == 3);
+        CU_ASSERT(deque_range_int_eq(deq, 3, d, b, a));
+
+        CU_ASSERT(cdc_deque_push_back(deq, &d) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_push_back(deq, &c) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_push_back(deq, &a) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_deque_push_front(deq, &d) == CDC_STATUS_OK);
+        CU_ASSERT(deque_range_int_eq(deq, 7, d, d, b, a, d, c, a));
+        CU_ASSERT(cdc_deque_erase(deq, cdc_deque_size(deq) - 2, &elem) == CDC_STATUS_OK);
+        CU_ASSERT(*((int *)elem) == c);
+        CU_ASSERT(cdc_deque_size(deq) == 6);
+        CU_ASSERT(deque_range_int_eq(deq, 6, d, d, b, a, d, a));
 
         cdc_deque_dtor(deq);
 }
