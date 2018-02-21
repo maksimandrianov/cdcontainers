@@ -31,6 +31,13 @@
 #define CDC_DEQUE_SHRINK_THRESHOLD 4.0f
 #define CDC_DEQUE_MAX_LEN          SIZE_MAX
 
+static inline size_t index_cast(struct cdc_deque *d, size_t index)
+{
+        assert(d != NULL);
+
+        return (d->head + index) % d->capacity;
+}
+
 static inline bool should_shrink(struct cdc_deque *d)
 {
         assert(d != NULL);
@@ -60,7 +67,7 @@ static inline enum cdc_stat reallocate(struct cdc_deque *d, size_t capacity)
         assert(d != NULL);
 
         void **tmp;
-        size_t i, head;
+        size_t len;
 
         if (capacity < CDC_DEQUE_MIN_CAPACITY) {
                 if (d->capacity > CDC_DEQUE_MIN_CAPACITY)
@@ -73,8 +80,13 @@ static inline enum cdc_stat reallocate(struct cdc_deque *d, size_t capacity)
         if (!tmp)
                 return CDC_STATUS_BAD_ALLOC;
 
-        for (i = 0, head = d->head; i < d->size; ++i, head = (head + 1) % d->size)
-                tmp[i] = d->buffer[head];
+        if (d->head < d->tail || d->head == 0) {
+                memcpy(tmp, d->buffer + d->head, d->size * sizeof(void *));
+        } else {
+                len = d->capacity - d->head;
+                memcpy(tmp, d->buffer + d->head, len * sizeof(void *));
+                memcpy(tmp + len, d->buffer, d->tail * sizeof(void *));
+        }
 
         free(d->buffer);
 
@@ -141,31 +153,193 @@ static inline enum cdc_stat pop_front_f(struct cdc_deque *d, bool must_free)
         return CDC_STATUS_OK;
 }
 
-static inline void move_left(struct cdc_deque *d, size_t index, size_t count)
+static inline void move_left_head_tail(struct cdc_deque *d, size_t idx)
 {
         assert(d != NULL);
 
-        size_t i, from;
-        size_t to = (d->head + index - count - 1 + d->capacity) % d->capacity;
+        size_t num;
 
-        for (i = 0; i < count; ++i) {
-                from = (to + 1) % d->capacity;
-                d->buffer[to] = d->buffer[from];
-                to = (to + 1) % d->capacity;
+        if (d->head == 0) {
+                CDC_SWAP(void *, d->buffer[0], d->buffer[d->capacity - 1]);
+                num = (idx - d->head) * sizeof(void *);
+                memmove(d->buffer, d->buffer + 1, num);
+        } else {
+                num = (idx - d->head) * sizeof(void *);
+                memmove(d->buffer + d->head - 1, d->buffer + d->head, num);
         }
 }
 
-static inline void move_right(struct cdc_deque *d, size_t index, size_t count)
+static inline void move_left_tail_head(struct cdc_deque *d, size_t idx)
 {
         assert(d != NULL);
 
-        size_t i, from, to = (d->head + index + count) % d->capacity;
+        size_t num;
 
-        for (i = 0; i < count; ++i) {
-                from = (to - 1 + d->capacity) % d->capacity;
-                d->buffer[to] = d->buffer[from];
-                to = (to - 1  + d->capacity) % d->capacity;
+        if (idx < d->tail) {
+                num = (d->capacity - d->head + 1) * sizeof(void *);
+                memmove(d->buffer + d->head - 1, d->buffer + d->head, num);
+                CDC_SWAP(void *, d->buffer[0],
+                                d->buffer[d->capacity - 1]);
+                if (idx < 1)
+                        return;
+
+                num = (idx - 1) * sizeof(void *);
+                memmove(d->buffer, d->buffer + 1, num);
+        } else {
+                num = (idx - d->head) * sizeof(void *);
+                memmove(d->buffer + d->head - 1, d->buffer + d->head, num);
         }
+}
+
+static inline void move_left(struct cdc_deque *d, size_t idx)
+{
+        assert(d != NULL);
+
+        if (d->head < d->tail)
+                move_left_head_tail(d, idx);
+        else
+                move_left_tail_head(d, idx);
+}
+
+static inline void move_right_head_tail(struct cdc_deque *d, size_t idx)
+{
+        assert(d != NULL);
+
+        size_t num;
+
+        if (d->tail == d->capacity) {
+                CDC_SWAP(void *, d->buffer[0], d->buffer[d->capacity - 1]);
+                num = (d->tail - idx - 1) * sizeof(void *);
+        } else {
+                num = (d->tail - idx) * sizeof(void *);
+        }
+
+        memmove(d->buffer + idx + 1, d->buffer + idx, num);
+}
+
+static inline void move_right_tail_head(struct cdc_deque *d, size_t idx)
+{
+        assert(d != NULL);
+
+        size_t num;
+
+        if (idx < d->tail) {
+                num = (d->tail - idx) * sizeof(void *);
+        } else {
+                num = d->tail * sizeof(void *);
+                memmove(d->buffer + 1, d->buffer, num);
+                CDC_SWAP(void *, d->buffer[0],
+                                d->buffer[d->capacity - 1]);
+                num = (d->capacity - idx - 1) * sizeof(void *);
+        }
+
+        memmove(d->buffer + idx + 1, d->buffer + idx, num);
+}
+
+static inline void move_right(struct cdc_deque *d, size_t idx)
+{
+        assert(d != NULL);
+
+        if (d->head < d->tail)
+                move_right_head_tail(d, idx);
+        else
+                move_right_tail_head(d, idx);
+}
+
+static inline void move_to_left_head_tail(struct cdc_deque *d, size_t idx)
+{
+        assert(d != NULL);
+
+        size_t num = (d->tail - idx) * sizeof(void *);
+
+        memmove(d->buffer + idx, d->buffer + idx + 1, num);
+}
+
+static inline void move_to_left_tail_head(struct cdc_deque *d, size_t idx)
+{
+        assert(d != NULL);
+
+        size_t num;
+
+        if (idx < d->tail) {
+                num = (d->tail - idx) * sizeof(void *);
+                memmove(d->buffer + idx, d->buffer + idx + 1, num);
+        } else {
+                num = (d->capacity - idx) * sizeof(void *);
+                memmove(d->buffer + idx, d->buffer + idx + 1, num);
+                CDC_SWAP(void *, d->buffer[0],
+                                d->buffer[d->capacity - 1]);
+                if (d->tail < 1)
+                        return;
+
+                num = (d->tail - 1) * sizeof(void *);
+                memmove(d->buffer, d->buffer + 1, num);
+        }
+}
+
+static inline void move_to_left(struct cdc_deque *d, size_t idx)
+{
+        assert(d != NULL);
+
+        if (d->head < d->tail)
+                move_to_left_head_tail(d, idx);
+        else
+                move_to_left_tail_head(d, idx);
+}
+
+static inline void move_to_right_head_tail(struct cdc_deque *d, size_t idx)
+{
+        assert(d != NULL);
+
+        size_t num = (idx - d->head) * sizeof(void *);
+
+        memmove(d->buffer + d->head + 1, d->buffer + d->head, num);
+}
+
+static inline void move_to_right_tail_head(struct cdc_deque *d, size_t idx)
+{
+        assert(d != NULL);
+
+        size_t num;
+
+        if (idx < d->tail) {
+                num = idx * sizeof(void *);
+                memmove(d->buffer + idx, d->buffer + idx - 1, num);
+                CDC_SWAP(void *, d->buffer[0],
+                                d->buffer[d->capacity - 1]);
+                num = (d->capacity - d->head - 1) * sizeof(void *);
+                memmove(d->buffer + d->head + 1, d->buffer + d->head, num);
+        } else {
+                num = (idx - d->head) * sizeof(void *);
+                memmove(d->buffer + d->head + 1, d->buffer + d->head, num);
+        }
+}
+
+
+static inline void move_to_right(struct cdc_deque *d, size_t idx)
+{
+        assert(d != NULL);
+
+        if (d->head < d->tail)
+                move_to_right_head_tail(d, idx);
+        else
+                move_to_right_tail_head(d, idx);
+}
+
+static inline bool is_move_right(struct cdc_deque *d, size_t idx)
+{
+        assert(d != NULL);
+
+        bool is_move_r;
+
+        if (d->head < d->tail)
+                is_move_r = (d->tail - idx) < (idx - d->head);
+        else
+                is_move_r = idx < d->tail
+                                ? (d->tail - idx) < (d->size - d->tail + idx)
+                                : (idx - d->head) > (d->size - idx + d->head);
+
+        return is_move_r;
 }
 
 static inline void free_range(struct cdc_deque *d, size_t start, size_t end)
@@ -280,7 +454,7 @@ enum cdc_stat cdc_deque_at(struct cdc_deque *d, size_t index, void **elem)
         if (index > d->size)
                 return CDC_STATUS_OUT_OF_RANGE;
 
-        idx = (d->head + index) % d->capacity;
+        idx = index_cast(d, index);
         *elem = d->buffer[idx];
 
         return CDC_STATUS_OK;
@@ -292,6 +466,7 @@ enum cdc_stat cdc_deque_insert(struct cdc_deque *d, size_t index, void *value)
         assert(index <= d->size);
 
         size_t idx;
+        bool is_move_r;
 
         if (index == 0)
                 return cdc_deque_push_front(d, value);
@@ -305,15 +480,17 @@ enum cdc_stat cdc_deque_insert(struct cdc_deque *d, size_t index, void *value)
                         return ret;
         }
 
-        if (index > d->size / 2) {
-                move_right(d, index, d->size - index);
+        idx  = index_cast(d, index);
+        is_move_r = is_move_right(d, idx);
+        if (is_move_r) {
+                move_right(d, idx);
                 d->tail = (d->tail + 1) % d->capacity;
         } else {
-                move_left(d, index, index);
+                move_left(d, idx);
                 d->head = (d->head - 1 + d->capacity) % d->capacity;
+                idx  = index_cast(d, index);
         }
 
-        idx  = (d->head + index) % d->capacity;
         d->buffer[idx] = value;
         ++d->size;
 
@@ -326,7 +503,8 @@ enum cdc_stat cdc_deque_erase(struct cdc_deque *d, size_t index, void **elem)
         assert(elem != NULL);
         assert(index < d->size);
 
-        size_t idx = (d->head + index) % d->capacity;
+        bool is_move_r;
+        size_t idx = index_cast(d, index);
 
         *elem = d->buffer[idx];
 
@@ -336,16 +514,16 @@ enum cdc_stat cdc_deque_erase(struct cdc_deque *d, size_t index, void **elem)
         if (index == 0)
                 return pop_front_f(d, false);
 
-        if (index < d->size / 2) {
-                move_right(d, 0, index);
+        is_move_r = is_move_right(d, idx);
+        if (is_move_r) {
+                move_to_right(d, idx);
                 d->head = (d->head + 1) % d->capacity;
         } else {
-                move_left(d, d->size + 1, d->size - index);
-                d->tail = (d->tail + 1) % d->capacity;
+                move_to_left(d, idx);
+                d->tail = (d->tail - 1) % d->capacity;
         }
 
         --d->size;
-
         if (should_shrink(d)) {
                 enum cdc_stat ret = shrink(d);
                 if (ret != CDC_STATUS_OK)
