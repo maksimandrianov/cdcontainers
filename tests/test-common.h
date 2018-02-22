@@ -122,4 +122,10 @@ void test_priority_queue_pop();
 void test_priority_queue_top();
 void test_priority_queue_swap();
 
+// Treap tests
+void test_treap_ctor();
+void test_treap_ctorl();
+void test_treap_insert();
+void test_treap_swap();
+
 #endif  // CDSTRUCTURES_TESTS_TESTS_COMMON_H

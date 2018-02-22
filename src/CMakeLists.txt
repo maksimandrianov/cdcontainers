@@ -20,6 +20,7 @@ set(SOURCE
         queue-deque-table.c
         priority-queue.c
         priority-queue-heap.c
+        treap.c
         status.c
         common.c
         data-info.c

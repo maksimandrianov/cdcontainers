@@ -34,6 +34,7 @@ set(SOURCE
       test-queuel.c
       test-queued.c
       test-priority-queue.c
+      test-treap.c
       test-main.c
 )
 

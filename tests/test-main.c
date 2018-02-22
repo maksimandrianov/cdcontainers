@@ -200,6 +200,19 @@ int main(int argc, char** argv)
                 return CU_get_error();
         }
 
+        p_suite = CU_add_suite("TREAP TESTS", NULL, NULL);
+        if (p_suite == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
+        if (CU_add_test(p_suite, "test_ctor", test_treap_ctor) == NULL ||
+            CU_add_test(p_suite, "test_ctorl", test_treap_ctorl) == NULL ||
+            CU_add_test(p_suite, "test_insert", test_treap_insert) == NULL ||
+            CU_add_test(p_suite, "test_swap", test_treap_swap) == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
 
         CU_basic_set_mode(CU_BRM_VERBOSE);
         CU_basic_run_tests();

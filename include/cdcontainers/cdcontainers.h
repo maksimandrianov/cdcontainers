@@ -27,5 +27,6 @@
 #include <cdcontainers/queue.h>
 #include <cdcontainers/deque.h>
 #include <cdcontainers/priority-queue.h>
+#include <cdcontainers/treap.h>
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_CDCONTAINERS_H
