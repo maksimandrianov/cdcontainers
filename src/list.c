@@ -50,18 +50,30 @@ static inline void lremove(struct cdc_list_node *prev_node,
                 prev_node->next = next_node;
 }
 
-static inline void free_all_nodes(struct cdc_list *l)
+static inline void free_node(struct cdc_list *l, struct cdc_list_node *node,
+                             bool must_free)
+{
+        assert(node != NULL);
+
+        if (must_free && CDC_HAS_DFREE(l))
+                l->dinfo->dfree(node->data);
+
+        free(node);
+}
+
+static inline void free_nodes(struct cdc_list *l)
 {
         assert(l != NULL);
 
         struct cdc_list_node *current = l->head;
         struct cdc_list_node *next;
 
+        if (current == NULL)
+                return;
+
         do {
                 next = current->next;
-                if (CDC_HAS_DFREE(l))
-                        l->dinfo->dfree(current->data);
-                free(current);
+                free_node(l, current, true);
                 current = next;
 
         } while(next != NULL);
@@ -78,18 +90,7 @@ static inline struct cdc_list_node *get_node(struct cdc_list *l, size_t index)
              node = node->next, ++i)
                 /* empty */;
 
-        return node;
-}
-
-static inline void free_node(struct cdc_list *l, struct cdc_list_node *node,
-                             bool must_free)
-{
-        assert(node != NULL);
-
-        if (must_free && CDC_HAS_DFREE(l))
-                l->dinfo->dfree(node->data);
-
-        free(node);
+        return i != index ? NULL : node;
 }
 
 static inline enum cdc_stat pop_back_f(struct cdc_list *l, bool must_free)
@@ -103,7 +104,7 @@ static inline enum cdc_stat pop_back_f(struct cdc_list *l, bool must_free)
         --l->size;
 
         if (new_tail) {
-                lremove(new_tail, NULL);
+                new_tail->next = NULL;
                 l->tail = new_tail;
         } else {
                 l->tail = NULL;
@@ -124,7 +125,7 @@ static inline enum cdc_stat pop_front_f(struct cdc_list *l, bool must_free)
         --l->size;
 
         if (new_head) {
-                lremove(NULL, new_head);
+                new_head->prev = NULL;
                 l->head = new_head;
         } else {
                 l->tail = NULL;
@@ -202,9 +203,7 @@ void cdc_list_dtor(struct cdc_list *l)
 {
         assert(l != NULL);
 
-        if (l->head != NULL)
-                free_all_nodes(l);
-
+        free_nodes(l);
         cdc_di_shared_dtor(l->dinfo);
         free(l);
 }
@@ -221,16 +220,18 @@ enum cdc_stat cdc_list_push_back(struct cdc_list *l, void *value)
 
         node->data = value;
         if (l->tail == NULL) {
-                ladd(node, NULL, NULL);
+                node->next = NULL;
+                node->prev = NULL;
                 l->head = node;
                 l->tail = node;
         } else {
-                ladd(node, l->tail, NULL);
+                node->next = NULL;
+                node->prev = l->tail;
+                l->tail->next = node;
                 l->tail = node;
         }
 
         ++l->size;
-
         return CDC_STATUS_OK;
 }
 
@@ -254,11 +255,14 @@ enum cdc_stat cdc_list_push_front(struct cdc_list *l, void *value)
 
         node->data = value;
         if (l->head == NULL) {
-                ladd(node, NULL, NULL);
+                node->next = NULL;
+                node->prev = NULL;
                 l->head = node;
                 l->tail = node;
         } else {
-                ladd(node, NULL, l->head);
+                node->next = l->head;
+                node->prev = NULL;
+                l->head->prev = node;
                 l->head = node;
         }
 
@@ -357,7 +361,7 @@ void cdc_list_clear(struct cdc_list *l)
 {
         assert(l != NULL);
 
-        free_all_nodes(l);
+        free_nodes(l);
         l->size = 0;
         l->head = NULL;
         l->tail = NULL;
