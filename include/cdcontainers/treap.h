@@ -32,29 +32,36 @@
 #include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
 
+typedef int (*cdc_priority_func_t)(void *);
+
 struct cdc_treap_node {
+        struct cdc_treap_node *parent;
         struct cdc_treap_node *left;
-        struct cdc_treap_node *rigth;
+        struct cdc_treap_node *right;
         void *key;
         void *data;
         int priority;
 };
 
+
 struct cdc_treap {
         struct cdc_treap_node *root;
         size_t size;
+        cdc_priority_func_t prior;
         cdc_compar_func_t compar;
         struct cdc_data_info *dinfo;
 };
 
 enum cdc_stat cdc_treap_ctor(struct cdc_treap **t, struct cdc_data_info *info,
-                             cdc_compar_func_t compar);
+                             cdc_compar_func_t compar, cdc_priority_func_t prior);
 
 enum cdc_stat cdc_treap_ctorl(struct cdc_treap **t, struct cdc_data_info *info,
-                              cdc_compar_func_t compar, ...);
+                              cdc_compar_func_t compar,
+                              cdc_priority_func_t prior, ...);
 
 enum cdc_stat cdc_treap_ctorv(struct cdc_treap **t, struct cdc_data_info *info,
-                              cdc_compar_func_t compar, va_list args);
+                              cdc_compar_func_t compar, cdc_priority_func_t prior,
+                              va_list args);
 
 void cdc_treap_dtor(struct cdc_treap *t);
 
@@ -74,7 +81,7 @@ static inline bool cdc_treap_empty(struct cdc_treap *t)
 
 enum cdc_stat cdc_treap_insert(struct cdc_treap *t, void *key, void *value);
 
-enum cdc_stat cdc_treap_erase(struct cdc_treap *t, void *key, void **elem);
+size_t cdc_treap_erase(struct cdc_treap *t, void *key);
 
 void cdc_treap_clear(struct cdc_treap *t);
 

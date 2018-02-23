@@ -34,6 +34,11 @@
         } while (0)
 #define CDC_INIT_STRUCT {0,}
 
+struct cdc_pair {
+        void *first;
+        void *second;
+};
+
 struct cdc_data_info {
         void (*dfree)(void *);
         bool (*lt)(const void *, const void *);

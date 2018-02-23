@@ -35,8 +35,8 @@ static void inorder_print_int(struct cdc_treap_node *node) {
 
         printf("%p ", node->key);
 
-        if (node->rigth)
-                inorder_print_int(node->rigth);
+        if (node->right)
+                inorder_print_int(node->right);
 }
 
 void test_treap_ctor()
@@ -54,7 +54,7 @@ void test_treap_insert()
         void *a = (void *)1, *b = (void *)2, *c = (void *)3,
                         *d = (void *)4, *e = (void *)5;
 
-        CU_ASSERT(cdc_treap_ctor(&t, NULL, lt_int) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_treap_ctor(&t, NULL, lt_int, NULL) == CDC_STATUS_OK);
         printf("\n");
         CU_ASSERT(cdc_treap_insert(t, d, NULL) == CDC_STATUS_OK);
         inorder_print_int(t->root);
@@ -71,6 +71,16 @@ void test_treap_insert()
         CU_ASSERT(cdc_treap_insert(t, b, NULL) == CDC_STATUS_OK);
         inorder_print_int(t->root);
         printf("\n");
+
+
+        CU_ASSERT(cdc_treap_erase(t, b) == 1);
+        inorder_print_int(t->root);
+        printf("\n");
+
+        CU_ASSERT(cdc_treap_erase(t, a) == 1);
+        inorder_print_int(t->root);
+        printf("\n");
+
 }
 
 void test_treap_swap()
