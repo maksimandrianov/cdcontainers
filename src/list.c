@@ -24,32 +24,6 @@
 #include <stdint.h>
 #include "data-info.h"
 
-static inline void ladd(struct cdc_list_node *new_node,
-                        struct cdc_list_node *prev_node,
-                        struct cdc_list_node *next_node)
-{
-        assert(new_node != NULL);
-
-        if (next_node)
-                next_node->prev = new_node;
-
-        new_node->next = next_node;
-        new_node->prev = prev_node;
-
-        if (prev_node)
-                prev_node->next = new_node;
-}
-
-static inline void lremove(struct cdc_list_node *prev_node,
-                           struct cdc_list_node *next_node)
-{
-        if (next_node)
-                next_node->prev = prev_node;
-
-        if (prev_node)
-                prev_node->next = next_node;
-}
-
 static inline void free_node(struct cdc_list *l, struct cdc_list_node *node,
                              bool must_free)
 {
@@ -101,7 +75,6 @@ static inline enum cdc_stat pop_back_f(struct cdc_list *l, bool must_free)
         struct cdc_list_node *new_tail = l->tail->prev;
 
         free_node(l, l->tail, must_free);
-        --l->size;
 
         if (new_tail) {
                 new_tail->next = NULL;
@@ -111,6 +84,7 @@ static inline enum cdc_stat pop_back_f(struct cdc_list *l, bool must_free)
                 l->head = NULL;
         }
 
+        --l->size;
         return CDC_STATUS_OK;
 }
 
@@ -122,7 +96,6 @@ static inline enum cdc_stat pop_front_f(struct cdc_list *l, bool must_free)
         struct cdc_list_node *new_head = l->head->next;
 
         free_node(l, l->head, must_free);
-        --l->size;
 
         if (new_head) {
                 new_head->prev = NULL;
@@ -132,6 +105,7 @@ static inline enum cdc_stat pop_front_f(struct cdc_list *l, bool must_free)
                 l->head = NULL;
         }
 
+        --l->size;
         return CDC_STATUS_OK;
 }
 
@@ -325,9 +299,13 @@ enum cdc_stat cdc_list_insert(struct cdc_list *l, size_t index, void *value)
 
         new_node->data = value;
         prev_node = get_node(l, index - 1);
-        ladd(new_node, prev_node, prev_node->next);
-        ++l->size;
 
+        prev_node->next->prev = new_node;
+        new_node->next = prev_node->next;
+        new_node->prev = prev_node;
+        prev_node->next = new_node;
+
+        ++l->size;
         return CDC_STATUS_OK;
 }
 
@@ -350,7 +328,10 @@ enum cdc_stat cdc_list_erase(struct cdc_list *l, size_t index, void **elem)
 
         node = get_node(l, index);
         *elem = node->data;
-        lremove(node->prev, node->next);
+
+        node->next->prev = node->prev;
+        node->prev->next = node->next;
+
         --l->size;
         free(node);
 
