@@ -96,7 +96,6 @@ static inline enum cdc_stat pop_front_f(struct cdc_list *l, bool must_free)
         struct cdc_list_node *new_head = l->head->next;
 
         free_node(l, l->head, must_free);
-
         if (new_head) {
                 new_head->prev = NULL;
                 l->head = new_head;
@@ -241,7 +240,6 @@ enum cdc_stat cdc_list_push_front(struct cdc_list *l, void *value)
         }
 
         ++l->size;
-
         return CDC_STATUS_OK;
 }
 
@@ -263,7 +261,7 @@ enum cdc_stat cdc_list_at(struct cdc_list *l, size_t index, void **elem)
 
         struct cdc_list_node *node;
 
-        if (index > l->size)
+        if (index > l->size - 1)
                 return CDC_STATUS_OUT_OF_RANGE;
 
         node = get_node(l, index);
@@ -293,12 +291,15 @@ enum cdc_stat cdc_list_insert(struct cdc_list *l, size_t index, void *value)
         if (index == 0)
                 return cdc_list_push_front(l, value);
 
+        prev_node = get_node(l, index - 1);
+        if (!prev_node)
+                return CDC_STATUS_OUT_OF_RANGE;
+
         new_node = (struct cdc_list_node *)malloc(sizeof(struct cdc_list_node));
         if (new_node == NULL)
                 return CDC_STATUS_BAD_ALLOC;
 
         new_node->data = value;
-        prev_node = get_node(l, index - 1);
 
         prev_node->next->prev = new_node;
         new_node->next = prev_node->next;
@@ -327,14 +328,14 @@ enum cdc_stat cdc_list_erase(struct cdc_list *l, size_t index, void **elem)
         }
 
         node = get_node(l, index);
-        *elem = node->data;
+        if (node == NULL)
+                return CDC_STATUS_OUT_OF_RANGE;
 
+        *elem = node->data;
         node->next->prev = node->prev;
         node->prev->next = node->next;
-
         --l->size;
         free(node);
-
         return CDC_STATUS_OK;
 }
 
