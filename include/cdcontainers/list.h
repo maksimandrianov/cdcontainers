@@ -73,7 +73,7 @@ struct cdc_list_iter
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
-struct cdc_list_reverse_iterator
+struct cdc_list_reverse_iter
 {
         struct cdc_list *container;
         struct cdc_list_node *current;
@@ -84,7 +84,7 @@ struct cdc_list_reverse_iterator
  * @warning This is macro
  */
 #define CDC_LIST_FOR_EACH(item, list) \
-    for (cdc_list_node *(item) = (list->head); (item); (item) = (item)->next)
+        for (cdc_list_node *(item) = (list->head); (item); (item) = (item)->next)
 
 /**
  * @brief Constructs an empty list.
@@ -175,11 +175,11 @@ static inline struct cdc_list_iter cdc_list_end(struct cdc_list *l)
 /**
  * @brief Returns an iterator to the beginning
  */
-static inline struct cdc_list_reverse_iterator cdc_list_rbegin(struct cdc_list *l)
+static inline struct cdc_list_reverse_iter cdc_list_rbegin(struct cdc_list *l)
 {
         assert(l != NULL);
 
-        struct cdc_list_reverse_iterator it = {l, l->tail};
+        struct cdc_list_reverse_iter it = {l, l->tail};
 
         return it;
 }
@@ -187,11 +187,11 @@ static inline struct cdc_list_reverse_iterator cdc_list_rbegin(struct cdc_list *
 /**
  * @brief Returns an iterator to the end
  */
-static inline struct cdc_list_reverse_iterator cdc_list_ernd(struct cdc_list *l)
+static inline struct cdc_list_reverse_iter cdc_list_rend(struct cdc_list *l)
 {
         assert(l != NULL);
 
-        struct cdc_list_reverse_iterator it = {l, NULL};
+        struct cdc_list_reverse_iter it = {l, NULL};
 
         return it;
 }
@@ -289,14 +289,13 @@ static inline struct cdc_list_iter cdc_list_iter_next(struct cdc_list_iter it)
         return it;
 }
 
-
 /**
  * @brief Makes the preceding item current and returns an iterator to the new
  * current item.
  */
 static inline struct cdc_list_iter cdc_list_iter_prev(struct cdc_list_iter it)
 {
-        it.current = it.current->prev;
+        it.current = it.current ? it.current->prev : it.container->tail;
         return it;
 }
 
@@ -327,11 +326,35 @@ static inline void *cdc_list_iter_data(struct cdc_list_iter it)
 }
 
 /**
+ * @brief Сast list reverse iterator to iterator
+ */
+static inline struct cdc_list_iter cdc_list_iter_from(
+                struct cdc_list_reverse_iter rit)
+{
+        struct cdc_list_iter it = {
+                rit.container, (rit.current ? rit.current->next
+                                            : rit.container->head)
+        };
+
+        return it;
+}
+
+/**
+ * @brief Returns false if the iterator it1 equal to the iterator it2,
+ * otherwise returns false
+ */
+static inline bool cdc_list_iter_is_eq(struct cdc_list_iter it1,
+                                       struct cdc_list_iter it2)
+{
+        return it1.container == it2.container && it1.current == it2.current;
+}
+
+/**
  * @brief Advances the reverse iterator to the next item in the list and
  * returns an iterator to the new current item
  */
-static inline struct cdc_list_reverse_iterator cdc_list_riter_next(
-                struct cdc_list_reverse_iterator it)
+static inline struct cdc_list_reverse_iter cdc_list_riter_next(
+                struct cdc_list_reverse_iter it)
 {
         it.current = it.current->prev;
         return it;
@@ -341,10 +364,10 @@ static inline struct cdc_list_reverse_iterator cdc_list_riter_next(
  * @brief Makes the preceding item current and returns an iterator to the new
  * current item.
  */
-static inline struct cdc_list_reverse_iterator cdc_list_riter_prev(
-                struct cdc_list_reverse_iterator it)
+static inline struct cdc_list_reverse_iter cdc_list_riter_prev(
+                struct cdc_list_reverse_iter it)
 {
-        it.current = it.current->next;
+        it.current = it.current ? it.current->next : it.container->head;
         return it;
 }
 
@@ -353,7 +376,7 @@ static inline struct cdc_list_reverse_iterator cdc_list_riter_prev(
  * iterator, i.e. the reverse iterator is not at the back of the container;
  * otherwise returns false.
  */
-static inline bool cdc_list_riter_has_next(struct cdc_list_reverse_iterator it)
+static inline bool cdc_list_riter_has_next(struct cdc_list_reverse_iter it)
 {
         return it.current->prev != NULL;
 }
@@ -363,7 +386,7 @@ static inline bool cdc_list_riter_has_next(struct cdc_list_reverse_iterator it)
  * i.e. the reverse iterator is not at the front of the container; otherwise
  * returns false.
  */
-static inline bool cdc_list_riter_has_prev(struct cdc_list_reverse_iterator it)
+static inline bool cdc_list_riter_has_prev(struct cdc_list_reverse_iter it)
 {
         return it.current->next != NULL;
 }
@@ -371,46 +394,72 @@ static inline bool cdc_list_riter_has_prev(struct cdc_list_reverse_iterator it)
 /**
  * @brief Returns a pointer to the current item.
  */
-static inline void *cdc_list_riter_data(struct cdc_list_reverse_iterator it)
+static inline void *cdc_list_riter_data(struct cdc_list_reverse_iter it)
 {
         return it.current->data;
+}
+
+/**
+ * @brief Сast list iterator to reverse iterator
+ */
+static inline struct cdc_list_reverse_iter cdc_list_riter_from(
+                struct cdc_list_iter it)
+{
+        struct cdc_list_reverse_iter rit = {
+                it.container, (it.current ? it.current->prev
+                                          : it.container->tail)
+        };
+
+        return rit;
+}
+
+/**
+ * @brief Returns false if the reverse iterator rit1 equal to the reverse
+ * iterator rit2, otherwise returns false
+ */
+static inline bool cdc_list_riter_is_eq(struct cdc_list_reverse_iter rit1,
+                                        struct cdc_list_reverse_iter rit2)
+{
+        return rit1.container == rit2.container && rit1.current == rit2.current;
 }
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
 typedef struct cdc_list list_t;
+typedef struct cdc_list_iter list_iter_t;
+typedef struct cdc_list_reverse_iter list_reverse_iter_t;
 
-#define list_ctor(...)       cdc_list_ctor(__VA_ARGS__)
-#define list_ctorl(...)      cdc_list_ctorl(__VA_ARGS__)
-#define list_ctorv(...)      cdc_list_ctorv(__VA_ARGS__)
-#define list_dtor(...)       cdc_list_dtor(__VA_ARGS__)
+#define list_ctor(...)           cdc_list_ctor(__VA_ARGS__)
+#define list_ctorl(...)          cdc_list_ctorl(__VA_ARGS__)
+#define list_ctorv(...)          cdc_list_ctorv(__VA_ARGS__)
+#define list_dtor(...)           cdc_list_dtor(__VA_ARGS__)
 
 // Element access
-#define list_at(...)         cdc_list_at(__VA_ARGS__)
-#define list_front(...)      cdc_list_front(__VA_ARGS__)
-#define list_back(...)       cdc_list_back(__VA_ARGS__)
+#define list_at(...)             cdc_list_at(__VA_ARGS__)
+#define list_front(...)          cdc_list_front(__VA_ARGS__)
+#define list_back(...)           cdc_list_back(__VA_ARGS__)
 
 // Iterators
-#define list_begin(...)      cdc_list_begin(__VA_ARGS__)
-#define list_end(...)        cdc_list_end(__VA_ARGS__)
-#define list_rbegin(...)     cdc_list_rbegin(__VA_ARGS__)
-#define list_rend(...)       cdc_list_rend(__VA_ARGS__)
+#define list_begin(...)          cdc_list_begin(__VA_ARGS__)
+#define list_end(...)            cdc_list_end(__VA_ARGS__)
+#define list_rbegin(...)         cdc_list_rbegin(__VA_ARGS__)
+#define list_rend(...)           cdc_list_rend(__VA_ARGS__)
 
 // Capacity
-#define list_empty(...)      cdc_list_empty(__VA_ARGS__)
-#define list_size(...)       cdc_list_size(__VA_ARGS__)
+#define list_empty(...)          cdc_list_empty(__VA_ARGS__)
+#define list_size(...)           cdc_list_size(__VA_ARGS__)
 
 // Modifiers
-#define list_insert(...)     cdc_list_insert(__VA_ARGS__)
-#define list_erase(...)      cdc_list_erase(__VA_ARGS__)
-#define list_clear(...)      cdc_list_clear(__VA_ARGS__)
-#define list_push_back(...)  cdc_list_push_back(__VA_ARGS__)
-#define list_pop_back(...)   cdc_list_pop_back(__VA_ARGS__)
-#define list_push_front(...) cdc_list_push_front(__VA_ARGS__)
-#define list_pop_front(...)  cdc_list_pop_back(__VA_ARGS__)
-#define list_swap(...)       cdc_list_swap(__VA_ARGS__)
+#define list_insert(...)         cdc_list_insert(__VA_ARGS__)
+#define list_erase(...)          cdc_list_erase(__VA_ARGS__)
+#define list_clear(...)          cdc_list_clear(__VA_ARGS__)
+#define list_push_back(...)      cdc_list_push_back(__VA_ARGS__)
+#define list_pop_back(...)       cdc_list_pop_back(__VA_ARGS__)
+#define list_push_front(...)     cdc_list_push_front(__VA_ARGS__)
+#define list_pop_front(...)      cdc_list_pop_back(__VA_ARGS__)
+#define list_swap(...)           cdc_list_swap(__VA_ARGS__)
 
-#define list_foreach(...)    cdc_list_foreach(__VA_ARGS__)
+#define list_foreach(...)        cdc_list_foreach(__VA_ARGS__)
 
 // Iterators
 #define list_iter_next(...)      cdc_list_iter_next(__VA_ARGS__)
@@ -418,12 +467,16 @@ typedef struct cdc_list list_t;
 #define list_iter_has_next(...)  cdc_list_iter_has_next(__VA_ARGS__)
 #define list_iter_has_prev(...)  cdc_list_iter_has_prev(__VA_ARGS__)
 #define list_iter_data(...)      cdc_list_iter_data(__VA_ARGS__)
+#define list_riter_from(...)     cdc_list_riter_from(__VA_ARGS__)
+#define list_iter_is_eq(...)     cdc_list_iter_is_eq(__VA_ARGS__)
 
 #define list_riter_next(...)     cdc_list_riter_next(__VA_ARGS__)
 #define list_riter_prev(...)     cdc_list_riter_prev(__VA_ARGS__)
 #define list_riter_has_next(...) cdc_list_riter_has_next(__VA_ARGS__)
 #define list_riter_has_prev(...) cdc_list_riter_has_prev(__VA_ARGS__)
 #define list_riter_data(...)     cdc_list_riter_data(__VA_ARGS__)
+#define list_iter_from(...)      cdc_list_iter_from(__VA_ARGS__)
+#define list_riter_is_eq(...)    cdc_list_riter_is_eq(__VA_ARGS__)
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_LIST_H

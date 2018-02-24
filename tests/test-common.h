@@ -54,6 +54,8 @@ void test_list_swap();
 void test_list_insert();
 void test_list_erase();
 void test_list_clear();
+void test_list_iterators();
+void test_list_reverse_iterators();
 
 // Stackl tests
 void test_stackl_ctor();

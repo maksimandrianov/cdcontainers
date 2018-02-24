@@ -72,7 +72,9 @@ int main(int argc, char** argv)
             CU_add_test(p_suite, "test_swap", test_list_swap) == NULL ||
             CU_add_test(p_suite, "test_insert", test_list_insert) == NULL ||
             CU_add_test(p_suite, "test_erase", test_list_erase) == NULL ||
-            CU_add_test(p_suite, "test_clear", test_list_clear) == NULL) {
+            CU_add_test(p_suite, "test_clear", test_list_clear) == NULL ||
+            CU_add_test(p_suite, "test_iterators", test_list_iterators) == NULL ||
+            CU_add_test(p_suite, "test_reverse_iterators", test_list_reverse_iterators) == NULL) {
                 CU_cleanup_registry();
                 return CU_get_error();
         }

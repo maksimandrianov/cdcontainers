@@ -298,3 +298,103 @@ void test_list_clear()
 
         cdc_list_dtor(l);
 }
+
+void test_list_iterators()
+{
+        struct cdc_list *l;
+        struct cdc_list_iter it;
+        struct cdc_list_reverse_iter rit;
+        int a = 0, b = 1, c = 2, d = 3;
+
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+
+        it = cdc_list_begin(l);
+        CU_ASSERT(cdc_list_iter_has_next(it) == true);
+        CU_ASSERT(cdc_list_iter_has_prev(it) == false);
+        CU_ASSERT(cdc_list_iter_data(it) == (void *)&a);
+        rit = cdc_list_riter_from(it);
+        CU_ASSERT(cdc_list_riter_is_eq(cdc_list_rend(l), rit) == true);
+
+        it = cdc_list_iter_next(it);
+        CU_ASSERT(cdc_list_iter_has_next(it) == true);
+        CU_ASSERT(cdc_list_iter_has_prev(it) == true);
+        CU_ASSERT(cdc_list_iter_data(it) == (void *)&b);
+        rit = cdc_list_riter_from(it);
+        CU_ASSERT(cdc_list_riter_data(rit) == (void *)&a);
+
+        it = cdc_list_iter_next(it);
+        CU_ASSERT(cdc_list_iter_has_next(it) == true);
+        CU_ASSERT(cdc_list_iter_has_prev(it) == true);
+        CU_ASSERT(cdc_list_iter_data(it) == (void *)&c);
+        rit = cdc_list_riter_from(it);
+        CU_ASSERT(cdc_list_riter_data(rit) == (void *)&b);
+
+        it = cdc_list_iter_next(it);
+        CU_ASSERT(cdc_list_iter_has_next(it) == false);
+        CU_ASSERT(cdc_list_iter_has_prev(it) == true);
+        CU_ASSERT(cdc_list_iter_data(it) == (void *)&d);
+        rit = cdc_list_riter_from(it);
+        CU_ASSERT(cdc_list_riter_data(rit) == (void *)&c);
+
+        it = cdc_list_iter_next(it);
+        CU_ASSERT(cdc_list_iter_is_eq(cdc_list_end(l), it) == true);
+        rit = cdc_list_riter_from(it);
+        CU_ASSERT(cdc_list_riter_is_eq(cdc_list_rbegin(l), rit) == true);
+
+        it = cdc_list_iter_prev(it);
+        CU_ASSERT(cdc_list_iter_has_next(it) == false);
+        CU_ASSERT(cdc_list_iter_has_prev(it) == true);
+        CU_ASSERT(cdc_list_iter_data(it) == (void *)&d);
+
+        cdc_list_dtor(l);
+}
+
+void test_list_reverse_iterators()
+{
+        struct cdc_list *l;
+        struct cdc_list_iter it;
+        struct cdc_list_reverse_iter rit;
+        int a = 0, b = 1, c = 2, d = 3;
+
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+
+        rit = cdc_list_rbegin(l);
+        CU_ASSERT(cdc_list_riter_has_next(rit) == true);
+        CU_ASSERT(cdc_list_riter_has_prev(rit) == false);
+        CU_ASSERT(cdc_list_riter_data(rit) == (void *)&d);
+        it = cdc_list_iter_from(rit);
+        CU_ASSERT(cdc_list_iter_is_eq(cdc_list_end(l), it) == true);
+
+        rit = cdc_list_riter_next(rit);
+        CU_ASSERT(cdc_list_riter_has_next(rit) == true);
+        CU_ASSERT(cdc_list_riter_has_prev(rit) == true);
+        CU_ASSERT(cdc_list_riter_data(rit) == (void *)&c);
+        it = cdc_list_iter_from(rit);
+        CU_ASSERT(cdc_list_iter_data(it) == (void *)&d);
+
+        rit = cdc_list_riter_next(rit);
+        CU_ASSERT(cdc_list_riter_has_next(rit) == true);
+        CU_ASSERT(cdc_list_riter_has_prev(rit) == true);
+        CU_ASSERT(cdc_list_riter_data(rit) == (void *)&b);
+        it = cdc_list_iter_from(rit);
+        CU_ASSERT(cdc_list_iter_data(it) == (void *)&c);
+
+        rit = cdc_list_riter_next(rit);
+        CU_ASSERT(cdc_list_riter_has_next(rit) == false);
+        CU_ASSERT(cdc_list_riter_has_prev(rit) == true);
+        CU_ASSERT(cdc_list_riter_data(rit) == (void *)&a);
+        it = cdc_list_iter_from(rit);
+        CU_ASSERT(cdc_list_iter_data(it) == (void *)&b);
+
+        rit = cdc_list_riter_next(rit);
+        CU_ASSERT(cdc_list_riter_is_eq(cdc_list_rend(l), rit) == true);
+        it = cdc_list_iter_from(rit);
+        CU_ASSERT(cdc_list_iter_is_eq(cdc_list_begin(l), it) == true);
+
+        rit = cdc_list_riter_prev(rit);
+        CU_ASSERT(cdc_list_riter_has_next(rit) == false);
+        CU_ASSERT(cdc_list_riter_has_prev(rit) == true);
+        CU_ASSERT(cdc_list_riter_data(rit) == (void *)&a);
+
+        cdc_list_dtor(l);
+}
