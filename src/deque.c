@@ -178,9 +178,12 @@ static inline void move_left_tail_head(struct cdc_deque *d, size_t idx)
         if (idx < d->tail) {
                 num = (d->capacity - d->head) * sizeof(void *);
                 memmove(d->buffer + d->head - 1, d->buffer + d->head, num);
+                if (idx == 0 && d->head == d->capacity - 1)
+                        return;
+
                 CDC_SWAP(void *, d->buffer[0],
                                 d->buffer[d->capacity - 1]);
-                if (idx < 1)
+                if (idx == 0)
                         return;
 
                 num = (idx - 1) * sizeof(void *);
@@ -269,7 +272,7 @@ static inline void move_to_left_tail_head(struct cdc_deque *d, size_t idx)
                 memmove(d->buffer + idx, d->buffer + idx + 1, num);
                 CDC_SWAP(void *, d->buffer[0],
                                 d->buffer[d->capacity - 1]);
-                if (d->tail < 1)
+                if (d->tail == 0)
                         return;
 
                 num = (d->tail - 1) * sizeof(void *);
