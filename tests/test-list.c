@@ -657,7 +657,6 @@ void test_list_merge()
         CU_ASSERT(cdc_list_size(l1) == 8);
         CU_ASSERT(cdc_list_size(l2) == 0);
 
-        list_range_int_print(l1);
         CU_ASSERT(list_range_int_eq(l1, 8, a, b, c, d, e, f, g, h));
 
         cdc_list_dtor(l1);
@@ -672,7 +671,6 @@ void test_list_merge()
         CU_ASSERT(cdc_list_size(l1) == 8);
         CU_ASSERT(cdc_list_size(l2) == 0);
 
-        list_range_int_print(l1);
         CU_ASSERT(list_range_int_eq(l1, 8, a, b, c, d, e, f, g, h));
 
         cdc_list_dtor(l1);
@@ -699,7 +697,19 @@ void test_list_remove_if()
 
 void test_list_reverse()
 {
+        struct cdc_list *l;
+        int a = 0, b = 1, c = 2, d = 3;
 
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+
+
+        cdc_list_reverse(l);
+
+        list_range_int_print(l);
+
+        CU_ASSERT(list_range_int_eq(l, 4,d, c, b, a));
+
+        cdc_list_dtor(l);
 }
 
 void test_list_unique()

@@ -555,7 +555,18 @@ void cdc_list_remove_if(struct cdc_list *l, cdc_unary_pred_fn_t pred)
 
 void cdc_list_reverse(struct cdc_list *l)
 {
+        assert(l);
 
+        struct cdc_list_node *prev, *next;
+
+        CDC_SWAP(struct cdc_list_node *, l->head, l->tail);
+        prev = l->head;
+        next = NULL;
+        while (prev) {
+                next = prev;
+                prev = prev->prev;
+                CDC_SWAP(struct cdc_list_node *, next->next, next->prev);
+        }
 }
 
 void cdc_list_punique(struct cdc_list *l, cdc_binary_pred_fn_t pred)
