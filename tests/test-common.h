@@ -52,10 +52,21 @@ void test_list_pop_back();
 void test_list_pop_front();
 void test_list_swap();
 void test_list_insert();
+void test_list_remove();
+void test_list_iremove();
 void test_list_erase();
+void test_list_ierase();
 void test_list_clear();
 void test_list_iterators();
 void test_list_reverse_iterators();
+void test_list_splice();
+void test_list_ssplice();
+void test_list_lsplice();
+void test_list_merge();
+void test_list_remove_if();
+void test_list_reverse();
+void test_list_unique();
+void test_list_sort();
 
 // Stackl tests
 void test_stackl_ctor();

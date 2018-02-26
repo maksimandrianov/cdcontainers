@@ -122,7 +122,6 @@ void cdc_list_dtor(struct cdc_list *l);
  */
 enum cdc_stat cdc_list_at(struct cdc_list *l, size_t index, void **elem);
 
-
 /**
  * @brief Returns a pointer to the first item in the list.
  * This function assumes that the list isn't empty.
@@ -252,13 +251,46 @@ enum cdc_stat cdc_list_pop_front(struct cdc_list *l);
 enum cdc_stat cdc_list_insert(struct cdc_list *l, size_t index, void *value);
 
 /**
+ * @brief Inserts value in front of the item pointed to by the iterator before.
+ */
+enum cdc_stat cdc_list_iinsert(struct cdc_list_iter before, void *value);
+
+/**
  * @brief Removes the element at index position.
  * The pointer will be written in elem. Index must be a valid index position
  * in the list. The function is not called to free memory.
  * Returned CDC_STATUS_OK in a successful case or an excellent value
  * indicating an error
  */
-enum cdc_stat cdc_list_erase(struct cdc_list *l, size_t index, void **elem);
+enum cdc_stat cdc_list_remove(struct cdc_list *l, size_t index, void **elem);
+
+/**
+ * @brief Removes the item associated with the iterator pos from the list.
+ * The pointer will be written in elem. The function is not called to free memory.
+ * Returned CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
+enum cdc_stat cdc_list_iremove(struct cdc_list_iter pos, void **elem);
+
+/**
+ * @brief Removes the element at index position.
+ * Index must be a valid index position in the list. Returned CDC_STATUS_OK in a
+ * successful case or an excellent value indicating an error
+ */
+static inline enum cdc_stat cdc_list_erase(struct cdc_list *l, size_t index)
+{
+        return cdc_list_remove(l, index, NULL);
+}
+
+/**
+ * @brief Removes the item associated with the iterator pos from the list.
+ * Returned CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
+static inline enum cdc_stat cdc_list_ierase(struct cdc_list_iter pos)
+{
+        return cdc_list_iremove(pos, NULL);
+}
 
 /**
  * @brief Removes all the elements from the list. If a function has been
@@ -272,6 +304,30 @@ void cdc_list_clear(struct cdc_list *l);
  */
 void cdc_list_swap(struct cdc_list *a, struct cdc_list *b);
 
+// Operations
+void cdc_list_splice(struct cdc_list_iter position, struct cdc_list_iter first,
+                     struct cdc_list_iter last);
+
+void cdc_list_ssplice(struct cdc_list_iter position, struct cdc_list_iter first);
+
+void cdc_list_lsplice(struct cdc_list_iter position, struct cdc_list *other);
+
+void cdc_list_merge(struct cdc_list *l, struct cdc_list *other);
+
+void cdc_list_cmerge(struct cdc_list *l, struct cdc_list *other,
+                     cdc_compar_fn_t compare);
+
+void cdc_list_remove_if(struct cdc_list *l, cdc_unary_pred_fn_t pred);
+
+void cdc_list_reverse(struct cdc_list *l);
+
+void cdc_list_unique(struct cdc_list *l);
+
+void cdc_list_punique(struct cdc_list *l, cdc_binary_pred_fn_t pred);
+
+void cdc_list_sort(struct cdc_list *l);
+
+void cdc_list_csort(struct cdc_list *l, cdc_compar_fn_t compare);
 
 /**
  * @brief A function cb is applied to each item of the list.
@@ -451,7 +507,11 @@ typedef struct cdc_list_reverse_iter list_reverse_iter_t;
 
 // Modifiers
 #define list_insert(...)         cdc_list_insert(__VA_ARGS__)
+#define list_iinsert(...)        cdc_list_iinsert(__VA_ARGS__)
 #define list_erase(...)          cdc_list_erase(__VA_ARGS__)
+#define list_ierase(...)         cdc_list_ierase(__VA_ARGS__)
+#define list_remove(...)         cdc_list_remove(__VA_ARGS__)
+#define list_iremove(...)        cdc_list_iremove(__VA_ARGS__)
 #define list_clear(...)          cdc_list_clear(__VA_ARGS__)
 #define list_push_back(...)      cdc_list_push_back(__VA_ARGS__)
 #define list_pop_back(...)       cdc_list_pop_back(__VA_ARGS__)

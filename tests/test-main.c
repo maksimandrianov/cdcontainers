@@ -71,10 +71,21 @@ int main(int argc, char** argv)
             CU_add_test(p_suite, "test_pop_front", test_list_pop_front) == NULL ||
             CU_add_test(p_suite, "test_swap", test_list_swap) == NULL ||
             CU_add_test(p_suite, "test_insert", test_list_insert) == NULL ||
+            CU_add_test(p_suite, "test_remove", test_list_remove) == NULL ||
+            CU_add_test(p_suite, "test_iremove", test_list_iremove) == NULL ||
             CU_add_test(p_suite, "test_erase", test_list_erase) == NULL ||
+            CU_add_test(p_suite, "test_ierase", test_list_ierase) == NULL ||
             CU_add_test(p_suite, "test_clear", test_list_clear) == NULL ||
             CU_add_test(p_suite, "test_iterators", test_list_iterators) == NULL ||
-            CU_add_test(p_suite, "test_reverse_iterators", test_list_reverse_iterators) == NULL) {
+            CU_add_test(p_suite, "test_reverse_iterators", test_list_reverse_iterators) == NULL ||
+            CU_add_test(p_suite, "test_splice", test_list_splice) == NULL ||
+            CU_add_test(p_suite, "test_ssplice", test_list_ssplice) == NULL ||
+            CU_add_test(p_suite, "test_lsplice", test_list_lsplice) == NULL ||
+            CU_add_test(p_suite, "test_merge", test_list_merge) == NULL ||
+            CU_add_test(p_suite, "test_remove_if", test_list_remove_if) == NULL ||
+            CU_add_test(p_suite, "test_reverse", test_list_reverse) == NULL ||
+            CU_add_test(p_suite, "test_unique", test_list_unique) == NULL ||
+            CU_add_test(p_suite, "test_sort", test_list_sort) == NULL) {
                 CU_cleanup_registry();
                 return CU_get_error();
         }

@@ -29,7 +29,7 @@
 
 static enum cdc_stat priority_queueh_ctor(void **cntr,
                                           struct cdc_data_info *info,
-                                          cdc_compar_func_t compar)
+                                          cdc_compar_fn_t compar)
 {
         assert(cntr != NULL);
 
@@ -40,7 +40,7 @@ static enum cdc_stat priority_queueh_ctor(void **cntr,
 
 static enum cdc_stat priority_queueh_ctorv(void **cntr,
                                            struct cdc_data_info *info,
-                                           cdc_compar_func_t compar,
+                                           cdc_compar_fn_t compar,
                                            va_list args)
 {
         assert(cntr != NULL);

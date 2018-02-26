@@ -40,9 +40,9 @@
  */
 struct cdc_priority_queue_table {
         enum cdc_stat (*ctor)(void **cntr, struct cdc_data_info *info,
-                              cdc_compar_func_t compar);
+                              cdc_compar_fn_t compar);
         enum cdc_stat (*ctorv)(void **cntr, struct cdc_data_info *info,
-                               cdc_compar_func_t compar, va_list args);
+                               cdc_compar_fn_t compar, va_list args);
         void (*dtor)(void *cntr);
         void *(*top)(void *cntr);
         bool (*empty)(void *cntr);
@@ -75,7 +75,7 @@ extern const void *cdc_priority_queueh_table;
 enum cdc_stat cdc_priority_queue_ctor(const struct cdc_priority_queue_table *table,
                                       struct cdc_priority_queue **q,
                                       struct cdc_data_info *info,
-                                      cdc_compar_func_t compar);
+                                      cdc_compar_fn_t compar);
 
 /**
  * @brief Constructs a priority queue, initialized by an arbitrary number of pointers.
@@ -86,7 +86,7 @@ enum cdc_stat cdc_priority_queue_ctor(const struct cdc_priority_queue_table *tab
 enum cdc_stat cdc_priority_queue_ctorl(const struct cdc_priority_queue_table *table,
                                        struct cdc_priority_queue **q,
                                        struct cdc_data_info *info,
-                                       cdc_compar_func_t compar, ...);
+                                       cdc_compar_fn_t compar, ...);
 
 /**
  * @brief Constructs a priority queue, initialized by args.
@@ -97,7 +97,7 @@ enum cdc_stat cdc_priority_queue_ctorl(const struct cdc_priority_queue_table *ta
 enum cdc_stat cdc_priority_queue_ctorv(const struct cdc_priority_queue_table *table,
                                        struct cdc_priority_queue **q,
                                        struct cdc_data_info *info,
-                                       cdc_compar_func_t compar, va_list args);
+                                       cdc_compar_fn_t compar, va_list args);
 
 /**
  * @brief Constructs an empty priority queue based on heap.
@@ -107,7 +107,7 @@ enum cdc_stat cdc_priority_queue_ctorv(const struct cdc_priority_queue_table *ta
  */
 static inline enum cdc_stat cdc_priority_queueh_ctor(struct cdc_priority_queue **q,
                                                      struct cdc_data_info *info,
-                                                     cdc_compar_func_t compar)
+                                                     cdc_compar_fn_t compar)
 {
         assert(q != NULL);
 
@@ -124,7 +124,7 @@ static inline enum cdc_stat cdc_priority_queueh_ctor(struct cdc_priority_queue *
  */
 enum cdc_stat cdc_priority_queueh_ctorl(struct cdc_priority_queue **q,
                                         struct cdc_data_info *info,
-                                        cdc_compar_func_t compar, ...);
+                                        cdc_compar_fn_t compar, ...);
 
 /**
  * @brief Constructs a priority queue based on heap, initialized by args.
@@ -134,7 +134,7 @@ enum cdc_stat cdc_priority_queueh_ctorl(struct cdc_priority_queue **q,
  */
 static inline enum cdc_stat cdc_priority_queueh_ctorv(struct cdc_priority_queue **q,
                                                       struct cdc_data_info *info,
-                                                      cdc_compar_func_t compar,
+                                                      cdc_compar_fn_t compar,
                                                       va_list args)
 {
         assert(q != NULL);

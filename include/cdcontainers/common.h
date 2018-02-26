@@ -41,12 +41,14 @@ struct cdc_pair {
 
 struct cdc_data_info {
         void (*dfree)(void *);
-        bool (*lt)(const void *, const void *);
+        int (*lt)(const void *, const void *);
         size_t size;
         size_t __cnt;
 };
 
-typedef int (*cdc_compar_func_t)(const void *, const void *);
+typedef int (*cdc_compar_fn_t)(const void *, const void *);
+typedef bool (*cdc_unary_pred_fn_t) (const void *);
+typedef bool (*cdc_binary_pred_fn_t) (const void *, const void *);
 
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_COMMON_H

@@ -41,7 +41,26 @@ static bool list_range_int_eq(struct cdc_list *l, size_t count, ...)
                         return false;
         }
 
-        return true;
+        return (*((int *)l->tail->data) == elem) ? true : false;
+}
+
+static void list_range_int_print(struct cdc_list *l)
+{
+        int i;
+        void *val;
+        enum cdc_stat ret;
+
+        printf("\n");
+        for (i = 0; i < cdc_list_size(l); ++i) {
+                if ((ret = cdc_list_at(l, i, &val)) == CDC_STATUS_OK)
+                        printf("%d ", *((int *)val));
+        }
+        printf("\n");
+}
+
+static int cmp_int(const void *l, const void *r)
+{
+        return *((int *)l) < *((int *)r);
 }
 
 void test_list_ctor()
@@ -259,7 +278,7 @@ void test_list_insert()
         cdc_list_dtor(l);
 }
 
-void test_list_erase()
+void test_list_remove()
 {
         struct cdc_list *l;
         int a = 0, b = 1, c = 2, d = 3;
@@ -267,18 +286,98 @@ void test_list_erase()
 
         CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
 
-        CU_ASSERT(cdc_list_erase(l, 0, &elem) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_remove(l, 0, &elem) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)elem) == a);
         CU_ASSERT(cdc_list_size(l) == 3);
         CU_ASSERT(list_range_int_eq(l, 3, b, c, d));
 
-        CU_ASSERT(cdc_list_erase(l, 1, &elem) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_remove(l, 1, &elem) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)elem) == c);
         CU_ASSERT(cdc_list_size(l) == 2);
         CU_ASSERT(list_range_int_eq(l, 2, b, d));
 
-        CU_ASSERT(cdc_list_erase(l, cdc_list_size(l) - 1, &elem) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_remove(l, cdc_list_size(l) - 1, &elem) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)elem) == d);
+        CU_ASSERT(cdc_list_size(l) == 1);
+        CU_ASSERT(list_range_int_eq(l, 1, b));
+
+        cdc_list_dtor(l);
+}
+
+void test_list_iremove()
+{
+        struct cdc_list *l;
+        int a = 0, b = 1, c = 2, d = 3;
+        struct cdc_list_iter it;
+        void *elem;
+
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+
+        CU_ASSERT(cdc_list_iremove(cdc_list_begin(l), &elem) == CDC_STATUS_OK);
+        CU_ASSERT(*((int *)elem) == a);
+        CU_ASSERT(cdc_list_size(l) == 3);
+        CU_ASSERT(list_range_int_eq(l, 3, b, c, d));
+
+        it = cdc_list_begin(l);
+        it = cdc_list_iter_next(it);
+        CU_ASSERT(cdc_list_iremove(it, &elem) == CDC_STATUS_OK);
+        CU_ASSERT(*((int *)elem) == c);
+        CU_ASSERT(cdc_list_size(l) == 2);
+        CU_ASSERT(list_range_int_eq(l, 2, b, d));
+
+        it = cdc_list_end(l);
+        it = cdc_list_iter_prev(it);
+        CU_ASSERT(cdc_list_iremove(it, &elem) == CDC_STATUS_OK);
+        CU_ASSERT(*((int *)elem) == d);
+        CU_ASSERT(cdc_list_size(l) == 1);
+        CU_ASSERT(list_range_int_eq(l, 1, b));
+
+        cdc_list_dtor(l);
+}
+
+void test_list_erase()
+{
+        struct cdc_list *l;
+        int a = 0, b = 1, c = 2, d = 3;
+
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+
+        CU_ASSERT(cdc_list_erase(l, 0) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_size(l) == 3);
+        CU_ASSERT(list_range_int_eq(l, 3, b, c, d));
+
+        CU_ASSERT(cdc_list_erase(l, 1) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_size(l) == 2);
+        CU_ASSERT(list_range_int_eq(l, 2, b, d));
+
+        CU_ASSERT(cdc_list_erase(l, cdc_list_size(l) - 1) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_size(l) == 1);
+        CU_ASSERT(list_range_int_eq(l, 1, b));
+
+        cdc_list_dtor(l);
+}
+
+void test_list_ierase()
+{
+        struct cdc_list *l;
+        int a = 0, b = 1, c = 2, d = 3;
+        struct cdc_list_iter it;
+
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+
+        CU_ASSERT(cdc_list_ierase(cdc_list_begin(l)) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_size(l) == 3);
+        CU_ASSERT(list_range_int_eq(l, 3, b, c, d));
+
+        it = cdc_list_begin(l);
+        it = cdc_list_iter_next(it);
+        CU_ASSERT(cdc_list_ierase(it) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_size(l) == 2);
+        CU_ASSERT(list_range_int_eq(l, 2, b, d));
+
+        it = cdc_list_end(l);
+        it = cdc_list_iter_prev(it);
+        CU_ASSERT(cdc_list_ierase(it) == CDC_STATUS_OK);
         CU_ASSERT(cdc_list_size(l) == 1);
         CU_ASSERT(list_range_int_eq(l, 1, b));
 
@@ -397,4 +496,218 @@ void test_list_reverse_iterators()
         CU_ASSERT(cdc_list_riter_data(rit) == (void *)&a);
 
         cdc_list_dtor(l);
+}
+
+void test_list_splice()
+{
+        struct cdc_list *l1, *l2;
+        struct cdc_list_iter current, first, last;
+        int a = 0, b = 1, c = 2, d = 3;
+
+        CU_ASSERT(cdc_list_ctorl(&l1, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&l2, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+
+        current = cdc_list_begin(l1);
+        current = cdc_list_iter_next(current);
+
+        first = cdc_list_begin(l2);
+        first = cdc_list_iter_next(first);
+
+        last = cdc_list_end(l2);
+        last = cdc_list_iter_prev(last);
+
+        cdc_list_splice(current, first, last);
+
+        CU_ASSERT(cdc_list_size(l1) == 6);
+        CU_ASSERT(cdc_list_size(l2) == 2);
+        CU_ASSERT(list_range_int_eq(l1, 6, a, b, c, b, c, d));
+        CU_ASSERT(list_range_int_eq(l2, 2, a, d));
+
+        current = cdc_list_begin(l2);
+        current = cdc_list_iter_next(current);
+
+        cdc_list_splice(current, cdc_list_begin(l1), cdc_list_end(l1));
+
+        CU_ASSERT(cdc_list_size(l1) == 0);
+        CU_ASSERT(cdc_list_size(l2) == 8);
+        CU_ASSERT(list_range_int_eq(l2, 8, a, a, b, c, b, c, d, d));
+
+        last = cdc_list_end(l2);
+        last = cdc_list_iter_prev(last);
+        last = cdc_list_iter_prev(last);
+        last = cdc_list_iter_prev(last);
+        last = cdc_list_iter_prev(last);
+
+        cdc_list_splice(cdc_list_begin(l1), cdc_list_begin(l2), last);
+
+        CU_ASSERT(cdc_list_size(l1) == 4);
+        CU_ASSERT(cdc_list_size(l2) == 4);
+        CU_ASSERT(list_range_int_eq(l1, 4, a, a, b, c));
+        CU_ASSERT(list_range_int_eq(l2, 4, b, c, d, d));
+
+
+        cdc_list_splice(cdc_list_begin(l1), cdc_list_begin(l2), cdc_list_end(l2));
+
+        CU_ASSERT(cdc_list_size(l1) == 8);
+        CU_ASSERT(cdc_list_size(l2) == 0);
+        CU_ASSERT(list_range_int_eq(l1, 8, b, c, d, d, a, a, b, c));
+
+
+        last = cdc_list_end(l1);
+        last = cdc_list_iter_prev(last);
+        last = cdc_list_iter_prev(last);
+        last = cdc_list_iter_prev(last);
+        last = cdc_list_iter_prev(last);
+
+        cdc_list_splice(cdc_list_end(l2), cdc_list_begin(l1), last);
+
+        CU_ASSERT(cdc_list_size(l1) == 4);
+        CU_ASSERT(cdc_list_size(l2) == 4);
+        CU_ASSERT(list_range_int_eq(l1, 4, a, a, b, c));
+        CU_ASSERT(list_range_int_eq(l2, 4, b, c, d, d));
+
+        cdc_list_splice(cdc_list_end(l1), cdc_list_begin(l2), cdc_list_end(l2));
+
+        CU_ASSERT(cdc_list_size(l1) == 8);
+        CU_ASSERT(cdc_list_size(l2) == 0);
+        CU_ASSERT(list_range_int_eq(l1, 8, a, a, b, c, b, c, d, d));
+
+
+        first = cdc_list_begin(l1);
+        first = cdc_list_iter_next(first);
+        first = cdc_list_iter_next(first);
+        first = cdc_list_iter_next(first);
+        first = cdc_list_iter_next(first);
+
+        cdc_list_splice(cdc_list_end(l2), first, cdc_list_end(l1));
+
+        CU_ASSERT(cdc_list_size(l1) == 4);
+        CU_ASSERT(cdc_list_size(l2) == 4);
+        CU_ASSERT(list_range_int_eq(l1, 4, a, a, b, c));
+        CU_ASSERT(list_range_int_eq(l2, 4, b, c, d, d));
+
+        cdc_list_dtor(l1);
+        cdc_list_dtor(l2);
+}
+
+void test_list_ssplice()
+{
+        struct cdc_list *l1, *l2;
+        struct cdc_list_iter current, first;
+        int a = 0, b = 1, c = 2, d = 3;
+
+        CU_ASSERT(cdc_list_ctorl(&l1, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&l2, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+
+        current = cdc_list_begin(l1);
+        current = cdc_list_iter_next(current);
+
+        first = cdc_list_begin(l2);
+        first = cdc_list_iter_next(first);
+
+        cdc_list_ssplice(current, first);
+
+        CU_ASSERT(cdc_list_size(l1) == 7);
+        CU_ASSERT(cdc_list_size(l2) == 1);
+        CU_ASSERT(list_range_int_eq(l1, 7, a, b, c, d, b, c, d));
+        CU_ASSERT(list_range_int_eq(l2, 1, a));
+
+        cdc_list_ssplice(cdc_list_begin(l1), cdc_list_begin(l2));
+        CU_ASSERT(cdc_list_size(l1) == 8);
+        CU_ASSERT(cdc_list_size(l2) == 0);
+        CU_ASSERT(list_range_int_eq(l1, 8, a, a, b, c, d, b, c, d));
+
+        cdc_list_dtor(l1);
+        cdc_list_dtor(l2);
+}
+
+void test_list_lsplice()
+{
+        struct cdc_list *l1, *l2;
+        struct cdc_list_iter current;
+        int a = 0, b = 1, c = 2, d = 3;
+
+        CU_ASSERT(cdc_list_ctorl(&l1, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&l2, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+
+        current = cdc_list_begin(l1);
+        current = cdc_list_iter_next(current);
+
+        cdc_list_lsplice(current, l2);
+
+        CU_ASSERT(cdc_list_size(l1) == 8);
+        CU_ASSERT(cdc_list_size(l2) == 0);
+        CU_ASSERT(list_range_int_eq(l1, 8, a, a, b, c, d, b, c, d));
+
+        cdc_list_dtor(l1);
+        cdc_list_dtor(l2);
+}
+
+void test_list_merge()
+{
+        struct cdc_list *l1, *l2;
+        int a = 0, b = 1, c = 2, d = 3, e = 4, f = 5, g = 6, h = 7;
+
+        CU_ASSERT(cdc_list_ctorl(&l1, NULL, &a, &c, &e, &g, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&l2, NULL, &b, &d, &f, &h, NULL) == CDC_STATUS_OK);
+
+
+        cdc_list_cmerge(l1, l2, cmp_int);
+
+        CU_ASSERT(cdc_list_size(l1) == 8);
+        CU_ASSERT(cdc_list_size(l2) == 0);
+
+        list_range_int_print(l1);
+        CU_ASSERT(list_range_int_eq(l1, 8, a, b, c, d, e, f, g, h));
+
+        cdc_list_dtor(l1);
+        cdc_list_dtor(l2);
+
+
+        CU_ASSERT(cdc_list_ctorl(&l1, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&l2, NULL, &e, &f, &g, &h, NULL) == CDC_STATUS_OK);
+
+        cdc_list_cmerge(l1, l2, cmp_int);
+
+        CU_ASSERT(cdc_list_size(l1) == 8);
+        CU_ASSERT(cdc_list_size(l2) == 0);
+
+        list_range_int_print(l1);
+        CU_ASSERT(list_range_int_eq(l1, 8, a, b, c, d, e, f, g, h));
+
+        cdc_list_dtor(l1);
+        cdc_list_dtor(l2);
+
+
+        CU_ASSERT(cdc_list_ctorl(&l1, NULL, &e, &f, &g, &h,  NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_list_ctorl(&l2, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+
+        cdc_list_cmerge(l1, l2, cmp_int);
+
+        CU_ASSERT(cdc_list_size(l1) == 8);
+        CU_ASSERT(cdc_list_size(l2) == 0);
+        CU_ASSERT(list_range_int_eq(l1, 8, a, b, c, d, e, f, g, h));
+
+        cdc_list_dtor(l1);
+        cdc_list_dtor(l2);
+}
+
+void test_list_remove_if()
+{
+
+}
+
+void test_list_reverse()
+{
+
+}
+
+void test_list_unique()
+{
+
+}
+
+void test_list_sort()
+{
+
 }
