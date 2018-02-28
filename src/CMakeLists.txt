@@ -21,6 +21,7 @@ set(SOURCE
         priority-queue.c
         priority-queue-heap.c
         treap.c
+        binomial-heap.c
         status.c
         common.c
         data-info.c
