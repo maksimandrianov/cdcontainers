@@ -40,11 +40,11 @@
 * Use only special functions to access and change structure fields.
 */
 struct cdc_binomial_heap_node {
-       struct cdc_binomial_heap_node *parent;
-       struct cdc_binomial_heap_node *child;
-       struct cdc_binomial_heap_node *sibling;
-       size_t degree;
-       void *key;
+        struct cdc_binomial_heap_node *parent;
+        struct cdc_binomial_heap_node *child;
+        struct cdc_binomial_heap_node *sibling;
+        size_t degree;
+        void *key;
 };
 
 /**
@@ -54,10 +54,21 @@ struct cdc_binomial_heap_node {
  */
 struct cdc_binomial_heap {
         struct cdc_binomial_heap_node *root;
-        struct cdc_binomial_heap_node *prev_top;
+        struct cdc_binomial_heap_node *top;
         size_t size;
         cdc_compar_fn_t compar;
         struct cdc_data_info *dinfo;
+};
+
+/**
+ * @brief The cdc_binomial_heap_iter struct
+ * @warning To avoid problems, do not change the structure fields in the code.
+ * Use only special functions to access and change structure fields.
+ */
+struct cdc_binomial_heap_iter
+{
+        struct cdc_binomial_heap *container;
+        struct cdc_binomial_heap_node *current;
 };
 
 /**
@@ -104,7 +115,7 @@ static inline void *cdc_binomial_heap_top(struct cdc_binomial_heap *h)
 {
         assert(h != NULL);
 
-        return h->prev_top ? h->prev_top->sibling->key : h->root->key;
+        return h->top->key;
 }
 
 // Capacity
@@ -128,7 +139,6 @@ static inline bool cdc_binomial_heap_empty(struct cdc_binomial_heap *h)
         return h->size == 0;
 }
 
-
 // Modifiers
 /**
  * @brief Extracts the top item from the binomial heap.
@@ -146,8 +156,14 @@ enum cdc_stat cdc_binomial_heap_insert(struct cdc_binomial_heap *h, void *key);
 /**
  * @brief Increases the item key on the index position in the binomial heap.
  */
-void cdc_binomial_heap_increase_key(struct cdc_binomial_heap *h, size_t i,
-                                    void *key);
+void cdc_binomial_heap_change_key(struct cdc_binomial_heap *h,
+                                  struct cdc_binomial_heap_iter pos, void *key);
+
+/**
+ * @brief Removes all the elements from the binomial heap. If a function has been
+ * installed to delete an item, it will be called for each item.
+ */
+void cdc_binomial_heap_clear(struct cdc_binomial_heap *h);
 
 /**
  * @brief Swaps binomial heaps a and b. This operation is very fast
@@ -156,9 +172,14 @@ void cdc_binomial_heap_increase_key(struct cdc_binomial_heap *h, size_t i,
 void cdc_binomial_heap_swap(struct cdc_binomial_heap *a,
                             struct cdc_binomial_heap *b);
 
+// Operations
+void cdc_binomial_heap_merge(struct cdc_binomial_heap *h,
+                             struct cdc_binomial_heap *other);
+
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
 typedef struct cdc_binomial_heap binomial_heap_t;
+typedef struct cdc_binomial_heap_iter binomial_heap_iter;
 
 #define binomial_heap_ctor(...)         cdc_binomial_heap_ctor(__VA_ARGS__)
 #define binomial_heap_ctorl(...)        cdc_binomial_heap_ctorl(__VA_ARGS__)
@@ -175,8 +196,12 @@ typedef struct cdc_binomial_heap binomial_heap_t;
 // Modifiers
 #define binomial_heap_extract_top(...)  cdc_binomial_heap_extract_top(__VA_ARGS__)
 #define binomial_heap_insert(...)       cdc_binomial_heap_insert(__VA_ARGS__)
-#define binomial_heap_increase_key(...) cdc_binomial_heap_increase_key(__VA_ARGS__)
+#define binomial_heap_change_key(...)   cdc_binomial_heap_change_key(__VA_ARGS__)
+#define binomial_heap_clear(...)        cdc_binomial_heap_clear(__VA_ARGS__)
 #define binomial_heap_swap(...)         cdc_binomial_heap_swap(__VA_ARGS__)
+
+// Operations
+#define binomial_heap_merge(...)        cdc_binomial_heap_merge(__VA_ARGS__)
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_BINOMIAL_HEAP_H
