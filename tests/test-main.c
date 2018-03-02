@@ -191,7 +191,8 @@ int main(int argc, char** argv)
             CU_add_test(p_suite, "test_top", test_heap_top) == NULL ||
             CU_add_test(p_suite, "test_extract_top", test_heap_extract_top) == NULL ||
             CU_add_test(p_suite, "test_insert", test_heap_insert) == NULL ||
-            CU_add_test(p_suite, "test_increase_key", test_heap_increase_key) == NULL ||
+            CU_add_test(p_suite, "test_change_key", test_heap_change_key) == NULL ||
+            CU_add_test(p_suite, "test_merge", test_heap_merge) == NULL ||
             CU_add_test(p_suite, "test_swap", test_heap_swap) == NULL) {
                 CU_cleanup_registry();
                 return CU_get_error();
@@ -205,10 +206,12 @@ int main(int argc, char** argv)
 
         if (CU_add_test(p_suite, "test_ctor", test_binomial_heap_ctor) == NULL ||
             CU_add_test(p_suite, "test_ctorl", test_binomial_heap_ctorl) == NULL ||
+            CU_add_test(p_suite, "test_dtor", test_binomial_heap_dtor) == NULL ||
             CU_add_test(p_suite, "test_top", test_binomial_heap_top) == NULL ||
             CU_add_test(p_suite, "test_extract_top", test_binomial_heap_extract_top) == NULL ||
             CU_add_test(p_suite, "test_insert", test_binomial_heap_insert) == NULL ||
-            CU_add_test(p_suite, "test_increase_key", test_binomial_heap_increase_key) == NULL ||
+            CU_add_test(p_suite, "test_change_key", test_binomial_heap_change_key) == NULL ||
+            CU_add_test(p_suite, "test_merge", test_binomial_heap_merge) == NULL ||
             CU_add_test(p_suite, "test_swap", test_binomial_heap_swap) == NULL) {
                 CU_cleanup_registry();
                 return CU_get_error();

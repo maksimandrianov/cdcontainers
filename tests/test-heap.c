@@ -131,7 +131,12 @@ void test_heap_insert()
         cdc_heap_dtor(h);
 }
 
-void test_heap_increase_key()
+void test_heap_change_key()
+{
+
+}
+
+void test_heap_merge()
 {
 
 }

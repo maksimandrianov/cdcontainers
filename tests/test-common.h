@@ -124,16 +124,19 @@ void test_heap_ctorl();
 void test_heap_top();
 void test_heap_extract_top();
 void test_heap_insert();
-void test_heap_increase_key();
+void test_heap_change_key();
+void test_heap_merge();
 void test_heap_swap();
 
 // Binomial heap tests
 void test_binomial_heap_ctor();
 void test_binomial_heap_ctorl();
+void test_binomial_heap_dtor();
 void test_binomial_heap_top();
 void test_binomial_heap_extract_top();
 void test_binomial_heap_insert();
-void test_binomial_heap_increase_key();
+void test_binomial_heap_change_key();
+void test_binomial_heap_merge();
 void test_binomial_heap_swap();
 
 // Priority queue tests

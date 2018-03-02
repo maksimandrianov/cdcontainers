@@ -26,9 +26,21 @@
 #include <assert.h>
 #include "cdcontainers/binomial-heap.h"
 
+static size_t count_free = 0;
+
 static int gt_int(const void *a, const void *b)
 {
         return *((int *)a) > *((int *)b);
+}
+
+static int gt_ptr(const void *a, const void *b)
+{
+        return a > b;
+}
+
+static void test_free(void *ptr)
+{
+        ++count_free;
 }
 
 void test_binomial_heap_ctor()
@@ -44,14 +56,15 @@ void test_binomial_heap_ctor()
 void test_binomial_heap_ctorl()
 {
         struct cdc_binomial_heap *h;
-        int a = 2, b = 3;
+        int a = 2;
         void *elem;
 
-        CU_ASSERT(cdc_binomial_heap_ctorl(&h, NULL, gt_int, &a, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_binomial_heap_ctorl(&h, NULL, gt_int, &a, &a, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
         CU_ASSERT(cdc_binomial_heap_size(h) == 2);
 
         elem = cdc_binomial_heap_top(h);
-        CU_ASSERT(*((int *)elem) == b);
+        CU_ASSERT(*((int *)elem) == a);
         CU_ASSERT(cdc_binomial_heap_extract_top(h) == CDC_STATUS_OK);
         CU_ASSERT(cdc_binomial_heap_size(h) == 1);
 
@@ -61,6 +74,32 @@ void test_binomial_heap_ctorl()
         CU_ASSERT(cdc_binomial_heap_size(h) == 0);
 
         cdc_binomial_heap_dtor(h);
+}
+
+void test_binomial_heap_dtor()
+{
+        struct cdc_binomial_heap *h;
+        struct cdc_data_info info = CDC_INIT_STRUCT;
+        size_t i;
+        const size_t count = 50;
+
+        info.dfree = test_free;
+        CU_ASSERT(cdc_binomial_heap_ctor(&h, &info, gt_ptr) == CDC_STATUS_OK);
+
+        for (i = count; i > 0; --i)
+                CU_ASSERT(cdc_binomial_heap_insert(h, (size_t *)i) == CDC_STATUS_OK);
+
+        for (i = 0 ; i < count / 2; ++i)
+                CU_ASSERT(cdc_binomial_heap_insert(h, (size_t *)i) == CDC_STATUS_OK);
+
+        CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
+        CU_ASSERT(cdc_binomial_heap_size(h) == count + count / 2);
+        CU_ASSERT(cdc_binomial_heap_top(h) == (void *)((size_t *)count));
+
+        cdc_binomial_heap_dtor(h);
+
+        CU_ASSERT(count_free == count + count / 2);
+        count_free = 0;
 }
 
 void test_binomial_heap_top()
@@ -81,6 +120,7 @@ void test_binomial_heap_extract_top()
         void *elem;
 
         CU_ASSERT(cdc_binomial_heap_ctorl(&h, NULL, gt_int, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
 
         elem = cdc_binomial_heap_top(h);
         CU_ASSERT(cdc_binomial_heap_extract_top(h) == CDC_STATUS_OK);
@@ -131,9 +171,49 @@ void test_binomial_heap_insert()
         cdc_binomial_heap_dtor(h);
 }
 
-void test_binomial_heap_increase_key()
+void test_binomial_heap_change_key()
 {
+        struct cdc_binomial_heap *h;
+        struct cdc_binomial_heap_iter iter1;
+        int a = 0, b = 4, c = 3, d = 1, n = 2, max_key = 10, min_key = -1;
+        void *elem;
 
+        CU_ASSERT(cdc_binomial_heap_ctorl(&h, NULL, gt_int, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
+        CU_ASSERT(cdc_binomial_heap_riinsert(h, &n, &iter1) == CDC_STATUS_OK);
+
+        iter1.current = iter1.current->child;
+        cdc_binomial_heap_change_key(h, iter1, &max_key);
+        CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
+        elem = cdc_binomial_heap_top(h);
+        CU_ASSERT(*((int *)elem) == max_key);
+
+        iter1.current = h->top;
+        cdc_binomial_heap_change_key(h, iter1, &min_key);
+        CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
+        elem = cdc_binomial_heap_top(h);
+        CU_ASSERT(*((int *)elem) == b);
+
+
+        cdc_binomial_heap_dtor(h);
+}
+
+void test_binomial_heap_merge()
+{
+        struct cdc_binomial_heap *v, *w;
+        int a = 2, b = 3, c = 4;
+
+        CU_ASSERT(cdc_binomial_heap_ctorl(&v, NULL, gt_int, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_binomial_heap_ctorl(&w, NULL, gt_int, &a, &c, NULL) == CDC_STATUS_OK);
+
+        cdc_binomial_heap_merge(v, w);
+
+        CU_ASSERT(cdc_binomial_heap_size(v) == 3);
+        CU_ASSERT(*((int *)cdc_binomial_heap_top(v)) == 4);
+        CU_ASSERT(cdc_binomial_heap_size(w) == 0);
+
+        cdc_binomial_heap_dtor(v);
+        cdc_binomial_heap_dtor(w);
 }
 
 void test_binomial_heap_swap()

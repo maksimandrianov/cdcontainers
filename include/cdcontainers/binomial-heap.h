@@ -151,7 +151,16 @@ enum cdc_stat cdc_binomial_heap_extract_top(struct cdc_binomial_heap *h);
  * @brief Inserts element key to the binomial heap. Returned CDC_STATUS_OK in a
  * successful case or an excellent value indicating an error
  */
-enum cdc_stat cdc_binomial_heap_insert(struct cdc_binomial_heap *h, void *key);
+enum cdc_stat cdc_binomial_heap_riinsert(struct cdc_binomial_heap *h, void *key,
+                                         struct cdc_binomial_heap_iter *ret);
+
+static inline enum cdc_stat cdc_binomial_heap_insert(struct cdc_binomial_heap *h,
+                                                     void *key)
+{
+        assert(h != NULL);
+
+        return cdc_binomial_heap_riinsert(h, key, NULL);
+}
 
 /**
  * @brief Increases the item key on the index position in the binomial heap.
@@ -176,6 +185,8 @@ void cdc_binomial_heap_swap(struct cdc_binomial_heap *a,
 void cdc_binomial_heap_merge(struct cdc_binomial_heap *h,
                              struct cdc_binomial_heap *other);
 
+bool cdc_binomial_heap_is_heap(struct cdc_binomial_heap *h);
+
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
 typedef struct cdc_binomial_heap binomial_heap_t;
@@ -195,6 +206,7 @@ typedef struct cdc_binomial_heap_iter binomial_heap_iter;
 
 // Modifiers
 #define binomial_heap_extract_top(...)  cdc_binomial_heap_extract_top(__VA_ARGS__)
+#define binomial_heap_riinsert(...)     cdc_binomial_heap_riinsert(__VA_ARGS__)
 #define binomial_heap_insert(...)       cdc_binomial_heap_insert(__VA_ARGS__)
 #define binomial_heap_change_key(...)   cdc_binomial_heap_change_key(__VA_ARGS__)
 #define binomial_heap_clear(...)        cdc_binomial_heap_clear(__VA_ARGS__)
@@ -202,6 +214,8 @@ typedef struct cdc_binomial_heap_iter binomial_heap_iter;
 
 // Operations
 #define binomial_heap_merge(...)        cdc_binomial_heap_merge(__VA_ARGS__)
+
+#define binomial_heap_is_heap(...)      cdc_binomial_heap_is_heap(__VA_ARGS__)
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_BINOMIAL_HEAP_H
