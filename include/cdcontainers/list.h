@@ -294,8 +294,7 @@ static inline enum cdc_stat cdc_list_ierase(struct cdc_list_iter pos)
 
 /**
  * @brief Removes all the elements from the list. If a function has been
- * installed to delete an item, it will be called for each item. Index must be
- * a valid index position in the list
+ * installed to delete an item, it will be called for each item.
  */
 void cdc_list_clear(struct cdc_list *l);
 

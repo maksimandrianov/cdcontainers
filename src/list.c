@@ -491,6 +491,14 @@ void cdc_list_cmerge(struct cdc_list *l, struct cdc_list *other,
 
         struct cdc_list_node *a = l->head, *b = other->head, *head = NULL, *tail;
 
+        if (b == NULL)
+                return;
+
+        if (a == NULL) {
+                cdc_list_swap(l, other);
+                return;
+        }
+
         while (1) {
                 if (b == NULL || a == NULL)
                         break;
@@ -503,6 +511,7 @@ void cdc_list_cmerge(struct cdc_list *l, struct cdc_list *other,
                                 a->prev = tail;
                                 tail = a;
                         }
+
                         a = a->next;
                 } else {
                         if (head == NULL) {
@@ -512,26 +521,19 @@ void cdc_list_cmerge(struct cdc_list *l, struct cdc_list *other,
                                 b->prev = tail;
                                 tail = b;
                         }
+
                         b = b->next;
                 }
         }
 
         if (a == NULL) {
-                while (b) {
-                        tail->next = b;
-                        b->prev = tail;
-                        tail = b;
-                        b = b->next;
-                }
-        }
-
-        if (b == NULL) {
-                while (a) {
-                        tail->next = a;
-                        a->prev = tail;
-                        tail = a;
-                        a = a->next;
-                }
+                tail->next = b;
+                b->prev = tail;
+                tail = other->tail;
+        } else {
+                tail->next = a;
+                a->prev = tail;
+                tail = l->tail;
         }
 
         tail->next = NULL;
@@ -557,15 +559,14 @@ void cdc_list_reverse(struct cdc_list *l)
 {
         assert(l);
 
-        struct cdc_list_node *prev, *next;
+        struct cdc_list_node *curr, *prev;
 
         CDC_SWAP(struct cdc_list_node *, l->head, l->tail);
-        prev = l->head;
-        next = NULL;
-        while (prev) {
-                next = prev;
-                prev = prev->prev;
-                CDC_SWAP(struct cdc_list_node *, next->next, next->prev);
+        curr = l->head;
+        while (curr) {
+                prev = curr;
+                curr = curr->prev;
+                CDC_SWAP(struct cdc_list_node *, prev->next, prev->prev);
         }
 }
 

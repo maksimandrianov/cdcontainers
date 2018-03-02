@@ -702,10 +702,7 @@ void test_list_reverse()
 
         CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
 
-
         cdc_list_reverse(l);
-
-        list_range_int_print(l);
 
         CU_ASSERT(list_range_int_eq(l, 4,d, c, b, a));
 
