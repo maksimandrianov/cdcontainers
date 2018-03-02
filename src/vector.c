@@ -234,13 +234,17 @@ void cdc_vector_clear(struct cdc_vector *v)
         v->size = 0;
 }
 
-enum cdc_stat cdc_vector_erase(struct cdc_vector *v, size_t index, void **elem)
+enum cdc_stat cdc_vector_remove(struct cdc_vector *v, size_t index, void **elem)
 {
         assert(v != NULL);
-        assert(elem != NULL);
         assert(index < v->size);
 
-        *elem = v->buffer[index];
+        if (elem) {
+                *elem = v->buffer[index];
+        } else {
+                if (CDC_HAS_DFREE(v))
+                        v->dinfo->dfree(v->buffer[index]);
+        }
 
         if (index == v->size - 1)
                 return pop_back(v, false);

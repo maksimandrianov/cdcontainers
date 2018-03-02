@@ -32,24 +32,7 @@
 #include <assert.h>
 #include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
-
-/**
- * @brief The cdc_queue_table struct
- * @warning To avoid problems, do not change the structure fields in the code.
- * Use only special functions to access and change structure fields.
- */
-struct cdc_queue_table {
-        enum cdc_stat (*ctor)(void **cntr, struct cdc_data_info *info);
-        enum cdc_stat (*ctorv)(void **cntr, struct cdc_data_info *info,
-                               va_list args);
-        void (*dtor)(void *cntr);
-        void *(*front)(void *cntr);
-        void *(*back)(void *cntr);
-        bool (*empty)(void *cntr);
-        size_t (*size)(void *cntr);
-        enum cdc_stat (*push)(void *cntr, void *elem);
-        enum cdc_stat (*pop)(void *cntr);
-};
+#include <cdcontainers/interfaces/isequence.h>
 
 /**
  * @brief The cdc_queue struct
@@ -58,25 +41,15 @@ struct cdc_queue_table {
  */
 struct cdc_queue {
         void *container;
-        const struct cdc_queue_table *table;
+        const struct cdc_sequence_table *table;
 };
-
-/**
- * @brief Table for the queue based on the list
- */
-extern const void *cdc_queuel_table;
-
-/**
- * @brief Table for the queue based on the deque
- */
-extern const void *cdc_queued_table;
 
 /**
  * @brief Constructs an empty queue.
  * Returned CDC_STATUS_OK in a successful case or an excellent value
  * indicating an error
  */
-enum cdc_stat cdc_queue_ctor(const struct cdc_queue_table *table,
+enum cdc_stat cdc_queue_ctor(const struct cdc_sequence_table *table,
                              struct cdc_queue **q, struct cdc_data_info *info);
 
 /**
@@ -84,7 +57,7 @@ enum cdc_stat cdc_queue_ctor(const struct cdc_queue_table *table,
  * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
  * or an excellent value indicating an error
  */
-enum cdc_stat cdc_queue_ctorl(const struct cdc_queue_table *table,
+enum cdc_stat cdc_queue_ctorl(const struct cdc_sequence_table *table,
                               struct cdc_queue **q,
                               struct cdc_data_info *info, ...);
 
@@ -93,7 +66,7 @@ enum cdc_stat cdc_queue_ctorl(const struct cdc_queue_table *table,
  * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
  * or an excellent value indicating an error
  */
-enum cdc_stat cdc_queue_ctorv(const struct cdc_queue_table *table,
+enum cdc_stat cdc_queue_ctorv(const struct cdc_sequence_table *table,
                               struct cdc_queue **q,
                               struct cdc_data_info *info, va_list args);
 
@@ -107,7 +80,7 @@ static inline enum cdc_stat cdc_queuel_ctor(struct cdc_queue **q,
 {
         assert(q != NULL);
 
-        return cdc_queue_ctor(cdc_queuel_table, q, info);
+        return cdc_queue_ctor(cdc_seq_list, q, info);
 }
 
 /**
@@ -130,7 +103,7 @@ static inline enum cdc_stat cdc_queuel_ctorv(struct cdc_queue **q,
 {
         assert(q != NULL);
 
-        return cdc_queue_ctorv(cdc_queuel_table, q, info, args);
+        return cdc_queue_ctorv(cdc_seq_list, q, info, args);
 }
 
 /**
@@ -143,7 +116,7 @@ static inline enum cdc_stat cdc_queued_ctor(struct cdc_queue **q,
 {
         assert(q != NULL);
 
-        return cdc_queue_ctor(cdc_queued_table, q, info);
+        return cdc_queue_ctor(cdc_seq_deque, q, info);
 }
 
 /**
@@ -166,7 +139,7 @@ static inline enum cdc_stat cdc_queued_ctorv(struct cdc_queue **q,
 {
         assert(q != NULL);
 
-        return cdc_queue_ctorv(cdc_queued_table, q, info, args);
+        return cdc_queue_ctorv(cdc_seq_deque, q, info, args);
 }
 
 /**
@@ -228,7 +201,7 @@ static inline enum cdc_stat cdc_queue_push(struct cdc_queue *q, void *elem)
 {
         assert(q != NULL);
 
-        return q->table->push(q->container, elem);
+        return q->table->push_back(q->container, elem);
 }
 
 /**
@@ -240,7 +213,7 @@ static inline enum cdc_stat cdc_queue_pop(struct cdc_queue *q)
 {
         assert(q != NULL);
 
-        return q->table->pop(q->container);
+        return q->table->pop_front(q->container);
 }
 
 /**

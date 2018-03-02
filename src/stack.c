@@ -20,7 +20,7 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/stack.h"
 
-enum cdc_stat cdc_stack_ctor(const struct cdc_stack_table *table,
+enum cdc_stat cdc_stack_ctor(const struct cdc_sequence_table *table,
                              struct cdc_stack **s, struct cdc_data_info *info)
 {
         assert(table != NULL);
@@ -45,7 +45,7 @@ enum cdc_stat cdc_stack_ctor(const struct cdc_stack_table *table,
         return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_stack_ctorl(const struct cdc_stack_table *table,
+enum cdc_stat cdc_stack_ctorl(const struct cdc_sequence_table *table,
                               struct cdc_stack **s,
                               struct cdc_data_info *info, ...)
 {
@@ -62,7 +62,7 @@ enum cdc_stat cdc_stack_ctorl(const struct cdc_stack_table *table,
         return ret;
 }
 
-enum cdc_stat cdc_stack_ctorv(const struct cdc_stack_table *table,
+enum cdc_stat cdc_stack_ctorv(const struct cdc_sequence_table *table,
                               struct cdc_stack **s,
                               struct cdc_data_info *info, va_list args)
 {

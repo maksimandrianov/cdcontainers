@@ -32,23 +32,7 @@
 #include <assert.h>
 #include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
-
-/**
- * @brief The cdc_stack_table struct
- * @warning To avoid problems, do not change the structure fields in the code.
- * Use only special functions to access and change structure fields.
- */
-struct cdc_stack_table {
-        enum cdc_stat (*ctor)(void **cntr, struct cdc_data_info *info);
-        enum cdc_stat (*ctorv)(void **cntr, struct cdc_data_info *info,
-                               va_list args);
-        void (*dtor)(void *cntr);
-        void *(*top)(void *cntr);
-        bool (*empty)(void *cntr);
-        size_t (*size)(void *cntr);
-        enum cdc_stat (*push)(void *cntr, void *elem);
-        enum cdc_stat (*pop)(void *cntr);
-};
+#include <cdcontainers/interfaces/isequence.h>
 
 /**
  * @brief The cdc_stack struct
@@ -57,25 +41,15 @@ struct cdc_stack_table {
  */
 struct cdc_stack {
         void *container;
-        const struct cdc_stack_table *table;
+        const struct cdc_sequence_table *table;
 };
-
-/**
- * @brief Table for the stack based on the vector
- */
-extern const void *cdc_stackv_table;
-
-/**
- * @brief Table for the stack based on the list
- */
-extern const void *cdc_stackl_table;
 
 /**
  * @brief Constructs an empty stack.
  * Returned CDC_STATUS_OK in a successful case or an excellent value
  * indicating an error
  */
-enum cdc_stat cdc_stack_ctor(const struct cdc_stack_table *table,
+enum cdc_stat cdc_stack_ctor(const struct cdc_sequence_table *table,
                              struct cdc_stack **s, struct cdc_data_info *info);
 
 /**
@@ -83,7 +57,7 @@ enum cdc_stat cdc_stack_ctor(const struct cdc_stack_table *table,
  * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
  * or an excellent value indicating an error
  */
-enum cdc_stat cdc_stack_ctorl(const struct cdc_stack_table *table,
+enum cdc_stat cdc_stack_ctorl(const struct cdc_sequence_table *table,
                               struct cdc_stack **s,
                               struct cdc_data_info *info, ...);
 
@@ -92,7 +66,7 @@ enum cdc_stat cdc_stack_ctorl(const struct cdc_stack_table *table,
  * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
  * or an excellent value indicating an error
  */
-enum cdc_stat cdc_stack_ctorv(const struct cdc_stack_table *table,
+enum cdc_stat cdc_stack_ctorv(const struct cdc_sequence_table *table,
                               struct cdc_stack **s,
                               struct cdc_data_info *info, va_list args);
 
@@ -106,7 +80,7 @@ static inline enum cdc_stat cdc_stackl_ctor(struct cdc_stack **s,
 {
         assert(s != NULL);
 
-        return cdc_stack_ctor(cdc_stackl_table, s, info);
+        return cdc_stack_ctor(cdc_seq_list, s, info);
 }
 
 /**
@@ -129,7 +103,7 @@ static inline enum cdc_stat cdc_stackl_ctorv(struct cdc_stack **s,
 {
         assert(s != NULL);
 
-        return cdc_stack_ctorv(cdc_stackl_table, s, info, args);
+        return cdc_stack_ctorv(cdc_seq_list, s, info, args);
 }
 
 /**
@@ -142,7 +116,7 @@ static inline enum cdc_stat cdc_stackv_ctor(struct cdc_stack **s,
 {
         assert(s != NULL);
 
-        return cdc_stack_ctor(cdc_stackv_table, s, info);
+        return cdc_stack_ctor(cdc_seq_vector, s, info);
 }
 
 /**
@@ -165,7 +139,7 @@ static inline enum cdc_stat cdc_stackv_ctorv(struct cdc_stack **s,
 {
         assert(s != NULL);
 
-        return cdc_stack_ctorv(cdc_stackv_table, s, info, args);
+        return cdc_stack_ctorv(cdc_seq_vector, s, info, args);
 }
 
 /**
@@ -182,7 +156,7 @@ static inline void *cdc_stack_top(struct cdc_stack *s)
 {
         assert(s != NULL);
 
-        return s->table->top(s->container);
+        return s->table->back(s->container);
 }
 
 // Capacity
@@ -215,7 +189,7 @@ static inline enum cdc_stat cdc_stack_push(struct cdc_stack *s, void *elem)
 {
         assert(s != NULL);
 
-        return s->table->push(s->container, elem);
+        return s->table->push_back(s->container, elem);
 }
 
 /**
@@ -227,7 +201,7 @@ static inline enum cdc_stat cdc_stack_pop(struct cdc_stack *s)
 {
         assert(s != NULL);
 
-        return s->table->pop(s->container);
+        return s->table->pop_back(s->container);
 }
 
 /**

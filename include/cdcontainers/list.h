@@ -122,6 +122,8 @@ void cdc_list_dtor(struct cdc_list *l);
  */
 enum cdc_stat cdc_list_at(struct cdc_list *l, size_t index, void **elem);
 
+void *cdc_list_get(struct cdc_list *l, size_t index);
+
 /**
  * @brief Returns a pointer to the first item in the list.
  * This function assumes that the list isn't empty.
@@ -217,6 +219,8 @@ static inline bool cdc_list_empty(struct cdc_list *l)
 }
 
 // Modifiers
+void cdc_list_set(struct cdc_list *l, size_t index, void *value);
+
 /**
  * @brief Inserts value at the end of the list. Returned CDC_STATUS_OK in a
  * successful case or an excellent value indicating an error

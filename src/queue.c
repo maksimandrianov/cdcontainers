@@ -20,7 +20,7 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/queue.h"
 
-enum cdc_stat cdc_queue_ctor(const struct cdc_queue_table *table,
+enum cdc_stat cdc_queue_ctor(const struct cdc_sequence_table *table,
                              struct cdc_queue **q, struct cdc_data_info *info)
 {
         assert(table != NULL);
@@ -45,7 +45,7 @@ enum cdc_stat cdc_queue_ctor(const struct cdc_queue_table *table,
         return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_queue_ctorl(const struct cdc_queue_table *table,
+enum cdc_stat cdc_queue_ctorl(const struct cdc_sequence_table *table,
                               struct cdc_queue **q,
                               struct cdc_data_info *info, ...)
 {
@@ -62,7 +62,7 @@ enum cdc_stat cdc_queue_ctorl(const struct cdc_queue_table *table,
         return ret;
 }
 
-enum cdc_stat cdc_queue_ctorv(const struct cdc_queue_table *table,
+enum cdc_stat cdc_queue_ctorv(const struct cdc_sequence_table *table,
                               struct cdc_queue **q,
                               struct cdc_data_info *info, va_list args)
 {

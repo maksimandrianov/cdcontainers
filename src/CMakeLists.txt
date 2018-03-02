@@ -20,11 +20,10 @@ set(SOURCE
         status.c
         common.c
         data-info.c
-        tables/stack-list.c
-        tables/stack-vector.c
-        tables/queue-list.c
-        tables/queue-deque.c
         tables/priority-queue-heap.c
+        tables/seq-vector.c
+        tables/seq-list.c
+        tables/seq-deque.c
 )
 
 include_directories("${PROJECT_INCLUDE_DIR}")

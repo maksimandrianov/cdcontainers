@@ -216,6 +216,13 @@ void cdc_list_dtor(struct cdc_list *l)
         free(l);
 }
 
+void cdc_list_set(struct cdc_list  *l, size_t index, void *value)
+{
+        assert(l);
+
+        get_node(l, index)->data = value;
+}
+
 enum cdc_stat cdc_list_push_back(struct cdc_list *l, void *value)
 {
         assert(l != NULL);
@@ -303,6 +310,13 @@ enum cdc_stat cdc_list_at(struct cdc_list *l, size_t index, void **elem)
         *elem = node->data;
 
         return CDC_STATUS_OK;
+}
+
+void *cdc_list_get(struct cdc_list *l, size_t index)
+{
+        assert(l);
+
+        return get_node(l, index)->data;
 }
 
 enum cdc_stat cdc_list_pop_front(struct cdc_list *l)

@@ -500,7 +500,7 @@ enum cdc_stat cdc_deque_insert(struct cdc_deque *d, size_t index, void *value)
         return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_deque_erase(struct cdc_deque *d, size_t index, void **elem)
+enum cdc_stat cdc_deque_remove(struct cdc_deque *d, size_t index, void **elem)
 {
         assert(d != NULL);
         assert(elem != NULL);
@@ -509,7 +509,12 @@ enum cdc_stat cdc_deque_erase(struct cdc_deque *d, size_t index, void **elem)
         bool is_move_r;
         size_t idx = index_cast(d, index);
 
-        *elem = d->buffer[idx];
+        if (elem) {
+                *elem = d->buffer[idx];
+        } else {
+                if (CDC_HAS_DFREE(d))
+                        d->dinfo->dfree(d);
+        }
 
         if (index == d->size - 1)
                 return pop_back_f(d, false);

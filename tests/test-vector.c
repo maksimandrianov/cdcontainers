@@ -195,17 +195,17 @@ void test_vector_erase()
 
         CU_ASSERT(cdc_vector_ctorl(&v, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
 
-        CU_ASSERT(cdc_vector_erase(v, 2, &elem) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_vector_remove(v, 2, &elem) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)elem) == c);
         CU_ASSERT(cdc_vector_size(v) == 3);
         CU_ASSERT(vector_range_int_eq(v, 3, a, b, d));
 
-        CU_ASSERT(cdc_vector_erase(v, 0, &elem) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_vector_remove(v, 0, &elem) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)elem) == a);
         CU_ASSERT(cdc_vector_size(v) == 2);
         CU_ASSERT(vector_range_int_eq(v, 2, b, d));
 
-        CU_ASSERT(cdc_vector_erase(v, cdc_vector_size(v) - 1, &elem) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_vector_remove(v, cdc_vector_size(v) - 1, &elem) == CDC_STATUS_OK);
         CU_ASSERT(*((int *)elem) == d);
         CU_ASSERT(cdc_vector_size(v) == 1);
         CU_ASSERT(vector_range_int_eq(v, 1, b));

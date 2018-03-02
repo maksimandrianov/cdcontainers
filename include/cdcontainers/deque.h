@@ -173,8 +173,14 @@ enum cdc_stat cdc_deque_insert(struct cdc_deque *d, size_t index, void *value);
  * Returned CDC_STATUS_OK in a successful case or an excellent value
  * indicating an error
  */
-enum cdc_stat cdc_deque_erase(struct cdc_deque *d, size_t index, void **elem);
+enum cdc_stat cdc_deque_remove(struct cdc_deque *d, size_t index, void **elem);
 
+static inline enum cdc_stat cdc_deque_erase(struct cdc_deque *d, size_t index)
+{
+        assert(d != NULL);
+
+        return cdc_deque_remove(d, index, NULL);
+}
 /**
  * @brief Removes all the elements from the deque. If a function has been
  * installed to delete an item, it will be called for each item. Index must be

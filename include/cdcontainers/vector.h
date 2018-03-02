@@ -193,7 +193,14 @@ enum cdc_stat cdc_vector_insert(struct cdc_vector *v, size_t index, void *value)
  * Returned CDC_STATUS_OK in a successful case or an excellent value
  * indicating an error
  */
-enum cdc_stat cdc_vector_erase(struct cdc_vector *v, size_t index, void **elem);
+enum cdc_stat cdc_vector_remove(struct cdc_vector *v, size_t index, void **elem);
+
+static inline enum cdc_stat cdc_vector_erase(struct cdc_vector *v, size_t index)
+{
+        assert(v != NULL);
+
+        return cdc_vector_remove(v, index, NULL);
+}
 
 /**
  * @brief Removes all the elements from the vector. If a function has been
