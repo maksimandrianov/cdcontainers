@@ -33,12 +33,12 @@ static inline size_t parent(size_t i)
 
 static inline size_t left(size_t i)
 {
-        return 2 * i;
+        return 2 * i + 1;
 }
 
 static inline size_t right(size_t i)
 {
-        return 2 * i + 1;
+        return 2 * i + 2;
 }
 
 static inline void sift_down(struct cdc_heap *h, size_t i)
@@ -54,12 +54,12 @@ static inline void sift_down(struct cdc_heap *h, size_t i)
                 l = left(i);
                 r = right(i);
 
-                if (l <= size && h->compar(data[l], data[i]))
+                if (l < size && h->compar(data[l], data[i]))
                         largest = l;
                 else
                         largest = i;
 
-                if (r <= size && h->compar(data[r], data[largest]))
+                if (r < size && h->compar(data[r], data[largest]))
                         largest = r;
 
                 cond = largest != i;
@@ -91,7 +91,7 @@ static inline void build_heap(struct cdc_heap *h)
 
         size_t i;
 
-        for (i = cdc_vector_size(h->vector) / 2; i > 0; --i)
+        for (i = cdc_vector_size(h->vector) / 2; i >= 0; --i)
                 sift_down(h, i);
 }
 
