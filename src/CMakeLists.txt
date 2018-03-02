@@ -13,18 +13,18 @@ set(SOURCE
         deque.c
         heap.c
         stack.c
-        stack-list-table.c
-        stack-vector-table.c
         queue.c
-        queue-list-table.c
-        queue-deque-table.c
         priority-queue.c
-        priority-queue-heap.c
         treap.c
         binomial-heap.c
         status.c
         common.c
         data-info.c
+        tables/stack-list.c
+        tables/stack-vector.c
+        tables/queue-list.c
+        tables/queue-deque.c
+        tables/priority-queue-heap.c
 )
 
 include_directories("${PROJECT_INCLUDE_DIR}")
