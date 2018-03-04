@@ -43,6 +43,15 @@ static void test_free(void *ptr)
         ++count_free;
 }
 
+static void print_int_heap(struct cdc_binomial_heap_node *node)
+{
+        while (node) {
+                printf("%d ", *((int *)node->key));
+                print_int_heap(node->child);
+                node = node->sibling;
+        }
+}
+
 void test_binomial_heap_ctor()
 {
         struct cdc_binomial_heap *h;
@@ -81,7 +90,7 @@ void test_binomial_heap_dtor()
         struct cdc_binomial_heap *h;
         struct cdc_data_info info = CDC_INIT_STRUCT;
         size_t i;
-        const size_t count = 50;
+        const size_t count = 9;
 
         info.dfree = test_free;
         CU_ASSERT(cdc_binomial_heap_ctor(&h, &info, gt_ptr) == CDC_STATUS_OK);
@@ -182,17 +191,27 @@ void test_binomial_heap_change_key()
         CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
         CU_ASSERT(cdc_binomial_heap_riinsert(h, &n, &iter1) == CDC_STATUS_OK);
 
-        iter1.current = iter1.current->child;
-        cdc_binomial_heap_change_key(h, iter1, &max_key);
+        CU_ASSERT(cdc_binomial_heap_insert(h, &a) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_binomial_heap_insert(h, &c) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_binomial_heap_insert(h, &b) == CDC_STATUS_OK);
+
+        cdc_binomial_heap_change_key(h, &iter1, &max_key);
         CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
         elem = cdc_binomial_heap_top(h);
         CU_ASSERT(*((int *)elem) == max_key);
+        CU_ASSERT(*((int *)iter1.current->key) == max_key);
 
-        iter1.current = h->top;
-        cdc_binomial_heap_change_key(h, iter1, &min_key);
+        cdc_binomial_heap_change_key(h, &iter1, &max_key);
+        CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
+        elem = cdc_binomial_heap_top(h);
+        CU_ASSERT(*((int *)elem) == max_key);
+        CU_ASSERT(*((int *)iter1.current->key) == max_key);
+
+        cdc_binomial_heap_change_key(h, &iter1, &min_key);
         CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
         elem = cdc_binomial_heap_top(h);
         CU_ASSERT(*((int *)elem) == b);
+        CU_ASSERT(*((int *)iter1.current->key) == min_key);
 
 
         cdc_binomial_heap_dtor(h);

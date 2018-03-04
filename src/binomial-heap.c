@@ -37,71 +37,34 @@ static inline void free_node(struct cdc_binomial_heap *h,
         free(node);
 }
 
-static inline void free_tree(struct cdc_binomial_heap *h,
+static inline void free_heap(struct cdc_binomial_heap *h,
                              struct cdc_binomial_heap_node *root)
 {
         assert(h);
 
-        struct cdc_binomial_heap_node *l, *curr, *next;
+        struct cdc_binomial_heap_node *tmp = NULL;
 
-        if (root == NULL)
-                return;
-
-        l = root;
-        while (l->child)
-                l = l->child;
-
-        do {
-                curr = l;
-                l = l->parent;
-                while (curr) {
-                        next = curr->sibling;
-                        free_node(h, curr);
-                        curr = next;
-                }
-        } while (l);
+        while (root) {
+                free_heap(h, root->child);
+                tmp = root->sibling;
+                free_node(h, root);
+                root = tmp;
+        }
 }
 
-static inline bool is_heap_tree(struct cdc_binomial_heap_node *root,
-                                cdc_compar_fn_t compar)
+static inline bool is_heap(struct cdc_binomial_heap_node *root,
+                           cdc_compar_fn_t compar)
 {
-        struct cdc_binomial_heap_node *l, *curr, *next;
 
-        if (root == NULL)
-                return true;
+        while (root) {
+                if (!is_heap(root->child, compar) ||
+                    (root->parent && compar(root->key, root->parent->key)))
+                        return false;
 
-        l = root;
-        while (l->child)
-                l = l->child;
-
-        do {
-                curr = l;
-                l = l->parent;
-                while (curr) {
-                        next = curr->sibling;
-                        if (curr->parent && compar(curr->key, curr->parent->key))
-                                return false;
-
-                        curr = next;
-                }
-        } while (l);
+                root = root->sibling;
+        }
 
         return true;
-}
-
-static inline void free_trees(struct cdc_binomial_heap *h)
-{
-        assert(h);
-
-        struct cdc_binomial_heap_node *curr, *next;
-
-        curr = h->root;
-        while (curr) {
-                next = curr->sibling;
-                curr->sibling = NULL;
-                free_tree(h, curr);
-                curr = next;
-        }
 }
 
 static inline struct cdc_binomial_heap_node *find_prev_top(
@@ -220,7 +183,7 @@ static inline struct cdc_binomial_heap_node *meld(
         next = result->sibling;
         while (next) {
                 if (curr->degree != next->degree ||
-                    (next->sibling && next->sibling->degree != curr->degree)) {
+                    (next->sibling && (next->sibling->degree == curr->degree))) {
                         prev = curr;
                         curr = next;
                 } else if (compare(curr->key, next->key)) {
@@ -243,13 +206,11 @@ static inline struct cdc_binomial_heap_node *meld(
 }
 
 static inline struct cdc_binomial_heap_node *decrease_key(
-                struct cdc_binomial_heap *h, struct cdc_binomial_heap_iter pos,
+                struct cdc_binomial_heap *h, struct cdc_binomial_heap_node *pos,
                 void *key)
 {
-        assert(h);
-        assert(h == pos.container);
 
-        struct cdc_binomial_heap_node *node = pos.current, *p = node->parent;
+        struct cdc_binomial_heap_node *node = pos, *p = node->parent;
 
         if (CDC_HAS_DFREE(h))
                 h->dinfo->dfree(node->key);
@@ -264,13 +225,13 @@ static inline struct cdc_binomial_heap_node *decrease_key(
         return node;
 }
 
-static inline void increase_key(struct cdc_binomial_heap *h,
-                                struct cdc_binomial_heap_iter pos, void *key)
+static inline struct cdc_binomial_heap_node *increase_key(
+                struct cdc_binomial_heap *h, struct cdc_binomial_heap_node *pos,
+                void *key)
 {
         assert(h);
-        assert(h == pos.container);
 
-        struct cdc_binomial_heap_node *curr = pos.current, *ch = curr->child, *t;
+        struct cdc_binomial_heap_node *curr = pos, *ch = curr->child, *t;
 
         if (CDC_HAS_DFREE(h))
                 h->dinfo->dfree(curr->key);
@@ -293,6 +254,8 @@ static inline void increase_key(struct cdc_binomial_heap *h,
                         ch = ch->sibling;
                 }
         }
+
+        return curr;
 }
 
 static inline enum cdc_stat init_varg(struct cdc_binomial_heap *h, va_list args)
@@ -367,7 +330,8 @@ void cdc_binomial_heap_dtor(struct cdc_binomial_heap *h)
 {
         assert(h);
 
-        free_trees(h);
+        free_heap(h, h->root);
+        free(h);
 }
 
 enum cdc_stat cdc_binomial_heap_extract_top(struct cdc_binomial_heap *h)
@@ -423,28 +387,33 @@ enum cdc_stat cdc_binomial_heap_riinsert(struct cdc_binomial_heap *h, void *key,
 }
 
 void cdc_binomial_heap_change_key(struct cdc_binomial_heap *h,
-                                  struct cdc_binomial_heap_iter pos, void *key)
+                                  struct cdc_binomial_heap_iter *pos, void *key)
 {
-        assert(h);
+        assert(h != NULL);
+        assert(pos != NULL);
+        assert(h == pos->container);
 
         struct cdc_binomial_heap_node *node;
+        struct cdc_binomial_heap_node *curr = pos->current;
 
-        if (h->compar(key, pos.current->key)) {
-                node = decrease_key(h, pos, key);
+        if (h->compar(key, curr->key)) {
+                node = decrease_key(h, curr, key);
                 update_top(h, node);
 
         } else {
-                increase_key(h, pos, key);
-                if (pos.current == h->top)
+                node = increase_key(h, curr, key);
+                if (curr == h->top)
                         h->top = find_top(h);
         }
+
+        pos->current = node;
 }
 
 void cdc_binomial_heap_clear(struct cdc_binomial_heap *h)
 {
         assert(h);
 
-        free_trees(h);
+        free_heap(h, h->root);
         h->size = 0;
         h->root = NULL;
         h->top = NULL;
@@ -481,16 +450,5 @@ bool cdc_binomial_heap_is_heap(struct cdc_binomial_heap *h)
 {
         assert(h);
 
-        struct cdc_binomial_heap_node *curr, *next;
-
-        curr = h->root;
-        while (curr) {
-                next = curr->sibling;
-                if (!is_heap_tree(curr, h->compar))
-                        return false;
-
-                curr = next;
-        }
-
-        return true;
+        return is_heap(h->root, h->compar);
 }

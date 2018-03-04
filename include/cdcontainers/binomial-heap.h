@@ -166,7 +166,7 @@ static inline enum cdc_stat cdc_binomial_heap_insert(struct cdc_binomial_heap *h
  * @brief Increases the item key on the index position in the binomial heap.
  */
 void cdc_binomial_heap_change_key(struct cdc_binomial_heap *h,
-                                  struct cdc_binomial_heap_iter pos, void *key);
+                                  struct cdc_binomial_heap_iter *pos, void *key);
 
 /**
  * @brief Removes all the elements from the binomial heap. If a function has been
