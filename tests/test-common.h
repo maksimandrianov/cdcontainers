@@ -70,28 +70,12 @@ void test_list_reverse();
 void test_list_unique();
 void test_list_sort();
 
-// Stackl tests
-void test_stackl_ctor();
-void test_stackl_ctorl();
-void test_stackl_push();
-void test_stackl_pop();
-void test_stackl_swap();
-
 // Stackv tests
 void test_stackv_ctor();
 void test_stackv_ctorl();
 void test_stackv_push();
 void test_stackv_pop();
 void test_stackv_swap();
-
-// Queuel tests
-void test_queuel_ctor();
-void test_queuel_ctorl();
-void test_queuel_push();
-void test_queuel_pop();
-void test_queuel_front();
-void test_queuel_back();
-void test_queuel_swap();
 
 // Queued tests
 void test_queued_ctor();

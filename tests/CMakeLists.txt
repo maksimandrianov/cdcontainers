@@ -29,9 +29,7 @@ set(SOURCE
       test-list.c
       test-deque.c
       test-heap.c
-      test-stackl.c
       test-stackv.c
-      test-queuel.c
       test-queued.c
       test-priority-queue.c
       test-treap.c

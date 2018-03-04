@@ -90,21 +90,6 @@ int main(int argc, char** argv)
                 return CU_get_error();
         }
 
-        p_suite = CU_add_suite("STACKL TESTS", NULL, NULL);
-        if (p_suite == NULL) {
-                CU_cleanup_registry();
-                return CU_get_error();
-        }
-
-        if (CU_add_test(p_suite, "test_ctor", test_stackl_ctor) == NULL ||
-            CU_add_test(p_suite, "test_ctorl", test_stackl_ctorl) == NULL ||
-            CU_add_test(p_suite, "test_push", test_stackl_push) == NULL ||
-            CU_add_test(p_suite, "test_pop", test_stackl_pop) == NULL ||
-            CU_add_test(p_suite, "test_swap", test_stackl_swap) == NULL) {
-                CU_cleanup_registry();
-                return CU_get_error();
-        }
-
         p_suite = CU_add_suite("STACKV TESTS", NULL, NULL);
         if (p_suite == NULL) {
                 CU_cleanup_registry();
@@ -116,23 +101,6 @@ int main(int argc, char** argv)
             CU_add_test(p_suite, "test_push", test_stackv_push) == NULL ||
             CU_add_test(p_suite, "test_pop", test_stackv_pop) == NULL ||
             CU_add_test(p_suite, "test_swap", test_stackv_swap) == NULL) {
-                CU_cleanup_registry();
-                return CU_get_error();
-        }
-
-        p_suite = CU_add_suite("QUEUEL TESTS", NULL, NULL);
-        if (p_suite == NULL) {
-                CU_cleanup_registry();
-                return CU_get_error();
-        }
-
-        if (CU_add_test(p_suite, "test_ctor", test_queuel_ctor) == NULL ||
-            CU_add_test(p_suite, "test_ctorl", test_queuel_ctorl) == NULL ||
-            CU_add_test(p_suite, "test_push", test_queuel_push) == NULL ||
-            CU_add_test(p_suite, "test_pop", test_queuel_pop) == NULL ||
-            CU_add_test(p_suite, "test_front", test_queuel_front) == NULL ||
-            CU_add_test(p_suite, "test_back", test_queuel_back) == NULL ||
-            CU_add_test(p_suite, "test_swap", test_queuel_swap) == NULL) {
                 CU_cleanup_registry();
                 return CU_get_error();
         }
