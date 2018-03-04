@@ -23,6 +23,7 @@
 #include <CUnit/Basic.h>
 #include <float.h>
 #include <stdarg.h>
+#include "cdcontainers/list.h"
 
 static bool list_range_int_eq(struct cdc_list *l, size_t count, ...)
 {

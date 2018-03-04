@@ -21,7 +21,9 @@
 #ifndef CDCONTAINERS_TESTS_TESTS_COMMON_H
 #define CDCONTAINERS_TESTS_TESTS_COMMON_H
 
-#include <cdcontainers/cdcontainers.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdarg.h>
 
 // Vector tests
 void test_vector_ctor();

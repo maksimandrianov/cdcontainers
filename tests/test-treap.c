@@ -23,6 +23,7 @@
 #include <CUnit/Basic.h>
 #include <float.h>
 #include <stdarg.h>
+#include "cdcontainers/treap.h"
 
 static int lt_int(const void *l, const void *r)
 {

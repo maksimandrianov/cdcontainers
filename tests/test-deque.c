@@ -25,6 +25,7 @@
 #include <stdarg.h>
 #include <assert.h>
 #include <stdio.h>
+#include "cdcontainers/deque.h"
 
 static bool deque_range_int_eq(struct cdc_deque *d, size_t count, ...)
 {

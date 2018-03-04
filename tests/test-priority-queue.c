@@ -24,6 +24,7 @@
 #include <float.h>
 #include <stdarg.h>
 #include <assert.h>
+#include "cdcontainers/priority-queue.h"
 
 static int gt_int(const void *a, const void *b)
 {

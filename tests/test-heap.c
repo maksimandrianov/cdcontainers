@@ -31,7 +31,7 @@ static int gt_int(const void *a, const void *b)
         return *((int *)a) > *((int *)b);
 }
 
-static void heap_print_int(struct cdc_heap *h)
+static void heap_int_print(struct cdc_heap *h)
 {
         size_t i;
 

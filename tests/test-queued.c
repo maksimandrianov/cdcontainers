@@ -23,6 +23,7 @@
 #include <CUnit/Basic.h>
 #include <float.h>
 #include <stdarg.h>
+#include "cdcontainers/queue.h"
 
 void test_queued_ctor()
 {

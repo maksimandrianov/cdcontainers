@@ -23,6 +23,7 @@
 #include <CUnit/Basic.h>
 #include <float.h>
 #include <stdarg.h>
+#include "cdcontainers/stack.h"
 
 void test_stackv_ctor()
 {

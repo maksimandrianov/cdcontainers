@@ -43,11 +43,11 @@ static void test_free(void *ptr)
         ++count_free;
 }
 
-static void print_int_heap(struct cdc_binomial_heap_node *node)
+static void heap_int_print(struct cdc_binomial_heap_node *node)
 {
         while (node) {
                 printf("%d ", *((int *)node->key));
-                print_int_heap(node->child);
+                heap_int_print(node->child);
                 node = node->sibling;
         }
 }
