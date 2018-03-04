@@ -41,7 +41,7 @@
  */
 struct cdc_stack {
         void *container;
-        const struct cdc_sequence_table *table;
+        struct cdc_sequence_table *table;
 };
 
 /**
@@ -49,7 +49,7 @@ struct cdc_stack {
  * Returned CDC_STATUS_OK in a successful case or an excellent value
  * indicating an error
  */
-enum cdc_stat cdc_stack_ctor(const struct cdc_sequence_table *table,
+enum cdc_stat cdc_stack_ctor(struct cdc_sequence_table *table,
                              struct cdc_stack **s, struct cdc_data_info *info);
 
 /**
@@ -57,7 +57,7 @@ enum cdc_stat cdc_stack_ctor(const struct cdc_sequence_table *table,
  * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
  * or an excellent value indicating an error
  */
-enum cdc_stat cdc_stack_ctorl(const struct cdc_sequence_table *table,
+enum cdc_stat cdc_stack_ctorl(struct cdc_sequence_table *table,
                               struct cdc_stack **s,
                               struct cdc_data_info *info, ...);
 
@@ -66,7 +66,7 @@ enum cdc_stat cdc_stack_ctorl(const struct cdc_sequence_table *table,
  * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
  * or an excellent value indicating an error
  */
-enum cdc_stat cdc_stack_ctorv(const struct cdc_sequence_table *table,
+enum cdc_stat cdc_stack_ctorv(struct cdc_sequence_table *table,
                               struct cdc_stack **s,
                               struct cdc_data_info *info, va_list args);
 
