@@ -31,6 +31,14 @@ static int gt_int(const void *a, const void *b)
         return *((int *)a) > *((int *)b);
 }
 
+static void heap_print_int(struct cdc_heap *h)
+{
+        size_t i;
+
+        for (i = 0; i < cdc_heap_size(h); ++i)
+                printf("%d ", *((int *)cdc_vector_get(h->vector, i)));
+}
+
 void test_heap_ctor()
 {
         struct cdc_heap *h;
@@ -133,7 +141,39 @@ void test_heap_insert()
 
 void test_heap_change_key()
 {
+        struct cdc_heap *h;
+        struct cdc_heap_iter iter1;
+        int a = 0, b = 4, c = 3, d = 1, n = 2, max_key = 10, min_key = -1;
+        void *elem;
 
+        CU_ASSERT(cdc_heap_ctorl(&h, NULL, gt_int, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_heap_riinsert(h, &n, &iter1) == CDC_STATUS_OK);
+
+        CU_ASSERT(cdc_heap_insert(h, &a) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_heap_insert(h, &c) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_heap_insert(h, &b) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_heap_is_heap(h) == true);
+
+        cdc_heap_change_key(h, &iter1, &max_key);
+        CU_ASSERT(cdc_heap_is_heap(h) == true);
+        elem = cdc_heap_top(h);
+        CU_ASSERT(*((int *)elem) == max_key);
+        CU_ASSERT(*((int *)cdc_heap_iter_data(iter1)) == max_key);
+
+        cdc_heap_change_key(h, &iter1, &max_key);
+        CU_ASSERT(cdc_heap_is_heap(h) == true);
+        elem = cdc_heap_top(h);
+        CU_ASSERT(*((int *)elem) == max_key);
+        CU_ASSERT(*((int *)cdc_heap_iter_data(iter1)) == max_key);
+
+        cdc_heap_change_key(h, &iter1, &min_key);
+
+        CU_ASSERT(cdc_heap_is_heap(h) == true);
+        elem = cdc_heap_top(h);
+        CU_ASSERT(*((int *)elem) == b);
+        CU_ASSERT(*((int *)cdc_heap_iter_data(iter1)) == min_key);
+
+        cdc_heap_dtor(h);
 }
 
 void test_heap_merge()

@@ -41,7 +41,16 @@
 struct cdc_heap {
         struct cdc_vector *vector;
         cdc_compar_fn_t compar;
-        struct cdc_data_info *dinfo;
+};
+
+/**
+ * @brief The cdc_heap_iter struct
+ * @warning To avoid problems, do not change the structure fields in the code.
+ * Use only special functions to access and change structure fields.
+ */
+struct cdc_heap_iter {
+        struct cdc_vector *container;
+        size_t current;
 };
 
 /**
@@ -106,9 +115,8 @@ static inline bool cdc_heap_empty(struct cdc_heap *h)
 {
         assert(h != NULL);
 
-        return cdc_vector_size(h->vector) == 0;
+        return cdc_vector_empty(h->vector);
 }
-
 
 // Modifiers
 /**
@@ -122,21 +130,61 @@ enum cdc_stat cdc_heap_extract_top(struct cdc_heap *h);
  * @brief Inserts element key to the heap. Returned CDC_STATUS_OK in a
  * successful case or an excellent value indicating an error
  */
-enum cdc_stat cdc_heap_insert(struct cdc_heap *h, void *key);
+enum cdc_stat cdc_heap_riinsert(struct cdc_heap *h, void *key,
+                                struct cdc_heap_iter *ret);
+
+static inline enum cdc_stat cdc_heap_insert(struct cdc_heap *h, void *key)
+{
+        assert(h != NULL);
+
+        return cdc_heap_riinsert(h, key, NULL);
+}
 
 /**
  * @brief Increases the item key on the index position in the heap.
  */
-void cdc_heap_increase_key(struct cdc_heap *h, size_t i, void *key);
+void cdc_heap_change_key(struct cdc_heap *h, struct cdc_heap_iter *pos,
+                         void *key);
+
+/**
+ * @brief Removes all the elements from the heap. If a function has been
+ * installed to delete an item, it will be called for each item.
+ */
+void cdc_heap_clear(struct cdc_heap *h);
 
 /**
  * @brief Swaps heaps a and b. This operation is very fast and never fails.
  */
 void cdc_heap_swap(struct cdc_heap *a, struct cdc_heap *b);
 
+// Operations
+void cdc_heap_merge(struct cdc_heap *h, struct cdc_heap *other);
+
+bool cdc_heap_is_heap(struct cdc_heap *h);
+
+// Iterators
+/**
+ * @brief Returns a pointer to the current item.
+ */
+static inline void *cdc_heap_iter_data(struct cdc_heap_iter it)
+{
+        return cdc_vector_get(it.container, it.current);
+}
+
+/**
+ * @brief Returns false if the iterator it1 equal to the iterator it2,
+ * otherwise returns false
+ */
+static inline bool cdc_heap_iter_is_eq(struct cdc_heap_iter it1,
+                                       struct cdc_heap_iter it2)
+{
+        return it1.container == it2.container && it1.current == it2.current;
+}
+
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
 typedef struct cdc_heap heap_t;
+typedef struct cdc_heap_iter heap_iter_t;
 
 #define heap_ctor(...)         cdc_heap_ctor(__VA_ARGS__)
 #define heap_ctorl(...)        cdc_heap_ctorl(__VA_ARGS__)
@@ -152,9 +200,20 @@ typedef struct cdc_heap heap_t;
 
 // Modifiers
 #define heap_extract_top(...)  cdc_heap_extract_top(__VA_ARGS__)
+#define heap_riinsert(...)     cdc_heap_riinsert(__VA_ARGS__)
 #define heap_insert(...)       cdc_heap_insert(__VA_ARGS__)
-#define heap_increase_key(...) cdc_heap_increase_key(__VA_ARGS__)
+#define heap_change_key(...)   cdc_heap_change_key(__VA_ARGS__)
+#define heap_clear(...)        cdc_heap_clear(__VA_ARGS__)
 #define heap_swap(...)         cdc_heap_swap(__VA_ARGS__)
+
+// Operations
+#define heap_merge(...)        cdc_heap_merge(__VA_ARGS__)
+
+#define heap_is_heap(...)      cdc_heap_is_heap(__VA_ARGS__)
+
+// Iterators
+#dfine heap_iter_data(...)     cdc_heap_iter_data(__VA_ARGS__)
+#dfine heap_iter_is_eq(...)    cdc_heap_iter_is_eq(__VA_ARGS__)
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_HEAP_H

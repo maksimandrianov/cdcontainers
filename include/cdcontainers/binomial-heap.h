@@ -187,6 +187,25 @@ void cdc_binomial_heap_merge(struct cdc_binomial_heap *h,
 
 bool cdc_binomial_heap_is_heap(struct cdc_binomial_heap *h);
 
+// Iterators
+/**
+ * @brief Returns a pointer to the current item.
+ */
+static inline void *cdc_binomial_heap_iter_data(struct cdc_binomial_heap_iter it)
+{
+        return it.current->key;
+}
+
+/**
+ * @brief Returns false if the iterator it1 equal to the iterator it2,
+ * otherwise returns false
+ */
+static inline bool cdc_binomial_heap_iter_is_eq(struct cdc_binomial_heap_iter it1,
+                                                struct cdc_binomial_heap_iter it2)
+{
+        return it1.container == it2.container && it1.current == it2.current;
+}
+
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
 typedef struct cdc_binomial_heap binomial_heap_t;
@@ -216,6 +235,10 @@ typedef struct cdc_binomial_heap_iter binomial_heap_iter;
 #define binomial_heap_merge(...)        cdc_binomial_heap_merge(__VA_ARGS__)
 
 #define binomial_heap_is_heap(...)      cdc_binomial_heap_is_heap(__VA_ARGS__)
+
+// Iterators
+#define binomial_heap_iter_data(...)    cdc_binomial_heap_iter_data(__VA_ARGS__)
+#define binomial_heap_iter_is_eq(...)   cdc_binomial_heap_iter_is_eq(__VA_ARGS__)
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_BINOMIAL_HEAP_H

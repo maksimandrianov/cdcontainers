@@ -331,6 +331,7 @@ void cdc_binomial_heap_dtor(struct cdc_binomial_heap *h)
         assert(h);
 
         free_heap(h, h->root);
+        cdc_di_shared_dtor(h->dinfo);
         free(h);
 }
 
