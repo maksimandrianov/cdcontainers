@@ -36,6 +36,7 @@ set(SOURCE
       test-priority-queue.c
       test-treap.c
       test-binomial-heap.c
+      test-pairing-heap.c
       test-main.c
 )
 

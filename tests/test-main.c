@@ -217,6 +217,25 @@ int main(int argc, char** argv)
                 return CU_get_error();
         }
 
+        p_suite = CU_add_suite("PAIRING HEAP TESTS", NULL, NULL);
+        if (p_suite == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
+        if (CU_add_test(p_suite, "test_ctor", test_pairing_heap_ctor) == NULL ||
+            CU_add_test(p_suite, "test_ctorl", test_pairing_heap_ctorl) == NULL ||
+            CU_add_test(p_suite, "test_dtor", test_pairing_heap_dtor) == NULL ||
+            CU_add_test(p_suite, "test_top", test_pairing_heap_top) == NULL ||
+            CU_add_test(p_suite, "test_extract_top", test_pairing_heap_extract_top) == NULL ||
+            CU_add_test(p_suite, "test_insert", test_pairing_heap_insert) == NULL ||
+            CU_add_test(p_suite, "test_change_key", test_pairing_heap_change_key) == NULL ||
+            CU_add_test(p_suite, "test_merge", test_pairing_heap_merge) == NULL ||
+            CU_add_test(p_suite, "test_swap", test_pairing_heap_swap) == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
         p_suite = CU_add_suite("PRIORITY QUEUE TESTS", NULL, NULL);
         if (p_suite == NULL) {
                 CU_cleanup_registry();
