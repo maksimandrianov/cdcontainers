@@ -24,15 +24,15 @@
   * @brief The cdc_pairing_heap is a struct and functions that provide a
   * pairing heap
   */
-#ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_pairing_HEAP_H
-#define CDCONTAINERS_INCLUDE_CDCONTAINERS_pairing_HEAP_H
+#ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_PAIRING_HEAP_H
+#define CDCONTAINERS_INCLUDE_CDCONTAINERS_PAIRING_HEAP_H
 
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdarg.h>
+#include <assert.h>
 #include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
-#include <cdcontainers/vector.h>
 
 /**
 * @brief The cdc_pairing_heap_node struct
@@ -239,4 +239,4 @@ typedef struct cdc_pairing_heap_iter pairing_heap_iter;
 #define pairing_heap_iter_is_eq(...)   cdc_pairing_heap_iter_is_eq(__VA_ARGS__)
 #endif
 
-#endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_pairing_HEAP_H
+#endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_PAIRING_HEAP_H

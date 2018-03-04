@@ -30,9 +30,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdarg.h>
+#include <assert.h>
 #include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
-#include <cdcontainers/vector.h>
 
 /**
 * @brief The cdc_binomial_heap_node struct

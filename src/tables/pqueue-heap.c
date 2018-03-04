@@ -1,5 +1,5 @@
 // The MIT License (MIT)
-// Copyright (c) 2017 Maksim Andrianov
+// Copyright (c) 2018 Maksim Andrianov
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -18,18 +18,12 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
-#include "cdcontainers/priority-queue.h"
-
-#include <stdio.h>
-#include <string.h>
 #include <assert.h>
-#include <stdint.h>
+#include "cdcontainers/interfaces/ipqueue.h"
 #include "cdcontainers/heap.h"
-#include "cdcontainers/priority-queue.h"
 
-static enum cdc_stat priority_queueh_ctor(void **cntr,
-                                          struct cdc_data_info *info,
-                                          cdc_compar_fn_t compar)
+static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info,
+                          cdc_compar_fn_t compar)
 {
         assert(cntr != NULL);
 
@@ -38,10 +32,8 @@ static enum cdc_stat priority_queueh_ctor(void **cntr,
         return cdc_heap_ctor(heap, info, compar);
 }
 
-static enum cdc_stat priority_queueh_ctorv(void **cntr,
-                                           struct cdc_data_info *info,
-                                           cdc_compar_fn_t compar,
-                                           va_list args)
+static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
+                           cdc_compar_fn_t compar, va_list args)
 {
         assert(cntr != NULL);
 
@@ -50,7 +42,7 @@ static enum cdc_stat priority_queueh_ctorv(void **cntr,
         return cdc_heap_ctorv(heap, info, compar, args);
 }
 
-static void priority_queueh_dtor(void *cntr)
+static void dtor(void *cntr)
 {
         assert(cntr != NULL);
 
@@ -59,7 +51,7 @@ static void priority_queueh_dtor(void *cntr)
         cdc_heap_dtor(heap);
 }
 
-static void *priority_queueh_top(void *cntr)
+static void *top(void *cntr)
 {
         assert(cntr != NULL);
 
@@ -68,7 +60,7 @@ static void *priority_queueh_top(void *cntr)
         return cdc_heap_top(heap);
 }
 
-static bool priority_queueh_empty(void *cntr)
+static bool empty(void *cntr)
 {
         assert(cntr != NULL);
 
@@ -77,7 +69,7 @@ static bool priority_queueh_empty(void *cntr)
         return cdc_heap_empty(heap);
 }
 
-static size_t priority_queueh_size(void *cntr)
+static size_t size(void *cntr)
 {
         assert(cntr != NULL);
 
@@ -86,7 +78,7 @@ static size_t priority_queueh_size(void *cntr)
         return cdc_heap_size(heap);
 }
 
-static enum cdc_stat priority_queueh_push(void *cntr, void *elem)
+static enum cdc_stat push(void *cntr, void *elem)
 {
         assert(cntr != NULL);
 
@@ -95,7 +87,7 @@ static enum cdc_stat priority_queueh_push(void *cntr, void *elem)
         return cdc_heap_insert(heap, elem);
 }
 
-static enum cdc_stat priority_queueh_pop(void *cntr)
+static enum cdc_stat pop(void *cntr)
 {
         assert(cntr != NULL);
 
@@ -104,16 +96,16 @@ static enum cdc_stat priority_queueh_pop(void *cntr)
         return cdc_heap_extract_top(heap);
 }
 
-static const struct cdc_priority_queue_table _priority_queueh_table = {
-        .ctor = priority_queueh_ctor,
-        .ctorv = priority_queueh_ctorv,
-        .dtor = priority_queueh_dtor,
-        .top = priority_queueh_top,
-        .empty = priority_queueh_empty,
-        .size = priority_queueh_size,
-        .push = priority_queueh_push,
-        .pop = priority_queueh_pop
+static const struct cdc_priority_queue_table _table = {
+        .ctor = ctor,
+        .ctorv = ctorv,
+        .dtor = dtor,
+        .top = top,
+        .empty = empty,
+        .size = size,
+        .push = push,
+        .pop = pop
 };
 
-const void *cdc_priority_queueh_table = &_priority_queueh_table;
+const void *cdc_pq_heap = &_table;
 

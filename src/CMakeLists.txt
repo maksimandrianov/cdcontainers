@@ -21,7 +21,9 @@ set(SOURCE
         status.c
         common.c
         data-info.c
-        tables/priority-queue-heap.c
+        tables/pqueue-heap.c
+        tables/pqueue-binomial-heap.c
+        tables/pqueue-pairing-heap.c
         tables/seq-vector.c
         tables/seq-list.c
         tables/seq-deque.c

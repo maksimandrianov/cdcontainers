@@ -21,7 +21,8 @@
 /**
   * @file
   * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_priority_queue is a struct and functions that provide a priority queue
+  * @brief The cdc_priority_queue is a struct and functions that provide a
+  * priority queue
   */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_PRIORITY_QUEUE_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_PRIORITY_QUEUE_H
@@ -32,24 +33,7 @@
 #include <assert.h>
 #include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
-
-/**
- * @brief The cdc_priority_queue_table struct
- * @warning To avoid problems, do not change the structure fields in the code.
- * Use only special functions to access and change structure fields.
- */
-struct cdc_priority_queue_table {
-        enum cdc_stat (*ctor)(void **cntr, struct cdc_data_info *info,
-                              cdc_compar_fn_t compar);
-        enum cdc_stat (*ctorv)(void **cntr, struct cdc_data_info *info,
-                               cdc_compar_fn_t compar, va_list args);
-        void (*dtor)(void *cntr);
-        void *(*top)(void *cntr);
-        bool (*empty)(void *cntr);
-        size_t (*size)(void *cntr);
-        enum cdc_stat (*push)(void *cntr, void *elem);
-        enum cdc_stat (*pop)(void *cntr);
-};
+#include <cdcontainers/interfaces/ipqueue.h>
 
 /**
  * @brief The cdc_priority_queue struct
@@ -60,11 +44,6 @@ struct cdc_priority_queue {
         void *container;
         const struct cdc_priority_queue_table *table;
 };
-
-/**
- * @brief Table for the priority queue based on the heap
- */
-extern const void *cdc_priority_queueh_table;
 
 /**
  * @brief Constructs an empty priority queue.
@@ -111,8 +90,7 @@ static inline enum cdc_stat cdc_priority_queueh_ctor(struct cdc_priority_queue *
 {
         assert(q != NULL);
 
-        return cdc_priority_queue_ctor(cdc_priority_queueh_table, q, info,
-                                       compar);
+        return cdc_priority_queue_ctor(cdc_pq_heap, q, info, compar);
 }
 
 /**
@@ -139,8 +117,7 @@ static inline enum cdc_stat cdc_priority_queueh_ctorv(struct cdc_priority_queue 
 {
         assert(q != NULL);
 
-        return cdc_priority_queue_ctorv(cdc_priority_queueh_table, q, info,
-                                        compar, args);
+        return cdc_priority_queue_ctorv(cdc_pq_heap, q, info, compar, args);
 }
 
 /**
@@ -216,22 +193,25 @@ void cdc_priority_queue_swap(struct cdc_priority_queue *a,
 #ifdef CDC_USE_SHORT_NAMES
 typedef struct cdc_priority_queue priority_queue_t;
 
-#define priority_queue_ctor(...)  cdc_priority_queue_ctor(__VA_ARGS__)
-#define priority_queue_ctorl(...) cdc_priority_queue_ctorl(__VA_ARGS__)
-#define priority_queue_ctorv(...) cdc_priority_queue_ctorv(__VA_ARGS__)
-#define priority_queue_dtor(...)  cdc_priority_queue_dtor(__VA_ARGS__)
+#define priority_queue_ctor(...)    cdc_priority_queue_ctor(__VA_ARGS__)
+#define priority_queue_ctorl(...)   cdc_priority_queue_ctorl(__VA_ARGS__)
+#define priority_queue_ctorv(...)   cdc_priority_queue_ctorv(__VA_ARGS__)
+#define priority_queueh_ctor(...)   cdc_priority_queueh_ctor(__VA_ARGS__)
+#define priority_queueh_ctorl(...)  cdc_priority_queueh_ctorl(__VA_ARGS__)
+#define priority_queueh_ctorv(...)  cdc_priority_queueh_ctorv(__VA_ARGS__)
+#define priority_queue_dtor(...)    cdc_priority_queue_dtor(__VA_ARGS__)
 
 // Element access
-#define priority_queue_top(...)   cdc_priority_queue_top(__VA_ARGS__)
+#define priority_queue_top(...)     cdc_priority_queue_top(__VA_ARGS__)
 
 // Capacity
-#define priority_queue_empty(...) cdc_priority_queue_empty(__VA_ARGS__)
-#define priority_queue_size(...)  cdc_priority_queue_size(__VA_ARGS__)
+#define priority_queue_empty(...)   cdc_priority_queue_empty(__VA_ARGS__)
+#define priority_queue_size(...)    cdc_priority_queue_size(__VA_ARGS__)
 
 // Modifiers
-#define priority_queue_push(...)  cdc_priority_queue_push(__VA_ARGS__)
-#define priority_queue_pop(...)   cdc_priority_queue_pop(__VA_ARGS__)
-#define priority_queue_swap(...)  cdc_priority_queue_swap(__VA_ARGS__)
+#define priority_queue_push(...)    cdc_priority_queue_push(__VA_ARGS__)
+#define priority_queue_pop(...)     cdc_priority_queue_pop(__VA_ARGS__)
+#define priority_queue_swap(...)    cdc_priority_queue_swap(__VA_ARGS__)
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_PRIORITY_QUEUE_H
