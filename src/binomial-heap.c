@@ -132,10 +132,7 @@ static inline struct cdc_binomial_heap_node *merge(
         if (b == NULL)
                 return a;
 
-        while (1) {
-                if (b == NULL || a == NULL)
-                        break;
-
+        while (b != NULL && a != NULL) {
                 if (a->degree < b->degree) {
                         if (result == NULL) {
                                 result = next = a;
