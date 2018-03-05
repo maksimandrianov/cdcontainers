@@ -82,7 +82,7 @@ int main(int argc, char** argv)
             CU_add_test(p_suite, "test_ssplice", test_list_ssplice) == NULL ||
             CU_add_test(p_suite, "test_lsplice", test_list_lsplice) == NULL ||
             CU_add_test(p_suite, "test_merge", test_list_merge) == NULL ||
-            CU_add_test(p_suite, "test_remove_if", test_list_remove_if) == NULL ||
+            CU_add_test(p_suite, "test_erase_if", test_list_erase_if) == NULL ||
             CU_add_test(p_suite, "test_reverse", test_list_reverse) == NULL ||
             CU_add_test(p_suite, "test_unique", test_list_unique) == NULL ||
             CU_add_test(p_suite, "test_sort", test_list_sort) == NULL) {

@@ -64,6 +64,17 @@ static int cmp_int(const void *l, const void *r)
         return *((int *)l) < *((int *)r);
 }
 
+static int bin_pred_eq_int(const void *l, const void *r)
+{
+        return *((int *)l) == *((int *)r);
+}
+
+static int un_pred_eq_2_int(const void *d)
+{
+        return *((int *)d) == 2;
+}
+
+
 void test_list_ctor()
 {
         struct cdc_list *l = NULL;
@@ -691,9 +702,18 @@ void test_list_merge()
         cdc_list_dtor(l2);
 }
 
-void test_list_remove_if()
+void test_list_erase_if()
 {
+        struct cdc_list *l;
+        int a = 0, b = 1, c = 2, d = 3;
 
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &c, &a, &b, &c, &c, &c, &d, &c, NULL) == CDC_STATUS_OK);
+
+        cdc_list_erase_if(l, un_pred_eq_2_int);
+
+        CU_ASSERT(list_range_int_eq(l, 3, a, b, d));
+
+        cdc_list_dtor(l);
 }
 
 void test_list_reverse()
@@ -712,7 +732,25 @@ void test_list_reverse()
 
 void test_list_unique()
 {
+        struct cdc_list *l;
+        int a = 2, b = 1;
 
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &a, &a, &a, NULL) == CDC_STATUS_OK);
+        cdc_list_punique(l, bin_pred_eq_int);
+        CU_ASSERT(list_range_int_eq(l, 1, a));
+        cdc_list_clear(l);
+        cdc_list_punique(l, bin_pred_eq_int);
+        cdc_list_dtor(l);
+
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &b, &a, NULL) == CDC_STATUS_OK);
+        cdc_list_punique(l, bin_pred_eq_int);
+        CU_ASSERT(list_range_int_eq(l, 3, a, b, a));
+        cdc_list_dtor(l);
+
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &a, &b, &b, NULL) == CDC_STATUS_OK);
+        cdc_list_punique(l, bin_pred_eq_int);
+        CU_ASSERT(list_range_int_eq(l, 2, a, b));
+        cdc_list_dtor(l);
 }
 
 void test_list_sort()

@@ -65,7 +65,7 @@ void test_list_splice();
 void test_list_ssplice();
 void test_list_lsplice();
 void test_list_merge();
-void test_list_remove_if();
+void test_list_erase_if();
 void test_list_reverse();
 void test_list_unique();
 void test_list_sort();

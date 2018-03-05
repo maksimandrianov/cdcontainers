@@ -320,7 +320,7 @@ void cdc_list_merge(struct cdc_list *l, struct cdc_list *other);
 void cdc_list_cmerge(struct cdc_list *l, struct cdc_list *other,
                      cdc_compar_fn_t compare);
 
-void cdc_list_remove_if(struct cdc_list *l, cdc_unary_pred_fn_t pred);
+void cdc_list_erase_if(struct cdc_list *l, cdc_unary_pred_fn_t pred);
 
 void cdc_list_reverse(struct cdc_list *l);
 
@@ -521,6 +521,19 @@ typedef struct cdc_list_reverse_iter list_reverse_iter_t;
 #define list_push_front(...)     cdc_list_push_front(__VA_ARGS__)
 #define list_pop_front(...)      cdc_list_pop_back(__VA_ARGS__)
 #define list_swap(...)           cdc_list_swap(__VA_ARGS__)
+
+// Operations
+#define list_splice(...)         cdc_list_splice(__VA_ARGS__)
+#define list_ssplice(...)        cdc_list_ssplice(__VA_ARGS__)
+#define list_lsplice(...)        cdc_list_lsplice(__VA_ARGS__)
+#define list_merge(...)          cdc_list_merge(__VA_ARGS__)
+#define list_cmerge(...)         cdc_list_cmerge(__VA_ARGS__)
+#define list_erase_if(...)       cdc_list_erase_if(__VA_ARGS__)
+#define list_reverse(...)        cdc_list_reverse(__VA_ARGS__)
+#define list_unique(...)         cdc_list_unique(__VA_ARGS__)
+#define list_punique(...)        cdc_list_punique(__VA_ARGS__)
+#define list_sort(...)           cdc_list_sort(__VA_ARGS__)
+#define list_csort(...)          cdc_list_csort(__VA_ARGS__)
 
 #define list_foreach(...)        cdc_list_foreach(__VA_ARGS__)
 
