@@ -53,8 +53,8 @@ static inline void free_nodes(struct cdc_list *l)
         } while(next != NULL);
 }
 
-static inline enum cdc_stat insert(struct cdc_list *l,
-                                   struct cdc_list_node *prev_node, void *value)
+static inline enum cdc_stat insert_mid(struct cdc_list *l,
+                                       struct cdc_list_node *n, void *value)
 {
         assert(l != NULL);
 
@@ -65,12 +65,24 @@ static inline enum cdc_stat insert(struct cdc_list *l,
                 return CDC_STATUS_BAD_ALLOC;
 
         node->data = value;
-        prev_node->next->prev = node;
-        node->next = prev_node->next;
-        node->prev = prev_node;
-        prev_node->next = node;
+        node->prev = n->prev->next;
+        n->prev->next = node;
+        node->next = n;
+        n->prev =  node;
         ++l->size;
         return CDC_STATUS_OK;
+}
+
+static inline enum cdc_stat insert(struct cdc_list *l, struct cdc_list_node *n,
+                                   void *value)
+{
+        if (n == l->head)
+                return cdc_list_push_front(l, value);
+
+        if (n == NULL)
+                return cdc_list_push_back(l, value);
+
+        return insert_mid(l, n, value);
 }
 
 static inline struct cdc_list_node *get_node(struct cdc_list *l, size_t index)
@@ -85,6 +97,17 @@ static inline struct cdc_list_node *get_node(struct cdc_list *l, size_t index)
                 /* empty */;
 
         return i != index ? NULL : node;
+}
+
+static inline size_t distance(struct cdc_list_node *first,
+                              struct cdc_list_node *last)
+{
+        size_t i;
+
+        for (i = 0; first != last; first = first->next, ++i)
+                /* empty */;
+
+        return i;
 }
 
 static inline enum cdc_stat pop_back_f(struct cdc_list *l, bool must_free)
@@ -448,27 +471,14 @@ enum cdc_stat cdc_list_insert(struct cdc_list *l, size_t index, void *value)
         assert(l != NULL);
         assert(index <= l->size);
 
-        struct cdc_list_node *prev_node;
+        struct cdc_list_node *node = get_node(l, index);
 
-        if (index == l->size)
-                return cdc_list_push_back(l, value);
-
-        if (index == 0)
-                return cdc_list_push_front(l, value);
-
-        prev_node = get_node(l, index - 1);
-        return insert(l, prev_node, value);
+        return insert(l, node, value);
 }
 
 enum cdc_stat cdc_list_iinsert(struct cdc_list_iter before, void *value)
 {
-        assert(before.container);
-
-        if (before.current == NULL)
-                return cdc_list_push_back(before.container, value);
-
-        if (before.current == before.container->head)
-                return cdc_list_push_front(before.container, value);
+        assert(before.container != NULL);
 
         return insert(before.container, before.current, value);
 }
