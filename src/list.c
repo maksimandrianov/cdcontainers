@@ -56,7 +56,7 @@ static inline void free_nodes(struct cdc_list *l)
 static inline enum cdc_stat insert(struct cdc_list *l,
                                    struct cdc_list_node *prev_node, void *value)
 {
-        assert(l);
+        assert(l != NULL);
 
         struct cdc_list_node *node;
 
@@ -76,7 +76,7 @@ static inline enum cdc_stat insert(struct cdc_list *l,
 static inline enum cdc_stat remove(struct cdc_list *l,
                                    struct cdc_list_node *node, void **elem)
 {
-        assert(l);
+        assert(l != NULL);
 
         node->next->prev = node->prev;
         node->prev->next = node->next;
@@ -141,6 +141,105 @@ static inline enum cdc_stat pop_front_f(struct cdc_list *l, bool must_free)
 
         --l->size;
         return CDC_STATUS_OK;
+}
+
+static inline void cmerge(struct cdc_list_node **ha, struct cdc_list_node **ta,
+                          struct cdc_list_node *hb, struct cdc_list_node *tb,
+                          cdc_compar_fn_t compare)
+{
+
+        struct cdc_list_node *a = *ha, *b = hb, *head = NULL, *tail;
+
+        if (b == NULL)
+                return;
+
+
+        if (a == NULL) {
+                *ha = hb;
+                *ta = tb;
+                return;
+        }
+
+        while (b != NULL && a != NULL) {
+                if (compare(a->data, b->data)) {
+                        if (head == NULL) {
+                                head = tail = a;
+                        } else {
+                                tail->next = a;
+                                a->prev = tail;
+                                tail = a;
+                        }
+
+                        a = a->next;
+                } else {
+                        if (head == NULL) {
+                                head = tail = b;
+                        } else {
+                                tail->next = b;
+                                b->prev = tail;
+                                tail = b;
+                        }
+
+                        b = b->next;
+                }
+        }
+
+        if (a == NULL) {
+                tail->next = b;
+                b->prev = tail;
+                tail = tb;
+        } else if (b == NULL) {
+                tail->next = a;
+                a->prev = tail;
+                tail = *ta;
+        } else {
+                tail->next = NULL;
+        }
+
+        *ha = head;
+        *ta = tail;
+}
+
+static inline void halve(struct cdc_list_node **ha, struct cdc_list_node **ta,
+                         struct cdc_list_node **hb, struct cdc_list_node **tb)
+{
+
+        struct cdc_list_node *slow = *ha, *fast = slow;
+
+        if (slow == NULL || slow->next == NULL) {
+                *hb = NULL;
+                *tb = NULL;
+                return;
+        }
+
+        while (fast && fast->next) {
+                slow = slow->next;
+                fast = fast->next->next;
+        }
+
+        *hb = slow;
+        *tb = *ta;
+        *ta = slow->prev;
+
+        (*ta)->next = NULL;
+        (*hb)->prev = NULL;
+}
+
+static void merge_sort(struct cdc_list_node **head, struct cdc_list_node **tail,
+                       cdc_compar_fn_t compare)
+{
+        struct cdc_list_node *ha = *head, *ta = *tail, *hb, *tb;
+
+        if (ha == NULL || ha->next == NULL)
+                return;
+
+        halve(&ha, &ta, &hb, &tb);
+        merge_sort(&ha, &ta, compare);
+        merge_sort(&hb, &tb, compare);
+        cmerge(&ha, &ta, hb, tb, compare);
+
+        *head = ha;
+        *tail = ta;
 }
 
 static inline enum cdc_stat init_varg(struct cdc_list *l, va_list args)
@@ -218,7 +317,7 @@ void cdc_list_dtor(struct cdc_list *l)
 
 void cdc_list_set(struct cdc_list  *l, size_t index, void *value)
 {
-        assert(l);
+        assert(l != NULL);
 
         get_node(l, index)->data = value;
 }
@@ -314,7 +413,7 @@ enum cdc_stat cdc_list_at(struct cdc_list *l, size_t index, void **elem)
 
 void *cdc_list_get(struct cdc_list *l, size_t index)
 {
-        assert(l);
+        assert(l != NULL);
 
         return get_node(l, index)->data;
 }
@@ -329,7 +428,7 @@ enum cdc_stat cdc_list_pop_front(struct cdc_list *l)
 
 enum cdc_stat cdc_list_insert(struct cdc_list *l, size_t index, void *value)
 {
-        assert(l);
+        assert(l != NULL);
         assert(index <= l->size);
 
         struct cdc_list_node *prev_node;
@@ -359,7 +458,7 @@ enum cdc_stat cdc_list_iinsert(struct cdc_list_iter before, void *value)
 
 enum cdc_stat cdc_list_remove(struct cdc_list *l, size_t index, void **elem)
 {
-        assert(l);
+        assert(l != NULL);
         assert(index < l->size);
 
         struct cdc_list_node *node;
@@ -499,60 +598,11 @@ void cdc_list_lsplice(struct cdc_list_iter position, struct cdc_list *other)
 void cdc_list_cmerge(struct cdc_list *l, struct cdc_list *other,
                      cdc_compar_fn_t compare)
 {
-        assert(l);
+        assert(l != NULL);
         assert(other);
         assert(compare);
 
-        struct cdc_list_node *a = l->head, *b = other->head, *head = NULL, *tail;
-
-        if (b == NULL)
-                return;
-
-        if (a == NULL) {
-                cdc_list_swap(l, other);
-                return;
-        }
-
-        while (1) {
-                if (b == NULL || a == NULL)
-                        break;
-
-                if (compare(a->data, b->data)) {
-                        if (head == NULL) {
-                                head = tail = a;
-                        } else {
-                                tail->next = a;
-                                a->prev = tail;
-                                tail = a;
-                        }
-
-                        a = a->next;
-                } else {
-                        if (head == NULL) {
-                                head = tail = b;
-                        } else {
-                                tail->next = b;
-                                b->prev = tail;
-                                tail = b;
-                        }
-
-                        b = b->next;
-                }
-        }
-
-        if (a == NULL) {
-                tail->next = b;
-                b->prev = tail;
-                tail = other->tail;
-        } else {
-                tail->next = a;
-                a->prev = tail;
-                tail = l->tail;
-        }
-
-        tail->next = NULL;
-        l->head = head;
-        l->tail = tail;
+        cmerge(&l->head, &l->tail, other->head, other->tail, compare);
         l->size = l->size + other->size;
         other->head = NULL;
         other->tail = NULL;
@@ -571,7 +621,7 @@ void cdc_list_remove_if(struct cdc_list *l, cdc_unary_pred_fn_t pred)
 
 void cdc_list_reverse(struct cdc_list *l)
 {
-        assert(l);
+        assert(l != NULL);
 
         struct cdc_list_node *curr, *prev;
 
@@ -596,10 +646,14 @@ void cdc_list_unique(struct cdc_list *l)
 
 void cdc_list_csort(struct cdc_list *l, cdc_compar_fn_t compare)
 {
+        assert(l != NULL);
 
+        merge_sort(&l->head, &l->tail, compare);
 }
 
 void cdc_list_sort(struct cdc_list *l)
 {
+        assert(l != NULL);
 
+        cdc_list_csort(l, l->dinfo->lt);
 }

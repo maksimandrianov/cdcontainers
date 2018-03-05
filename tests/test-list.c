@@ -705,7 +705,7 @@ void test_list_reverse()
 
         cdc_list_reverse(l);
 
-        CU_ASSERT(list_range_int_eq(l, 4,d, c, b, a));
+        CU_ASSERT(list_range_int_eq(l, 4, d, c, b, a));
 
         cdc_list_dtor(l);
 }
@@ -717,5 +717,28 @@ void test_list_unique()
 
 void test_list_sort()
 {
+        struct cdc_list *l;
+        int a = 2, b = 1, c = 4, d = 3;
 
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+        cdc_list_csort(l, cmp_int);
+        CU_ASSERT(list_range_int_eq(l, 4, b, a, d, c));
+        cdc_list_clear(l);
+        cdc_list_csort(l, cmp_int);
+        cdc_list_dtor(l);
+
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, NULL) == CDC_STATUS_OK);
+        cdc_list_csort(l, cmp_int);
+        CU_ASSERT(list_range_int_eq(l, 1, a));
+        cdc_list_dtor(l);
+
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+        cdc_list_csort(l, cmp_int);
+        CU_ASSERT(list_range_int_eq(l, 2, b, a));
+        cdc_list_dtor(l);
+
+        CU_ASSERT(cdc_list_ctorl(&l, NULL, &c, &a, &b, NULL) == CDC_STATUS_OK);
+        cdc_list_csort(l, cmp_int);
+        CU_ASSERT(list_range_int_eq(l, 3, b, a, c));
+        cdc_list_dtor(l);
 }
