@@ -46,37 +46,48 @@ struct cdc_vector {
 
 /**
  * @brief Constructs an empty vector.
- * Returned CDC_STATUS_OK in a successful case or an excellent value
- * indicating an error
+ * @param v - cdc_vector
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_vector_ctor(struct cdc_vector **v,
                               struct cdc_data_info *info);
 
 /**
  * @brief Constructs a vector, initialized by an arbitrary number of pointers.
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * The last item must be NULL.
+ * @param v - cdc_vector
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_vector_ctorl(struct cdc_vector **v,
                                struct cdc_data_info *info, ...);
 
 /**
- * @brief Constructs a vector, initialized by args
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * @brief Constructs a vector, initialized by args. The last item must be NULL.
+ * @param v - cdc_vector
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_vector_ctorv(struct cdc_vector **v,
                                struct cdc_data_info *info, va_list args);
 
 /**
  * @brief Destroys the vector.
+ * @param v - cdc_vector
  */
 void cdc_vector_dtor(struct cdc_vector *v);
 
 // Element access
 /**
- * @brief Returns the item at index position in the vector.
- * Index must be a valid index position in the vector.
+ * @brief Returns the item at index position index in the vector. Index must be a
+ * valid index position in the vector.
+ * @param v - cdc_vector
+ * @param index - index of the item to return
+ * @return item at the index position
  */
 static inline void *cdc_vector_get(struct cdc_vector *v, size_t index)
 {
@@ -87,15 +98,20 @@ static inline void *cdc_vector_get(struct cdc_vector *v, size_t index)
 }
 
 /**
- * @brief Writes to a value the item at index position in the vector.
- * Index must be a valid index position in the vector. Returned CDC_STATUS_OK
- * in a successful case or an excellent value indicating an error
+ * @brief Writes to a elem the item at index position in the vector.
+ * @param v - cdc_vector
+ * @param index - index of the item to write at elem
+ * @param elem - pointer where the item will be written
+ * @return DC_STATUS_OK in a successful case or CDC_STATUS_OUT_OF_RANGE if the
+ * index is incorrect
  */
 enum cdc_stat cdc_vector_at(struct cdc_vector *v, size_t index, void **elem);
 
 /**
  * @brief Returns a pointer to the first item in the vector.
  * This function assumes that the vector isn't empty.
+ * @param v - cdc_vector
+ * @return pointer to the first item in the vector
  */
 static inline void *cdc_vector_front(struct cdc_vector *v)
 {
@@ -108,6 +124,8 @@ static inline void *cdc_vector_front(struct cdc_vector *v)
 /**
  * @brief Returns a pointer to the last item in the vector.
  * This function assumes that the vector isn't empty.
+ * @param v - cdc_vector
+ * @return pointer to the last item in the vector
  */
 static inline void *cdc_vector_back(struct cdc_vector *v)
 {
@@ -119,7 +137,9 @@ static inline void *cdc_vector_back(struct cdc_vector *v)
 
 /**
  * @brief Returns a pointer to the data stored in the vector.
- * The pointer can be used to access and modify the items in the vector
+ * This function assumes that the vector isn't empty.
+ * @param v - cdc_vector
+ * @return pointer to the data stored in the vectore
  */
 static inline void **cdc_vector_data(struct cdc_vector *v)
 {
@@ -133,11 +153,17 @@ static inline void **cdc_vector_data(struct cdc_vector *v)
  * @brief Attempts to allocate memory for at least size elements.
  * If you know in advance how large the vector will be, you should call this
  * function to prevent reallocations and memory fragmentation.
+ * @param v - cdc_vector
+ * @param capacity
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_vector_reserve(struct cdc_vector *v, size_t capacity);
 
 /**
  * @brief Returns true if the vector has size 0; otherwise returns false.
+ * @param v - cdc_vector
+ * @return true if the vector has size 0; otherwise returns false
  */
 static inline bool cdc_vector_empty(struct cdc_vector *v)
 {
@@ -148,6 +174,8 @@ static inline bool cdc_vector_empty(struct cdc_vector *v)
 
 /**
  * @brief Returns the number of items in the vector.
+ * @param v - cdc_vector
+ * @return size
  */
 static inline size_t cdc_vector_size(struct cdc_vector *v)
 {
@@ -159,6 +187,8 @@ static inline size_t cdc_vector_size(struct cdc_vector *v)
 /**
  * @brief Returns the maximum number of items that can be stored in the vector
  * without forcing a reallocation.
+ * @param v - cdc_vector
+ * @return capacity
  */
 static inline size_t cdc_vector_capacity(struct cdc_vector *v)
 {
@@ -169,7 +199,11 @@ static inline size_t cdc_vector_capacity(struct cdc_vector *v)
 
 // Modifiers
 /**
- * @brief Sets the vector at index position to the value
+ * @brief Sets the vector at index position to the value. The function is not
+ * called to free memory.
+ * @param v - cdc_vector
+ * @param index - index position where the value will be written
+ * @param value
  */
 static inline void cdc_vector_set(struct cdc_vector *v, size_t index, void *value)
 {
@@ -181,8 +215,13 @@ static inline void cdc_vector_set(struct cdc_vector *v, size_t index, void *valu
 
 /**
  * @brief Inserts value at index position in the vector. If index is 0, the value
- * is prepended to the vector. If index is cdc_vector_size(), the value
- * is appended to the vector.
+ * is prepended to the vector. If index is cdc_vector_size(), the value is
+ * appended to the vector.
+ * @param v - cdc_vector
+ * @param index - index position where the value will be inserted
+ * @param value
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_vector_insert(struct cdc_vector *v, size_t index, void *value);
 
@@ -190,11 +229,22 @@ enum cdc_stat cdc_vector_insert(struct cdc_vector *v, size_t index, void *value)
  * @brief Removes the element at index position.
  * The pointer will be written in elem. Index must be a valid index position
  * in the vector. The function is not called to free memory.
- * Returned CDC_STATUS_OK in a successful case or an excellent value
- * indicating an error
+ * @param v - cdc_vector
+ * @param index - index position where the item will be removed
+ * @param elem - pointer where the removed item will be written
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_vector_remove(struct cdc_vector *v, size_t index, void **elem);
 
+/**
+ * @brief Removes the element at index position. Index must be a valid index
+ * position in the vector.
+ * @param v - cdc_vector
+ * @param index - index position where the item will be removed
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
 static inline enum cdc_stat cdc_vector_erase(struct cdc_vector *v, size_t index)
 {
         assert(v != NULL);
@@ -203,27 +253,32 @@ static inline enum cdc_stat cdc_vector_erase(struct cdc_vector *v, size_t index)
 }
 
 /**
- * @brief Removes all the elements from the vector. If a function has been
- * installed to delete an item, it will be called for each item. Index must be
- * a valid index position in the vector
+ * @brief Removes all the elements from the vector.
+ * @param v - cdc_vector
  */
 void cdc_vector_clear(struct cdc_vector *v);
 
 /**
- * @brief Inserts value at the end of the vector. Returned CDC_STATUS_OK in a
- * successful case or an excellent value indicating an error
+ * @brief Inserts value at the end of the vector.
+ * @param v - cdc_vector
+ * @param value
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_vector_push_back(struct cdc_vector *v, void *value);
 
 /**
- * @brief Removes the last item in the vector. If a function has been installed
- * to delete an item, it will be called for last item. Returned CDC_STATUS_OK
- * in a successful case or an excellent value indicating an error
+ * @brief Removes the last item in the vector.
+ * @param v - cdc_vector
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_vector_pop_back(struct cdc_vector *v);
 
 /**
  * @brief Swaps vectors a and b. This operation is very fast and never fails.
+ * @param a - cdc_vector
+ * @param b - cdc_vector
  */
 void cdc_vector_swap(struct cdc_vector *a, struct cdc_vector *b);
 

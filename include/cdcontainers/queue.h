@@ -46,16 +46,23 @@ struct cdc_queue {
 
 /**
  * @brief Constructs an empty queue.
- * Returned CDC_STATUS_OK in a successful case or an excellent value
- * indicating an error
+ * @param table - method table for a particular implementation
+ * @param q - cdc_queue
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_queue_ctor(const struct cdc_sequence_table *table,
                              struct cdc_queue **q, struct cdc_data_info *info);
 
 /**
  * @brief Constructs a queue, initialized by an arbitrary number of pointers.
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * The last item must be NULL.
+ * @param table - method table for a particular implementation
+ * @param q - cdc_queue
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_queue_ctorl(const struct cdc_sequence_table *table,
                               struct cdc_queue **q,
@@ -63,8 +70,12 @@ enum cdc_stat cdc_queue_ctorl(const struct cdc_sequence_table *table,
 
 /**
  * @brief Constructs a queue, initialized by args
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * The last item must be NULL.
+ * @param table - method table for a particular implementation
+ * @param q - cdc_queue
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_queue_ctorv(const struct cdc_sequence_table *table,
                               struct cdc_queue **q,
@@ -72,8 +83,10 @@ enum cdc_stat cdc_queue_ctorv(const struct cdc_sequence_table *table,
 
 /**
  * @brief Constructs an empty queue based on list.
- * Returned CDC_STATUS_OK in a successful case or an excellent value
- * indicating an error
+ * @param q - cdc_queue
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_queuel_ctor(struct cdc_queue **q,
                                             struct cdc_data_info *info)
@@ -85,17 +98,22 @@ static inline enum cdc_stat cdc_queuel_ctor(struct cdc_queue **q,
 
 /**
  * @brief Constructs a queue based on list, initialized by an
- * arbitrary number of pointers.
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * arbitrary number of pointers. The last item must be NULL.
+ * @param q - cdc_queue
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_queuel_ctorl(struct cdc_queue **q,
                                struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs a queue based on list, initialized by args
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * The last item must be NULL.
+ * @param q - cdc_queue
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_queuel_ctorv(struct cdc_queue **q,
                                              struct cdc_data_info *info,
@@ -108,8 +126,10 @@ static inline enum cdc_stat cdc_queuel_ctorv(struct cdc_queue **q,
 
 /**
  * @brief Constructs an empty queue based on deque.
- * Returned CDC_STATUS_OK in a successful case or an excellent value
- * indicating an error
+ * @param q - cdc_queue
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_queued_ctor(struct cdc_queue **q,
                                             struct cdc_data_info *info)
@@ -121,17 +141,22 @@ static inline enum cdc_stat cdc_queued_ctor(struct cdc_queue **q,
 
 /**
  * @brief Constructs a queue based on deque, initialized by an
- * arbitrary number of pointers.
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * arbitrary number of pointers. The last item must be NULL.
+ * @param q - cdc_queue
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_queued_ctorl(struct cdc_queue **q,
                                struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs a queue based on deque, initialized by args
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * The last item must be NULL.
+ * @param q - cdc_queue
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_queued_ctorv(struct cdc_queue **q,
                                              struct cdc_data_info *info,
@@ -144,13 +169,16 @@ static inline enum cdc_stat cdc_queued_ctorv(struct cdc_queue **q,
 
 /**
  * @brief Destroys the queue.
+ * @param q - cdc_queue
  */
 void cdc_queue_dtor(struct cdc_queue *q);
 
 // Element access
 /**
- * @brief Returns point to the first element in the queue. This function assumes
+ * @brief Returns pointer to the first element in the queue. This function assumes
  * that the queue isn't empty.
+ * @param q - cdc_queue
+ * @return pointer to the first element in the queue
  */
 static inline void *cdc_queue_front(struct cdc_queue *q)
 {
@@ -161,8 +189,10 @@ static inline void *cdc_queue_front(struct cdc_queue *q)
 
 
 /**
- * @brief Returns point to the last element in the queue. This function assumes
+ * @brief Returns pointer to the last element in the queue. This function assumes
  * that the queue isn't empty.
+ * @param q - cdc_queue
+ * @return pointer to the last element in the queue
  */
 static inline void *cdc_queue_back(struct cdc_queue *q)
 {
@@ -174,6 +204,8 @@ static inline void *cdc_queue_back(struct cdc_queue *q)
 // Capacity
 /**
  * @brief Returns true if the queue has size 0; otherwise returns false.
+ * @param q - cdc_queue
+ * @return true if the list has size 0; otherwise returns false
  */
 static inline bool cdc_queue_empty(struct cdc_queue *q)
 {
@@ -184,6 +216,8 @@ static inline bool cdc_queue_empty(struct cdc_queue *q)
 
 /**
  * @brief Returns the number of items in the queue.
+ * @param q - cdc_queue
+ * @return size
  */
 static inline size_t cdc_queue_size(struct cdc_queue *q)
 {
@@ -194,8 +228,11 @@ static inline size_t cdc_queue_size(struct cdc_queue *q)
 
 // Modifiers
 /**
- * @brief Adds value elem to the tail of the queue. Returned CDC_STATUS_OK in a
- * successful case or an excellent value indicating an error
+ * @brief Adds value elem to the tail of the queue.
+ * @param q - cdc_queue
+ * @param elem
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_queue_push(struct cdc_queue *q, void *elem)
 {
@@ -205,9 +242,11 @@ static inline enum cdc_stat cdc_queue_push(struct cdc_queue *q, void *elem)
 }
 
 /**
- * @brief Removes the head item in the queue.
- * This function assumes that the queue isn't empty. Returned CDC_STATUS_OK in
- * a successful case or an excellent value indicating an error
+ * @brief Removes the head item in the queue. This function assumes that the
+ * queue isn't empty.
+ * @param q - cdc_queue
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_queue_pop(struct cdc_queue *q)
 {
@@ -218,6 +257,8 @@ static inline enum cdc_stat cdc_queue_pop(struct cdc_queue *q)
 
 /**
  * @brief Swaps queues a and b. This operation is very fast and never fails.
+ * @param a - cdc_queue
+ * @param b - cdc_queue
  */
 void cdc_queue_swap(struct cdc_queue *a, struct cdc_queue *b);
 

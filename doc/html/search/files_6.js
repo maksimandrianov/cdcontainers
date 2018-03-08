@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['stack_2eh',['stack.h',['../stack_8h.html',1,'']]],
-  ['status_2eh',['status.h',['../status_8h.html',1,'']]]
+  ['pairing_2dheap_2eh',['pairing-heap.h',['../pairing-heap_8h.html',1,'']]],
+  ['priority_2dqueue_2eh',['priority-queue.h',['../priority-queue_8h.html',1,'']]]
 ];

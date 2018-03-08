@@ -46,25 +46,35 @@ struct cdc_stack {
 
 /**
  * @brief Constructs an empty stack.
- * Returned CDC_STATUS_OK in a successful case or an excellent value
- * indicating an error
+ * @param table - method table for a particular implementation
+ * @param s - cdc_stack
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_stack_ctor(const struct cdc_sequence_table *table,
                              struct cdc_stack **s, struct cdc_data_info *info);
 
 /**
  * @brief Constructs a stack, initialized by an arbitrary number of pointers.
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * The last item must be NULL.
+ * @param table - method table for a particular implementation
+ * @param s - cdc_stack
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_stack_ctorl(const struct cdc_sequence_table *table,
                               struct cdc_stack **s,
                               struct cdc_data_info *info, ...);
 
 /**
- * @brief Constructs a stack, initialized by args
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * @brief Constructs a stack, initialized by args. The last item must be NULL.
+ * @param table - method table for a particular implementation
+ * @param s - cdc_stack
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_stack_ctorv(const struct cdc_sequence_table *table,
                               struct cdc_stack **s,
@@ -72,8 +82,10 @@ enum cdc_stat cdc_stack_ctorv(const struct cdc_sequence_table *table,
 
 /**
  * @brief Constructs an empty stack based on list.
- * Returned CDC_STATUS_OK in a successful case or an excellent value
- * indicating an error
+ * @param s - cdc_stack
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_stackl_ctor(struct cdc_stack **s,
                                             struct cdc_data_info *info)
@@ -84,18 +96,23 @@ static inline enum cdc_stat cdc_stackl_ctor(struct cdc_stack **s,
 }
 
 /**
- * @brief Constructs a stack based on list, initialized by
- * an arbitrary number of pointers.
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * @brief Constructs a stack based on list, initialized by an arbitrary number
+ * of pointers. The last item must be NULL.
+ * @param s - cdc_stack
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_stackl_ctorl(struct cdc_stack **s,
                                struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs a stack based on list, initialized by args
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * The last item must be NULL.
+ * @param s - cdc_stack
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_stackl_ctorv(struct cdc_stack **s,
                                              struct cdc_data_info *info,
@@ -108,8 +125,10 @@ static inline enum cdc_stat cdc_stackl_ctorv(struct cdc_stack **s,
 
 /**
  * @brief Constructs an empty stack based on vector.
- * Returned CDC_STATUS_OK in a successful case or an excellent value
- * indicating an error
+ * @param s - cdc_stack
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_stackv_ctor(struct cdc_stack **s,
                                             struct cdc_data_info *info)
@@ -120,18 +139,23 @@ static inline enum cdc_stat cdc_stackv_ctor(struct cdc_stack **s,
 }
 
 /**
- * @brief Constructs a stack based on vector, initialized by
- * an arbitrary number of pointers.
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * @brief Constructs a stack based on vector, initialized by an arbitrary number
+ * of pointers. The last item must be NULL.
+ * @param s - cdc_stack
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_stackv_ctorl(struct cdc_stack **s,
                                struct cdc_data_info *info, ...);
 
 /**
- * @brief Constructs a stack based on vector, initialized by args
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * @brief Constructs a stack based on vector, initialized by args. The last item
+ * must be NULL.
+ * @param s - cdc_stack
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_stackv_ctorv(struct cdc_stack **s,
                                              struct cdc_data_info *info,
@@ -144,6 +168,7 @@ static inline enum cdc_stat cdc_stackv_ctorv(struct cdc_stack **s,
 
 /**
  * @brief Destroys the stack.
+ * @param s - cdc_stack
  */
 void cdc_stack_dtor(struct cdc_stack *s);
 
@@ -151,6 +176,8 @@ void cdc_stack_dtor(struct cdc_stack *s);
 /**
  * @brief Returns a pointer to the stack's top item. This function assumes
  * that the stack isn't empty.
+ * @param s - cdc_stack
+ * @return pointer to the stack's top item
  */
 static inline void *cdc_stack_top(struct cdc_stack *s)
 {
@@ -162,6 +189,8 @@ static inline void *cdc_stack_top(struct cdc_stack *s)
 // Capacity
 /**
  * @brief Returns true if the stack has size 0; otherwise returns false.
+ * @param s - cdc_stack
+ * @return true if the list has size 0; otherwise returns false
  */
 static inline bool cdc_stack_empty(struct cdc_stack *s)
 {
@@ -172,6 +201,8 @@ static inline bool cdc_stack_empty(struct cdc_stack *s)
 
 /**
  * @brief Returns the number of items in the stack.
+ * @param s - cdc_stack
+ * @return size
  */
 static inline size_t cdc_stack_size(struct cdc_stack *s)
 {
@@ -182,8 +213,11 @@ static inline size_t cdc_stack_size(struct cdc_stack *s)
 
 // Modifiers
 /**
- * @brief Adds element elem to the top of the stack. Returned CDC_STATUS_OK in a
- * successful case or an excellent value indicating an error
+ * @brief Adds element elem to the top of the stack.
+ * @param s - cdc_stack
+ * @param elem
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_stack_push(struct cdc_stack *s, void *elem)
 {
@@ -193,9 +227,11 @@ static inline enum cdc_stat cdc_stack_push(struct cdc_stack *s, void *elem)
 }
 
 /**
- * @brief Removes the top item from the stack.
- * This function assumes that the stack isn't empty. Returned CDC_STATUS_OK in
- * a successful case or an excellent value indicating an error
+ * @brief Removes the top item from the stack. This function assumes that the
+ * stack isn't empty.
+ * @param s - cdc_stack
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_stack_pop(struct cdc_stack *s)
 {
@@ -206,6 +242,8 @@ static inline enum cdc_stat cdc_stack_pop(struct cdc_stack *s)
 
 /**
  * @brief Swaps stack a and b. This operation is very fast and never fails.
+ * @param a - cdc_stack
+ * @param b - cdc_stack
  */
 void cdc_stack_swap(struct cdc_stack *a, struct cdc_stack *b);
 

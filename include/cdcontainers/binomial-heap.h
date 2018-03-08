@@ -73,29 +73,37 @@ struct cdc_binomial_heap_iter
 
 /**
  * @brief Constructs an empty binomial heap.
- * The function compar specifies the ordering of items.
- * Returned CDC_STATUS_OK in a successful case or an excellent value
- * indicating an error
+ * @param h - cdc_binomial_heap
+ * @param info - cdc_data_info
+ * @param compar - function that specifies a strict ordering
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_binomial_heap_ctor(struct cdc_binomial_heap **h,
                                      struct cdc_data_info *info,
                                      cdc_compar_fn_t compar);
 
 /**
- * @brief Constructs a binomial heap, initialized by an arbitrary number of pointers.
- * The function compar specifies the ordering of items.
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * @brief Constructs a binomial heap, initialized by an arbitrary number of
+ * pointers. The last item must be NULL.
+ * @param h - cdc_binomial_heap
+ * @param info - cdc_data_info
+ * @param compar - function that specifies a strict ordering
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_binomial_heap_ctorl(struct cdc_binomial_heap **h,
                                       struct cdc_data_info *info,
                                       cdc_compar_fn_t compar, ...);
 
 /**
- * @brief Constructs a binomial heap, initialized by args.
- * The function compar specifies the ordering of items.
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * @brief Constructs a binomial heap, initialized by args. The last item must be
+ * NULL.
+ * @param h - cdc_binomial_heap
+ * @param info - cdc_data_info
+ * @param compar - function that specifies a strict ordering
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_binomial_heap_ctorv(struct cdc_binomial_heap **h,
                                       struct cdc_data_info *info,
@@ -103,6 +111,7 @@ enum cdc_stat cdc_binomial_heap_ctorv(struct cdc_binomial_heap **h,
 
 /**
  * @brief Destroys the binomial heap.
+ * @param h - cdc_binomial_heap
  */
 void cdc_binomial_heap_dtor(struct cdc_binomial_heap *h);
 
@@ -110,6 +119,8 @@ void cdc_binomial_heap_dtor(struct cdc_binomial_heap *h);
 /**
  * @brief Returns a pointer to the binomial heap's top item. This function
  * assumes that the binomial heap isn't empty.
+ * @param h - cdc_binomial_heap
+ * @return top item
  */
 static inline void *cdc_binomial_heap_top(struct cdc_binomial_heap *h)
 {
@@ -121,6 +132,8 @@ static inline void *cdc_binomial_heap_top(struct cdc_binomial_heap *h)
 // Capacity
 /**
  * @brief Returns the number of items in the binomial heap.
+ * @param h - cdc_binomial_heap
+ * @return size
  */
 static inline size_t cdc_binomial_heap_size(struct cdc_binomial_heap *h)
 {
@@ -131,6 +144,8 @@ static inline size_t cdc_binomial_heap_size(struct cdc_binomial_heap *h)
 
 /**
  * @brief Returns true if the binomial heap has size 0; otherwise returns false.
+ * @param h - cdc_binomial_heap
+ * @return true if the binomial heap has size 0; otherwise returns false
  */
 static inline bool cdc_binomial_heap_empty(struct cdc_binomial_heap *h)
 {
@@ -141,19 +156,34 @@ static inline bool cdc_binomial_heap_empty(struct cdc_binomial_heap *h)
 
 // Modifiers
 /**
- * @brief Extracts the top item from the binomial heap.
- * This function assumes that the binomial heap isn't empty. Returned
- * CDC_STATUS_OK in a successful case or an excellent value indicating an error
+ * @brief Extracts the top item from the binomial heap. This function assumes
+ * that the binomial heap isn't empty.
+ * @param h - cdc_binomial_heap
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_binomial_heap_extract_top(struct cdc_binomial_heap *h);
 
 /**
- * @brief Inserts element key to the binomial heap. Returned CDC_STATUS_OK in a
- * successful case or an excellent value indicating an error
+ * @brief Inserts element key to the binomial heap. Write an iterator pointing
+ * to a new element in the ret
+ * @param h - cdc_binomial_heap
+ * @param key
+ * @param ret - pointer to iterator where an iterator will be written indicating
+ * the inserted element
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_binomial_heap_riinsert(struct cdc_binomial_heap *h, void *key,
                                          struct cdc_binomial_heap_iter *ret);
 
+/**
+ * @brief Inserts element key to the binomial heap.
+ * @param h - cdc_binomial_heap
+ * @param key
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
 static inline enum cdc_stat cdc_binomial_heap_insert(struct cdc_binomial_heap *h,
                                                      void *key)
 {
@@ -163,33 +193,49 @@ static inline enum cdc_stat cdc_binomial_heap_insert(struct cdc_binomial_heap *h
 }
 
 /**
- * @brief Increases the item key on the index position in the binomial heap.
+ * @brief Changes the item key on the pos position in the binomial heap.
+ * @param h - cdc_binomial_heap
+ * @param pos - iterator that indicates the item with key that you want to change
+ * @param key
  */
 void cdc_binomial_heap_change_key(struct cdc_binomial_heap *h,
                                   struct cdc_binomial_heap_iter *pos, void *key);
 
 /**
- * @brief Removes all the elements from the binomial heap. If a function has been
- * installed to delete an item, it will be called for each item.
+ * @brief Removes all the elements from the binomial heap.
+ * @param h - cdc_binomial_heap
  */
 void cdc_binomial_heap_clear(struct cdc_binomial_heap *h);
 
 /**
- * @brief Swaps binomial heaps a and b. This operation is very fast
- * and never fails.
+ * @brief Swaps binomial heaps a and b. This operation is very fast and never
+ * fails.
+ * @param a - cdc_binomial_heap
+ * @param b - cdc_binomial_heap
  */
 void cdc_binomial_heap_swap(struct cdc_binomial_heap *a,
                             struct cdc_binomial_heap *b);
 
 // Operations
+/**
+ * @brief Merges two heaps. In the heap h will be the result of the merger,
+ * and the heap other will remain empty.
+ * @param h - cdc_binomial_heap
+ * @param other - cdc_binomial_heap
+ */
 void cdc_binomial_heap_merge(struct cdc_binomial_heap *h,
                              struct cdc_binomial_heap *other);
 
+/**
+ * @brief Checks the heap property.
+ * @param h - cdc_binomial_heap
+ * @return result of the check
+ */
 bool cdc_binomial_heap_is_heap(struct cdc_binomial_heap *h);
 
 // Iterators
 /**
- * @brief Returns a pointer to the current item.
+ * @brief Returns a pointer to the key of current item.
  */
 static inline void *cdc_binomial_heap_iter_data(struct cdc_binomial_heap_iter it)
 {

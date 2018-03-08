@@ -50,36 +50,47 @@ struct cdc_deque {
 
 /**
  * @brief Constructs an empty deque.
- * Returned CDC_STATUS_OK in a successful case or an excellent value
- * indicating an error
+ * @param d - cdc_deque
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_deque_ctor(struct cdc_deque **d, struct cdc_data_info *info);
 
 /**
  * @brief Constructs a deque, initialized by an arbitrary number of pointers.
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * The last item must be NULL.
+ * @param d - cdc_deque
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_deque_ctorl(struct cdc_deque **d,
                               struct cdc_data_info *info, ...);
 
 /**
- * @brief Constructs a deque, initialized by args
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * @brief Constructs a deque, initialized by args. The last item must be NULL.
+ * @param d - cdc_deque
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_deque_ctorv(struct cdc_deque **d,
                               struct cdc_data_info *info, va_list args);
 
 /**
  * @brief Destroys the deque.
+ * @param d - cdc_deque
  */
 void cdc_deque_dtor(struct cdc_deque *d);
 
 // Element access
 /**
- * @brief Returns the item at index position index in the deque.
- * Index must be a valid index position in the deque.
+ * @brief Returns the item at index position index in the deque. Index must be a
+ * valid index position in the deque.
+ * @param d - cdc_deque
+ * @param index - index of the item to return
+ * @return item at the index position
  */
 static inline void *cdc_deque_get(struct cdc_deque *d, size_t index)
 {
@@ -93,14 +104,19 @@ static inline void *cdc_deque_get(struct cdc_deque *d, size_t index)
 
 /**
  * @brief Writes to a elem the item at index position in the deque.
- * Index must be a valid index position in the deque. Returned CDC_STATUS_OK
- * in a successful case or an excellent value indicating an error
+ * @param d - cdc_deque
+ * @param index - index of the item to write at elem
+ * @param elem - pointer where the item will be written
+ * @return DC_STATUS_OK in a successful case or CDC_STATUS_OUT_OF_RANGE if the
+ * index is incorrect
  */
 enum cdc_stat cdc_deque_at(struct cdc_deque *d, size_t index, void **elem);
 
 /**
  * @brief Returns a pointer to the first item in the deque.
  * This function assumes that the deque isn't empty.
+ * @param d - cdc_deque
+ * @return pointer to the first item in the deque
  */
 static inline void *cdc_deque_front(struct cdc_deque *d)
 {
@@ -113,6 +129,8 @@ static inline void *cdc_deque_front(struct cdc_deque *d)
 /**
  * @brief Returns a pointer to the last item in the deque.
  * This function assumes that the deque isn't empty.
+ * @param d - cdc_deque
+ * @return pointer to the last item in the deque
  */
 static inline void *cdc_deque_back(struct cdc_deque *d)
 {
@@ -127,6 +145,8 @@ static inline void *cdc_deque_back(struct cdc_deque *d)
 // Capacity
 /**
  * @brief Returns true if the deque has size 0; otherwise returns false.
+ * @param d - cdc_deque
+ * @return true if the deque has size 0; otherwise returns false
  */
 static inline bool cdc_deque_empty(struct cdc_deque *d)
 {
@@ -137,6 +157,8 @@ static inline bool cdc_deque_empty(struct cdc_deque *d)
 
 /**
  * @brief Returns the number of items in the deque.
+ * @param d - cdc_deque
+ * @return size
  */
 static inline size_t cdc_deque_size(struct cdc_deque *d)
 {
@@ -147,7 +169,11 @@ static inline size_t cdc_deque_size(struct cdc_deque *d)
 
 // Modifiers
 /**
- * @brief Sets the deque at index position to the value
+ * @brief Sets the deque at index position to the value. The function is not
+ * called to free memory.
+ * @param d - cdc_deque
+ * @param index - index position where the value will be written
+ * @param value
  */
 static inline void cdc_deque_set(struct cdc_deque *d, size_t index, void *value)
 {
@@ -163,6 +189,11 @@ static inline void cdc_deque_set(struct cdc_deque *d, size_t index, void *value)
  * @brief Inserts value at index position in the deque. If index is 0, the value
  * is prepended to the deque. If index is cdc_deque_size(), the value is appended
  * to the deque.
+ * @param d - cdc_deque
+ * @param index - index position where the value will be inserted
+ * @param value
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_deque_insert(struct cdc_deque *d, size_t index, void *value);
 
@@ -170,52 +201,73 @@ enum cdc_stat cdc_deque_insert(struct cdc_deque *d, size_t index, void *value);
  * @brief Removes the element at index position.
  * The pointer will be written in elem. Index must be a valid index position
  * in the deque. The function is not called to free memory.
- * Returned CDC_STATUS_OK in a successful case or an excellent value
- * indicating an error
+ * @param d - cdc_deque
+ * @param index - index position where the item will be removed
+ * @param elem the pointer where the removed item will be written
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_deque_remove(struct cdc_deque *d, size_t index, void **elem);
 
+/**
+ * @brief Removes the element at index position. Index must be a valid index
+ * position in the deque.
+ * @param d - cdc_deque
+ * @param index - index position where the item will be removed
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
 static inline enum cdc_stat cdc_deque_erase(struct cdc_deque *d, size_t index)
 {
         assert(d != NULL);
 
         return cdc_deque_remove(d, index, NULL);
 }
+
 /**
- * @brief Removes all the elements from the deque. If a function has been
- * installed to delete an item, it will be called for each item. Index must be
- * a valid index position in the deque
+ * @brief Removes all the elements from the deque.
+ * @param d - cdc_deque
  */
 void cdc_deque_clear(struct cdc_deque *d);
 
 /**
- * @brief Inserts value at the end of the deque. Returned CDC_STATUS_OK in a
- * successful case or an excellent value indicating an error
+ * @brief Inserts value at the end of the deque.
+ * @param d - cdc_deque
+ * @param value
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_deque_push_back(struct cdc_deque *d, void *value);
 
 /**
- * @brief Removes the last item in the deque. If a function has been installed
- * to delete an item, it will be called for last item. Returned CDC_STATUS_OK
- * in a successful case or an excellent value indicating an error
+ * @brief Removes the last item in the deque.
+ * @param d - cdc_deque
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_deque_pop_back(struct cdc_deque *d);
 
 /**
- * @brief Inserts value at the beginning of the deque. Returned CDC_STATUS_OK in
- * a successful case or an excellent value indicating an error
+ * @brief Inserts value at the beginning of the deque.
+ * @param d - cdc_deque
+ * @param value
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_deque_push_front(struct cdc_deque *d, void *value);
 
 /**
- * @brief Removes the first item in the deque. If a function has been installed
- * to delete an item, it will be called for last item. Returned CDC_STATUS_OK
- * in a successful case or an excellent value indicating an error
+ * @brief Removes the first item in the deque.
+ * @param d - cdc_deque
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_deque_pop_front(struct cdc_deque *d);
 
 /**
  * @brief Swaps deques a and b. This operation is very fast and never fails.
+ * @param a - cdc_deque
+ * @param b - cdc_deque
  */
 void cdc_deque_swap(struct cdc_deque *a, struct cdc_deque *b);
 
@@ -229,6 +281,7 @@ typedef struct cdc_deque deque_t;
 #define deque_dtor(...)       cdc_deque_dtor(__VA_ARGS__)
 
 // Element access
+#define deque_get(...)        cdc_deque_get(__VA_ARGS__)
 #define deque_at(...)         cdc_deque_at(__VA_ARGS__)
 #define deque_front(...)      cdc_deque_front(__VA_ARGS__)
 #define deque_back(...)       cdc_deque_back(__VA_ARGS__)
@@ -240,6 +293,7 @@ typedef struct cdc_deque deque_t;
 // Modifiers
 #define deque_set(...)        cdc_deque_set(__VA_ARGS__)
 #define deque_insert(...)     cdc_deque_insert(__VA_ARGS__)
+#define deque_remove(...)     cdc_deque_remove(__VA_ARGS__)
 #define deque_erase(...)      cdc_deque_erase(__VA_ARGS__)
 #define deque_clear(...)      cdc_deque_clear(__VA_ARGS__)
 #define deque_push_back(...)  cdc_deque_push_back(__VA_ARGS__)
@@ -247,7 +301,6 @@ typedef struct cdc_deque deque_t;
 #define deque_push_front(...) cdc_deque_push_front(__VA_ARGS__)
 #define deque_pop_front(...)  cdc_deque_pop_back(__VA_ARGS__)
 #define deque_swap(...)       cdc_deque_swap(__VA_ARGS__)
-
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_DEQUE_H

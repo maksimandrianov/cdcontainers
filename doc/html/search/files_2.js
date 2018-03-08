@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['heap_2eh',['heap.h',['../heap_8h.html',1,'']]]
+  ['deque_2eh',['deque.h',['../deque_8h.html',1,'']]]
 ];

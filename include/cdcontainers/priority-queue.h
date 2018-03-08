@@ -47,9 +47,12 @@ struct cdc_priority_queue {
 
 /**
  * @brief Constructs an empty priority queue.
- * The function compar specifies the ordering of items.
- * Returned CDC_STATUS_OK in a successful case or an excellent value
- * indicating an error
+ * @param table - method table for a particular implementation
+ * @param q - cdc_priority_queue
+ * @param info - cdc_data_info
+ * @param compar - function that specifies a strict ordering
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_priority_queue_ctor(const struct cdc_priority_queue_table *table,
                                       struct cdc_priority_queue **q,
@@ -58,9 +61,13 @@ enum cdc_stat cdc_priority_queue_ctor(const struct cdc_priority_queue_table *tab
 
 /**
  * @brief Constructs a priority queue, initialized by an arbitrary number of pointers.
- * The function compar specifies the ordering of items.
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * The last item must be NULL.
+ * @param table - method table for a particular implementation
+ * @param q - cdc_priority_queue
+ * @param info - cdc_data_info
+ * @param compar - function that specifies a strict ordering
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_priority_queue_ctorl(const struct cdc_priority_queue_table *table,
                                        struct cdc_priority_queue **q,
@@ -69,9 +76,13 @@ enum cdc_stat cdc_priority_queue_ctorl(const struct cdc_priority_queue_table *ta
 
 /**
  * @brief Constructs a priority queue, initialized by args.
- * The function compar specifies the ordering of items.
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * The last item must be NULL.
+ * @param table - method table for a particular implementation
+ * @param q - cdc_priority_queue
+ * @param info - cdc_data_info
+ * @param compar - function that specifies a strict ordering
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_priority_queue_ctorv(const struct cdc_priority_queue_table *table,
                                        struct cdc_priority_queue **q,
@@ -80,9 +91,11 @@ enum cdc_stat cdc_priority_queue_ctorv(const struct cdc_priority_queue_table *ta
 
 /**
  * @brief Constructs an empty priority queue based on heap.
- * The function compar specifies the ordering of items.
- * Returned CDC_STATUS_OK in a successful case or an excellent value
- * indicating an error
+ * @param q - cdc_priority_queue
+ * @param info - cdc_data_info
+ * @param compar - function that specifies a strict ordering
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_priority_queueh_ctor(struct cdc_priority_queue **q,
                                                      struct cdc_data_info *info,
@@ -95,10 +108,12 @@ static inline enum cdc_stat cdc_priority_queueh_ctor(struct cdc_priority_queue *
 
 /**
  * @brief Constructs a priority queue based on heap, initialized by an arbitrary
- * number of pointers.
- * The function compar specifies the ordering of items.
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * number of pointers. The last item must be NULL.
+ * @param q - cdc_priority_queue
+ * @param info - cdc_data_info
+ * @param compar - function that specifies a strict ordering
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_priority_queueh_ctorl(struct cdc_priority_queue **q,
                                         struct cdc_data_info *info,
@@ -106,9 +121,12 @@ enum cdc_stat cdc_priority_queueh_ctorl(struct cdc_priority_queue **q,
 
 /**
  * @brief Constructs a priority queue based on heap, initialized by args.
- * The function compar specifies the ordering of items.
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * The last item must be NULL.
+ * @param q - cdc_priority_queue
+ * @param info - cdc_data_info
+ * @param compar - function that specifies a strict ordering
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_priority_queueh_ctorv(struct cdc_priority_queue **q,
                                                       struct cdc_data_info *info,
@@ -122,6 +140,7 @@ static inline enum cdc_stat cdc_priority_queueh_ctorv(struct cdc_priority_queue 
 
 /**
  * @brief Destroys the priority queue.
+ * @param q - cdc_priority_queue
  */
 void cdc_priority_queue_dtor(struct cdc_priority_queue *q);
 
@@ -129,6 +148,8 @@ void cdc_priority_queue_dtor(struct cdc_priority_queue *q);
 /**
  * @brief Returns a pointer to the priority queue's top item. This function assumes
  * that the priority queue isn't empty.
+ * @param q - cdc_priority_queue
+ * @return top item
  */
 static inline void *cdc_priority_queue_top(struct cdc_priority_queue *q)
 {
@@ -140,6 +161,8 @@ static inline void *cdc_priority_queue_top(struct cdc_priority_queue *q)
 // Capacity
 /**
  * @brief Returns true if the priority queue has size 0; otherwise returns false.
+ * @param q - cdc_priority_queue
+ * @return true if the pairing heap has size 0; otherwise returns false
  */
 static inline bool cdc_priority_queue_empty(struct cdc_priority_queue *q)
 {
@@ -150,6 +173,8 @@ static inline bool cdc_priority_queue_empty(struct cdc_priority_queue *q)
 
 /**
  * @brief Returns the number of items in the priority queue.
+ * @param q - cdc_priority_queue
+ * @return size
  */
 static inline size_t cdc_priority_queue_size(struct cdc_priority_queue *q)
 {
@@ -160,8 +185,11 @@ static inline size_t cdc_priority_queue_size(struct cdc_priority_queue *q)
 
 // Modifiers
 /**
- * @brief Adds element elem to the priority queue. Returned CDC_STATUS_OK in a
- * successful case or an excellent value indicating an error
+ * @brief Adds element elem to the priority queue.
+ * @param q - cdc_priority_queue
+ * @param elem
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_priority_queue_push(struct cdc_priority_queue *q,
                                                     void *elem)
@@ -172,9 +200,10 @@ static inline enum cdc_stat cdc_priority_queue_push(struct cdc_priority_queue *q
 }
 
 /**
- * @briefReturns a pointer to the stack's top item.
- * This function assumes that the priority queue isn't empty. Returned CDC_STATUS_OK in
- * a successful case or an excellent value indicating an error
+ * @brief Removes the top element.
+ * @param q - cdc_priority_queue
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_priority_queue_pop(struct cdc_priority_queue *q)
 {
@@ -184,7 +213,10 @@ static inline enum cdc_stat cdc_priority_queue_pop(struct cdc_priority_queue *q)
 }
 
 /**
- * @brief Swaps priority queues a and b. This operation is very fast and never fails.
+ * @brief Swaps priority queues a and b. This operation is very fast and never
+ * fails.
+ * @param a - cdc_priority_queue
+ * @param b - cdc_priority_queue
  */
 void cdc_priority_queue_swap(struct cdc_priority_queue *a,
                              struct cdc_priority_queue *b);

@@ -88,45 +88,65 @@ struct cdc_list_reverse_iter
 
 /**
  * @brief Constructs an empty list.
- * Returned CDC_STATUS_OK in a successful case or an excellent value
- * indicating an error
+ * @param l - cdc_list
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_list_ctor(struct cdc_list **l, struct cdc_data_info *info);
 
 /**
  * @brief Constructs a list, initialized by an arbitrary number of pointers.
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * The last item must be NULL.
+ * @param l - cdc_list
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_list_ctorl(struct cdc_list **l,
                              struct cdc_data_info *info, ...);
 
 /**
- * @brief Constructs a list, initialized by args
- * The last item must be NULL. Returned CDC_STATUS_OK in a successful case
- * or an excellent value indicating an error
+ * @brief Constructs a list, initialized by args. The last item must be NULL.
+ * @param l - cdc_list
+ * @param info - cdc_data_info
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_list_ctorv(struct cdc_list **l,
                              struct cdc_data_info *info, va_list args);
 
 /**
  * @brief Destroys the list.
+ * @param l - cdc_list
  */
 void cdc_list_dtor(struct cdc_list *l);
 
 // Element access
 /**
- * @brief Writes to a value the item at index position in the list.
- * Index must be a valid index position in the list. Returned CDC_STATUS_OK
- * in a successful case or an excellent value indicating an error
+ * @brief Returns the item at index position index in the list. Index must be a
+ * valid index position in the list.
+ * @param l - cdc_list
+ * @param index - index of the item to return
+ * @return item at the index position
+ */
+void *cdc_list_get(struct cdc_list *l, size_t index);
+
+/**
+ * @brief Writes to a elem the item at index position in the list.
+ * @param l - cdc_list
+ * @param index - index of the item to write at elem
+ * @param elem - pointer where the item will be written
+ * @return DC_STATUS_OK in a successful case or CDC_STATUS_OUT_OF_RANGE if the
+ * index is incorrect
  */
 enum cdc_stat cdc_list_at(struct cdc_list *l, size_t index, void **elem);
-
-void *cdc_list_get(struct cdc_list *l, size_t index);
 
 /**
  * @brief Returns a pointer to the first item in the list.
  * This function assumes that the list isn't empty.
+ * @param l - cdc_list
+ * @return pointer to the first item in the list
  */
 static inline void *cdc_list_front(struct cdc_list *l)
 {
@@ -139,6 +159,8 @@ static inline void *cdc_list_front(struct cdc_list *l)
 /**
  * @brief Returns a pointer to the last item in the list.
  * This function assumes that the list isn't empty.
+ * @param l - cdc_list
+ * @return pointer to the last item in the list
  */
 static inline  void *cdc_list_back(struct cdc_list *l)
 {
@@ -151,6 +173,8 @@ static inline  void *cdc_list_back(struct cdc_list *l)
 // Iterators
 /**
  * @brief Returns an iterator to the beginning
+ * @param l - cdc_list
+ * @return iterator to the beginning
  */
 static inline struct cdc_list_iter cdc_list_begin(struct cdc_list *l)
 {
@@ -163,6 +187,8 @@ static inline struct cdc_list_iter cdc_list_begin(struct cdc_list *l)
 
 /**
  * @brief Returns an iterator to the end
+ * @param l - cdc_list
+ * @return iterator to the end
  */
 static inline struct cdc_list_iter cdc_list_end(struct cdc_list *l)
 {
@@ -174,7 +200,9 @@ static inline struct cdc_list_iter cdc_list_end(struct cdc_list *l)
 }
 
 /**
- * @brief Returns an iterator to the beginning
+ * @brief Returns an reverse iterator to the beginning
+ * @param l - cdc_list
+ * @return reverse iterator to the beginning
  */
 static inline struct cdc_list_reverse_iter cdc_list_rbegin(struct cdc_list *l)
 {
@@ -186,7 +214,9 @@ static inline struct cdc_list_reverse_iter cdc_list_rbegin(struct cdc_list *l)
 }
 
 /**
- * @brief Returns an iterator to the end
+ * @brief Returns an reverse iterator to the end
+ * @param l - cdc_list
+ * @return reverse iterator to the end
  */
 static inline struct cdc_list_reverse_iter cdc_list_rend(struct cdc_list *l)
 {
@@ -200,6 +230,8 @@ static inline struct cdc_list_reverse_iter cdc_list_rend(struct cdc_list *l)
 // Capacity
 /**
  * @brief Returns the number of items in the list.
+ * @param l - cdc_list
+ * @return size
  */
 static inline size_t cdc_list_size(struct cdc_list *l)
 {
@@ -210,6 +242,8 @@ static inline size_t cdc_list_size(struct cdc_list *l)
 
 /**
  * @brief Returns true if the list has size 0; otherwise returns false.
+ * @param l - cdc_list
+ * @return true if the list has size 0; otherwise returns false
  */
 static inline bool cdc_list_empty(struct cdc_list *l)
 {
@@ -219,31 +253,46 @@ static inline bool cdc_list_empty(struct cdc_list *l)
 }
 
 // Modifiers
+/**
+ * @brief Sets the list at index position to the value. The function is not
+ * called to free memory.
+ * @param l - cdc_list
+ * @param index - index position where the value will be written
+ * @param value
+ */
 void cdc_list_set(struct cdc_list *l, size_t index, void *value);
 
 /**
- * @brief Inserts value at the end of the list. Returned CDC_STATUS_OK in a
- * successful case or an excellent value indicating an error
+ * @brief Inserts value at the end of the list.
+ * @param l - cdc_list
+ * @param value
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_list_push_back(struct cdc_list *l, void *value);
 
 /**
- * @brief Removes the last item in the list. If a function has been installed
- * to delete an item, it will be called for last item. Returned CDC_STATUS_OK
- * in a successful case or an excellent value indicating an error
+ * @brief Removes the last item in the list.
+ * @param l - cdc_list
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_list_pop_back(struct cdc_list *l);
 
 /**
- * @brief Inserts value at the beginning of the list. Returned CDC_STATUS_OK
- * in a successful case or an excellent value indicating an error
+ * @brief Inserts value at the beginning of the list.
+ * @param l - cdc_list
+ * @param value
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_list_push_front(struct cdc_list *l, void *value);
 
 /**
- * @brief Removes the first item in the list. If a function has been installed
- * to delete an item, it will be called for last item. Returned CDC_STATUS_OK
- * in a successful case or an excellent value indicating an error
+ * @brief Removes the first item in the list.
+ * @param l - cdc_list
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_list_pop_front(struct cdc_list *l);
 
@@ -251,11 +300,20 @@ enum cdc_stat cdc_list_pop_front(struct cdc_list *l);
  * @brief Inserts value at index position in the list. If index is 0, the value
  * is prepended to the list. If index is cdc_list_size(), the value is appended
  * to the list.
+ * @param l - cdc_list
+ * @param index - index position where the value will be inserted
+ * @param value
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_list_insert(struct cdc_list *l, size_t index, void *value);
 
 /**
  * @brief Inserts value in front of the item pointed to by the iterator before.
+ * @param before - iterator position before which the value will be inserted
+ * @param value
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_list_iinsert(struct cdc_list_iter before, void *value);
 
@@ -263,23 +321,31 @@ enum cdc_stat cdc_list_iinsert(struct cdc_list_iter before, void *value);
  * @brief Removes the element at index position.
  * The pointer will be written in elem. Index must be a valid index position
  * in the list. The function is not called to free memory.
- * Returned CDC_STATUS_OK in a successful case or an excellent value
- * indicating an error
+ * @param l - cdc_list
+ * @param index - index position where the item will be removed
+ * @param elem - pointer where the removed item will be written
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 enum cdc_stat cdc_list_remove(struct cdc_list *l, size_t index, void **elem);
 
 /**
  * @brief Removes the item associated with the iterator pos from the list.
- * The pointer will be written in elem. The function is not called to free memory.
- * Returned CDC_STATUS_OK in a successful case or an excellent value indicating
+ * The function is not called to free memory.
+ * @param pos
+ * @param elem - pointer where the removed item will be written
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
 enum cdc_stat cdc_list_iremove(struct cdc_list_iter pos, void **elem);
 
 /**
- * @brief Removes the element at index position.
- * Index must be a valid index position in the list. Returned CDC_STATUS_OK in a
- * successful case or an excellent value indicating an error
+ * @brief Removes the element at index position. Index must be a valid index
+ * position in the list.
+ * @param l - cdc_list
+ * @param index - index position where the item will be removed
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
  */
 static inline enum cdc_stat cdc_list_erase(struct cdc_list *l, size_t index)
 {
@@ -288,7 +354,8 @@ static inline enum cdc_stat cdc_list_erase(struct cdc_list *l, size_t index)
 
 /**
  * @brief Removes the item associated with the iterator pos from the list.
- * Returned CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @param pos
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
 static inline enum cdc_stat cdc_list_ierase(struct cdc_list_iter pos)
@@ -297,39 +364,103 @@ static inline enum cdc_stat cdc_list_ierase(struct cdc_list_iter pos)
 }
 
 /**
- * @brief Removes all the elements from the list. If a function has been
- * installed to delete an item, it will be called for each item.
+ * @brief Removes all the elements from the list.
+ * @param l - cdc_list
  */
 void cdc_list_clear(struct cdc_list *l);
 
 /**
  * @brief Swaps lists a and b. This operation is very fast and never fails.
+ * @param a - cdc_list
+ * @param b - cdc_list
  */
 void cdc_list_swap(struct cdc_list *a, struct cdc_list *b);
 
 // Operations
+/**
+ * @brief Transfers elements from one container, iterators (first, last] to
+ * another container at position before iterator position
+ * @param position - iterator before which the content will be inserted
+ * @param first, last -  range of elements to transfer from other
+ */
 void cdc_list_splice(struct cdc_list_iter position, struct cdc_list_iter first,
                      struct cdc_list_iter last);
 
+/**
+ * @brief Transfers elements from one container, iterators (first, end] to
+ * another container at position before iterator position
+ * @param position - iterator before which the content will be inserted
+ * @param first - beginning of the range from which elements will be transferred
+ */
 void cdc_list_ssplice(struct cdc_list_iter position, struct cdc_list_iter first);
 
+/**
+ * @brief Transfers all elements from container other to another container at
+ * position before iterator position
+ * @param position - iterator before which the content will be inserted
+ * @param other - cdc_list
+ */
 void cdc_list_lsplice(struct cdc_list_iter position, struct cdc_list *other);
 
+/**
+ * @brief Merges two sorted lists into one. The lists should be sorted into ascending order.
+ * @param l - cdc_list
+ * @param other - another cdc_list to merge
+ */
 void cdc_list_merge(struct cdc_list *l, struct cdc_list *other);
 
+/**
+ * @brief Merges two sorted lists into one. The lists should be sorted into
+ * ascending order.
+ * @param l - cdc_list
+ * @param other - another cdc_list to merge
+ * @param compare - comparison function
+ */
 void cdc_list_cmerge(struct cdc_list *l, struct cdc_list *other,
                      cdc_compar_fn_t compare);
-
+/**
+ * @brief Removes from the container all the elements for which predicate pred
+ * returns true.
+ * @param l - cdc_list
+ * @param pred - unary predicate which returns ​true if the element should be
+ * removed
+ */
 void cdc_list_erase_if(struct cdc_list *l, cdc_unary_pred_fn_t pred);
 
+/**
+ * @brief Reverses the order of the elements in the container
+ * @param l - cdc_list
+ */
 void cdc_list_reverse(struct cdc_list *l);
 
+/**
+ * @brief Removes all consecutive duplicate elements from the container. Only the
+ * first element in each group of equal elements is left.
+ * @param l - cdc_list
+ */
 void cdc_list_unique(struct cdc_list *l);
 
+/**
+ * @brief Removes all consecutive duplicate elements from the container. Only the
+ * first element in each group of equal elements is left.
+ * @param l - cdc_list
+ * @param pred - binary predicate which returns ​true if the elements should be
+ * treated as equal.
+ */
 void cdc_list_punique(struct cdc_list *l, cdc_binary_pred_fn_t pred);
 
+/**
+ * @brief Sorts the elements in ascending order.
+ * @param l - cdc_list
+ */
 void cdc_list_sort(struct cdc_list *l);
 
+/**
+ * @brief Sorts the elements in ascending order.
+ * @param l - cdc_list
+ * @param compare - comparison function object which returns ​true if the first
+ * argument is less than (i.e. is ordered before) the second.
+ */
 void cdc_list_csort(struct cdc_list *l, cdc_compar_fn_t compare);
 
 /**
