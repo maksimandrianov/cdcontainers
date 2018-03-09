@@ -527,13 +527,9 @@ void cdc_list_splice(struct cdc_list_iter position, struct cdc_list_iter first,
         assert(first.container == last.container);
         assert(first.container != position.container);
 
-        struct cdc_list_iter tmp = first;
-        size_t len = 0;
+        struct cdc_list_iter prev_last = cdc_list_iter_prev(last);
+        size_t len = distance(first.current, last.current);
 
-        while (!cdc_list_iter_is_eq(tmp, last))
-                tmp = cdc_list_iter_next(tmp), ++len;
-
-        tmp = cdc_list_iter_prev(last);
         if (first.current->prev) {
                 if (last.current) {
                         first.current->prev->next = last.current;
@@ -556,11 +552,11 @@ void cdc_list_splice(struct cdc_list_iter position, struct cdc_list_iter first,
                 if (position.current->prev) {
                         position.current->prev->next = first.current;
                         first.current->prev = position.current->prev;
-                        position.current->prev = tmp.current;
-                        tmp.current->next = position.current;
+                        position.current->prev = prev_last.current;
+                        prev_last.current->next = position.current;
                 } else {
-                        position.container->head->prev = tmp.current;
-                        tmp.current->next = position.container->head;
+                        position.container->head->prev = prev_last.current;
+                        prev_last.current->next = position.container->head;
                         position.container->head = first.current;
                         first.current->prev = NULL;
                 }
@@ -568,12 +564,12 @@ void cdc_list_splice(struct cdc_list_iter position, struct cdc_list_iter first,
                 if (position.container->tail) {
                         position.container->tail->next = first.current;
                         first.current->prev = position.container->tail;
-                        position.container->tail = tmp.current;
+                        position.container->tail = prev_last.current;
                 } else {
                         first.current->prev = NULL;
-                        tmp.current->next = NULL;
+                        prev_last.current->next = NULL;
                         position.container->head = first.current;
-                        position.container->tail = tmp.current;
+                        position.container->tail = prev_last.current;
                 }
         }
 

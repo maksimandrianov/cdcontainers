@@ -1,5 +1,4 @@
 1. Write single linked list
-2. Fixed list splice
 3. Write more tests for deque
 4. Write function pairing_heap_change_priority
 5. Write function heap_marge
