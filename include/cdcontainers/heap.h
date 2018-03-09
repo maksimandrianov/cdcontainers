@@ -198,7 +198,7 @@ void cdc_heap_swap(struct cdc_heap *a, struct cdc_heap *b);
  * @param h - cdc_heap
  * @param other - other cdc_heap
  */
-void cdc_heap_merge(struct cdc_heap *h, struct cdc_heap *other);
+enum cdc_stat cdc_heap_merge(struct cdc_heap *h, struct cdc_heap *other);
 
 /**
  * @brief Checks the heap property.

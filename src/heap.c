@@ -248,9 +248,20 @@ void cdc_heap_swap(struct cdc_heap *a, struct cdc_heap *b)
         CDC_SWAP(cdc_compar_fn_t, a->compar, b->compar);
 }
 
-void cdc_heap_merge(struct cdc_heap *h, struct cdc_heap *other)
+enum cdc_stat cdc_heap_merge(struct cdc_heap *h, struct cdc_heap *other)
 {
+        assert(h != NULL);
+        assert(other != NULL);
 
+        enum cdc_stat ret;
+
+        ret = cdc_vector_vappend(h->vector, other->vector);
+        if (ret != CDC_STATUS_OK)
+                return ret;
+
+        cdc_vector_cclear(other->vector, NULL);
+        build_heap(h);
+        return CDC_STATUS_OK;
 }
 
 bool cdc_heap_is_heap(struct cdc_heap *h)

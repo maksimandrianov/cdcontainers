@@ -95,12 +95,13 @@ static inline void move_right(struct cdc_vector *v, size_t index)
         memmove(v->buffer + index + 1, v->buffer + index, count_bytes);
 }
 
-static inline void free_range(struct cdc_vector *v, size_t start, size_t end)
+static inline void free_range(struct cdc_vector *v, size_t start, size_t end,
+                              void (*dfree)(void *))
 {
         size_t i;
 
         for (i = start; i < end; ++i)
-                v->dinfo->dfree(v->buffer[i]);
+                dfree(v->buffer[i]);
 }
 
 static inline enum cdc_stat pop_back(struct cdc_vector *v, bool must_free)
@@ -194,8 +195,15 @@ void cdc_vector_dtor(struct cdc_vector *v)
 {
         assert(v != NULL);
 
-        if (CDC_HAS_DFREE(v))
-                free_range(v, 0, v->size);
+        cdc_vector_cdtor(v, v->dinfo ? v->dinfo->dfree : NULL);
+}
+
+void cdc_vector_cdtor(struct cdc_vector *v, cdc_free_fn_t dfree)
+{
+        assert(v != NULL);
+
+        if (dfree)
+                free_range(v, 0, v->size, dfree);
 
         free(v->buffer);
         cdc_di_shared_dtor(v->dinfo);
@@ -228,8 +236,15 @@ void cdc_vector_clear(struct cdc_vector *v)
 {
         assert(v != NULL);
 
-        if (CDC_HAS_DFREE(v))
-                free_range(v, 0, v->size);
+        cdc_vector_cclear(v, v->dinfo ? v->dinfo->dfree : NULL);
+}
+
+void cdc_vector_cclear(struct cdc_vector *v, cdc_free_fn_t dfree)
+{
+        assert(v != NULL);
+
+        if (dfree)
+                free_range(v, 0, v->size, dfree);
 
         v->size = 0;
 }
@@ -316,4 +331,30 @@ enum cdc_stat cdc_vector_at(struct cdc_vector *v, size_t index, void **elem)
         *elem = v->buffer[index];
 
         return CDC_STATUS_OK;
+}
+
+enum cdc_stat cdc_vector_append(struct cdc_vector *v, void **data, size_t len)
+{
+        assert(v != NULL);
+
+        size_t new_capacity = v->size + len;
+        enum cdc_stat ret;
+
+        if (new_capacity > v->capacity) {
+                ret = reallocate(v, new_capacity * VECTOR_COPACITY_EXP);
+                if (ret != CDC_STATUS_OK)
+                        return ret;
+        }
+
+        memcpy(v->buffer + v->size, data, len * sizeof(void *));
+        v->size += len;
+        return CDC_STATUS_OK;
+}
+
+enum cdc_stat cdc_vector_vappend(struct cdc_vector *v, struct cdc_vector *other)
+{
+        assert(v != NULL);
+        assert(other != NULL);
+
+        return cdc_vector_append(v, other->buffer, other->size);
 }

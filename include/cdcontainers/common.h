@@ -25,14 +25,23 @@
 #include <stddef.h>
 
 #define CDC_MAX(a, b) ((a) > (b) ? (a) : (b))
+
 #define CDC_MIN(a, b) ((a) < (b) ? (a) : (b))
+
 #define CDC_SWAP(T, x, y) do \
         { \
                 T tmp = x;  \
                 x = y; \
                 y = tmp; \
         } while (0)
+
 #define CDC_INIT_STRUCT {0,}
+
+typedef void (*cdc_free_fn_t)(void *);
+typedef int (*cdc_lt_fn_t)(const void *, const void *);
+typedef int (*cdc_compar_fn_t)(const void *, const void *);
+typedef int (*cdc_unary_pred_fn_t) (const void *);
+typedef int (*cdc_binary_pred_fn_t) (const void *, const void *);
 
 struct cdc_pair {
         void *first;
@@ -40,15 +49,13 @@ struct cdc_pair {
 };
 
 struct cdc_data_info {
-        void (*dfree)(void *);
-        int (*lt)(const void *, const void *);
+        cdc_free_fn_t dfree;
+        cdc_lt_fn_t lt;
         size_t size;
         size_t __cnt;
 };
 
-typedef int (*cdc_compar_fn_t)(const void *, const void *);
-typedef int (*cdc_unary_pred_fn_t) (const void *);
-typedef int (*cdc_binary_pred_fn_t) (const void *, const void *);
+
 
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_COMMON_H

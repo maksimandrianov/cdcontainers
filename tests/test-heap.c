@@ -178,7 +178,21 @@ void test_heap_change_key()
 
 void test_heap_merge()
 {
+        struct cdc_heap *v, *w;
+        int a = 2, b = 3, c = 4;
 
+        CU_ASSERT(cdc_heap_ctorl(&v, NULL, gt_int, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_heap_ctorl(&w, NULL, gt_int, &a, &c, NULL) == CDC_STATUS_OK);
+
+        cdc_heap_merge(v, w);
+
+        CU_ASSERT(cdc_heap_is_heap(v) == true);
+        CU_ASSERT(cdc_heap_size(v) == 3);
+        CU_ASSERT(*((int *)cdc_heap_top(v)) == 4);
+        CU_ASSERT(cdc_heap_size(w) == 0);
+
+        cdc_heap_dtor(v);
+        cdc_heap_dtor(w);
 }
 
 void test_heap_swap()

@@ -81,6 +81,14 @@ enum cdc_stat cdc_vector_ctorv(struct cdc_vector **v,
  */
 void cdc_vector_dtor(struct cdc_vector *v);
 
+/**
+ * @brief Destroys the vector.
+ * @param v - cdc_vector
+ * @param dfree - function to free memory for data, if NULL, the data will
+ * not be deleted
+ */
+void cdc_vector_cdtor(struct cdc_vector *v, cdc_free_fn_t dfree);
+
 // Element access
 /**
  * @brief Returns the item at index position index in the vector. Index must be a
@@ -259,6 +267,14 @@ static inline enum cdc_stat cdc_vector_erase(struct cdc_vector *v, size_t index)
 void cdc_vector_clear(struct cdc_vector *v);
 
 /**
+ * @brief Removes all the elements from the vector.
+ * @param v - cdc_vector
+ * @param dfree - function to free memory for data, if NULL, the data will
+ * not be deleted
+ */
+void cdc_vector_cclear(struct cdc_vector *v, cdc_free_fn_t dfree);
+
+/**
  * @brief Inserts value at the end of the vector.
  * @param v - cdc_vector
  * @param value
@@ -276,6 +292,25 @@ enum cdc_stat cdc_vector_push_back(struct cdc_vector *v, void *value);
 enum cdc_stat cdc_vector_pop_back(struct cdc_vector *v);
 
 /**
+ * @brief Appends the data onto the end of cdc_vector v.
+ * @param v - cdc_vector
+ * @param data - pointer on data
+ * @param len - count of data elements
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
+enum cdc_stat cdc_vector_append(struct cdc_vector *v, void **data, size_t len);
+
+/**
+ * @brief Appends the cdc_vector other onto the end of cdc_vector v.
+ * @param v - cdc_vector
+ * @param other - cdc_vector
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
+enum cdc_stat cdc_vector_vappend(struct cdc_vector *v, struct cdc_vector *other);
+
+/**
  * @brief Swaps vectors a and b. This operation is very fast and never fails.
  * @param a - cdc_vector
  * @param b - cdc_vector
@@ -290,6 +325,7 @@ typedef struct cdc_vector vector_t;
 #define vector_ctorl(...)     cdc_vector_ctorl(__VA_ARGS__)
 #define vector_ctorv(...)     cdc_vector_ctorv(__VA_ARGS__)
 #define vector_dtor(...)      cdc_vector_dtor(__VA_ARGS__)
+#define vector_cdtor(...)     cdc_vector_cdtor(__VA_ARGS__)
 
 // Element access
 #define vector_get(...)       cdc_vector_get(__VA_ARGS__)
@@ -310,8 +346,11 @@ typedef struct cdc_vector vector_t;
 #define vector_insert(...)    cdc_vector_insert(__VA_ARGS__)
 #define vector_erase(...)     cdc_vector_erase(__VA_ARGS__)
 #define vector_clear(...)     cdc_vector_clear(__VA_ARGS__)
+#define vector_cclear(...)    cdc_vector_cclear(__VA_ARGS__)
 #define vector_push_back(...) cdc_vector_push_back(__VA_ARGS__)
 #define vector_pop_back(...)  cdc_vector_pop_back(__VA_ARGS__)
+#define vector_append(...)    cdc_vector_append(__VA_ARGS__)
+#define vector_vappend(...)   cdc_vector_vappend(__VA_ARGS__)
 #define vector_swap(...)      cdc_vector_swap(__VA_ARGS__)
 #endif
 
