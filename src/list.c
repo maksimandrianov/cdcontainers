@@ -633,15 +633,15 @@ void cdc_list_reverse(struct cdc_list *l)
 {
         assert(l != NULL);
 
-        struct cdc_list_node *curr, *prev;
+        struct cdc_list_node *curr = l->head, *next;
+
+        while (curr) {
+                next = curr->next;
+                CDC_SWAP(struct cdc_list_node *, curr->next, curr->prev);
+                curr = next;
+        }
 
         CDC_SWAP(struct cdc_list_node *, l->head, l->tail);
-        curr = l->head;
-        while (curr) {
-                prev = curr;
-                curr = curr->prev;
-                CDC_SWAP(struct cdc_list_node *, prev->next, prev->prev);
-        }
 }
 
 void cdc_list_punique(struct cdc_list *l, cdc_binary_pred_fn_t pred)
