@@ -23,7 +23,7 @@
 #include "cdcontainers/binomial-heap.h"
 
 static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info,
-                          cdc_compar_fn_t compar)
+                          cdc_binary_pred_fn_t compar)
 {
         assert(cntr != NULL);
 
@@ -33,7 +33,7 @@ static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info,
 }
 
 static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
-                           cdc_compar_fn_t compar, va_list args)
+                           cdc_binary_pred_fn_t compar, va_list args)
 {
         assert(cntr != NULL);
 

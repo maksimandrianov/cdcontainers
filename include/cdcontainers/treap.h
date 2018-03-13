@@ -48,19 +48,19 @@ struct cdc_treap {
         struct cdc_treap_node *root;
         size_t size;
         cdc_priority_func_t prior;
-        cdc_compar_fn_t compar;
+        cdc_binary_pred_fn_t compar;
         struct cdc_data_info *dinfo;
 };
 
 enum cdc_stat cdc_treap_ctor(struct cdc_treap **t, struct cdc_data_info *info,
-                             cdc_compar_fn_t compar, cdc_priority_func_t prior);
+                             cdc_binary_pred_fn_t compar, cdc_priority_func_t prior);
 
 enum cdc_stat cdc_treap_ctorl(struct cdc_treap **t, struct cdc_data_info *info,
-                              cdc_compar_fn_t compar,
+                              cdc_binary_pred_fn_t compar,
                               cdc_priority_func_t prior, ...);
 
 enum cdc_stat cdc_treap_ctorv(struct cdc_treap **t, struct cdc_data_info *info,
-                              cdc_compar_fn_t compar, cdc_priority_func_t prior,
+                              cdc_binary_pred_fn_t compar, cdc_priority_func_t prior,
                               va_list args);
 
 void cdc_treap_dtor(struct cdc_treap *t);

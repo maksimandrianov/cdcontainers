@@ -54,7 +54,7 @@ struct cdc_pairing_heap_node {
 struct cdc_pairing_heap {
         struct cdc_pairing_heap_node *root;
         size_t size;
-        cdc_compar_fn_t compar;
+        cdc_binary_pred_fn_t compar;
         struct cdc_data_info *dinfo;
 };
 
@@ -63,8 +63,7 @@ struct cdc_pairing_heap {
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
-struct cdc_pairing_heap_iter
-{
+struct cdc_pairing_heap_iter {
         struct cdc_pairing_heap *container;
         struct cdc_pairing_heap_node *current;
 };
@@ -79,7 +78,7 @@ struct cdc_pairing_heap_iter
  */
 enum cdc_stat cdc_pairing_heap_ctor(struct cdc_pairing_heap **h,
                                     struct cdc_data_info *info,
-                                    cdc_compar_fn_t compar);
+                                    cdc_binary_pred_fn_t compar);
 
 /**
  * @brief Constructs a pairing heap, initialized by an arbitrary number of
@@ -92,7 +91,7 @@ enum cdc_stat cdc_pairing_heap_ctor(struct cdc_pairing_heap **h,
  */
 enum cdc_stat cdc_pairing_heap_ctorl(struct cdc_pairing_heap **h,
                                      struct cdc_data_info *info,
-                                     cdc_compar_fn_t compar, ...);
+                                     cdc_binary_pred_fn_t compar, ...);
 
 /**
  * @brief Constructs a pairing heap, initialized by args. The last item must be
@@ -105,7 +104,7 @@ enum cdc_stat cdc_pairing_heap_ctorl(struct cdc_pairing_heap **h,
  */
 enum cdc_stat cdc_pairing_heap_ctorv(struct cdc_pairing_heap **h,
                                      struct cdc_data_info *info,
-                                     cdc_compar_fn_t compar, va_list args);
+                                     cdc_binary_pred_fn_t compar, va_list args);
 
 /**
  * @brief Destroys the pairing heap.

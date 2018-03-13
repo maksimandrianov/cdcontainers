@@ -53,7 +53,7 @@ static inline void free_heap(struct cdc_binomial_heap *h,
 }
 
 static inline bool is_heap(struct cdc_binomial_heap_node *root,
-                           cdc_compar_fn_t compar)
+                           cdc_binary_pred_fn_t compar)
 {
 
         while (root) {
@@ -165,7 +165,7 @@ static inline struct cdc_binomial_heap_node *merge(
 static inline struct cdc_binomial_heap_node *meld(
                 struct cdc_binomial_heap_node *a,
                 struct cdc_binomial_heap_node *b,
-                cdc_compar_fn_t compare)
+                cdc_binary_pred_fn_t compare)
 {
         assert(compare);
 
@@ -273,7 +273,7 @@ static inline enum cdc_stat init_varg(struct cdc_binomial_heap *h, va_list args)
 
 enum cdc_stat cdc_binomial_heap_ctor(struct cdc_binomial_heap **h,
                                      struct cdc_data_info *info,
-                                     cdc_compar_fn_t compar)
+                                     cdc_binary_pred_fn_t compar)
 {
         assert(h !=  NULL);
 
@@ -295,7 +295,7 @@ enum cdc_stat cdc_binomial_heap_ctor(struct cdc_binomial_heap **h,
 
 enum cdc_stat cdc_binomial_heap_ctorl(struct cdc_binomial_heap **h,
                                       struct cdc_data_info *info,
-                                      cdc_compar_fn_t compar, ...)
+                                      cdc_binary_pred_fn_t compar, ...)
 {
         assert(h != NULL);
 
@@ -310,7 +310,7 @@ enum cdc_stat cdc_binomial_heap_ctorl(struct cdc_binomial_heap **h,
 
 enum cdc_stat cdc_binomial_heap_ctorv(struct cdc_binomial_heap **h,
                                       struct cdc_data_info *info,
-                                      cdc_compar_fn_t compar, va_list args)
+                                      cdc_binary_pred_fn_t compar, va_list args)
 {
         assert(h != NULL);
 
@@ -426,7 +426,7 @@ void cdc_binomial_heap_swap(struct cdc_binomial_heap *a,
         CDC_SWAP(struct cdc_binomial_heap_node *, a->root, b->root);
         CDC_SWAP(struct cdc_binomial_heap_node *, a->top, b->top);
         CDC_SWAP(size_t, a->size, b->size);
-        CDC_SWAP(cdc_compar_fn_t, a->compar, b->compar);
+        CDC_SWAP(cdc_binary_pred_fn_t, a->compar, b->compar);
         CDC_SWAP(struct cdc_data_info *, a->dinfo, b->dinfo);
 }
 

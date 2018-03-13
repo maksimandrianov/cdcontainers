@@ -28,6 +28,8 @@
 
 #define CDC_MIN(a, b) ((a) < (b) ? (a) : (b))
 
+#define CDC_ABS(x) ((x < 0) ? -(x) : x)
+
 #define CDC_SWAP(T, x, y) do \
         { \
                 T tmp = x;  \
@@ -37,9 +39,11 @@
 
 #define CDC_INIT_STRUCT {0,}
 
+#define CDC_STATIC_ASSERT(COND, MSG) \
+        typedef char cdc_static_assertion_##MSG[(COND) ? 1 : -1]
+
+
 typedef void (*cdc_free_fn_t)(void *);
-typedef int (*cdc_lt_fn_t)(const void *, const void *);
-typedef int (*cdc_compar_fn_t)(const void *, const void *);
 typedef int (*cdc_unary_pred_fn_t) (const void *);
 typedef int (*cdc_binary_pred_fn_t) (const void *, const void *);
 
@@ -50,12 +54,10 @@ struct cdc_pair {
 
 struct cdc_data_info {
         cdc_free_fn_t dfree;
-        cdc_lt_fn_t lt;
+        cdc_binary_pred_fn_t lt;
         size_t size;
         size_t __cnt;
 };
-
-
 
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_COMMON_H

@@ -62,8 +62,7 @@ struct cdc_list {
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
-struct cdc_list_iter
-{
+struct cdc_list_iter {
         struct cdc_list *container;
         struct cdc_list_node *current;
 };
@@ -73,8 +72,7 @@ struct cdc_list_iter
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
-struct cdc_list_reverse_iter
-{
+struct cdc_list_reverse_iter {
         struct cdc_list *container;
         struct cdc_list_node *current;
 };
@@ -417,7 +415,7 @@ void cdc_list_merge(struct cdc_list *l, struct cdc_list *other);
  * @param compare - comparison function
  */
 void cdc_list_cmerge(struct cdc_list *l, struct cdc_list *other,
-                     cdc_compar_fn_t compare);
+                     cdc_binary_pred_fn_t compare);
 /**
  * @brief Removes from the container all the elements for which predicate pred
  * returns true.
@@ -461,7 +459,7 @@ void cdc_list_sort(struct cdc_list *l);
  * @param compare - comparison function object which returns ​true if the first
  * argument is less than (i.e. is ordered before) the second.
  */
-void cdc_list_csort(struct cdc_list *l, cdc_compar_fn_t compare);
+void cdc_list_csort(struct cdc_list *l, cdc_binary_pred_fn_t compare);
 
 /**
  * @brief A function cb is applied to each item of the list.

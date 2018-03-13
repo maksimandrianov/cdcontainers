@@ -40,7 +40,7 @@
  */
 struct cdc_heap {
         struct cdc_vector *vector;
-        cdc_compar_fn_t compar;
+        cdc_binary_pred_fn_t compar;
 };
 
 /**
@@ -62,7 +62,7 @@ struct cdc_heap_iter {
  * an error
  */
 enum cdc_stat cdc_heap_ctor(struct cdc_heap **h, struct cdc_data_info *info,
-                            cdc_compar_fn_t compar);
+                            cdc_binary_pred_fn_t compar);
 
 /**
  * @brief Constructs a heap, initialized by an arbitrary number of pointers. The
@@ -74,7 +74,7 @@ enum cdc_stat cdc_heap_ctor(struct cdc_heap **h, struct cdc_data_info *info,
  * an error
  */
 enum cdc_stat cdc_heap_ctorl(struct cdc_heap **h, struct cdc_data_info *info,
-                             cdc_compar_fn_t compar, ...);
+                             cdc_binary_pred_fn_t compar, ...);
 
 /**
  * @brief Constructs a heap, initialized by args. The last item must be NULL.
@@ -85,7 +85,7 @@ enum cdc_stat cdc_heap_ctorl(struct cdc_heap **h, struct cdc_data_info *info,
  * an error
  */
 enum cdc_stat cdc_heap_ctorv(struct cdc_heap **h, struct cdc_data_info *info,
-                             cdc_compar_fn_t compar, va_list args);
+                             cdc_binary_pred_fn_t compar, va_list args);
 
 /**
  * @brief Destroys the heap.

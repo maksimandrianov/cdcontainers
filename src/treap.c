@@ -50,7 +50,7 @@ static inline struct cdc_treap_node *new_node(void *key, int prior,  void *val)
 }
 
 static struct node_pair split(struct cdc_treap_node *root, void *key,
-                              cdc_compar_fn_t compar)
+                              cdc_binary_pred_fn_t compar)
 {
         struct node_pair pair;
 
@@ -111,7 +111,7 @@ static struct cdc_treap_node *merge(struct cdc_treap_node *l,
 }
 
 static inline struct cdc_treap_node *find_node(struct cdc_treap_node *node,
-                                               void *key, cdc_compar_fn_t cmp)
+                                               void *key, cdc_binary_pred_fn_t cmp)
 {
         while (node != NULL && cdc_not_eq(cmp, node->key, key)) {
                 if (cmp(key, node->key))
@@ -204,7 +204,7 @@ static inline void erase_node(struct cdc_treap *t, struct cdc_treap_node *snode)
 }
 
 enum cdc_stat cdc_treap_ctor(struct cdc_treap **t, struct cdc_data_info *info,
-                             cdc_compar_fn_t compar, cdc_priority_func_t prior)
+                             cdc_binary_pred_fn_t compar, cdc_priority_func_t prior)
 {
         assert(t != NULL);
 
@@ -226,7 +226,7 @@ enum cdc_stat cdc_treap_ctor(struct cdc_treap **t, struct cdc_data_info *info,
 }
 
 enum cdc_stat cdc_treap_ctorl(struct cdc_treap **t, struct cdc_data_info *info,
-                              cdc_compar_fn_t compar,
+                              cdc_binary_pred_fn_t compar,
                               cdc_priority_func_t prior, ...)
 {
 
@@ -234,7 +234,7 @@ enum cdc_stat cdc_treap_ctorl(struct cdc_treap **t, struct cdc_data_info *info,
 }
 
 enum cdc_stat cdc_treap_ctorv(struct cdc_treap **t, struct cdc_data_info *info,
-                              cdc_compar_fn_t compar, cdc_priority_func_t prior,
+                              cdc_binary_pred_fn_t compar, cdc_priority_func_t prior,
                               va_list args)
 {
 

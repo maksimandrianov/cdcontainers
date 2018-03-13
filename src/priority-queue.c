@@ -23,7 +23,7 @@
 enum cdc_stat cdc_priority_queue_ctor(const struct cdc_priority_queue_table *table,
                                       struct cdc_priority_queue **q,
                                       struct cdc_data_info *info,
-                                      cdc_compar_fn_t compar)
+                                      cdc_binary_pred_fn_t compar)
 {
         assert(table != NULL);
         assert(q != NULL);
@@ -51,7 +51,7 @@ enum cdc_stat cdc_priority_queue_ctor(const struct cdc_priority_queue_table *tab
 enum cdc_stat cdc_priority_queue_ctorl(const struct cdc_priority_queue_table *table,
                                        struct cdc_priority_queue **q,
                                        struct cdc_data_info *info,
-                                       cdc_compar_fn_t compar, ...)
+                                       cdc_binary_pred_fn_t compar, ...)
 {
         assert(table != NULL);
         assert(q != NULL);
@@ -69,7 +69,7 @@ enum cdc_stat cdc_priority_queue_ctorl(const struct cdc_priority_queue_table *ta
 enum cdc_stat cdc_priority_queue_ctorv(const struct cdc_priority_queue_table *table,
                                        struct cdc_priority_queue **q,
                                        struct cdc_data_info *info,
-                                       cdc_compar_fn_t compar, va_list args)
+                                       cdc_binary_pred_fn_t compar, va_list args)
 {
         assert(table != NULL);
         assert(q != NULL);
@@ -114,7 +114,7 @@ void cdc_priority_queue_swap(struct cdc_priority_queue *a,
 
 enum cdc_stat cdc_priority_queueh_ctorl(struct cdc_priority_queue **q,
                                         struct cdc_data_info *info,
-                                        cdc_compar_fn_t compar, ...)
+                                        cdc_binary_pred_fn_t compar, ...)
 {
         assert(q != NULL);
 

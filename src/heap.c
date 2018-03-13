@@ -118,7 +118,7 @@ static inline enum cdc_stat init_varg(struct cdc_heap *h, va_list args)
 }
 
 enum cdc_stat cdc_heap_ctor(struct cdc_heap **h, struct cdc_data_info *info,
-                            cdc_compar_fn_t compar)
+                            cdc_binary_pred_fn_t compar)
 {
         assert(h != NULL);
         assert(compar != NULL);
@@ -142,7 +142,7 @@ enum cdc_stat cdc_heap_ctor(struct cdc_heap **h, struct cdc_data_info *info,
 }
 
 enum cdc_stat cdc_heap_ctorl(struct cdc_heap **h, struct cdc_data_info *info,
-                             cdc_compar_fn_t compar, ...)
+                             cdc_binary_pred_fn_t compar, ...)
 {
         assert(h != NULL);
         assert(compar != NULL);
@@ -158,7 +158,7 @@ enum cdc_stat cdc_heap_ctorl(struct cdc_heap **h, struct cdc_data_info *info,
 }
 
 enum cdc_stat cdc_heap_ctorv(struct cdc_heap **h, struct cdc_data_info *info,
-                             cdc_compar_fn_t compar, va_list args)
+                             cdc_binary_pred_fn_t compar, va_list args)
 {
         assert(h != NULL);
         assert(compar != NULL);
@@ -245,7 +245,7 @@ void cdc_heap_swap(struct cdc_heap *a, struct cdc_heap *b)
         assert(b != NULL);
 
         CDC_SWAP(struct cdc_vector *, a->vector, b->vector);
-        CDC_SWAP(cdc_compar_fn_t, a->compar, b->compar);
+        CDC_SWAP(cdc_binary_pred_fn_t, a->compar, b->compar);
 }
 
 enum cdc_stat cdc_heap_merge(struct cdc_heap *h, struct cdc_heap *other)
