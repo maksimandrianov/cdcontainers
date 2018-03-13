@@ -25,6 +25,7 @@ include_directories("${PROJECT_INCLUDE_DIR}")
 
 set(SOURCE
       test-common.h
+      test-common.c
       test-vector.c
       test-list.c
       test-deque.c
@@ -35,6 +36,7 @@ set(SOURCE
       test-treap.c
       test-binomial-heap.c
       test-pairing-heap.c
+      test-hash-table.c
       test-main.c
 )
 

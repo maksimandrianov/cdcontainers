@@ -25,6 +25,10 @@
 #include <stdbool.h>
 #include <stdarg.h>
 
+// Common tests
+void test_ptr_float_cast();
+void test_ptr_double_cast();
+
 // Vector tests
 void test_vector_ctor();
 void test_vector_ctorl();
@@ -150,5 +154,25 @@ void test_treap_ctorl();
 void test_treap_insert();
 void test_treap_erase();
 void test_treap_swap();
+
+// Hash table tests
+void test_hash_table_ctor();
+void test_hash_table_ctorl();
+void test_hash_table_get();
+void test_hash_table_count();
+void test_hash_table_find();
+void test_hash_table_equal_range();
+void test_hash_table_clear();
+void test_hash_table_insert();
+void test_hash_table_insert_or_assign();
+void test_hash_table_erase();
+void test_hash_table_swap();
+void test_hash_table_load_factor();
+void test_hash_table_max_load_factor();
+void test_hash_table_set_max_load_factor();
+void test_hash_table_rehash();
+void test_hash_table_reserve();
+
+
 
 #endif  // CDSTRUCTURES_TESTS_TESTS_COMMON_H

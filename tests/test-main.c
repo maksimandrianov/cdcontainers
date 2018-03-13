@@ -29,6 +29,18 @@ int main(int argc, char** argv)
         if (CUE_SUCCESS != CU_initialize_registry())
                 return CU_get_error();
 
+        p_suite = CU_add_suite("COMMON TESTS", NULL, NULL);
+        if (p_suite == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
+        if (CU_add_test(p_suite, "ptr_float_cast", test_ptr_float_cast) == NULL ||
+            CU_add_test(p_suite, "ptr_double_cast", test_ptr_double_cast) == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
         p_suite = CU_add_suite("VECTOR TESTS", NULL, NULL);
         if (p_suite == NULL) {
                 CU_cleanup_registry();
@@ -230,6 +242,32 @@ int main(int argc, char** argv)
             CU_add_test(p_suite, "test_ctorl", test_treap_ctorl) == NULL ||
             CU_add_test(p_suite, "test_insert", test_treap_insert) == NULL ||
             CU_add_test(p_suite, "test_swap", test_treap_swap) == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
+        p_suite = CU_add_suite("HASH TABLE TESTS", NULL, NULL);
+        if (p_suite == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
+        if (CU_add_test(p_suite, "test_ctor", test_hash_table_ctor) == NULL ||
+            CU_add_test(p_suite, "test_ctorl", test_hash_table_ctorl) == NULL ||
+            CU_add_test(p_suite, "test_get", test_hash_table_get) == NULL ||
+            CU_add_test(p_suite, "test_count", test_hash_table_count) == NULL ||
+            CU_add_test(p_suite, "test_find", test_hash_table_find) == NULL ||
+            CU_add_test(p_suite, "test_equal_range", test_hash_table_equal_range) == NULL ||
+            CU_add_test(p_suite, "test_clear", test_hash_table_clear) == NULL ||
+            CU_add_test(p_suite, "test_insert", test_hash_table_insert) == NULL ||
+            CU_add_test(p_suite, "test_insert_or_assign", test_hash_table_insert_or_assign) == NULL ||
+            CU_add_test(p_suite, "test_erase", test_hash_table_erase) == NULL ||
+            CU_add_test(p_suite, "test_swap", test_hash_table_swap) == NULL ||
+            CU_add_test(p_suite, "test_load_factor", test_hash_table_load_factor) == NULL ||
+            CU_add_test(p_suite, "test_max_load_factor", test_hash_table_max_load_factor) == NULL ||
+            CU_add_test(p_suite, "test_set_max_load_factor", test_hash_table_set_max_load_factor) == NULL ||
+            CU_add_test(p_suite, "test_rehash", test_hash_table_rehash) == NULL ||
+            CU_add_test(p_suite, "test_reserve", test_hash_table_reserve) == NULL) {
                 CU_cleanup_registry();
                 return CU_get_error();
         }

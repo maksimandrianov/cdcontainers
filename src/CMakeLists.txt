@@ -18,6 +18,7 @@ set(SOURCE
         treap.c
         binomial-heap.c
         pairing-heap.c
+        hash-table.c
         status.c
         common.c
         data-info.c
