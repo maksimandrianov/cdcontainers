@@ -174,6 +174,32 @@ static inline enum cdc_stat make_and_insert_unique(struct cdc_hash_table *t,
         return CDC_STATUS_OK;
 }
 
+static inline enum cdc_stat insert(struct cdc_hash_table *t, void *key, void *value,
+                                   struct cdc_pair_hash_table_iter_bool *ret,
+                                   bool assign)
+{
+        assert(t != NULL);
+
+        struct cdc_hash_table_entry *entry, *new_entry;
+        enum cdc_stat stat = find_entry(t, key, &entry), stat_insert;
+
+        if (stat != CDC_STATUS_OK) {
+                stat_insert = make_and_insert_unique(t, key, value, &new_entry);
+                if (stat_insert != CDC_STATUS_OK)
+                        return stat_insert;
+        } else if (assign) {
+                entry->next->value = value;
+        }
+
+        if (ret) {
+                (*ret).first.container = t;
+                (*ret).first.current = (stat == CDC_STATUS_OK ? entry->next : new_entry->next);
+                (*ret).second = (stat != CDC_STATUS_OK);
+        }
+
+        return CDC_STATUS_OK;
+}
+
 static inline struct cdc_hash_table_entry *erase_entry(struct cdc_hash_table *t,
                                                        struct cdc_hash_table_entry *entry,
                                                        size_t backet)
@@ -496,22 +522,7 @@ enum cdc_stat cdc_hash_table_insert(struct cdc_hash_table *t,
 {
         assert(t != NULL);
 
-        struct cdc_hash_table_entry *entry, *new_entry;
-        enum cdc_stat stat = find_entry(t, key, &entry), stat_insert;
-
-        if (stat != CDC_STATUS_OK) {
-                stat_insert = make_and_insert_unique(t, key, value, &new_entry);
-                if (stat_insert != CDC_STATUS_OK)
-                        return stat_insert;
-        }
-
-        if (ret) {
-                (*ret).first.container = t;
-                (*ret).first.current = (stat == CDC_STATUS_OK ? entry->next : new_entry->next);
-                (*ret).second = (stat != CDC_STATUS_OK);
-        }
-
-        return CDC_STATUS_OK;
+        return insert(t, key, value, ret, false);
 }
 
 enum cdc_stat cdc_hash_table_insert_or_assign(struct cdc_hash_table *t,
@@ -520,24 +531,7 @@ enum cdc_stat cdc_hash_table_insert_or_assign(struct cdc_hash_table *t,
 {
         assert(t != NULL);
 
-        struct cdc_hash_table_entry *entry, *new_entry;
-        enum cdc_stat stat = find_entry(t, key, &entry), stat_insert;
-
-        if (stat != CDC_STATUS_OK) {
-                stat_insert = make_and_insert_unique(t, key, value, &new_entry);
-                if (stat_insert != CDC_STATUS_OK)
-                        return stat_insert;
-        } else {
-                entry->next->value = value;
-        }
-
-        if (ret) {
-                (*ret).first.container = t;
-                (*ret).first.current = (stat == CDC_STATUS_OK ? entry->next : new_entry->next);
-                (*ret).second = (stat != CDC_STATUS_OK);
-        }
-
-        return CDC_STATUS_OK;
+        return insert(t, key, value, ret, true);
 }
 
 size_t cdc_hash_table_erase(struct cdc_hash_table *t, void *key)
