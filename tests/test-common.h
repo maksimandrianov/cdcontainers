@@ -167,9 +167,6 @@ void test_hash_table_insert();
 void test_hash_table_insert_or_assign();
 void test_hash_table_erase();
 void test_hash_table_swap();
-void test_hash_table_load_factor();
-void test_hash_table_max_load_factor();
-void test_hash_table_set_max_load_factor();
 void test_hash_table_rehash();
 void test_hash_table_reserve();
 

@@ -59,5 +59,15 @@ struct cdc_data_info {
         size_t __cnt;
 };
 
+static inline size_t cdc_up_to_pow2(size_t x)
+{
+        x = x - 1;
+        x |= x >> 1;
+        x |= x >> 2;
+        x |= x >> 4;
+        x |= x >> 8;
+        x |= x >> 16;
+        return x + 1;
+}
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_COMMON_H

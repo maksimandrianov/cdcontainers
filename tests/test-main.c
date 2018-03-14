@@ -263,9 +263,6 @@ int main(int argc, char** argv)
             CU_add_test(p_suite, "test_insert_or_assign", test_hash_table_insert_or_assign) == NULL ||
             CU_add_test(p_suite, "test_erase", test_hash_table_erase) == NULL ||
             CU_add_test(p_suite, "test_swap", test_hash_table_swap) == NULL ||
-            CU_add_test(p_suite, "test_load_factor", test_hash_table_load_factor) == NULL ||
-            CU_add_test(p_suite, "test_max_load_factor", test_hash_table_max_load_factor) == NULL ||
-            CU_add_test(p_suite, "test_set_max_load_factor", test_hash_table_set_max_load_factor) == NULL ||
             CU_add_test(p_suite, "test_rehash", test_hash_table_rehash) == NULL ||
             CU_add_test(p_suite, "test_reserve", test_hash_table_reserve) == NULL) {
                 CU_cleanup_registry();

@@ -89,14 +89,58 @@ struct cdc_pair_hash_table_iter_bool {
  * @param info - cdc_data_info
  * @param hash - hash function to use
  * @param equal - omparison function to use for all key comparisons of this container
- * @param load_factor - maximum load factor setting
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
 enum cdc_stat cdc_hash_table_ctor(struct cdc_hash_table **t,
                                   struct cdc_data_info *info,
-                                  cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal,
-                                  float load_factor);
+                                  cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal);
+
+/**
+ * @brief Constructs an empty hash table, initialized by an arbitrary number of
+ * pointers on cdc_pair's(first - key, and the second - value).  The last item
+ * must be NULL.
+ * @param t - cdc_hash_table
+ * @param info - cdc_data_info
+ * @param hash - hash function to use
+ * @param equal - omparison function to use for all key comparisons of this container
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
+enum cdc_stat cdc_hash_table_ctorl(struct cdc_hash_table **t,
+                                   struct cdc_data_info *info,
+                                   cdc_hash_fn_t hash,
+                                   cdc_binary_pred_fn_t equal, ...);
+
+/**
+ * @brief Constructs an empty hash table, initialized by args. The last item
+ * must be NULL.
+ * @param t - cdc_hash_table
+ * @param info - cdc_data_info
+ * @param hash - hash function to use
+ * @param equal - omparison function to use for all key comparisons of this container
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
+enum cdc_stat cdc_hash_table_ctorv(struct cdc_hash_table **t,
+                                   struct cdc_data_info *info,
+                                   cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal,
+                                   va_list args);
+
+/**
+ * @brief Constructs an empty hash table
+ * @param t - cdc_hash_table
+ * @param info - cdc_data_info
+ * @param hash - hash function to use
+ * @param equal - omparison function to use for all key comparisons of this container
+ * @param load_factor - maximum load factor setting
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
+enum cdc_stat cdc_hash_table_ctor1(struct cdc_hash_table **t,
+                                   struct cdc_data_info *info,
+                                   cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal,
+                                   float load_factor);
 
 /**
  * @brief Constructs an empty hash table, initialized by an arbitrary number of
@@ -110,10 +154,10 @@ enum cdc_stat cdc_hash_table_ctor(struct cdc_hash_table **t,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_hash_table_ctorl(struct cdc_hash_table **t,
-                                   struct cdc_data_info *info,
-                                   cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal,
-                                   float load_factor, ...);
+enum cdc_stat cdc_hash_table_ctorl1(struct cdc_hash_table **t,
+                                    struct cdc_data_info *info,
+                                    cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal,
+                                    float load_factor, ...);
 
 /**
  * @brief Constructs an empty hash table, initialized by args. The last item
@@ -126,10 +170,10 @@ enum cdc_stat cdc_hash_table_ctorl(struct cdc_hash_table **t,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_hash_table_ctorv(struct cdc_hash_table **t,
-                                   struct cdc_data_info *info,
-                                   cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal,
-                                   float load_factor, va_list args);
+enum cdc_stat cdc_hash_table_ctorv1(struct cdc_hash_table **t,
+                                    struct cdc_data_info *info,
+                                    cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal,
+                                    float load_factor, va_list args);
 
 /**
  * @brief Destroys the hash table.
@@ -316,8 +360,13 @@ static inline float cdc_hash_table_max_load_factor(struct cdc_hash_table *t)
  * @param t - cdc_hash_table
  * @param load_factor - new maximum load factor setting
  */
-void cdc_hash_table_set_max_load_factor(struct cdc_hash_table *t,
-                                        float load_factor);
+static inline void cdc_hash_table_set_max_load_factor(struct cdc_hash_table *t,
+                                                      float load_factor)
+{
+        assert(t != NULL);
+
+        t->load_factor = load_factor;
+}
 
 /**
  * @brief Reserves at least the specified number of buckets. This regenerates
@@ -339,6 +388,18 @@ enum cdc_stat cdc_hash_table_rehash(struct cdc_hash_table *t, size_t count);
  */
 enum cdc_stat cdc_hash_table_reserve(struct cdc_hash_table *t, size_t count);
 
+// Bucket interface
+/**
+ * @brief Returns the number of buckets
+ * @param t - cdc_hash_table
+ * @return returns the number of buckets
+ */
+static inline size_t cdc_hash_table_bucket_count(struct cdc_hash_table *t)
+{
+        assert(t != NULL);
+
+        return t->bcount;
+}
 // Iterators
 /**
  * @brief Advances the iterator to the next item in the list and returns an
@@ -436,6 +497,9 @@ typedef struct cdc_pair_hash_table_iter_bool pair_hash_table_iter_bool_t;
 #define hash_table_set_max_load_factor(...) cdc_hash_table_set_max_load_factor(__VA_ARGS__)
 #define hash_table_rehash(...)              cdc_hash_table_rehash(__VA_ARGS__)
 #define hash_table_reserve(...)             cdc_hash_table_reserve(__VA_ARGS__)
+
+// Bucket interface
+#define hash_table_bucket_count(...)        cdc_hash_table_bucket_count(__VA_ARGS__)
 
 // Iterators
 #define hash_table_iter_next(...)           cdc_hash_table_iter_next(__VA_ARGS__)
