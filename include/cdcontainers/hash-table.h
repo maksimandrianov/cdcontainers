@@ -468,6 +468,9 @@ typedef struct cdc_pair_hash_table_iter_bool pair_hash_table_iter_bool_t;
 #define hash_table_ctor(...)                cdc_hash_table_ctor(__VA_ARGS__)
 #define hash_table_ctorl(...)               cdc_hash_table_ctorl(__VA_ARGS__)
 #define hash_table_ctorv(...)               cdc_hash_table_ctorv(__VA_ARGS__)
+#define hash_table_ctor1(...)               cdc_hash_table_ctor1(__VA_ARGS__)
+#define hash_table_ctorl1(...)              cdc_hash_table_ctorl1(__VA_ARGS__)
+#define hash_table_ctorv1(...)              cdc_hash_table_ctorv1(__VA_ARGS__)
 #define hash_table_dtor(...)                cdc_hash_table_dtor(__VA_ARGS__)
 
 // Lookup
