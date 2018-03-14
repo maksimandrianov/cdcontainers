@@ -28,6 +28,7 @@ enum cdc_stat {
         CDC_STATUS_OUT_OF_RANGE,
         CDC_STATUS_OVERFLOW,
         CDC_STATUS_ALREADY_EXISTS,
+        CDC_STATUS_NOT_FOUND,
 
         CDC_STATUS_UNKN
 };

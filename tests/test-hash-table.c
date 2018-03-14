@@ -29,14 +29,14 @@
 #include "cdcontainers/casts.h"
 #include "cdcontainers/hash-table.h"
 
-static struct cdc_pair a = {CDC_INT_TO_PTR(1), CDC_INT_TO_PTR(1)};
-static struct cdc_pair b = {CDC_INT_TO_PTR(2), CDC_INT_TO_PTR(2)};
-static struct cdc_pair c = {CDC_INT_TO_PTR(3), CDC_INT_TO_PTR(3)};
-static struct cdc_pair d = {CDC_INT_TO_PTR(4), CDC_INT_TO_PTR(4)};
-static struct cdc_pair e = {CDC_INT_TO_PTR(5), CDC_INT_TO_PTR(5)};
-static struct cdc_pair f = {CDC_INT_TO_PTR(6), CDC_INT_TO_PTR(6)};
-static struct cdc_pair g = {CDC_INT_TO_PTR(7), CDC_INT_TO_PTR(7)};
-static struct cdc_pair h = {CDC_INT_TO_PTR(8), CDC_INT_TO_PTR(8)};
+static struct cdc_pair a = {CDC_INT_TO_PTR(0), CDC_INT_TO_PTR(0)};
+static struct cdc_pair b = {CDC_INT_TO_PTR(1), CDC_INT_TO_PTR(1)};
+static struct cdc_pair c = {CDC_INT_TO_PTR(2), CDC_INT_TO_PTR(2)};
+static struct cdc_pair d = {CDC_INT_TO_PTR(3), CDC_INT_TO_PTR(3)};
+static struct cdc_pair e = {CDC_INT_TO_PTR(4), CDC_INT_TO_PTR(4)};
+static struct cdc_pair f = {CDC_INT_TO_PTR(5), CDC_INT_TO_PTR(5)};
+static struct cdc_pair g = {CDC_INT_TO_PTR(6), CDC_INT_TO_PTR(6)};
+static struct cdc_pair h = {CDC_INT_TO_PTR(7), CDC_INT_TO_PTR(7)};
 
 static int eq_ptr(const void *l, const void *r)
 {
@@ -53,11 +53,13 @@ static bool hash_table_key_int_eq(struct cdc_hash_table *t, size_t count, ...)
         va_list args;
         int i;
         struct cdc_pair *val;
+        void *tmp;
 
         va_start(args, count);
         for (i = 0; i < count; ++i) {
                 val = va_arg(args, struct cdc_pair *);
-                if (cdc_hash_table_get(t, val->first) != val->second) {
+                if (cdc_hash_table_get(t, val->first, &tmp) != CDC_STATUS_OK ||
+                    tmp != val->second) {
                         va_end(args);
                         return false;
                 }
@@ -84,6 +86,7 @@ void test_hash_table_ctorl()
         CU_ASSERT(cdc_hash_table_ctorl(&t, NULL, cdc_pdhash_int, eq_ptr, 1.0,
                                        &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_hash_table_size(t) == 4);
+        CU_ASSERT(hash_table_key_int_eq(t, 4, &a, &b, &c, &d));
 
         cdc_hash_table_dtor(t);
 }
@@ -91,12 +94,13 @@ void test_hash_table_ctorl()
 void test_hash_table_get()
 {
         struct cdc_hash_table *t = NULL;
+        void *value;
 
         CU_ASSERT(cdc_hash_table_ctorl(&t, NULL, cdc_pdhash_int, eq_ptr, 1.0,
                                        &a, &b, &c, &d, &g, &h, &e, &f, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_hash_table_size(t) == 8);
         CU_ASSERT(hash_table_key_int_eq(t, 8, &a, &b, &c, &d, &g, &h, &e, &f));
-        CU_ASSERT(cdc_hash_table_get(t, CDC_INT_TO_PTR(10)) == NULL);
+        CU_ASSERT(cdc_hash_table_get(t, CDC_INT_TO_PTR(10), &value) == CDC_STATUS_NOT_FOUND);
         cdc_hash_table_dtor(t);
 }
 
@@ -177,6 +181,7 @@ void test_hash_table_clear()
 void test_hash_table_insert()
 {
         struct cdc_hash_table *t = NULL;
+        void *value;
 
         CU_ASSERT(cdc_hash_table_ctor(&t, NULL, cdc_pdhash_int, eq_ptr, 1.0) == CDC_STATUS_OK);
 
@@ -186,7 +191,8 @@ void test_hash_table_insert()
 
         CU_ASSERT(cdc_hash_table_insert(t, a.first, b.second, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_hash_table_size(t) == 1);
-        CU_ASSERT(cdc_hash_table_get(t, a.first) == a.second);
+        CU_ASSERT(cdc_hash_table_get(t, a.first, &value) == CDC_STATUS_OK);
+        CU_ASSERT(value == a.second);
         CU_ASSERT(hash_table_key_int_eq(t, 1, &a));
 
         CU_ASSERT(cdc_hash_table_insert(t, b.first, b.second, NULL) == CDC_STATUS_OK);
@@ -212,6 +218,7 @@ void test_hash_table_insert_or_assign()
 {
         struct cdc_pair_hash_table_iter_bool ret;
         struct cdc_hash_table *t = NULL;
+        void *value;
 
         CU_ASSERT(cdc_hash_table_ctor(&t, NULL, cdc_pdhash_int, eq_ptr, 1.0) == CDC_STATUS_OK);
 
@@ -222,7 +229,8 @@ void test_hash_table_insert_or_assign()
 
         CU_ASSERT(cdc_hash_table_insert_or_assign(t, a.first, b.second, &ret) == CDC_STATUS_OK);
         CU_ASSERT(cdc_hash_table_size(t) == 1);
-        CU_ASSERT(cdc_hash_table_get(t, a.first) == b.second);
+        CU_ASSERT(cdc_hash_table_get(t, a.first, &value) == CDC_STATUS_OK);
+        CU_ASSERT(value == b.second);
         CU_ASSERT(cdc_hash_table_iter_value(ret.first) == b.second);
         CU_ASSERT(ret.second == false);
 
@@ -233,7 +241,8 @@ void test_hash_table_insert_or_assign()
 
         CU_ASSERT(cdc_hash_table_insert_or_assign(t, c.first, d.second, &ret) == CDC_STATUS_OK);
         CU_ASSERT(cdc_hash_table_size(t) == 2);
-        CU_ASSERT(cdc_hash_table_get(t, c.first) == d.second);
+        CU_ASSERT(cdc_hash_table_get(t, c.first, &value) == CDC_STATUS_OK);
+        CU_ASSERT(value == d.second);
         CU_ASSERT(cdc_hash_table_iter_value(ret.first) == d.second);
         CU_ASSERT(ret.second == false);
 
@@ -243,20 +252,19 @@ void test_hash_table_insert_or_assign()
 void test_hash_table_erase()
 {
         struct cdc_hash_table *t = NULL;
+        void *value;
 
         CU_ASSERT(cdc_hash_table_ctorl(&t, NULL, cdc_pdhash_int, eq_ptr, 1.0,
                                        &a, &b, &c, &d, &g, &h, &e, &f, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_hash_table_size(t) == 8);
         CU_ASSERT(hash_table_key_int_eq(t, 8, &a, &b, &c, &d, &g, &h, &e, &f));
 
-        CU_ASSERT(cdc_hash_table_get(t, a.first) == a.second);
         CU_ASSERT(cdc_hash_table_erase(t, a.first) == 1);
-        CU_ASSERT(cdc_hash_table_get(t, a.first) == NULL);
+        CU_ASSERT(cdc_hash_table_get(t, a.first, &value) == CDC_STATUS_NOT_FOUND);
         CU_ASSERT(hash_table_key_int_eq(t, 7, &b, &c, &d, &g, &h, &e, &f));
 
-        CU_ASSERT(cdc_hash_table_get(t, h.first) == h.second);
         CU_ASSERT(cdc_hash_table_erase(t, h.first) == 1);
-        CU_ASSERT(cdc_hash_table_get(t, h.first) == NULL);
+        CU_ASSERT(cdc_hash_table_get(t, h.first, &value) == CDC_STATUS_NOT_FOUND);
         CU_ASSERT(cdc_hash_table_size(t) == 6);
         CU_ASSERT(hash_table_key_int_eq(t, 6, &b, &c, &d, &g, &e, &f));
 
@@ -264,39 +272,33 @@ void test_hash_table_erase()
         CU_ASSERT(cdc_hash_table_size(t) == 6);
         CU_ASSERT(hash_table_key_int_eq(t, 6, &b, &c, &d, &g, &e, &f));
 
-        CU_ASSERT(cdc_hash_table_get(t, b.first) == b.second);
         CU_ASSERT(cdc_hash_table_erase(t, b.first) == 1);
-        CU_ASSERT(cdc_hash_table_get(t, b.first) == NULL);
+        CU_ASSERT(cdc_hash_table_get(t, b.first, &value) == CDC_STATUS_NOT_FOUND);
         CU_ASSERT(cdc_hash_table_size(t) == 5);
         CU_ASSERT(hash_table_key_int_eq(t, 5, &c, &d, &g, &e, &f));
 
-        CU_ASSERT(cdc_hash_table_get(t, c.first) == c.second);
         CU_ASSERT(cdc_hash_table_erase(t, c.first) == 1);
-        CU_ASSERT(cdc_hash_table_get(t, c.first) == NULL);
+        CU_ASSERT(cdc_hash_table_get(t, c.first, &value) == CDC_STATUS_NOT_FOUND);
         CU_ASSERT(cdc_hash_table_size(t) == 4);
         CU_ASSERT(hash_table_key_int_eq(t, 4, &d, &g, &e, &f));
 
-        CU_ASSERT(cdc_hash_table_get(t, d.first) == d.second);
         CU_ASSERT(cdc_hash_table_erase(t, d.first) == 1);
-        CU_ASSERT(cdc_hash_table_get(t, d.first) == NULL);
+        CU_ASSERT(cdc_hash_table_get(t, d.first, &value) == CDC_STATUS_NOT_FOUND);
         CU_ASSERT(cdc_hash_table_size(t) == 3);
         CU_ASSERT(hash_table_key_int_eq(t, 3, &g, &e, &f));
 
-        CU_ASSERT(cdc_hash_table_get(t, f.first) == f.second);
         CU_ASSERT(cdc_hash_table_erase(t, f.first) == 1);
-        CU_ASSERT(cdc_hash_table_get(t, f.first) == NULL);
+        CU_ASSERT(cdc_hash_table_get(t, f.first, &value) == CDC_STATUS_NOT_FOUND);
         CU_ASSERT(cdc_hash_table_size(t) == 2);
         CU_ASSERT(hash_table_key_int_eq(t, 2, &g, &e));
 
-        CU_ASSERT(cdc_hash_table_get(t, e.first) == e.second);
         CU_ASSERT(cdc_hash_table_erase(t, e.first) == 1);
-        CU_ASSERT(cdc_hash_table_get(t, e.first) == NULL);
+        CU_ASSERT(cdc_hash_table_get(t, e.first, &value) == CDC_STATUS_NOT_FOUND);
         CU_ASSERT(cdc_hash_table_size(t) == 1);
         CU_ASSERT(hash_table_key_int_eq(t, 1, &g));
 
-        CU_ASSERT(cdc_hash_table_get(t, g.first) == g.second);
         CU_ASSERT(cdc_hash_table_erase(t, g.first) == 1);
-        CU_ASSERT(cdc_hash_table_get(t, g.first) == NULL);
+        CU_ASSERT(cdc_hash_table_get(t, g.first, &value) == CDC_STATUS_NOT_FOUND);
         CU_ASSERT(cdc_hash_table_size(t) == 0);
 
         cdc_hash_table_dtor(t);
@@ -305,7 +307,7 @@ void test_hash_table_erase()
 void test_hash_table_swap()
 {
         struct cdc_hash_table *ta = NULL, *tb = NULL;
-        float diff, lf_ta = 1.0, lf_tb = 2.0;
+        float lf_ta = 1.0, lf_tb = 2.0;
 
         CU_ASSERT(cdc_hash_table_ctorl(&ta, NULL, cdc_pdhash_int, eq_ptr, lf_ta,
                                        &a, &b, NULL) == CDC_STATUS_OK);
@@ -316,17 +318,13 @@ void test_hash_table_swap()
 
         CU_ASSERT(ta->eq == eq_ptr2);
         CU_ASSERT(ta->hash == cdc_pdhash_uint);
-        diff = cdc_hash_table_max_load_factor(ta) - lf_tb;
-        CU_ASSERT(CDC_ABS(diff) < FLT_EPSILON);
-        CU_ASSERT(cdc_hash_table_get(ta, c.first) == c.second);
-        CU_ASSERT(cdc_hash_table_get(ta, d.first) == d.second);
+        CU_ASSERT(cdc_hash_table_max_load_factor(ta) == lf_tb);
+        CU_ASSERT(hash_table_key_int_eq(ta, 2, &c, &d));
 
         CU_ASSERT(tb->eq == eq_ptr);
         CU_ASSERT(tb->hash == cdc_pdhash_int);
-        diff = cdc_hash_table_max_load_factor(tb) - lf_ta;
-        CU_ASSERT(CDC_ABS(diff) < FLT_EPSILON);
-        CU_ASSERT(cdc_hash_table_get(tb, a.first) == a.second);
-        CU_ASSERT(cdc_hash_table_get(tb, b.first) == b.second);
+        CU_ASSERT(cdc_hash_table_max_load_factor(tb) == lf_ta);
+        CU_ASSERT(hash_table_key_int_eq(tb, 2, &a, &b));
 
         cdc_hash_table_dtor(ta);
         cdc_hash_table_dtor(tb);

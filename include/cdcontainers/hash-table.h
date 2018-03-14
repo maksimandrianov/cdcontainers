@@ -143,10 +143,10 @@ void cdc_hash_table_dtor(struct cdc_hash_table *t);
  * not exist, then NULL will return.
  * @param t - cdc_hash_table
  * @param key - key of the element to find
- * @return pinter to the value that is mapped to a key. If the key does
- * not exist, then NULL will return.
+ * @param value - pinter to the value that is mapped to a key.
+ * @return if the key is found - CDC_STATUS_OK, otherwise - CDC_STATUS_NOT_FOUND
  */
-void *cdc_hash_table_get(struct cdc_hash_table *t, void *key);
+enum cdc_stat cdc_hash_table_get(struct cdc_hash_table *t, void *key, void **value);
 
 /**
  * @brief Returns the number of elements with key that compares equal to the
