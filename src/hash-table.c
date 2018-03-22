@@ -79,36 +79,33 @@ static inline size_t cbacket(size_t hash, size_t count)
         return hash & (count - 1);
 }
 
-static inline enum cdc_stat ffind_entry(struct cdc_hash_table *t, void *key,
-                                        size_t backet,
-                                        struct cdc_hash_table_entry **ret)
+static inline struct cdc_hash_table_entry *ffind_entry(struct cdc_hash_table *t,
+                                                       void *key, size_t backet)
 {
         struct cdc_hash_table_entry *entry = t->buckets[backet];
 
         if (entry == NULL)
-                return CDC_STATUS_NOT_FOUND;
+                return NULL;
 
         while (entry->next) {
-                if (t->eq(key, entry->next->key)) {
-                        *ret = entry;
-                        return CDC_STATUS_OK;
-                }
+                if (t->eq(key, entry->next->key))
+                        return entry;
 
                 if (backet != cbacket(entry->next->hash, t->bcount))
-                        return CDC_STATUS_NOT_FOUND;
+                        return NULL;
 
                 entry = entry->next;
         }
 
-        return CDC_STATUS_NOT_FOUND;
+        return NULL;
 }
 
-static inline enum cdc_stat find_entry(struct cdc_hash_table *t, void *key,
-                                       struct cdc_hash_table_entry **ret)
+static inline struct cdc_hash_table_entry *find_entry(struct cdc_hash_table *t,
+                                                      void *key)
 {
         size_t backet = key ? cbacket(t->hash(key), t->bcount) : 0;
 
-        return ffind_entry(t, key, backet, ret);
+        return ffind_entry(t, key, backet);
 }
 
 static inline struct cdc_hash_table_entry *add_entry(
@@ -180,21 +177,21 @@ static inline enum cdc_stat insert(struct cdc_hash_table *t, void *key, void *va
 {
         assert(t != NULL);
 
-        struct cdc_hash_table_entry *entry, *new_entry;
-        enum cdc_stat stat = find_entry(t, key, &entry), stat_insert;
+        struct cdc_hash_table_entry *entry = find_entry(t, key), *new_entry;
+        enum cdc_stat stat;
 
-        if (stat != CDC_STATUS_OK) {
-                stat_insert = make_and_insert_unique(t, key, value, &new_entry);
-                if (stat_insert != CDC_STATUS_OK)
-                        return stat_insert;
+        if (!entry) {
+                stat = make_and_insert_unique(t, key, value, &new_entry);
+                if (stat != CDC_STATUS_OK)
+                        return stat;
         } else if (assign) {
                 entry->next->value = value;
         }
 
         if (ret) {
                 (*ret).first.container = t;
-                (*ret).first.current = (stat == CDC_STATUS_OK ? entry->next : new_entry->next);
-                (*ret).second = (stat != CDC_STATUS_OK);
+                (*ret).first.current = (entry ? entry->next : new_entry->next);
+                (*ret).second = !entry;
         }
 
         return CDC_STATUS_OK;
@@ -243,11 +240,10 @@ static inline struct cdc_hash_table_entry *erase_entry(struct cdc_hash_table *t,
 static inline struct cdc_hash_table_entry *erase_entry_check(struct cdc_hash_table *t,
                                                              void *key, bool *erased)
 {
-        struct cdc_hash_table_entry *entry;
         size_t backet = key ? cbacket(t->hash(key), t->bcount) : 0;
-        enum cdc_stat ret = ffind_entry(t, key, backet, &entry);
+        struct cdc_hash_table_entry *entry = ffind_entry(t, key, backet);
 
-        if (ret != CDC_STATUS_OK) {
+        if (!entry) {
                 *erased = false;
                 return NULL;
         }
@@ -458,23 +454,20 @@ enum cdc_stat cdc_hash_table_get(struct cdc_hash_table *t, void *key, void **val
 {
         assert(t != NULL);
 
-        struct cdc_hash_table_entry *entry;
-        enum cdc_stat stat = find_entry(t, key, &entry);
+        struct cdc_hash_table_entry *entry = find_entry(t, key);
 
-        if (stat != CDC_STATUS_OK)
-                return stat;
+        if (!entry)
+                return CDC_STATUS_NOT_FOUND;
 
         *value = entry->next->value;
-        return stat;
+        return CDC_STATUS_OK;
 }
 
 size_t cdc_hash_table_count(struct cdc_hash_table *t, void *key)
 {
         assert(t != NULL);
 
-        struct cdc_hash_table_entry *entry;
-
-        return (size_t)(find_entry(t, key, &entry) == CDC_STATUS_OK);
+        return (size_t)(find_entry(t, key) != NULL);
 }
 
 struct cdc_hash_table_iter cdc_hash_table_find(struct cdc_hash_table *t,
@@ -482,12 +475,11 @@ struct cdc_hash_table_iter cdc_hash_table_find(struct cdc_hash_table *t,
 {
         assert(t != NULL);
 
-        struct cdc_hash_table_entry *entry;
-        enum cdc_stat stat = find_entry(t, key, &entry);
+        struct cdc_hash_table_entry *entry = find_entry(t, key);
         struct cdc_hash_table_iter retval;
 
         retval.container = t;
-        retval.current = (stat == CDC_STATUS_OK ? entry->next : NULL);
+        retval.current = (entry ? entry->next : NULL);
         return retval;
 }
 
@@ -496,13 +488,12 @@ struct cdc_pair_hash_table_iter cdc_hash_table_equal_range(struct cdc_hash_table
 {
         assert(t != NULL);
 
-        struct cdc_hash_table_entry *entry;
-        enum cdc_stat stat = find_entry(t, key, &entry);
+        struct cdc_hash_table_entry *entry = find_entry(t, key);
         struct cdc_pair_hash_table_iter retval;
 
         retval.first.container = retval.second.container = t;
-        retval.first.current = (stat == CDC_STATUS_OK ? entry->next : NULL);
-        retval.second.current = (stat == CDC_STATUS_OK ? entry->next->next : NULL);
+        retval.first.current = (entry ? entry->next : NULL);
+        retval.second.current = (entry ? entry->next->next : NULL);
         return retval;
 }
 
