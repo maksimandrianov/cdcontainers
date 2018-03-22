@@ -26,6 +26,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include "cdcontainers/deque.h"
+#include "cdcontainers/casts.h"
 
 static bool deque_range_int_eq(struct cdc_deque *d, size_t count, ...)
 {
@@ -49,7 +50,7 @@ static bool deque_range_int_eq(struct cdc_deque *d, size_t count, ...)
         return true;
 }
 
-static void deque_range_int_print(struct cdc_deque *d)
+static inline void deque_range_int_print(struct cdc_deque *d)
 {
         int i;
         void *val;
@@ -308,8 +309,9 @@ void test_deque_swap()
 void test_deque_insert()
 {
         struct cdc_deque *d;
-        int a = 1, b = 2;
-        int i1 = 3, i2 = 4, i3 = 5;
+        bool test_insert_fail = false;
+        int a = 1, b = 2, insert_count = 100;
+        int i, i1 = 3, i2 = 4, i3 = 5;
 
         CU_ASSERT(cdc_deque_ctorl(&d, NULL, &a, &b, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_deque_insert(d, 0, &i1) == CDC_STATUS_OK);
@@ -344,13 +346,34 @@ void test_deque_insert()
         CU_ASSERT(deque_range_int_eq(d, 16, i3, a, i1, b, a,
                                      i3, i2, i1, b, a, i1, a, i3, a, b, i2));
 
+
+        cdc_deque_clear(d);
+        CU_ASSERT(cdc_deque_push_back(d, CDC_INT_TO_PTR(0)) == CDC_STATUS_OK);
+        for (i = 0; i <= insert_count; ++i) {
+                if (cdc_deque_insert(d, 1, CDC_INT_TO_PTR(i)) != CDC_STATUS_OK) {
+                        test_insert_fail = true;
+                        break;
+                }
+        }
+
+        CU_ASSERT(!test_insert_fail);
+        CU_ASSERT(cdc_deque_get(d, 0) ==  CDC_INT_TO_PTR(0));
+        for (i = insert_count; i >= 0; --i) {
+                if (cdc_deque_get(d, insert_count - i + 1) != CDC_INT_TO_PTR(i)) {
+                        test_insert_fail = true;
+                        break;
+                }
+        }
+
+        CU_ASSERT(!test_insert_fail);
         cdc_deque_dtor(d);
 }
 
 void test_deque_erase()
 {
         struct cdc_deque *deq;
-        int a = 0, b = 1, c = 2, d = 3;
+        bool test_erase_fail = false;
+        int i, a = 0, b = 1, c = 2, d = 3, erase_count = 100;
         void *elem = NULL;
 
         CU_ASSERT(cdc_deque_ctorl(&deq, NULL, &a, &b, &c, &d, &a, &b, &c, NULL) == CDC_STATUS_OK);
@@ -397,6 +420,27 @@ void test_deque_erase()
         CU_ASSERT(*((int *)elem) == c);
         CU_ASSERT(cdc_deque_size(deq) == 6);
         CU_ASSERT(deque_range_int_eq(deq, 6, d, d, b, a, d, a));
+
+        cdc_deque_clear(deq);
+        CU_ASSERT(cdc_deque_push_back(deq, CDC_INT_TO_PTR(0)) == CDC_STATUS_OK);
+        for (i = 0; i <= erase_count; ++i) {
+                if (cdc_deque_insert(deq, 1, CDC_INT_TO_PTR(i)) != CDC_STATUS_OK) {
+                        test_erase_fail = true;
+                        break;
+                }
+        }
+
+        CU_ASSERT(!test_erase_fail);
+        for (i = erase_count; i >= 0; --i) {
+                if (cdc_deque_remove(deq, 1, &elem) != CDC_STATUS_OK &&
+                    elem != CDC_INT_TO_PTR(i)) {
+                        test_erase_fail = true;
+                        break;
+                }
+        }
+
+        CU_ASSERT(cdc_deque_size(deq) == 1);
+        CU_ASSERT(cdc_deque_get(deq, 0) ==  CDC_INT_TO_PTR(0));
 
         cdc_deque_dtor(deq);
 }

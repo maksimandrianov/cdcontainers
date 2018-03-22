@@ -97,7 +97,7 @@ static inline void *cdc_deque_get(struct cdc_deque *d, size_t index)
         assert(d != NULL);
         assert(index < d->size);
 
-        size_t idx = (d->head + index) % d->capacity;
+        size_t idx = (d->head + index) & (d->capacity - 1);
 
         return d->buffer[idx];
 }
@@ -137,7 +137,7 @@ static inline void *cdc_deque_back(struct cdc_deque *d)
         assert(d != NULL);
         assert(d->size > 0);
 
-        ssize_t idx = (d->tail - 1 + d->capacity) % d->capacity;
+        ssize_t idx = (d->tail - 1 + d->capacity) & (d->capacity - 1);
 
         return d->buffer[idx];
 }
@@ -180,7 +180,7 @@ static inline void cdc_deque_set(struct cdc_deque *d, size_t index, void *value)
         assert(d != NULL);
         assert(index < d->size);
 
-        size_t idx = (d->head + index) % d->capacity;
+        size_t idx = (d->head + index) & (d->capacity - 1);
 
         d->buffer[idx] = value;
 }
