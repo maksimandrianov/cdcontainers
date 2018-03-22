@@ -28,7 +28,7 @@
 #include "data-info.h"
 
 #define HASH_TABLE_MIN_CAPACITY     4  // must be pow 2
-#define HASH_TABLE_COPACITY_EXP     2.0f
+#define HASH_TABLE_COPACITY_SHIFT   1
 #define HASH_TABLE_LOAD_FACTOR      1.0f
 
 static inline void free_entry(struct cdc_hash_table *t,
@@ -71,7 +71,7 @@ static inline bool should_rehash(struct cdc_hash_table *t)
 
 static inline enum cdc_stat rehash(struct cdc_hash_table *t)
 {
-        return cdc_hash_table_rehash(t, t->bcount *  HASH_TABLE_COPACITY_EXP);
+        return cdc_hash_table_rehash(t, t->bcount << HASH_TABLE_COPACITY_SHIFT);
 }
 
 static inline size_t cbacket(size_t hash, size_t count)

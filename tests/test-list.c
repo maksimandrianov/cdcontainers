@@ -45,7 +45,7 @@ static bool list_range_int_eq(struct cdc_list *l, size_t count, ...)
         return (*((int *)l->tail->data) == elem) ? true : false;
 }
 
-static void list_range_int_print(struct cdc_list *l)
+static inline void list_range_int_print(struct cdc_list *l)
 {
         int i;
         void *val;
