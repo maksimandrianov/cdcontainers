@@ -154,6 +154,7 @@ void test_treap_ctorl();
 void test_treap_insert();
 void test_treap_erase();
 void test_treap_swap();
+void test_treap_iterators();
 
 // Hash table tests
 void test_hash_table_ctor();

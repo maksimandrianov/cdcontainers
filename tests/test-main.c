@@ -241,7 +241,8 @@ int main(int argc, char** argv)
         if (CU_add_test(p_suite, "test_ctor", test_treap_ctor) == NULL ||
             CU_add_test(p_suite, "test_ctorl", test_treap_ctorl) == NULL ||
             CU_add_test(p_suite, "test_insert", test_treap_insert) == NULL ||
-            CU_add_test(p_suite, "test_swap", test_treap_swap) == NULL) {
+            CU_add_test(p_suite, "test_swap", test_treap_swap) == NULL ||
+            CU_add_test(p_suite, "test_iterators", test_treap_iterators) == NULL) {
                 CU_cleanup_registry();
                 return CU_get_error();
         }
