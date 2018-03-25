@@ -88,7 +88,7 @@ struct cdc_pair_hash_table_iter_bool {
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
  * @param hash - hash function to use
- * @param equal - omparison function to use for all key comparisons of this container
+ * @param equal - comparison function to use for all key comparisons of this container
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
@@ -97,13 +97,13 @@ enum cdc_stat cdc_hash_table_ctor(struct cdc_hash_table **t,
                                   cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal);
 
 /**
- * @brief Constructs an empty hash table, initialized by an arbitrary number of
+ * @brief Constructs a hash table, initialized by an arbitrary number of
  * pointers on cdc_pair's(first - key, and the second - value).  The last item
  * must be NULL.
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
  * @param hash - hash function to use
- * @param equal - omparison function to use for all key comparisons of this container
+ * @param equal - comparison function to use for all key comparisons of this container
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
@@ -113,12 +113,12 @@ enum cdc_stat cdc_hash_table_ctorl(struct cdc_hash_table **t,
                                    cdc_binary_pred_fn_t equal, ...);
 
 /**
- * @brief Constructs an empty hash table, initialized by args. The last item
+ * @brief Constructs a hash table, initialized by args. The last item
  * must be NULL.
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
  * @param hash - hash function to use
- * @param equal - omparison function to use for all key comparisons of this container
+ * @param equal - comparison function to use for all key comparisons of this container
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
@@ -132,7 +132,7 @@ enum cdc_stat cdc_hash_table_ctorv(struct cdc_hash_table **t,
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
  * @param hash - hash function to use
- * @param equal - omparison function to use for all key comparisons of this container
+ * @param equal - comparison function to use for all key comparisons of this container
  * @param load_factor - maximum load factor setting
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
@@ -143,13 +143,13 @@ enum cdc_stat cdc_hash_table_ctor1(struct cdc_hash_table **t,
                                    float load_factor);
 
 /**
- * @brief Constructs an empty hash table, initialized by an arbitrary number of
+ * @brief Constructs a hash table, initialized by an arbitrary number of
  * pointers on cdc_pair's(first - key, and the second - value).  The last item
  * must be NULL.
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
  * @param hash - hash function to use
- * @param equal - omparison function to use for all key comparisons of this container
+ * @param equal - comparison function to use for all key comparisons of this container
  * @param load_factor - maximum load factor setting
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
@@ -160,12 +160,12 @@ enum cdc_stat cdc_hash_table_ctorl1(struct cdc_hash_table **t,
                                     float load_factor, ...);
 
 /**
- * @brief Constructs an empty hash table, initialized by args. The last item
+ * @brief Constructs a hash table, initialized by args. The last item
  * must be NULL.
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
  * @param hash - hash function to use
- * @param equal - omparison function to use for all key comparisons of this container
+ * @param equal - comparison function to use for all key comparisons of this container
  * @param load_factor - maximum load factor setting
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
@@ -400,9 +400,10 @@ static inline size_t cdc_hash_table_bucket_count(struct cdc_hash_table *t)
 
         return t->bcount;
 }
+
 // Iterators
 /**
- * @brief Advances the iterator to the next item in the list and returns an
+ * @brief Advances the iterator to the next item in the hash table and returns an
  * iterator to the new current item
  */
 static inline struct cdc_hash_table_iter cdc_hash_table_iter_next(
