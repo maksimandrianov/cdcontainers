@@ -32,12 +32,11 @@
 #define HASH_TABLE_LOAD_FACTOR      1.0f
 
 static inline void free_entry(struct cdc_hash_table *t,
-                              struct cdc_hash_table_entry *entry,
-                              bool must_free)
+                              struct cdc_hash_table_entry *entry)
 {
         struct cdc_pair pair;
 
-        if (must_free && CDC_HAS_DFREE(t)) {
+        if (CDC_HAS_DFREE(t)) {
                 pair.first = entry->key;
                 pair.second = entry->value;
                 t->dinfo->dfree(&pair);
@@ -52,7 +51,7 @@ static inline void free_entries(struct cdc_hash_table *t)
 
         while (curr) {
                 next = curr->next;
-                free_entry(t, curr, true);
+                free_entry(t, curr);
                 curr = next;
         }
 }
@@ -206,7 +205,7 @@ static inline struct cdc_hash_table_entry *erase_entry(struct cdc_hash_table *t,
         size_t en_hash = cbacket(entry->next->hash, t->bcount);
         size_t n_hash;
 
-        free_entry(t, entry->next, true);
+        free_entry(t, entry->next);
         if (next != NULL) {
                 n_hash = cbacket(next->hash, t->bcount);
                 if (e_hash != en_hash && en_hash != n_hash) {
