@@ -1,8 +1,5 @@
 1. Write single linked list
-3. Write more tests for deque
 4. Write function pairing_heap_change_priority
-6. Write treap
-7. Write hash table (chain-based)
 8. Write hash table (open-address-based)
 9. Write AVL tree
 10. Write RB tree
