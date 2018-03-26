@@ -37,6 +37,7 @@ set(SOURCE
       test-binomial-heap.c
       test-pairing-heap.c
       test-hash-table.c
+      test-splay-tree.c
       test-main.c
 )
 

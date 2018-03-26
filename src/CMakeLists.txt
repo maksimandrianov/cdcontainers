@@ -19,6 +19,7 @@ set(SOURCE
         binomial-heap.c
         pairing-heap.c
         hash-table.c
+        splay-tree.c
         status.c
         common.c
         data-info.c
