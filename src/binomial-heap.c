@@ -26,22 +26,18 @@
 #include <stdint.h>
 #include "data-info.h"
 
-static inline void free_node(struct cdc_binomial_heap *h,
-                             struct cdc_binomial_heap_node *node)
+static void free_node(struct cdc_binomial_heap *h,
+                      struct cdc_binomial_heap_node *node)
 {
-        assert(h);
-
         if (CDC_HAS_DFREE(h))
                 h->dinfo->dfree(node->key);
 
         free(node);
 }
 
-static inline void free_heap(struct cdc_binomial_heap *h,
-                             struct cdc_binomial_heap_node *root)
+static void free_heap(struct cdc_binomial_heap *h,
+                      struct cdc_binomial_heap_node *root)
 {
-        assert(h);
-
         struct cdc_binomial_heap_node *tmp = NULL;
 
         while (root) {
@@ -52,10 +48,9 @@ static inline void free_heap(struct cdc_binomial_heap *h,
         }
 }
 
-static inline bool is_heap(struct cdc_binomial_heap_node *root,
-                           cdc_binary_pred_fn_t compar)
+static bool is_heap(struct cdc_binomial_heap_node *root,
+                    cdc_binary_pred_fn_t compar)
 {
-
         while (root) {
                 if (!is_heap(root->child, compar) ||
                     (root->parent && compar(root->key, root->parent->key)))
@@ -67,11 +62,8 @@ static inline bool is_heap(struct cdc_binomial_heap_node *root,
         return true;
 }
 
-static inline struct cdc_binomial_heap_node *find_prev_top(
-                struct cdc_binomial_heap *h)
+static struct cdc_binomial_heap_node *find_prev_top(struct cdc_binomial_heap *h)
 {
-        assert(h);
-
         struct cdc_binomial_heap_node *m, *prev = NULL, *next = h->root;
 
         if (h->root == NULL)
@@ -88,41 +80,34 @@ static inline struct cdc_binomial_heap_node *find_prev_top(
         return prev;
 }
 
-static inline struct cdc_binomial_heap_node *find_top(
-                struct cdc_binomial_heap *h)
+static struct cdc_binomial_heap_node *find_top(struct cdc_binomial_heap *h)
 {
-        assert(h);
-
         struct cdc_binomial_heap_node *node;
 
         node = find_prev_top(h);
         return node ? node->sibling : h->root;
 }
 
-static inline void update_top(struct cdc_binomial_heap *h,
-                              struct cdc_binomial_heap_node *v)
+static void update_top(struct cdc_binomial_heap *h,
+                       struct cdc_binomial_heap_node *v)
 {
-        assert(h);
-
         if (h->top == NULL)
                 h->top = v;
         else if (v && h->compar(v->key, h->top->key))
                 h->top = v;
 }
 
-static inline void link(struct cdc_binomial_heap_node *a,
-                        struct cdc_binomial_heap_node *broot)
+static void link(struct cdc_binomial_heap_node *a,
+                 struct cdc_binomial_heap_node *broot)
 {
-
         a->parent = broot;
         a->sibling = broot->child;
         broot->child = a;
         ++broot->degree;
 }
 
-static inline struct cdc_binomial_heap_node *merge(
-                struct cdc_binomial_heap_node *a,
-                struct cdc_binomial_heap_node *b)
+static struct cdc_binomial_heap_node *merge(struct cdc_binomial_heap_node *a,
+                                            struct cdc_binomial_heap_node *b)
 {
         struct cdc_binomial_heap_node *result = NULL, *next;
 
@@ -162,13 +147,10 @@ static inline struct cdc_binomial_heap_node *merge(
         return result;
 }
 
-static inline struct cdc_binomial_heap_node *meld(
-                struct cdc_binomial_heap_node *a,
-                struct cdc_binomial_heap_node *b,
-                cdc_binary_pred_fn_t compare)
+static struct cdc_binomial_heap_node *meld(struct cdc_binomial_heap_node *a,
+                                           struct cdc_binomial_heap_node *b,
+                                           cdc_binary_pred_fn_t compare)
 {
-        assert(compare);
-
         struct cdc_binomial_heap_node *result, *prev, *curr, *next;
 
         result = merge(a, b);
@@ -202,11 +184,10 @@ static inline struct cdc_binomial_heap_node *meld(
         return result;
 }
 
-static inline struct cdc_binomial_heap_node *decrease_key(
-                struct cdc_binomial_heap *h, struct cdc_binomial_heap_node *pos,
-                void *key)
+static struct cdc_binomial_heap_node *decrease_key(struct cdc_binomial_heap *h,
+                                                   struct cdc_binomial_heap_node *pos,
+                                                   void *key)
 {
-
         struct cdc_binomial_heap_node *node = pos, *p = node->parent;
 
         if (CDC_HAS_DFREE(h))
@@ -222,12 +203,10 @@ static inline struct cdc_binomial_heap_node *decrease_key(
         return node;
 }
 
-static inline struct cdc_binomial_heap_node *increase_key(
-                struct cdc_binomial_heap *h, struct cdc_binomial_heap_node *pos,
-                void *key)
+static struct cdc_binomial_heap_node *increase_key(struct cdc_binomial_heap *h,
+                                                   struct cdc_binomial_heap_node *pos,
+                                                   void *key)
 {
-        assert(h);
-
         struct cdc_binomial_heap_node *curr = pos, *ch = curr->child, *t;
 
         if (CDC_HAS_DFREE(h))
@@ -255,10 +234,8 @@ static inline struct cdc_binomial_heap_node *increase_key(
         return curr;
 }
 
-static inline enum cdc_stat init_varg(struct cdc_binomial_heap *h, va_list args)
+static enum cdc_stat init_varg(struct cdc_binomial_heap *h, va_list args)
 {
-        assert(h != NULL);
-
         enum cdc_stat ret;
         void *elem;
 
@@ -275,7 +252,7 @@ enum cdc_stat cdc_binomial_heap_ctor(struct cdc_binomial_heap **h,
                                      struct cdc_data_info *info,
                                      cdc_binary_pred_fn_t compar)
 {
-        assert(h !=  NULL);
+        assert(h != NULL);
 
         struct cdc_binomial_heap *tmp;
 
@@ -325,7 +302,7 @@ enum cdc_stat cdc_binomial_heap_ctorv(struct cdc_binomial_heap **h,
 
 void cdc_binomial_heap_dtor(struct cdc_binomial_heap *h)
 {
-        assert(h);
+        assert(h != NULL);
 
         free_heap(h, h->root);
         cdc_di_shared_dtor(h->dinfo);
@@ -334,7 +311,7 @@ void cdc_binomial_heap_dtor(struct cdc_binomial_heap *h)
 
 enum cdc_stat cdc_binomial_heap_extract_top(struct cdc_binomial_heap *h)
 {
-        assert(h);
+        assert(h != NULL);
 
         struct cdc_binomial_heap_node *root, *tmp, *prev_top = find_prev_top(h);
 
@@ -363,7 +340,7 @@ enum cdc_stat cdc_binomial_heap_extract_top(struct cdc_binomial_heap *h)
 enum cdc_stat cdc_binomial_heap_riinsert(struct cdc_binomial_heap *h, void *key,
                                          struct cdc_binomial_heap_iter *ret)
 {
-        assert(h);
+        assert(h != NULL);
 
         struct cdc_binomial_heap_node *root;
 
@@ -409,7 +386,7 @@ void cdc_binomial_heap_change_key(struct cdc_binomial_heap *h,
 
 void cdc_binomial_heap_clear(struct cdc_binomial_heap *h)
 {
-        assert(h);
+        assert(h != NULL);
 
         free_heap(h, h->root);
         h->size = 0;
@@ -417,8 +394,7 @@ void cdc_binomial_heap_clear(struct cdc_binomial_heap *h)
         h->top = NULL;
 }
 
-void cdc_binomial_heap_swap(struct cdc_binomial_heap *a,
-                            struct cdc_binomial_heap *b)
+void cdc_binomial_heap_swap(struct cdc_binomial_heap *a, struct cdc_binomial_heap *b)
 {
         assert(a != NULL);
         assert(b != NULL);
@@ -433,8 +409,8 @@ void cdc_binomial_heap_swap(struct cdc_binomial_heap *a,
 void cdc_binomial_heap_merge(struct cdc_binomial_heap *h,
                              struct cdc_binomial_heap *other)
 {
-        assert(h);
-        assert(other);
+        assert(h != NULL);
+        assert(other != NULL);
 
         h->root = meld(h->root, other->root, h->compar);
         update_top(h, other->top);
@@ -446,7 +422,7 @@ void cdc_binomial_heap_merge(struct cdc_binomial_heap *h,
 
 bool cdc_binomial_heap_is_heap(struct cdc_binomial_heap *h)
 {
-        assert(h);
+        assert(h != NULL);
 
         return is_heap(h->root, h->compar);
 }

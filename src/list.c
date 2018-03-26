@@ -24,21 +24,17 @@
 #include <stdint.h>
 #include "data-info.h"
 
-static inline void free_node(struct cdc_list *l, struct cdc_list_node *node,
-                             bool must_free)
+static void free_node(struct cdc_list *l, struct cdc_list_node *node,
+                      bool must_free)
 {
-        assert(node != NULL);
-
         if (must_free && CDC_HAS_DFREE(l))
                 l->dinfo->dfree(node->data);
 
         free(node);
 }
 
-static inline void free_nodes(struct cdc_list *l)
+static void free_nodes(struct cdc_list *l)
 {
-        assert(l != NULL);
-
         struct cdc_list_node *current = l->head;
         struct cdc_list_node *next;
 
@@ -51,11 +47,9 @@ static inline void free_nodes(struct cdc_list *l)
         };
 }
 
-static inline enum cdc_stat insert_mid(struct cdc_list *l,
-                                       struct cdc_list_node *n, void *value)
+static enum cdc_stat insert_mid(struct cdc_list *l, struct cdc_list_node *n,
+                                void *value)
 {
-        assert(l != NULL);
-
         struct cdc_list_node *node;
 
         node = (struct cdc_list_node *)malloc(sizeof(struct cdc_list_node));
@@ -71,8 +65,8 @@ static inline enum cdc_stat insert_mid(struct cdc_list *l,
         return CDC_STATUS_OK;
 }
 
-static inline enum cdc_stat insert(struct cdc_list *l, struct cdc_list_node *n,
-                                   void *value)
+static enum cdc_stat insert(struct cdc_list *l, struct cdc_list_node *n,
+                            void *value)
 {
         if (n == l->head)
                 return cdc_list_push_front(l, value);
@@ -83,10 +77,8 @@ static inline enum cdc_stat insert(struct cdc_list *l, struct cdc_list_node *n,
         return insert_mid(l, n, value);
 }
 
-static inline struct cdc_list_node *get_node(struct cdc_list *l, size_t index)
-{
-        assert(l != NULL);
-
+static struct cdc_list_node *get_node(struct cdc_list *l, size_t index)
+{ 
         struct cdc_list_node *node;
         size_t i;
 
@@ -97,8 +89,7 @@ static inline struct cdc_list_node *get_node(struct cdc_list *l, size_t index)
         return i != index ? NULL : node;
 }
 
-static inline size_t distance(struct cdc_list_node *first,
-                              struct cdc_list_node *last)
+static size_t distance(struct cdc_list_node *first, struct cdc_list_node *last)
 {
         size_t i;
 
@@ -108,10 +99,8 @@ static inline size_t distance(struct cdc_list_node *first,
         return i;
 }
 
-static inline enum cdc_stat pop_back_f(struct cdc_list *l, bool must_free)
+static enum cdc_stat pop_back_f(struct cdc_list *l, bool must_free)
 {
-        assert(l != NULL);
-        assert(l->tail != NULL);
 
         struct cdc_list_node *new_tail = l->tail->prev;
 
@@ -128,11 +117,8 @@ static inline enum cdc_stat pop_back_f(struct cdc_list *l, bool must_free)
         return CDC_STATUS_OK;
 }
 
-static inline enum cdc_stat pop_front_f(struct cdc_list *l, bool must_free)
+static enum cdc_stat pop_front_f(struct cdc_list *l, bool must_free)
 {
-        assert(l != NULL);
-        assert(l->head != NULL);
-
         struct cdc_list_node *new_head = l->head->next;
 
         free_node(l, l->head, must_free);
@@ -148,11 +134,9 @@ static inline enum cdc_stat pop_front_f(struct cdc_list *l, bool must_free)
         return CDC_STATUS_OK;
 }
 
-static inline enum cdc_stat remove_mid(struct cdc_list *l,
-                                       struct cdc_list_node *node, void **elem)
-{
-        assert(l != NULL);
-
+static enum cdc_stat remove_mid(struct cdc_list *l, struct cdc_list_node *node,
+                                void **elem)
+{ 
         node->next->prev = node->prev;
         node->prev->next = node->next;
         --l->size;
@@ -164,8 +148,8 @@ static inline enum cdc_stat remove_mid(struct cdc_list *l,
         return CDC_STATUS_OK;
 }
 
-static inline enum cdc_stat remove(struct cdc_list *l,
-                                   struct cdc_list_node *node, void **elem)
+static enum cdc_stat remove(struct cdc_list *l, struct cdc_list_node *node,
+                            void **elem)
 {
         if (node == l->tail) {
                 if (elem)
@@ -184,9 +168,9 @@ static inline enum cdc_stat remove(struct cdc_list *l,
         return remove_mid(l, node, elem);
 }
 
-static inline void cmerge(struct cdc_list_node **ha, struct cdc_list_node **ta,
-                          struct cdc_list_node *hb, struct cdc_list_node *tb,
-                          cdc_binary_pred_fn_t compare)
+static void cmerge(struct cdc_list_node **ha, struct cdc_list_node **ta,
+                   struct cdc_list_node *hb, struct cdc_list_node *tb,
+                   cdc_binary_pred_fn_t compare)
 {
 
         struct cdc_list_node *a = *ha, *b = hb, *head = NULL, *tail;
@@ -238,8 +222,8 @@ static inline void cmerge(struct cdc_list_node **ha, struct cdc_list_node **ta,
         *ta = tail;
 }
 
-static inline void halve(struct cdc_list_node **ha, struct cdc_list_node **ta,
-                         struct cdc_list_node **hb, struct cdc_list_node **tb)
+static void halve(struct cdc_list_node **ha, struct cdc_list_node **ta,
+                  struct cdc_list_node **hb, struct cdc_list_node **tb)
 {
 
         struct cdc_list_node *slow = *ha, *fast = slow;
@@ -280,10 +264,8 @@ static void merge_sort(struct cdc_list_node **head, struct cdc_list_node **tail,
         *tail = ta;
 }
 
-static inline enum cdc_stat init_varg(struct cdc_list *l, va_list args)
+static enum cdc_stat init_varg(struct cdc_list *l, va_list args)
 {
-        assert(l != NULL);
-
         enum cdc_stat ret;
         void *elem;
 
@@ -315,8 +297,7 @@ enum cdc_stat cdc_list_ctor(struct cdc_list **l, struct cdc_data_info *info)
         return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_list_ctorl(struct cdc_list **l,
-                             struct cdc_data_info *info, ...)
+enum cdc_stat cdc_list_ctorl(struct cdc_list **l, struct cdc_data_info *info, ...)
 {
         assert(l != NULL);
 
@@ -330,8 +311,8 @@ enum cdc_stat cdc_list_ctorl(struct cdc_list **l,
         return ret;
 }
 
-enum cdc_stat cdc_list_ctorv(struct cdc_list **l,
-                             struct cdc_data_info *info, va_list args)
+enum cdc_stat cdc_list_ctorv(struct cdc_list **l, struct cdc_data_info *info,
+                             va_list args)
 {
         assert(l != NULL);
 

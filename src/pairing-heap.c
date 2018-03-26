@@ -26,22 +26,18 @@
 #include <stdint.h>
 #include "data-info.h"
 
-static inline void free_node(struct cdc_pairing_heap *h,
-                             struct cdc_pairing_heap_node *node)
+static void free_node(struct cdc_pairing_heap *h,
+                      struct cdc_pairing_heap_node *node)
 {
-        assert(h != NULL);
-
         if (CDC_HAS_DFREE(h))
                 h->dinfo->dfree(node->key);
 
         free(node);
 }
 
-static inline void free_heap(struct cdc_pairing_heap *h,
-                             struct cdc_pairing_heap_node *root)
+static void free_heap(struct cdc_pairing_heap *h,
+                      struct cdc_pairing_heap_node *root)
 {
-        assert(h != NULL);
-
         struct cdc_pairing_heap_node *tmp = NULL;
 
         while (root) {
@@ -52,10 +48,9 @@ static inline void free_heap(struct cdc_pairing_heap *h,
         }
 }
 
-static inline bool is_heap(struct cdc_pairing_heap_node *root,
-                           cdc_binary_pred_fn_t compar)
+static bool is_heap(struct cdc_pairing_heap_node *root,
+                    cdc_binary_pred_fn_t compar)
 {
-
         while (root) {
                 if (!is_heap(root->child, compar) ||
                     (root->parent && compar(root->key, root->parent->key)))
@@ -67,20 +62,18 @@ static inline bool is_heap(struct cdc_pairing_heap_node *root,
         return true;
 }
 
-static inline void link(struct cdc_pairing_heap_node *a,
-                        struct cdc_pairing_heap_node *broot)
+static void link(struct cdc_pairing_heap_node *a,
+                 struct cdc_pairing_heap_node *broot)
 {
         a->parent = broot;
         a->sibling = broot->child;
         broot->child = a;
 }
 
-static inline struct cdc_pairing_heap_node *meld(struct cdc_pairing_heap_node *a,
-                                                 struct cdc_pairing_heap_node *b,
-                                                 cdc_binary_pred_fn_t compare)
+static struct cdc_pairing_heap_node *meld(struct cdc_pairing_heap_node *a,
+                                          struct cdc_pairing_heap_node *b,
+                                          cdc_binary_pred_fn_t compare)
 {
-        assert(compare);
-
         if (a == NULL)
                 return b;
 
@@ -94,11 +87,9 @@ static inline struct cdc_pairing_heap_node *meld(struct cdc_pairing_heap_node *a
         return b;
 }
 
-static inline struct cdc_pairing_heap_node *two_pass_meld(
-                struct cdc_pairing_heap_node *root, cdc_binary_pred_fn_t compare)
+static struct cdc_pairing_heap_node *two_pass_meld(struct cdc_pairing_heap_node *root,
+                                                   cdc_binary_pred_fn_t compare)
 {
-        assert(compare);
-
         struct cdc_pairing_heap_node *a, *b, *c;
 
         if (root == NULL || root->sibling == NULL)
@@ -113,15 +104,13 @@ static inline struct cdc_pairing_heap_node *two_pass_meld(
         b->parent = NULL;
         b->sibling = NULL;
 
-        return meld(meld(a, b, compare),
-                    two_pass_meld(c, compare), compare);
+        return meld(meld(a, b, compare), two_pass_meld(c, compare), compare);
 }
 
-static inline struct cdc_pairing_heap_node *decrease_key(
-                struct cdc_pairing_heap *h, struct cdc_pairing_heap_node *pos,
-                void *key)
+static struct cdc_pairing_heap_node *decrease_key(struct cdc_pairing_heap *h,
+                                                  struct cdc_pairing_heap_node *pos,
+                                                  void *key)
 {
-
         struct cdc_pairing_heap_node *node = pos, *p = node->parent;
 
         if (CDC_HAS_DFREE(h))
@@ -137,12 +126,10 @@ static inline struct cdc_pairing_heap_node *decrease_key(
         return node;
 }
 
-static inline struct cdc_pairing_heap_node *increase_key(
-                struct cdc_pairing_heap *h, struct cdc_pairing_heap_node *pos,
-                void *key)
+static struct cdc_pairing_heap_node *increase_key(struct cdc_pairing_heap *h,
+                                                  struct cdc_pairing_heap_node *pos,
+                                                  void *key)
 {
-        assert(h);
-
         struct cdc_pairing_heap_node *curr = pos, *ch = curr->child, *t;
 
         if (CDC_HAS_DFREE(h))
@@ -170,10 +157,8 @@ static inline struct cdc_pairing_heap_node *increase_key(
         return curr;
 }
 
-static inline enum cdc_stat init_varg(struct cdc_pairing_heap *h, va_list args)
+static enum cdc_stat init_varg(struct cdc_pairing_heap *h, va_list args)
 {
-        assert(h != NULL);
-
         enum cdc_stat ret;
         void *elem;
 
@@ -311,8 +296,7 @@ void cdc_pairing_heap_clear(struct cdc_pairing_heap *h)
         h->root = NULL;
 }
 
-void cdc_pairing_heap_swap(struct cdc_pairing_heap *a,
-                           struct cdc_pairing_heap *b)
+void cdc_pairing_heap_swap(struct cdc_pairing_heap *a, struct cdc_pairing_heap *b)
 {
         assert(a != NULL);
         assert(b != NULL);

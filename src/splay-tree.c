@@ -339,8 +339,6 @@ static struct cdc_splay_tree_node *insert_unique(struct cdc_splay_tree *t,
 
 static enum cdc_stat init_varg(struct cdc_splay_tree *t, va_list args)
 {
-        assert(t != NULL);
-
         enum cdc_stat stat;
         struct cdc_pair *pair;
 

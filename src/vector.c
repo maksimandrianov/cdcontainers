@@ -30,24 +30,18 @@
 #define VECTOR_MIN_CAPACITY     4
 #define VECTOR_COPACITY_EXP     2.0f
 #define VECTOR_SHRINK_THRESHOLD 4.0f
-#define VECTOR_MAX_LEN          SIZE_MAX
 
-static inline bool should_shrink(struct cdc_vector *v)
+static bool should_shrink(struct cdc_vector *v)
 {
         return v->size * VECTOR_SHRINK_THRESHOLD <= v->capacity;
 }
 
-static inline bool reach_limit_size(struct cdc_vector *v)
-{
-        return v->size == VECTOR_MAX_LEN;
-}
-
-static inline bool should_grow(struct cdc_vector *v)
+static bool should_grow(struct cdc_vector *v)
 {
         return v->size == v->capacity;
 }
 
-static inline enum cdc_stat reallocate(struct cdc_vector *v, size_t capacity)
+static enum cdc_stat reallocate(struct cdc_vector *v, size_t capacity)
 {
         void **tmp;
 
@@ -71,31 +65,31 @@ static inline enum cdc_stat reallocate(struct cdc_vector *v, size_t capacity)
         return CDC_STATUS_OK;
 }
 
-static inline enum cdc_stat grow(struct cdc_vector *v)
+static enum cdc_stat grow(struct cdc_vector *v)
 {
         return reallocate(v, v->capacity * VECTOR_COPACITY_EXP);
 }
 
-static inline enum cdc_stat shrink(struct cdc_vector *v)
+static enum cdc_stat shrink(struct cdc_vector *v)
 {
         return reallocate(v, v->capacity / VECTOR_COPACITY_EXP);
 }
 
-static inline void move_left(struct cdc_vector *v, size_t index)
+static void move_left(struct cdc_vector *v, size_t index)
 {
         size_t count_bytes = (v->size - index) * sizeof(void *);
 
         memmove(v->buffer + index, v->buffer + index + 1, count_bytes);
 }
 
-static inline void move_right(struct cdc_vector *v, size_t index)
+static void move_right(struct cdc_vector *v, size_t index)
 {
         size_t count_bytes = (v->size - index) * sizeof(void *);
 
         memmove(v->buffer + index + 1, v->buffer + index, count_bytes);
 }
 
-static inline void free_range(struct cdc_vector *v, size_t start, size_t end,
+static void free_range(struct cdc_vector *v, size_t start, size_t end,
                               void (*dfree)(void *))
 {
         size_t i;
@@ -104,7 +98,7 @@ static inline void free_range(struct cdc_vector *v, size_t start, size_t end,
                 dfree(v->buffer[i]);
 }
 
-static inline enum cdc_stat pop_back(struct cdc_vector *v, bool must_free)
+static enum cdc_stat pop_back(struct cdc_vector *v, bool must_free)
 {
         if (must_free && CDC_HAS_DFREE(v))
                 v->dinfo->dfree(v->buffer[v->size - 1]);
@@ -120,7 +114,7 @@ static inline enum cdc_stat pop_back(struct cdc_vector *v, bool must_free)
         return CDC_STATUS_OK;
 }
 
-static inline enum cdc_stat init_varg(struct cdc_vector *v, va_list args)
+static enum cdc_stat init_varg(struct cdc_vector *v, va_list args)
 {
         enum cdc_stat ret;
         void *elem;
@@ -163,8 +157,7 @@ error1:
         return ret;
 }
 
-enum cdc_stat cdc_vector_ctorl(struct cdc_vector **v,
-                               struct cdc_data_info *info, ...)
+enum cdc_stat cdc_vector_ctorl(struct cdc_vector **v, struct cdc_data_info *info, ...)
 {
         assert(v != NULL);
 
@@ -178,8 +171,8 @@ enum cdc_stat cdc_vector_ctorl(struct cdc_vector **v,
         return ret;
 }
 
-enum cdc_stat cdc_vector_ctorv(struct cdc_vector **v,
-                               struct cdc_data_info *info, va_list args)
+enum cdc_stat cdc_vector_ctorv(struct cdc_vector **v, struct cdc_data_info *info,
+                               va_list args)
 {
         assert(v != NULL);
 

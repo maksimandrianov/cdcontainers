@@ -26,25 +26,23 @@
 #include <stdint.h>
 #include "data-info.h"
 
-static inline size_t parent(size_t i)
+static size_t parent(size_t i)
 {
         return (i - 1) / 2;
 }
 
-static inline size_t left(size_t i)
+static size_t left(size_t i)
 {
         return 2 * i + 1;
 }
 
-static inline size_t right(size_t i)
+static size_t right(size_t i)
 {
         return 2 * i + 2;
 }
 
-static inline size_t sift_down(struct cdc_heap *h, size_t i)
+static size_t sift_down(struct cdc_heap *h, size_t i)
 {
-        assert(h != NULL);
-
         size_t l, r, largest;
         size_t size = cdc_vector_size(h->vector);
         void **data = cdc_vector_data(h->vector);
@@ -73,11 +71,8 @@ static inline size_t sift_down(struct cdc_heap *h, size_t i)
         return i;
 }
 
-static inline size_t sift_up(struct cdc_heap *h, size_t i)
+static size_t sift_up(struct cdc_heap *h, size_t i)
 {
-        assert(h != NULL);
-        assert(i < cdc_heap_size(h));
-
         void **data = cdc_vector_data(h->vector);
         size_t p = parent(i);
 
@@ -90,20 +85,16 @@ static inline size_t sift_up(struct cdc_heap *h, size_t i)
         return i;
 }
 
-static inline void build_heap(struct cdc_heap *h)
+static void build_heap(struct cdc_heap *h)
 {
-        assert(h != NULL);
-
         ssize_t i;
 
         for (i = cdc_vector_size(h->vector) / 2; i >= 0; --i)
                 sift_down(h, i);
 }
 
-static inline enum cdc_stat init_varg(struct cdc_heap *h, va_list args)
+static enum cdc_stat init_varg(struct cdc_heap *h, va_list args)
 {
-        assert(h != NULL);
-
         enum cdc_stat ret;
         void *elem;
 
@@ -200,8 +191,7 @@ enum cdc_stat cdc_heap_extract_top(struct cdc_heap *h)
         return ret;
 }
 
-void cdc_heap_change_key(struct cdc_heap *h, struct cdc_heap_iter *pos,
-                         void *key)
+void cdc_heap_change_key(struct cdc_heap *h, struct cdc_heap_iter *pos, void *key)
 {
         assert(h != NULL);
         assert(pos != NULL);
