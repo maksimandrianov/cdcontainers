@@ -30,34 +30,34 @@ void cdc_di_shared_dtor(struct cdc_data_info *info);
 #define CDC_HAS_LT(container) (container->dinfo && container->dinfo->lt)
 #define CDC_HAS_SIZE(container) (container->dinfo && container->dinfo->size != 0)
 
-static inline int cdc_eq(int (*lt_or_gt)(const void *, const void *),
+static inline int cdc_eq(int (*pred)(const void *, const void *),
                          const void *l, const void *r)
 {
-        return !(lt_or_gt(l, r) || lt_or_gt(r, l));
+        return !(pred(l, r) || pred(r, l));
 }
 
-static inline int cdc_not_eq(int (*lt_or_gt)(const void *, const void *),
+static inline int cdc_not_eq(int (*pred)(const void *, const void *),
                              const void *l, const void *r)
 {
-        return lt_or_gt(l, r) || lt_or_gt(r, l);
+        return pred(l, r) || pred(r, l);
 }
 
-static inline int cdc_gt(int (*lt)(const void *, const void *),
+static inline int cdc_gt(int (*pred)(const void *, const void *),
                          const void *l, const void *r)
 {
-        return lt(r, l);
+        return pred(r, l);
 }
 
-static inline int cdc_gte(int (*lt)(const void *, const void *),
+static inline int cdc_gte(int (*pred)(const void *, const void *),
                           const void *l, const void *r)
 {
-        return !lt(l, r);
+        return !pred(l, r);
 }
 
-static inline int cdc_lte(int (*lt)(const void *, const void *),
+static inline int cdc_lte(int (*pred)(const void *, const void *),
                           const void *l, const void *r)
 {
-        return !lt(r, l);
+        return !pred(r, l);
 }
 
 #endif  // CDCONTAINERS_SRC_DATA_INFO_Hs
