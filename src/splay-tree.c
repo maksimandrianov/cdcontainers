@@ -248,6 +248,7 @@ static struct cdc_splay_tree_node *find_nearest(struct cdc_splay_tree_node *node
                         node = node->right;
         }
 
+        prev = (node && cdc_eq(compar, node->key, key)) ? node : prev;
         return prev ? prev : max_node(node);
 }
 
