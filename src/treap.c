@@ -225,7 +225,8 @@ static void erase_node(struct cdc_treap *t, struct cdc_treap_node *node)
 
         tmp = merge(node->left, node->right);
         if (t->root == node) {
-                tmp->parent = NULL;
+                if (tmp)
+                        tmp->parent = NULL;
                 t->root = tmp;
         } else {
                 if (tmp)
