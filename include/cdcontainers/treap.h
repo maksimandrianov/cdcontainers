@@ -153,10 +153,10 @@ size_t cdc_treap_count(struct cdc_treap *t, void *key);
  * @brief Finds an element with key equivalent to key.
  * @param t - cdc_treap
  * @param key - key value of the element to search for
- * @return iterator to an element with key equivalent to key. If no such element
- * is found, past-the-end iterator is returned.
+ * @param it - pointer will be recorded iterator to an element with key
+ * equivalent to key. If no such element is found, past-the-end iterator is returned.
  */
-struct cdc_treap_iter cdc_treap_find(struct cdc_treap *t, void *key);
+void cdc_treap_find(struct cdc_treap *t, void *key, struct cdc_treap_iter *it);
 
 /**
  * @brief Returns a range containing all elements with key key in the container.
@@ -164,11 +164,12 @@ struct cdc_treap_iter cdc_treap_find(struct cdc_treap *t, void *key);
  * of the wanted range and the second pointing past the last element of the range.
  * @param t - cdc_treap
  * @param key - key value to compare the elements to
- * @return containing a pair of iterators defining the wanted range. If there are
- * no such elements, past-the-end iterators are returned as both elements of the
- * pair.
+ * @param pair - pointer will be recorded a pair of iterators defining the wanted
+ * range. If there are no such elements, past-the-end iterators are returned as
+ * both elements of the pair.
  */
-struct cdc_pair_treap_iter cdc_treap_equal_range(struct cdc_treap *t, void *key);
+void cdc_treap_equal_range(struct cdc_treap *t, void *key,
+                           struct cdc_pair_treap_iter *pair);
 
 // Capacity
 /**
@@ -250,73 +251,81 @@ void cdc_treap_swap(struct cdc_treap *a, struct cdc_treap *b);
 
 // Iterators
 /**
- * @brief Returns an iterator to the beginning
+ * @brief Initializes the iterator to the beginning
  * @param t - cdc_treap
- * @return iterator to the beginning
+ * @param it - cdc_treap_iter
  */
-struct cdc_treap_iter cdc_treap_begin(struct cdc_treap *t);
+void cdc_treap_begin(struct cdc_treap *t, struct cdc_treap_iter *it);
 
 /**
- * @brief Returns an iterator to the end
+ * @brief Initializes the iterator to the end
  * @param t - cdc_treap
- * @return iterator to the end
+ * @param it - cdc_treap_iter
  */
-struct cdc_treap_iter cdc_treap_end(struct cdc_treap *t);
+void cdc_treap_end(struct cdc_treap *t, struct cdc_treap_iter *it);
 
 // Iterators
 /**
- * @brief Advances the iterator to the next item in the treap and returns an
- * iterator to the new current item
+ * @brief Advances the iterator to the next item in the treap
  */
-struct cdc_treap_iter cdc_treap_iter_next(struct cdc_treap_iter it);
+void cdc_treap_iter_next(struct cdc_treap_iter *it);
 
 /**
- * @brief Makes the preceding item current and returns an iterator to the new
- * current item.
+ * @brief Advances the iterator to the previous item in the treap.
  */
-struct cdc_treap_iter cdc_treap_iter_prev(struct cdc_treap_iter it);
+void cdc_treap_iter_prev(struct cdc_treap_iter *it);
 
 /**
  * @brief Returns true if there is at least one item ahead of the iterator, i.e.
  * the iterator is not at the back of the container; otherwise returns false.
  */
-static inline bool cdc_treap_iter_has_next(struct cdc_treap_iter it)
+static inline bool cdc_treap_iter_has_next(struct cdc_treap_iter *it)
 {
-        return it.current != NULL;
+        assert(it != NULL);
+
+        return it->current != NULL;
 }
 
 /**
  * @brief Returns true if there is at least one item behind the iterator, i.e.
  * the iterator is not at the front of the container; otherwise returns false.
  */
-static inline bool cdc_treap_iter_has_prev(struct cdc_treap_iter it)
+static inline bool cdc_treap_iter_has_prev(struct cdc_treap_iter *it)
 {
-        return it.prev != NULL;
+        assert(it != NULL);
+
+        return it->prev != NULL;
 }
 
 /**
  * @brief Returns a pointer to the item's key.
  */
-static inline void *cdc_treap_iter_key(struct cdc_treap_iter it)
+static inline void *cdc_treap_iter_key(struct cdc_treap_iter *it)
 {
-        return it.current->key;
+        assert(it != NULL);
+
+        return it->current->key;
 }
 
 /**
  * @brief Returns a pointer to the item's value.
  */
-static inline void *cdc_treap_iter_value(struct cdc_treap_iter it)
+static inline void *cdc_treap_iter_value(struct cdc_treap_iter *it)
 {
-        return it.current->value;
+        assert(it != NULL);
+
+        return it->current->value;
 }
 
 /**
  * @brief Returns a pair, where first - key, second - value.
  */
 static inline struct cdc_pair cdc_treap_iter_key_value(
-                struct cdc_treap_iter it)
+                struct cdc_treap_iter *it)
 {
-        struct cdc_pair pair = {it.prev->key, it.prev->value};
+        assert(it != NULL);
+
+        struct cdc_pair pair = {it->prev->key, it->prev->value};
 
         return pair;
 }
@@ -325,12 +334,14 @@ static inline struct cdc_pair cdc_treap_iter_key_value(
  * @brief Returns false if the iterator it1 equal to the iterator it2,
  * otherwise returns false.
  */
-static inline bool cdc_treap_iter_is_eq(struct cdc_treap_iter it1,
-                                        struct cdc_treap_iter it2)
+static inline bool cdc_treap_iter_is_eq(struct cdc_treap_iter *it1,
+                                        struct cdc_treap_iter *it2)
 {
-        return it1.container == it2.container &&
-                        it1.prev == it2.prev &&
-                        it1.current == it2.current;
+        assert(it1 != NULL);
+        assert(it2 != NULL);
+
+        return it1->container == it2->container && it1->prev == it2->prev &&
+                        it1->current == it2->current;
 }
 
 // Short names

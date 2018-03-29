@@ -199,19 +199,19 @@ void test_binomial_heap_change_key()
         CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
         elem = cdc_binomial_heap_top(h);
         CU_ASSERT(*((int *)elem) == max_key);
-        CU_ASSERT(*((int *)cdc_binomial_heap_iter_data(iter1)) == max_key);
+        CU_ASSERT(*((int *)cdc_binomial_heap_iter_data(&iter1)) == max_key);
 
         cdc_binomial_heap_change_key(h, &iter1, &max_key);
         CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
         elem = cdc_binomial_heap_top(h);
         CU_ASSERT(*((int *)elem) == max_key);
-        CU_ASSERT(*((int *)cdc_binomial_heap_iter_data(iter1)) == max_key);
+        CU_ASSERT(*((int *)cdc_binomial_heap_iter_data(&iter1)) == max_key);
 
         cdc_binomial_heap_change_key(h, &iter1, &min_key);
         CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
         elem = cdc_binomial_heap_top(h);
         CU_ASSERT(*((int *)elem) == b);
-        CU_ASSERT(*((int *)cdc_binomial_heap_iter_data(iter1)) == min_key);
+        CU_ASSERT(*((int *)cdc_binomial_heap_iter_data(&iter1)) == min_key);
 
 
         cdc_binomial_heap_dtor(h);

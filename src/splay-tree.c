@@ -433,40 +433,38 @@ size_t cdc_splay_tree_count(struct cdc_splay_tree *t, void *key)
         return (size_t)(sfind(t, key) != NULL);
 }
 
-struct cdc_splay_tree_iter cdc_splay_tree_find(struct cdc_splay_tree *t, void *key)
+void cdc_splay_tree_find(struct cdc_splay_tree *t, void *key,
+                         struct cdc_splay_tree_iter *it)
 {
         assert(t != NULL);
+        assert(it != NULL);
 
-        struct cdc_splay_tree_iter ret;
         struct cdc_splay_tree_node *node = sfind(t, key);
 
-        if (!node)
-                return cdc_splay_tree_end(t);
-
-        ret.container = t;
-        ret.current = node;
-        ret.prev = predecessor(node);
-        return ret;
-}
-
-struct cdc_pair_splay_tree_iter cdc_splay_tree_equal_range(struct cdc_splay_tree *t,
-                                                           void *key)
-{
-        assert(t != NULL);
-
-        struct cdc_pair_splay_tree_iter ret;
-        struct cdc_splay_tree_iter iter = cdc_splay_tree_find(t, key);
-        struct cdc_splay_tree_iter iter_end = cdc_splay_tree_end(t);
-
-        if (cdc_splay_tree_iter_is_eq(iter, iter_end)) {
-                ret.first = iter_end;
-                ret.second = iter_end;
-        } else {
-                ret.first = iter;
-                ret.second = cdc_splay_tree_iter_next(iter);
+        if (!node) {
+                cdc_splay_tree_end(t, it);
+                return;
         }
 
-        return ret;
+        it->container = t;
+        it->current = node;
+        it->prev = predecessor(node);
+}
+
+void cdc_splay_tree_equal_range(struct cdc_splay_tree *t,  void *key,
+                                struct cdc_pair_splay_tree_iter *pair)
+{
+        assert(t != NULL);
+        assert(pair != NULL);
+
+        cdc_splay_tree_find(t, key, &pair->first);
+        cdc_splay_tree_end(t, &pair->second);
+        if (cdc_splay_tree_iter_is_eq(&pair->first, &pair->second)) {
+                cdc_splay_tree_end(t, &pair->first);
+        } else {
+                pair->second = pair->first;
+                cdc_splay_tree_iter_next(&pair->second);
+        }
 }
 
 enum cdc_stat cdc_splay_tree_insert(struct cdc_splay_tree *t, void *key, void *value,
@@ -562,38 +560,38 @@ void cdc_splay_tree_swap(struct cdc_splay_tree *a, struct cdc_splay_tree *b)
         CDC_SWAP(struct cdc_data_info *, a->dinfo, b->dinfo);
 }
 
-struct cdc_splay_tree_iter cdc_splay_tree_begin(struct cdc_splay_tree *t)
+void cdc_splay_tree_begin(struct cdc_splay_tree *t, struct cdc_splay_tree_iter *it)
 {
         assert(t != NULL);
+        assert(it != NULL);
 
-        struct cdc_splay_tree_iter iter;
-        iter.container = t;
-        iter.current = min_node(t->root);
-        iter.prev = NULL;
-        return iter;
+        it->container = t;
+        it->current = min_node(t->root);
+        it->prev = NULL;
 }
 
-struct cdc_splay_tree_iter cdc_splay_tree_end(struct cdc_splay_tree *t)
+void cdc_splay_tree_end(struct cdc_splay_tree *t, struct cdc_splay_tree_iter *it)
 {
         assert(t != NULL);
+        assert(it != NULL);
 
-        struct cdc_splay_tree_iter iter;
-        iter.container = t;
-        iter.current = NULL;
-        iter.prev = max_node(t->root);
-        return iter;
+        it->container = t;
+        it->current = NULL;
+        it->prev = max_node(t->root);
 }
 
-struct cdc_splay_tree_iter cdc_splay_tree_iter_next(struct cdc_splay_tree_iter it)
+void cdc_splay_tree_iter_next(struct cdc_splay_tree_iter *it)
 {
-        it.prev = it.current;
-        it.current = successor(it.current);
-        return it;
+        assert(it != NULL);
+
+        it->prev = it->current;
+        it->current = successor(it->current);
 }
 
-struct cdc_splay_tree_iter cdc_splay_tree_iter_prev(struct cdc_splay_tree_iter it)
+void cdc_splay_tree_iter_prev(struct cdc_splay_tree_iter *it)
 {
-        it.current = it.prev;
-        it.prev = predecessor(it.current);
-        return it;
+        assert(it != NULL);
+
+        it->current = it->prev;
+        it->prev = predecessor(it->current);
 }

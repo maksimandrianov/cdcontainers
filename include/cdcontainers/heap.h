@@ -211,19 +211,24 @@ bool cdc_heap_is_heap(struct cdc_heap *h);
 /**
  * @brief Returns a pointer to the key of current item.
  */
-static inline void *cdc_heap_iter_data(struct cdc_heap_iter it)
+static inline void *cdc_heap_iter_data(struct cdc_heap_iter *it)
 {
-        return cdc_vector_get(it.container, it.current);
+        assert(it != NULL);
+
+        return cdc_vector_get(it->container, it->current);
 }
 
 /**
  * @brief Returns false if the iterator it1 equal to the iterator it2,
  * otherwise returns false
  */
-static inline bool cdc_heap_iter_is_eq(struct cdc_heap_iter it1,
-                                       struct cdc_heap_iter it2)
+static inline bool cdc_heap_iter_is_eq(struct cdc_heap_iter *it1,
+                                       struct cdc_heap_iter *it2)
 {
-        return it1.container == it2.container && it1.current == it2.current;
+        assert(it1 != NULL);
+        assert(it2 != NULL);
+
+        return it1->container == it2->container && it1->current == it2->current;
 }
 
 // Short names

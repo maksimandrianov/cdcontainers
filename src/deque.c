@@ -51,11 +51,6 @@ static bool should_grow(struct cdc_deque *d)
         return d->size == d->capacity;
 }
 
-static bool reach_limit_size(struct cdc_deque *d)
-{
-        return d->size == CDC_DEQUE_MAX_LEN;
-}
-
 static enum cdc_stat reallocate(struct cdc_deque *d, size_t capacity)
 {
         void **tmp;

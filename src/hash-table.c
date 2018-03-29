@@ -426,31 +426,33 @@ size_t cdc_hash_table_count(struct cdc_hash_table *t, void *key)
         return (size_t)(find_entry(t, key) != NULL);
 }
 
-struct cdc_hash_table_iter cdc_hash_table_find(struct cdc_hash_table *t,
-                                               void *key)
+void cdc_hash_table_find(struct cdc_hash_table *t, void *key,
+                         struct cdc_hash_table_iter *it)
 {
         assert(t != NULL);
+        assert(it != NULL);
 
         struct cdc_hash_table_entry *entry = find_entry(t, key);
-        struct cdc_hash_table_iter retval;
 
-        retval.container = t;
-        retval.current = (entry ? entry->next : NULL);
-        return retval;
+        it->container = t;
+        it->current = (entry ? entry->next : NULL);
 }
 
-struct cdc_pair_hash_table_iter cdc_hash_table_equal_range(struct cdc_hash_table *t,
-                                                           void *key)
+void cdc_hash_table_equal_range(struct cdc_hash_table *t, void *key,
+                                struct cdc_pair_hash_table_iter *pair)
 {
         assert(t != NULL);
+        assert(pair != NULL);
 
         struct cdc_hash_table_entry *entry = find_entry(t, key);
-        struct cdc_pair_hash_table_iter retval;
 
-        retval.first.container = retval.second.container = t;
-        retval.first.current = (entry ? entry->next : NULL);
-        retval.second.current = (entry ? entry->next->next : NULL);
-        return retval;
+        pair->first.container = pair->second.container = t;
+        if (entry) {
+                pair->first.current = entry->next;
+                pair->second.current = entry->next->next;
+        } else {
+               pair->first.current = pair->second.current = NULL;
+        }
 }
 
 void cdc_hash_table_clear(struct cdc_hash_table *t)

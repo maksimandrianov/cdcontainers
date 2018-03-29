@@ -38,11 +38,11 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_splay_tree_node {
-    struct cdc_splay_tree_node *parent;
-    struct cdc_splay_tree_node *left;
-    struct cdc_splay_tree_node *right;
-    void *key;
-    void *value;
+        struct cdc_splay_tree_node *parent;
+        struct cdc_splay_tree_node *left;
+        struct cdc_splay_tree_node *right;
+        void *key;
+        void *value;
 };
 
 /**
@@ -51,10 +51,10 @@ struct cdc_splay_tree_node {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_splay_tree {
-    struct cdc_splay_tree_node *root;
-    size_t size;
-    cdc_binary_pred_fn_t compar;
-    struct cdc_data_info *dinfo;
+        struct cdc_splay_tree_node *root;
+        size_t size;
+        cdc_binary_pred_fn_t compar;
+        struct cdc_data_info *dinfo;
 };
 
 /**
@@ -63,19 +63,19 @@ struct cdc_splay_tree {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_splay_tree_iter {
-    struct cdc_splay_tree *container;
-    struct cdc_splay_tree_node *prev;
-    struct cdc_splay_tree_node *current;
+        struct cdc_splay_tree *container;
+        struct cdc_splay_tree_node *prev;
+        struct cdc_splay_tree_node *current;
 };
 
 struct cdc_pair_splay_tree_iter {
-    struct cdc_splay_tree_iter first;
-    struct cdc_splay_tree_iter second;
+        struct cdc_splay_tree_iter first;
+        struct cdc_splay_tree_iter second;
 };
 
 struct cdc_pair_splay_tree_iter_bool {
-    struct cdc_splay_tree_iter first;
-    bool second;
+        struct cdc_splay_tree_iter first;
+        bool second;
 };
 
 /**
@@ -144,10 +144,11 @@ size_t cdc_splay_tree_count(struct cdc_splay_tree *t, void *key);
  * @brief Finds an element with key equivalent to key.
  * @param t - cdc_splay_tree
  * @param key - key value of the element to search for
- * @return iterator to an element with key equivalent to key. If no such element
- * is found, past-the-end iterator is returned.
+ * @param it - pointer will be recorded iterator to an element with key
+ * equivalent to key. If no such element is found, past-the-end iterator is returned.
  */
-struct cdc_splay_tree_iter cdc_splay_tree_find(struct cdc_splay_tree *t, void *key);
+void cdc_splay_tree_find(struct cdc_splay_tree *t, void *key,
+                         struct cdc_splay_tree_iter *it);
 
 /**
  * @brief Returns a range containing all elements with key key in the container.
@@ -155,12 +156,12 @@ struct cdc_splay_tree_iter cdc_splay_tree_find(struct cdc_splay_tree *t, void *k
  * of the wanted range and the second pointing past the last element of the range.
  * @param t - cdc_splay_tree
  * @param key - key value to compare the elements to
- * @return containing a pair of iterators defining the wanted range. If there are
- * no such elements, past-the-end iterators are returned as both elements of the
- * pair.
+ * @param pair - pointer will be recorded a pair of iterators defining the wanted
+ * range. If there are no such elements, past-the-end iterators are returned as
+ * both elements of the pair.
  */
-struct cdc_pair_splay_tree_iter cdc_splay_tree_equal_range(struct cdc_splay_tree *t,
-                                                           void *key);
+void cdc_splay_tree_equal_range(struct cdc_splay_tree *t, void *key,
+                                struct cdc_pair_splay_tree_iter *pair);
 
 // Capacity
 /**
@@ -170,9 +171,9 @@ struct cdc_pair_splay_tree_iter cdc_splay_tree_equal_range(struct cdc_splay_tree
  */
 static inline size_t cdc_splay_tree_size(struct cdc_splay_tree *t)
 {
-    assert(t != NULL);
+        assert(t != NULL);
 
-    return t->size;
+        return t->size;
 }
 
 /**
@@ -182,9 +183,9 @@ static inline size_t cdc_splay_tree_size(struct cdc_splay_tree *t)
  */
 static inline bool cdc_splay_tree_empty(struct cdc_splay_tree *t)
 {
-    assert(t != NULL);
+        assert(t != NULL);
 
-    return t->size == 0;
+        return t->size == 0;
 }
 
 // Modifiers
@@ -242,87 +243,98 @@ void cdc_splay_tree_swap(struct cdc_splay_tree *a, struct cdc_splay_tree *b);
 
 // Iterators
 /**
- * @brief Returns an iterator to the beginning
+ * @brief Initializes the iterator to the beginning
  * @param t - cdc_splay_tree
- * @return iterator to the beginning
+ * @param it - cdc_splay_tree_iter
  */
-struct cdc_splay_tree_iter cdc_splay_tree_begin(struct cdc_splay_tree *t);
+void cdc_splay_tree_begin(struct cdc_splay_tree *t, struct cdc_splay_tree_iter *it);
 
 /**
- * @brief Returns an iterator to the end
+ * @brief Initializes the iterator to the end
  * @param t - cdc_splay_tree
- * @return iterator to the end
+ * @param it - cdc_splay_tree_iter
  */
-struct cdc_splay_tree_iter cdc_splay_tree_end(struct cdc_splay_tree *t);
+void cdc_splay_tree_end(struct cdc_splay_tree *t, struct cdc_splay_tree_iter *it);
 
 // Iterators
 /**
- * @brief Advances the iterator to the next item in the splay tree and returns an
- * iterator to the new current item
+ * @brief Advances the iterator to the next item in the splay tree
  */
-struct cdc_splay_tree_iter cdc_splay_tree_iter_next(struct cdc_splay_tree_iter it);
+void cdc_splay_tree_iter_next(struct cdc_splay_tree_iter *it);
 
 /**
- * @brief Makes the preceding item current and returns an iterator to the new
- * current item.
+ * @brief Advances the iterator to the previous item in the splay tree.
  */
-struct cdc_splay_tree_iter cdc_splay_tree_iter_prev(struct cdc_splay_tree_iter it);
+void cdc_splay_tree_iter_prev(struct cdc_splay_tree_iter *it);
 
 /**
  * @brief Returns true if there is at least one item ahead of the iterator, i.e.
  * the iterator is not at the back of the container; otherwise returns false.
  */
-static inline bool cdc_splay_tree_iter_has_next(struct cdc_splay_tree_iter it)
+static inline bool cdc_splay_tree_iter_has_next(struct cdc_splay_tree_iter *it)
 {
-    return it.current != NULL;
+        assert(it != NULL);
+
+        return it->current != NULL;
 }
 
 /**
  * @brief Returns true if there is at least one item behind the iterator, i.e.
  * the iterator is not at the front of the container; otherwise returns false.
  */
-static inline bool cdc_splay_tree_iter_has_prev(struct cdc_splay_tree_iter it)
+static inline bool cdc_splay_tree_iter_has_prev(struct cdc_splay_tree_iter *it)
 {
-    return it.prev != NULL;
+        assert(it != NULL);
+
+        return it->prev != NULL;
 }
 
 /**
  * @brief Returns a pointer to the item's key.
  */
-static inline void *cdc_splay_tree_iter_key(struct cdc_splay_tree_iter it)
+static inline void *cdc_splay_tree_iter_key(struct cdc_splay_tree_iter *it)
 {
-    return it.current->key;
+        assert(it != NULL);
+
+        return it->current->key;
 }
 
 /**
  * @brief Returns a pointer to the item's value.
  */
-static inline void *cdc_splay_tree_iter_value(struct cdc_splay_tree_iter it)
+static inline void *cdc_splay_tree_iter_value(struct cdc_splay_tree_iter *it)
 {
-    return it.current->value;
+        assert(it != NULL);
+
+        return it->current->value;
 }
 
 /**
  * @brief Returns a pair, where first - key, second - value.
  */
 static inline struct cdc_pair cdc_splay_tree_iter_key_value(
-        struct cdc_splay_tree_iter it)
+                struct cdc_splay_tree_iter *it)
 {
-    struct cdc_pair pair = {it.prev->key, it.prev->value};
+        assert(it != NULL);
 
-    return pair;
+        struct cdc_pair pair = {it->prev->key, it->prev->value};
+
+        return pair;
 }
 
 /**
  * @brief Returns false if the iterator it1 equal to the iterator it2,
  * otherwise returns false.
  */
-static inline bool cdc_splay_tree_iter_is_eq(struct cdc_splay_tree_iter it1,
-                                             struct cdc_splay_tree_iter it2)
+static inline bool cdc_splay_tree_iter_is_eq(struct cdc_splay_tree_iter *it1,
+                                             struct cdc_splay_tree_iter *it2)
 {
-    return it1.container == it2.container &&
-            it1.prev == it2.prev &&
-            it1.current == it2.current;
+        assert(it1 != NULL);
+        assert(it2 != NULL);
+
+        return it1->container == it2->container &&
+                        it1->prev == it2->prev &&
+                        it1->current == it2->current;
 }
 
 // Short names

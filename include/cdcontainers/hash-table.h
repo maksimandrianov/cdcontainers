@@ -206,10 +206,11 @@ size_t cdc_hash_table_count(struct cdc_hash_table *t, void *key);
  * @brief Finds an element with key equivalent to key.
  * @param t - cdc_hash_table
  * @param key - key value of the element to search for
- * @return iterator to an element with key equivalent to key. If no such element
- * is found, past-the-end iterator is returned.
+ * @param it - pointer will be recorded iterator to an element with key
+ * equivalent to key. If no such element is found, past-the-end iterator is returned.
  */
-struct cdc_hash_table_iter cdc_hash_table_find(struct cdc_hash_table *t, void *key);
+void cdc_hash_table_find(struct cdc_hash_table *t, void *key,
+                         struct cdc_hash_table_iter *it);
 
 /**
  * @brief Returns a range containing all elements with key key in the container.
@@ -217,12 +218,12 @@ struct cdc_hash_table_iter cdc_hash_table_find(struct cdc_hash_table *t, void *k
  * of the wanted range and the second pointing past the last element of the range.
  * @param t - cdc_hash_table
  * @param key - key value to compare the elements to
- * @return containing a pair of iterators defining the wanted range. If there are
- * no such elements, past-the-end iterators are returned as both elements of the
- * pair.
+ * @param pair - pointer will be recorded a pair of iterators defining the wanted
+ * range. If there are no such elements, past-the-end iterators are returned as
+ * both elements of the pair.
  */
-struct cdc_pair_hash_table_iter cdc_hash_table_equal_range(struct cdc_hash_table *t,
-                                                           void *key);
+void cdc_hash_table_equal_range(struct cdc_hash_table *t, void *key,
+                                struct cdc_pair_hash_table_iter *pair);
 // Capacity
 /**
  * @brief Returns the number of items in the hash table.
@@ -303,31 +304,33 @@ void cdc_hash_table_swap(struct cdc_hash_table *a, struct cdc_hash_table *b);
 
 // Iterators
 /**
- * @brief Returns an iterator to the beginning
+ * @brief Initializes the iterator to the beginning
  * @param t - cdc_hash_table
- * @return iterator to the beginning
+ * @param it - cdc_hash_table_iter
  */
-static inline struct cdc_hash_table_iter cdc_hash_table_begin(struct cdc_hash_table *t)
+static inline void cdc_hash_table_begin(struct cdc_hash_table *t,
+                                        struct cdc_hash_table_iter *it)
 {
         assert(t != NULL);
+        assert(it != NULL);
 
-        struct cdc_hash_table_iter it = {t, t->buckets[0]->next};
-
-        return it;
+        it->container = t;
+        it->current = t->buckets[0]->next;
 }
 
 /**
- * @brief Returns an iterator to the end
+ * @brief Initializes the iterator to the end
  * @param t - cdc_hash_table
- * @return iterator to the end
+ * @param it - cdc_hash_table_iter
  */
-static inline struct cdc_hash_table_iter cdc_hash_table_end(struct cdc_hash_table *t)
+static inline void cdc_hash_table_end(struct cdc_hash_table *t,
+                                      struct cdc_hash_table_iter *it)
 {
         assert(t != NULL);
+        assert(it != NULL);
 
-        struct cdc_hash_table_iter it = {t, NULL};
-
-        return it;
+        it->container = t;
+        it->current = NULL;
 }
 
 // Hash policy
@@ -403,48 +406,55 @@ static inline size_t cdc_hash_table_bucket_count(struct cdc_hash_table *t)
 
 // Iterators
 /**
- * @brief Advances the iterator to the next item in the hash table and returns an
- * iterator to the new current item
+ * @brief Advances the iterator to the next item in the hash table
  */
-static inline struct cdc_hash_table_iter cdc_hash_table_iter_next(
-                struct cdc_hash_table_iter it)
+static inline void cdc_hash_table_iter_next(struct cdc_hash_table_iter *it)
 {
-        it.current = it.current->next;
-        return it;
+        assert(it != NULL);
+
+        it->current = it->current->next;
 }
 
 /**
  * @brief Returns true if there is at least one item ahead of the iterator, i.e.
  * the iterator is not at the back of the container; otherwise returns false.
  */
-static inline bool cdc_hash_table_iter_has_next(struct cdc_hash_table_iter it)
+static inline bool cdc_hash_table_iter_has_next(struct cdc_hash_table_iter *it)
 {
-        return it.current->next != NULL;
+        assert(it != NULL);
+
+        return it->current->next != NULL;
 }
 
 /**
  * @brief Returns a pointer to the item's key.
  */
-static inline void *cdc_hash_table_iter_key(struct cdc_hash_table_iter it)
+static inline void *cdc_hash_table_iter_key(struct cdc_hash_table_iter *it)
 {
-        return it.current->key;
+        assert(it != NULL);
+
+        return it->current->key;
 }
 
 /**
  * @brief Returns a pointer to the item's value.
  */
-static inline void *cdc_hash_table_iter_value(struct cdc_hash_table_iter it)
+static inline void *cdc_hash_table_iter_value(struct cdc_hash_table_iter *it)
 {
-        return it.current->value;
+        assert(it != NULL);
+
+        return it->current->value;
 }
 
 /**
  * @brief Returns a pair, where first - key, second - value.
  */
 static inline struct cdc_pair cdc_hash_table_iter_key_value(
-                struct cdc_hash_table_iter it)
+                struct cdc_hash_table_iter *it)
 {
-        struct cdc_pair pair = {it.current->key, it.current->value};
+        assert(it != NULL);
+
+        struct cdc_pair pair = {it->current->key, it->current->value};
 
         return pair;
 }
@@ -453,10 +463,13 @@ static inline struct cdc_pair cdc_hash_table_iter_key_value(
  * @brief Returns false if the iterator it1 equal to the iterator it2,
  * otherwise returns false.
  */
-static inline bool cdc_hash_table_iter_is_eq(struct cdc_hash_table_iter it1,
-                                             struct cdc_hash_table_iter it2)
+static inline bool cdc_hash_table_iter_is_eq(struct cdc_hash_table_iter *it1,
+                                             struct cdc_hash_table_iter *it2)
 {
-        return it1.container == it2.container && it1.current == it2.current;
+        assert(it1 != NULL);
+        assert(it2 != NULL);
+
+        return it1->container == it2->container && it1->current == it2->current;
 }
 
 // Short names

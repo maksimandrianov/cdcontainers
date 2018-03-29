@@ -121,15 +121,20 @@ void test_hash_table_count()
 void test_hash_table_find()
 {
         struct cdc_hash_table *t = NULL;
+        struct cdc_hash_table_iter it, it_end;
 
         CU_ASSERT(cdc_hash_table_ctorl1(&t, NULL, cdc_pdhash_int, eq_ptr, 1.0,
                                        &a, &b, &c, &d, &g, NULL) == CDC_STATUS_OK);
 
-        CU_ASSERT(cdc_hash_table_iter_value(cdc_hash_table_find(t, a.first)) == a.second);
-        CU_ASSERT(cdc_hash_table_iter_value(cdc_hash_table_find(t, b.first)) == b.second);
-        CU_ASSERT(cdc_hash_table_iter_value(cdc_hash_table_find(t, g.first)) == g.second);
-        CU_ASSERT(cdc_hash_table_iter_is_eq(cdc_hash_table_find(t, h.first),
-                                            cdc_hash_table_end(t)));
+        cdc_hash_table_find(t, a.first, &it);
+        CU_ASSERT(cdc_hash_table_iter_value(&it) == a.second);
+        cdc_hash_table_find(t, b.first, &it);
+        CU_ASSERT(cdc_hash_table_iter_value(&it) == b.second);
+        cdc_hash_table_find(t, g.first, &it);
+        CU_ASSERT(cdc_hash_table_iter_value(&it) == g.second);
+        cdc_hash_table_find(t, h.first, &it);
+        cdc_hash_table_end(t, &it_end);
+        CU_ASSERT(cdc_hash_table_iter_is_eq(&it, &it_end));
 
         cdc_hash_table_dtor(t);
 
@@ -143,21 +148,25 @@ void test_hash_table_equal_range()
         CU_ASSERT(cdc_hash_table_ctorl1(&t, NULL, cdc_pdhash_int, eq_ptr, 1.0,
                                        &a, &b, &c, &d, &g, NULL) == CDC_STATUS_OK);
 
-        res = cdc_hash_table_equal_range(t, a.first);
-        CU_ASSERT(cdc_hash_table_iter_value(res.first) == a.second);
-        CU_ASSERT(cdc_hash_table_iter_is_eq(res.second, cdc_hash_table_iter_next(res.first)));
+        cdc_hash_table_equal_range(t, a.first, &res);
+        CU_ASSERT(cdc_hash_table_iter_value(&res.first) == a.second);
+        cdc_hash_table_iter_next(&res.first);
+        CU_ASSERT(cdc_hash_table_iter_is_eq(&res.second, &res.first));
 
-        res = cdc_hash_table_equal_range(t, b.first);
-        CU_ASSERT(cdc_hash_table_iter_value(res.first) == b.second);
-        CU_ASSERT(cdc_hash_table_iter_is_eq(res.second, cdc_hash_table_iter_next(res.first)));
+        cdc_hash_table_equal_range(t, b.first, &res);
+        CU_ASSERT(cdc_hash_table_iter_value(&res.first) == b.second);
+        cdc_hash_table_iter_next(&res.first);
+        CU_ASSERT(cdc_hash_table_iter_is_eq(&res.second, &res.first));
 
-        res = cdc_hash_table_equal_range(t, d.first);
-        CU_ASSERT(cdc_hash_table_iter_value(res.first) == d.second);
-        CU_ASSERT(cdc_hash_table_iter_is_eq(res.second, cdc_hash_table_iter_next(res.first)));
+        cdc_hash_table_equal_range(t, d.first, &res);
+        CU_ASSERT(cdc_hash_table_iter_value(&res.first) == d.second);
+        cdc_hash_table_iter_next(&res.first);
+        CU_ASSERT(cdc_hash_table_iter_is_eq(&res.second, &res.first));
 
-        res = cdc_hash_table_equal_range(t, g.first);
-        CU_ASSERT(cdc_hash_table_iter_value(res.first) == g.second);
-        CU_ASSERT(cdc_hash_table_iter_is_eq(res.second, cdc_hash_table_iter_next(res.first)));
+        cdc_hash_table_equal_range(t, g.first, &res);
+        CU_ASSERT(cdc_hash_table_iter_value(&res.first) == g.second);
+        cdc_hash_table_iter_next(&res.first);
+        CU_ASSERT(cdc_hash_table_iter_is_eq(&res.second, &res.first));
 
         cdc_hash_table_dtor(t);
 }
@@ -224,26 +233,26 @@ void test_hash_table_insert_or_assign()
 
         CU_ASSERT(cdc_hash_table_insert_or_assign(t, a.first, a.second, &ret) == CDC_STATUS_OK);
         CU_ASSERT(cdc_hash_table_size(t) == 1);
-        CU_ASSERT(cdc_hash_table_iter_value(ret.first) == a.second);
+        CU_ASSERT(cdc_hash_table_iter_value(&ret.first) == a.second);
         CU_ASSERT(ret.second == true);
 
         CU_ASSERT(cdc_hash_table_insert_or_assign(t, a.first, b.second, &ret) == CDC_STATUS_OK);
         CU_ASSERT(cdc_hash_table_size(t) == 1);
         CU_ASSERT(cdc_hash_table_get(t, a.first, &value) == CDC_STATUS_OK);
         CU_ASSERT(value == b.second);
-        CU_ASSERT(cdc_hash_table_iter_value(ret.first) == b.second);
+        CU_ASSERT(cdc_hash_table_iter_value(&ret.first) == b.second);
         CU_ASSERT(ret.second == false);
 
         CU_ASSERT(cdc_hash_table_insert_or_assign(t, c.first, c.second, &ret) == CDC_STATUS_OK);
         CU_ASSERT(cdc_hash_table_size(t) == 2);
-        CU_ASSERT(cdc_hash_table_iter_value(ret.first) == c.second);
+        CU_ASSERT(cdc_hash_table_iter_value(&ret.first) == c.second);
         CU_ASSERT(ret.second == true);
 
         CU_ASSERT(cdc_hash_table_insert_or_assign(t, c.first, d.second, &ret) == CDC_STATUS_OK);
         CU_ASSERT(cdc_hash_table_size(t) == 2);
         CU_ASSERT(cdc_hash_table_get(t, c.first, &value) == CDC_STATUS_OK);
         CU_ASSERT(value == d.second);
-        CU_ASSERT(cdc_hash_table_iter_value(ret.first) == d.second);
+        CU_ASSERT(cdc_hash_table_iter_value(&ret.first) == d.second);
         CU_ASSERT(ret.second == false);
 
         cdc_hash_table_dtor(t);

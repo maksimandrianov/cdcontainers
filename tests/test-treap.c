@@ -122,15 +122,15 @@ void test_treap_iterators()
         int i;
 
         CU_ASSERT(cdc_treap_ctorl(&t, NULL, lt_int, NULL,
-                                  &a, &b, &c, &d, &e, &f, &g, &h, NULL) == CDC_STATUS_OK);
+                                       &a, &b, &c, &d, &e, &f, &g, &h, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_treap_size(t) == 8);
 
         check = true;
         i = 0;
-        for (it1 = cdc_treap_begin(t), it2 = cdc_treap_end(t);
-             !cdc_treap_iter_is_eq(it1, it2);
-             it1 = cdc_treap_iter_next(it1)) {
-                if (cdc_treap_iter_key(it1) != arr[i]->first) {
+        cdc_treap_begin(t, &it1);
+        cdc_treap_end(t, &it2);
+        for ( ; !cdc_treap_iter_is_eq(&it1, &it2); cdc_treap_iter_next(&it1)) {
+                if (cdc_treap_iter_key(&it1) != arr[i]->first) {
                         check = false;
                         break;
                 }
@@ -141,13 +141,11 @@ void test_treap_iterators()
 
         check = true;
         i = cdc_treap_size(t) - 1;
-        it1 = cdc_treap_end(t);
-        it1 = cdc_treap_iter_prev(it1);
-
-        for (it2 = cdc_treap_begin(t);
-             !cdc_treap_iter_is_eq(it1, it2);
-             it1 = cdc_treap_iter_prev(it1)) {
-                if (cdc_treap_iter_key(it1) != arr[i]->first) {
+        cdc_treap_end(t, &it1);
+        cdc_treap_iter_prev(&it1);
+        cdc_treap_begin(t, &it2);
+        for ( ; !cdc_treap_iter_is_eq(&it1, &it2); cdc_treap_iter_prev(&it1)) {
+                if (cdc_treap_iter_key(&it1) != arr[i]->first) {
                         check = false;
                         break;
                 }
@@ -158,29 +156,29 @@ void test_treap_iterators()
 
         check = true;
         i = 0;
-        it1 = cdc_treap_begin(t);
-        while (cdc_treap_iter_has_next(it1)) {
-                if (cdc_treap_iter_key(it1) != arr[i]->first) {
+        cdc_treap_begin(t, &it1);
+        while (cdc_treap_iter_has_next(&it1)) {
+                if (cdc_treap_iter_key(&it1) != arr[i]->first) {
                         check = false;
                         break;
                 }
                 ++i;
-                it1 = cdc_treap_iter_next(it1);
+                cdc_treap_iter_next(&it1);
         }
         CU_ASSERT(check == true);
         CU_ASSERT(i == cdc_treap_size(t));
 
         check = true;
         i = cdc_treap_size(t) - 1;
-        it1 = cdc_treap_end(t);
-        it1 = cdc_treap_iter_prev(it1);
-        while (cdc_treap_iter_has_prev(it1)) {
-                if (cdc_treap_iter_key(it1) != arr[i]->first) {
+        cdc_treap_end(t, &it1);
+        cdc_treap_iter_prev(&it1);
+        while (cdc_treap_iter_has_prev(&it1)) {
+                if (cdc_treap_iter_key(&it1) != arr[i]->first) {
                         check = false;
                         break;
                 }
                 --i;
-                it1 = cdc_treap_iter_prev(it1);
+                cdc_treap_iter_prev(&it1);
         }
         CU_ASSERT(check == true);
         CU_ASSERT(i == 0);
