@@ -304,25 +304,15 @@ static struct cdc_splay_tree_node *sfind(struct cdc_splay_tree *t, void *key)
 }
 
 static struct cdc_splay_tree_node *insert_unique(struct cdc_splay_tree *t,
-                                                 void *key, void *value,
+                                                 struct cdc_splay_tree_node *node,
                                                  struct cdc_splay_tree_node *nearest)
 {
-        struct cdc_splay_tree_node *node;
         struct node_pair pair;
 
         if (t->root == NULL) {
-                node = new_node(key, value);
-                if (!node)
-                        return node;
-
                 t->root = node;
-                ++t->size;
         } else {
-                node = new_node(key, value);
-                if (!node)
-                        return node;
-
-                pair = split(nearest, key, t->compar);
+                pair = split(nearest, node->key, t->compar);
                 node->left = pair.l;
                 if (node->left)
                         node->left->parent = node;
@@ -331,10 +321,22 @@ static struct cdc_splay_tree_node *insert_unique(struct cdc_splay_tree *t,
                 if (node->right)
                         node->right->parent = node;
                 t->root = node;
-                ++t->size;
         }
 
+        ++t->size;
         return node;
+}
+
+static struct cdc_splay_tree_node *make_and_insert_unique(struct cdc_splay_tree *t,
+                                                          void *key, void *value,
+                                                          struct cdc_splay_tree_node *nearest)
+{
+        struct cdc_splay_tree_node *node = new_node(key, value);
+
+        if (!node)
+                return node;
+
+        return insert_unique(t, node, nearest);
 }
 
 static enum cdc_stat init_varg(struct cdc_splay_tree *t, va_list args)
@@ -476,7 +478,7 @@ enum cdc_stat cdc_splay_tree_insert(struct cdc_splay_tree *t, void *key, void *v
         bool finded = node ? cdc_eq(t->compar, node->key, key) : false;
 
         if (!finded) {
-                node = insert_unique(t, key, value, node);
+                node = make_and_insert_unique(t, key, value, node);
                 if (!node)
                         return CDC_STATUS_BAD_ALLOC;
         }
@@ -500,12 +502,12 @@ enum cdc_stat cdc_splay_tree_insert_or_assign(struct cdc_splay_tree *t,
         struct cdc_splay_tree_node *node = find_nearest(t->root, key, t->compar);
         bool finded = node ? cdc_eq(t->compar, node->key, key) : false;
 
-        if (finded) {
-                node->value = value;
-        } else {
-                node = insert_unique(t, key, value, node);
+        if (!finded) {
+                node = make_and_insert_unique(t, key, value, node);
                 if (!node)
                         return CDC_STATUS_BAD_ALLOC;
+        } else {
+                node->value = value;
         }
 
         if (ret) {
