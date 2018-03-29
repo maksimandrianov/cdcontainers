@@ -93,9 +93,103 @@ void test_treap_ctorl()
         cdc_treap_dtor(t);
 }
 
+void test_treap_get()
+{
+        struct cdc_treap *t = NULL;
+        void *value;
+
+        CU_ASSERT(cdc_treap_ctorl(&t, NULL, lt_int, NULL,
+                                       &a, &b, &c, &d, &g, &h, &e, &f, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_treap_size(t) == 8);
+        CU_ASSERT(treap_key_int_eq(t, 8, &a, &b, &c, &d, &g, &h, &e, &f));
+        CU_ASSERT(cdc_treap_get(t, CDC_INT_TO_PTR(10), &value) == CDC_STATUS_NOT_FOUND);
+        cdc_treap_dtor(t);
+}
+
+void test_treap_count()
+{
+        struct cdc_treap *t = NULL;
+
+        CU_ASSERT(cdc_treap_ctorl(&t, NULL, lt_int, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_treap_size(t) == 2);
+        CU_ASSERT(cdc_treap_count(t, a.first) == 1);
+        CU_ASSERT(cdc_treap_count(t, b.first) == 1);
+        CU_ASSERT(cdc_treap_count(t, CDC_INT_TO_PTR(10)) == 0);
+
+        cdc_treap_dtor(t);
+}
+
+void test_treap_find()
+{
+        struct cdc_treap *t = NULL;
+        struct cdc_treap_iter it, it_end;
+
+
+        CU_ASSERT(cdc_treap_ctorl(&t, NULL, lt_int, NULL, &a, &b, &c, &d, &g, NULL) == CDC_STATUS_OK);
+
+        cdc_treap_find(t, a.first, &it);
+        CU_ASSERT(cdc_treap_iter_value(&it) == a.second);
+        cdc_treap_find(t, b.first, &it);
+        CU_ASSERT(cdc_treap_iter_value(&it) == b.second);
+        cdc_treap_find(t, g.first, &it);
+        CU_ASSERT(cdc_treap_iter_value(&it) == g.second);
+        cdc_treap_find(t, h.first, &it);
+        cdc_treap_end(t, &it_end);
+        CU_ASSERT(cdc_treap_iter_is_eq(&it, &it_end));
+
+        cdc_treap_dtor(t);
+}
+
+void test_treap_equal_range()
+{
+        struct cdc_pair_treap_iter res;
+        struct cdc_treap *t = NULL;
+
+        CU_ASSERT(cdc_treap_ctorl(&t, NULL, lt_int, NULL, &a, &b, &c, &d, &g, NULL) == CDC_STATUS_OK);
+
+        cdc_treap_equal_range(t, a.first, &res);
+        CU_ASSERT(cdc_treap_iter_value(&res.first) == a.second);
+        cdc_treap_iter_next(&res.first);
+        CU_ASSERT(cdc_treap_iter_is_eq(&res.second, &res.first));
+
+        cdc_treap_equal_range(t, b.first, &res);
+        CU_ASSERT(cdc_treap_iter_value(&res.first) == b.second);
+        cdc_treap_iter_next(&res.first);
+        CU_ASSERT(cdc_treap_iter_is_eq(&res.second, &res.first));
+
+        cdc_treap_equal_range(t, d.first, &res);
+        CU_ASSERT(cdc_treap_iter_value(&res.first) == d.second);
+        cdc_treap_iter_next(&res.first);
+        CU_ASSERT(cdc_treap_iter_is_eq(&res.second, &res.first));
+
+        cdc_treap_equal_range(t, g.first, &res);
+        CU_ASSERT(cdc_treap_iter_value(&res.first) == g.second);
+        cdc_treap_iter_next(&res.first);
+        CU_ASSERT(cdc_treap_iter_is_eq(&res.second, &res.first));
+
+        cdc_treap_dtor(t);
+}
+
+void test_treap_clear()
+{
+        struct cdc_treap *t = NULL;
+
+        CU_ASSERT(cdc_treap_ctorl(&t, NULL, lt_int, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_treap_size(t) == 2);
+        cdc_treap_clear(t);
+        CU_ASSERT(cdc_treap_size(t) == 0);
+        cdc_treap_clear(t);
+        CU_ASSERT(cdc_treap_size(t) == 0);
+
+        cdc_treap_dtor(t);
+}
+
 void test_treap_insert()
 {
         struct cdc_treap *t;
+        int i, count = 100;
+        bool failed = false;
+        void *val;
 
         CU_ASSERT(cdc_treap_ctor(&t, NULL, lt_int, NULL) == CDC_STATUS_OK);
 
@@ -107,8 +201,118 @@ void test_treap_insert()
 
         CU_ASSERT(treap_key_int_eq(t, 5, &e, &b, &f, &d, &c));
 
-        //        CU_ASSERT(cdc_treap_erase(t, val2.first) == 1);
-        //        CU_ASSERT(cdc_treap_erase(t, val1.first) == 1);
+        cdc_treap_clear(t);
+
+        for (i = 0; i < count; ++i) {
+                if (cdc_treap_insert(t, CDC_INT_TO_PTR(i),
+                                          CDC_INT_TO_PTR(i), NULL) != CDC_STATUS_OK) {
+                        failed = true;
+                        break;
+                }
+        }
+
+        CU_ASSERT(cdc_treap_size(t) == count);
+        CU_ASSERT(failed == false);
+
+        for (i = 0; i < count; ++i) {
+                if (cdc_treap_get(t, CDC_INT_TO_PTR(i), &val) != CDC_STATUS_OK &&
+                    val != CDC_INT_TO_PTR(i)) {
+                        failed = true;
+                        break;
+                }
+        }
+
+        CU_ASSERT(failed == false);
+
+        cdc_treap_dtor(t);
+}
+
+void test_treap_insert_or_assign()
+{
+        struct cdc_pair_treap_iter_bool ret;
+        struct cdc_treap *t = NULL;
+        void *value;
+
+        CU_ASSERT(cdc_treap_ctor(&t, NULL, lt_int, NULL) == CDC_STATUS_OK);
+
+        CU_ASSERT(cdc_treap_insert_or_assign(t, a.first, a.second, &ret) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_treap_size(t) == 1);
+        CU_ASSERT(cdc_treap_iter_value(&ret.first) == a.second);
+        CU_ASSERT(ret.second == true);
+
+        CU_ASSERT(cdc_treap_insert_or_assign(t, a.first, b.second, &ret) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_treap_size(t) == 1);
+        CU_ASSERT(cdc_treap_get(t, a.first, &value) == CDC_STATUS_OK);
+        CU_ASSERT(value == b.second);
+        CU_ASSERT(cdc_treap_iter_value(&ret.first) == b.second);
+        CU_ASSERT(ret.second == false);
+
+        CU_ASSERT(cdc_treap_insert_or_assign(t, c.first, c.second, &ret) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_treap_size(t) == 2);
+        CU_ASSERT(cdc_treap_iter_value(&ret.first) == c.second);
+        CU_ASSERT(ret.second == true);
+
+        CU_ASSERT(cdc_treap_insert_or_assign(t, c.first, d.second, &ret) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_treap_size(t) == 2);
+        CU_ASSERT(cdc_treap_get(t, c.first, &value) == CDC_STATUS_OK);
+        CU_ASSERT(value == d.second);
+        CU_ASSERT(cdc_treap_iter_value(&ret.first) == d.second);
+        CU_ASSERT(ret.second == false);
+
+        cdc_treap_dtor(t);
+}
+
+void test_treap_erase()
+{
+        struct cdc_treap *t = NULL;
+        void *value;
+
+        CU_ASSERT(cdc_treap_ctorl(&t, NULL, lt_int, NULL,
+                                       &a, &b, &c, &d, &g, &h, &e, &f, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_treap_size(t) == 8);
+        CU_ASSERT(treap_key_int_eq(t, 8, &a, &b, &c, &d, &g, &h, &e, &f));
+        CU_ASSERT(cdc_treap_erase(t, a.first) == 1);
+
+        CU_ASSERT(cdc_treap_get(t, a.first, &value) == CDC_STATUS_NOT_FOUND);
+        CU_ASSERT(treap_key_int_eq(t, 7, &b, &c, &d, &g, &h, &e, &f));
+
+        CU_ASSERT(cdc_treap_erase(t, h.first) == 1);
+        CU_ASSERT(cdc_treap_get(t, h.first, &value) == CDC_STATUS_NOT_FOUND);
+        CU_ASSERT(cdc_treap_size(t) == 6);
+        CU_ASSERT(treap_key_int_eq(t, 6, &b, &c, &d, &g, &e, &f));
+
+        CU_ASSERT(cdc_treap_erase(t, h.first) == 0);
+        CU_ASSERT(cdc_treap_size(t) == 6);
+        CU_ASSERT(treap_key_int_eq(t, 6, &b, &c, &d, &g, &e, &f));
+
+        CU_ASSERT(cdc_treap_erase(t, b.first) == 1);
+        CU_ASSERT(cdc_treap_get(t, b.first, &value) == CDC_STATUS_NOT_FOUND);
+        CU_ASSERT(cdc_treap_size(t) == 5);
+        CU_ASSERT(treap_key_int_eq(t, 5, &c, &d, &g, &e, &f));
+
+        CU_ASSERT(cdc_treap_erase(t, c.first) == 1);
+        CU_ASSERT(cdc_treap_get(t, c.first, &value) == CDC_STATUS_NOT_FOUND);
+        CU_ASSERT(cdc_treap_size(t) == 4);
+        CU_ASSERT(treap_key_int_eq(t, 4, &d, &g, &e, &f));
+
+        CU_ASSERT(cdc_treap_erase(t, d.first) == 1);
+        CU_ASSERT(cdc_treap_get(t, d.first, &value) == CDC_STATUS_NOT_FOUND);
+        CU_ASSERT(cdc_treap_size(t) == 3);
+        CU_ASSERT(treap_key_int_eq(t, 3, &g, &e, &f));
+
+        CU_ASSERT(cdc_treap_erase(t, f.first) == 1);
+        CU_ASSERT(cdc_treap_get(t, f.first, &value) == CDC_STATUS_NOT_FOUND);
+        CU_ASSERT(cdc_treap_size(t) == 2);
+        CU_ASSERT(treap_key_int_eq(t, 2, &g, &e));
+
+        CU_ASSERT(cdc_treap_erase(t, e.first) == 1);
+        CU_ASSERT(cdc_treap_get(t, e.first, &value) == CDC_STATUS_NOT_FOUND);
+        CU_ASSERT(cdc_treap_size(t) == 1);
+        CU_ASSERT(treap_key_int_eq(t, 1, &g));
+
+        CU_ASSERT(cdc_treap_erase(t, g.first) == 1);
+        CU_ASSERT(cdc_treap_get(t, g.first, &value) == CDC_STATUS_NOT_FOUND);
+        CU_ASSERT(cdc_treap_size(t) == 0);
 
         cdc_treap_dtor(t);
 }

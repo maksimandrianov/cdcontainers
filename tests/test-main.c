@@ -242,6 +242,13 @@ int main(int argc, char** argv)
             CU_add_test(p_suite, "test_ctorl", test_treap_ctorl) == NULL ||
             CU_add_test(p_suite, "test_insert", test_treap_insert) == NULL ||
             CU_add_test(p_suite, "test_swap", test_treap_swap) == NULL ||
+            CU_add_test(p_suite, "test_get", test_treap_get) == NULL ||
+            CU_add_test(p_suite, "test_count", test_treap_count) == NULL ||
+            CU_add_test(p_suite, "test_find", test_treap_find) == NULL ||
+            CU_add_test(p_suite, "test_equal_range", test_treap_equal_range) == NULL ||
+            CU_add_test(p_suite, "test_clear", test_treap_clear) == NULL ||
+            CU_add_test(p_suite, "test_insert_or_assign", test_treap_insert_or_assign) == NULL ||
+            CU_add_test(p_suite, "test_erase", test_treap_erase) == NULL ||
             CU_add_test(p_suite, "test_iterators", test_treap_iterators) == NULL) {
                 CU_cleanup_registry();
                 return CU_get_error();

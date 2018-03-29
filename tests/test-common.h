@@ -155,6 +155,13 @@ void test_treap_insert();
 void test_treap_erase();
 void test_treap_swap();
 void test_treap_iterators();
+void test_treap_get();
+void test_treap_count();
+void test_treap_find();
+void test_treap_equal_range();
+void test_treap_clear();
+void test_treap_insert_or_assign();
+void test_treap_erase();
 
 // Hash table tests
 void test_hash_table_ctor();
