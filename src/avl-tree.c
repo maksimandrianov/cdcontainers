@@ -25,12 +25,6 @@
 #include <stdlib.h>
 #include "data-info.h"
 
-struct node_pair
-{
-        struct cdc_avl_tree_node *l, *r;
-};
-
-
 static void free_node(struct cdc_avl_tree *t, struct cdc_avl_tree_node *node)
 {
         assert(t != NULL);
