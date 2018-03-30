@@ -361,7 +361,6 @@ enum cdc_stat cdc_hash_table_ctor(struct cdc_hash_table **t,
         assert(equal != NULL);
 
         return cdc_hash_table_ctor1(t, info, hash, equal, HASH_TABLE_LOAD_FACTOR);
-
 }
 
 
@@ -402,6 +401,7 @@ void cdc_hash_table_dtor(struct cdc_hash_table *t)
         assert(t != NULL);
 
         free_all_entries(t);
+        free(t->buckets);
         cdc_di_shared_dtor(t->dinfo);
         free(t);
 }
@@ -451,7 +451,7 @@ void cdc_hash_table_equal_range(struct cdc_hash_table *t, void *key,
                 pair->first.current = entry->next;
                 pair->second.current = entry->next->next;
         } else {
-               pair->first.current = pair->second.current = NULL;
+                pair->first.current = pair->second.current = NULL;
         }
 }
 
