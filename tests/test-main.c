@@ -299,6 +299,28 @@ int main(int argc, char** argv)
                 return CU_get_error();
         }
 
+        p_suite = CU_add_suite("AVL TREE TESTS", NULL, NULL);
+        if (p_suite == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
+        if (CU_add_test(p_suite, "test_ctor", test_avl_tree_ctor) == NULL ||
+            CU_add_test(p_suite, "test_ctorl", test_avl_tree_ctorl) == NULL ||
+            CU_add_test(p_suite, "test_insert", test_avl_tree_insert) == NULL ||
+            CU_add_test(p_suite, "test_swap", test_avl_tree_swap) == NULL ||
+            CU_add_test(p_suite, "test_get", test_avl_tree_get) == NULL ||
+            CU_add_test(p_suite, "test_count", test_avl_tree_count) == NULL ||
+            CU_add_test(p_suite, "test_find", test_avl_tree_find) == NULL ||
+            CU_add_test(p_suite, "test_equal_range", test_avl_tree_equal_range) == NULL ||
+            CU_add_test(p_suite, "test_clear", test_avl_tree_clear) == NULL ||
+            CU_add_test(p_suite, "test_insert_or_assign", test_avl_tree_insert_or_assign) == NULL ||
+            CU_add_test(p_suite, "test_erase", test_avl_tree_erase) == NULL ||
+            CU_add_test(p_suite, "test_iterators", test_avl_tree_iterators) == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
         CU_basic_set_mode(CU_BRM_VERBOSE);
         CU_basic_run_tests();
         CU_cleanup_registry();

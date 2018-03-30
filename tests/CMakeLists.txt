@@ -38,6 +38,7 @@ set(SOURCE
       test-pairing-heap.c
       test-hash-table.c
       test-splay-tree.c
+      test-avl-tree.c
       test-main.c
 )
 

@@ -193,4 +193,19 @@ void test_splay_tree_clear();
 void test_splay_tree_insert_or_assign();
 void test_splay_tree_erase();
 
+// Avl tree tests
+void test_avl_tree_ctor();
+void test_avl_tree_ctorl();
+void test_avl_tree_insert();
+void test_avl_tree_erase();
+void test_avl_tree_swap();
+void test_avl_tree_iterators();
+void test_avl_tree_get();
+void test_avl_tree_count();
+void test_avl_tree_find();
+void test_avl_tree_equal_range();
+void test_avl_tree_clear();
+void test_avl_tree_insert_or_assign();
+void test_avl_tree_erase();
+
 #endif  // CDSTRUCTURES_TESTS_TESTS_COMMON_H

@@ -20,6 +20,7 @@ set(SOURCE
         pairing-heap.c
         hash-table.c
         splay-tree.c
+        avl-tree.c
         status.c
         common.c
         data-info.c
