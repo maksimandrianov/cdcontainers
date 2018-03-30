@@ -139,23 +139,24 @@ static struct cdc_splay_tree_node *predecessor(struct cdc_splay_tree_node *node)
         return p;
 }
 
-static void update_link(struct cdc_splay_tree_node *gp,
-                        struct cdc_splay_tree_node *p,
-                        struct cdc_splay_tree_node *ch)
+static void update_link(struct cdc_splay_tree_node *parent,
+                        struct cdc_splay_tree_node *old,
+                        struct cdc_splay_tree_node *node)
 {
-        if (gp->left == p)
-                gp->left = ch;
+        if (!parent)
+                return;
+
+        if (parent->left == old)
+                parent->left = node;
         else
-                gp->right = ch;
+                parent->right = node;
 }
 
 static struct cdc_splay_tree_node *zig_right(struct cdc_splay_tree_node *node)
 {
         struct cdc_splay_tree_node *p = node->parent;
 
-        if (p->parent)
-                update_link(p->parent, p, node);
-
+        update_link(p->parent, p, node);
         node->parent = p->parent;
         p->left = node->right;
         if (p->left)
@@ -172,9 +173,7 @@ static struct cdc_splay_tree_node *zig_left(struct cdc_splay_tree_node *node)
 {
         struct cdc_splay_tree_node *p = node->parent;
 
-        if (p->parent)
-                update_link(p->parent, p, node);
-
+        update_link(p->parent, p, node);
         node->parent = p->parent;
         p->right = node->left;
         if (p->right)
