@@ -24,6 +24,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include "data-info.h"
+#include "tree.h"
+
+MAKE_FIND_NODE(struct cdc_avl_tree_node *)
+MAKE_MIN_NODE(struct cdc_avl_tree_node *)
+MAKE_MAX_NODE(struct cdc_avl_tree_node *)
+MAKE_SUCCESSOR(struct cdc_avl_tree_node *)
+MAKE_PREDECESSOR(struct cdc_avl_tree_node *)
 
 static void free_node(struct cdc_avl_tree *t, struct cdc_avl_tree_node *node)
 {
@@ -65,73 +72,6 @@ static struct cdc_avl_tree_node *new_node(void *key, void *val)
         }
 
         return node;
-}
-
-static struct cdc_avl_tree_node *find_node(struct cdc_avl_tree_node *node,
-                                           void *key, cdc_binary_pred_fn_t cmp)
-{
-        while (node && cdc_not_eq(cmp, node->key, key)) {
-                if (cmp(key, node->key))
-                        node = node->left;
-                else
-                        node = node->right;
-        }
-
-        return node;
-}
-
-static struct cdc_avl_tree_node *min_node(struct cdc_avl_tree_node *node)
-{
-        if (node == NULL)
-                return NULL;
-
-        while (node->left != NULL)
-                node = node->left;
-
-        return node;
-}
-
-static struct cdc_avl_tree_node *max_node(struct cdc_avl_tree_node *node)
-{
-        if (node == NULL)
-                return NULL;
-
-        while (node->right != NULL)
-                node = node->right;
-
-        return node;
-}
-
-static struct cdc_avl_tree_node *successor(struct cdc_avl_tree_node *node)
-{
-        struct cdc_avl_tree_node *p;
-
-        if (node->right)
-                return min_node(node->right);
-
-        p = node->parent;
-        while (p && node == p->right) {
-                node = p;
-                p = p->parent;
-        }
-
-        return p;
-}
-
-static struct cdc_avl_tree_node *predecessor(struct cdc_avl_tree_node *node)
-{
-        struct cdc_avl_tree_node *p;
-
-        if (node->left)
-                return max_node(node->left);
-
-        p = node->parent;
-        while (p && node == p->left) {
-                node = p;
-                p = p->parent;
-        }
-
-        return p;
 }
 
 static unsigned char height(struct cdc_avl_tree_node* node)
