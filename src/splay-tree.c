@@ -237,18 +237,25 @@ static struct cdc_splay_tree_node *splay(struct cdc_splay_tree_node *node)
 static struct cdc_splay_tree_node *find_nearest(struct cdc_splay_tree_node *node,
                                                 void *key, cdc_binary_pred_fn_t compar)
 {
-        struct cdc_splay_tree_node *prev = NULL;
+        struct cdc_splay_tree_node *tmp = node;
 
-        while (node && cdc_not_eq(compar, node->key, key)) {
-                prev = node;
-                if (compar(key, node->key))
-                        node = node->left;
-                else
-                        node = node->right;
+        while (node) {
+                if (compar(key, node->key)) {
+                        if (node->left)
+                                node = node->left;
+                        else
+                                break;
+                } else if (compar(node->key, key)) {
+                        if (node->right)
+                                node = node->right;
+                        else
+                                break;
+                } else {
+                        break;
+                }
         }
 
-        prev = (node && cdc_eq(compar, node->key, key)) ? node : prev;
-        return prev ? prev : max_node(node);
+        return node ? node : max_node(tmp);
 }
 
 static struct node_pair split(struct cdc_splay_tree_node *node, void *key,

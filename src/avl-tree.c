@@ -236,47 +236,59 @@ static struct cdc_avl_tree_node *balance(struct cdc_avl_tree_node *node)
         return node;
 }
 
-static struct cdc_avl_tree_node *make_and_insert_unique(struct cdc_avl_tree *t,
-                                                        void *key, void *value,
-                                                        bool *inserted)
+static struct cdc_avl_tree_node *insert_unique(struct cdc_avl_tree *t,
+                                               struct cdc_avl_tree_node *node,
+                                               struct cdc_avl_tree_node *nearest)
 {
-        struct cdc_avl_tree_node *tmp = t->root, *node;
 
         if (t->root == NULL) {
-                node = new_node(key, value);
                 t->root = node;
         } else {
-                while (true) {
-                        if (t->compar(key, tmp->key)) {
-                                if (tmp->left) {
-                                        tmp = tmp->left;
-                                } else {
-                                        node = new_node(key, value);
-                                        tmp->left = node;
-                                        node->parent = tmp;
-                                        break;
-                                }
-                        } else if (t->compar(tmp->key, key)) {
-                                if (tmp->right) {
-                                        tmp = tmp->right;
-                                } else {
-                                        node = new_node(key, value);
-                                        tmp->right = node;
-                                        node->parent = tmp;
-                                        break;
-                                }
-                        } else {
-                                *inserted = false;
-                                return tmp;
-                        }
-                }
+                if (t->compar(node->key, nearest->key))
+                        nearest->left = node;
+                else
+                        nearest->right = node;
 
-                t->root = balance(tmp);
+                node->parent = nearest;
+                t->root = balance(nearest);
         }
 
         ++t->size;
-        *inserted = true;
         return node;
+}
+
+static struct cdc_avl_tree_node *find_hint(struct cdc_avl_tree_node *node,
+                                           void *key, cdc_binary_pred_fn_t compar)
+{
+        while (node) {
+                if (compar(key, node->key)) {
+                        if (node->left)
+                                node = node->left;
+                        else
+                                break;
+                } else if (compar(node->key, key)) {
+                        if (node->right)
+                                node = node->right;
+                        else
+                                break;
+                } else {
+                        break;
+                }
+        }
+
+        return node;
+}
+
+static struct cdc_avl_tree_node *make_and_insert_unique(struct cdc_avl_tree *t,
+                                                        void *key, void *value,
+                                                        struct cdc_avl_tree_node *nearest)
+{
+        struct cdc_avl_tree_node *node = new_node(key, value);
+
+        if (!node)
+                return node;
+
+        return insert_unique(t, node, nearest);
 }
 
 static struct cdc_avl_tree_node *erase_node(struct cdc_avl_tree *t,
@@ -484,18 +496,20 @@ enum cdc_stat cdc_avl_tree_insert(struct cdc_avl_tree *t, void *key, void *value
 {
         assert(t != NULL);
 
-        bool inserted;
-        struct cdc_avl_tree_node *node;
+        struct cdc_avl_tree_node *node = find_hint(t->root, key, t->compar);
+        bool finded = node ? cdc_eq(t->compar, node->key, key) : false;
 
-        node = make_and_insert_unique(t, key, value, &inserted);
-        if (inserted && !node)
-                return CDC_STATUS_BAD_ALLOC;
+        if (!finded) {
+                node = make_and_insert_unique(t, key, value, node);
+                if (!node)
+                        return CDC_STATUS_BAD_ALLOC;
+        }
 
         if (ret) {
                 (*ret).first.container = t;
                 (*ret).first.current = node;
                 (*ret).first.prev = predecessor(node);
-                (*ret).second = inserted;
+                (*ret).second = !finded;
         }
 
         return CDC_STATUS_OK;
@@ -507,21 +521,22 @@ enum cdc_stat cdc_avl_tree_insert_or_assign(struct cdc_avl_tree *t,
 {
         assert(t != NULL);
 
-        bool inserted;
-        struct cdc_avl_tree_node *node;
+        struct cdc_avl_tree_node *node = find_hint(t->root, key, t->compar);
+        bool finded = node ? cdc_eq(t->compar, node->key, key) : false;
 
-        node = make_and_insert_unique(t, key, value, &inserted);
-        if (inserted && !node)
-                return CDC_STATUS_BAD_ALLOC;
-
-        if (!inserted)
+        if (!finded) {
+                node = make_and_insert_unique(t, key, value, node);
+                if (!node)
+                        return CDC_STATUS_BAD_ALLOC;
+        } else {
                 node->value = value;
+        }
 
         if (ret) {
                 (*ret).first.container = t;
                 (*ret).first.current = node;
                 (*ret).first.prev = predecessor(node);
-                (*ret).second = inserted;
+                (*ret).second = !finded;
         }
 
         return CDC_STATUS_OK;
