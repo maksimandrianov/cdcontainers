@@ -72,6 +72,18 @@ static inline void treap_inorder_print_int(struct cdc_treap_node *node)
                 treap_inorder_print_int(node->right);
 }
 
+static inline size_t treap_height(struct cdc_treap_node *node)
+{
+        size_t lh, rh;
+
+        if (node == NULL)
+                return 0;
+
+        lh = treap_height(node->left);
+        rh = treap_height(node->right);
+        return CDC_MAX(lh, rh) + 1;
+}
+
 void test_treap_ctor()
 {
         struct cdc_treap *t;
@@ -211,6 +223,7 @@ void test_treap_insert()
                 }
         }
 
+//        printf("%d\n", treap_height(t->root));
         CU_ASSERT(cdc_treap_size(t) == count);
         CU_ASSERT(failed == false);
 
