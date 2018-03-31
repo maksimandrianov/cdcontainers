@@ -76,7 +76,7 @@ void test_splay_tree_ctor()
 {
         struct cdc_splay_tree *t;
 
-        CU_ASSERT(cdc_splay_tree_ctor(&t, NULL, lt_int) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_splay_tree_ctor1(&t, NULL, lt_int) == CDC_STATUS_OK);
         CU_ASSERT(cdc_splay_tree_size(t) == 0);
 
         cdc_splay_tree_dtor(t);
@@ -86,7 +86,7 @@ void test_splay_tree_ctorl()
 {
         struct cdc_splay_tree *t;
 
-        CU_ASSERT(cdc_splay_tree_ctorl(&t, NULL, lt_int, &a, &g, &h, &d, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_splay_tree_ctorl1(&t, NULL, lt_int, &a, &g, &h, &d, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_splay_tree_size(t) == 4);
         CU_ASSERT(splay_tree_key_int_eq(t, 4, &a, &g, &h, &d));
 
@@ -98,8 +98,8 @@ void test_splay_tree_get()
         struct cdc_splay_tree *t = NULL;
         void *value;
 
-        CU_ASSERT(cdc_splay_tree_ctorl(&t, NULL, lt_int,
-                                       &a, &b, &c, &d, &g, &h, &e, &f, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_splay_tree_ctorl1(&t, NULL, lt_int,
+                                        &a, &b, &c, &d, &g, &h, &e, &f, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_splay_tree_size(t) == 8);
         CU_ASSERT(splay_tree_key_int_eq(t, 8, &a, &b, &c, &d, &g, &h, &e, &f));
         CU_ASSERT(cdc_splay_tree_get(t, CDC_INT_TO_PTR(10), &value) == CDC_STATUS_NOT_FOUND);
@@ -110,7 +110,7 @@ void test_splay_tree_count()
 {
         struct cdc_splay_tree *t = NULL;
 
-        CU_ASSERT(cdc_splay_tree_ctorl(&t, NULL, lt_int, &a, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_splay_tree_ctorl1(&t, NULL, lt_int, &a, &b, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_splay_tree_size(t) == 2);
         CU_ASSERT(cdc_splay_tree_count(t, a.first) == 1);
         CU_ASSERT(cdc_splay_tree_count(t, b.first) == 1);
@@ -125,7 +125,7 @@ void test_splay_tree_find()
         struct cdc_splay_tree_iter it, it_end;
 
 
-        CU_ASSERT(cdc_splay_tree_ctorl(&t, NULL, lt_int, &a, &b, &c, &d, &g, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_splay_tree_ctorl1(&t, NULL, lt_int, &a, &b, &c, &d, &g, NULL) == CDC_STATUS_OK);
 
         cdc_splay_tree_find(t, a.first, &it);
         CU_ASSERT(cdc_splay_tree_iter_value(&it) == a.second);
@@ -146,7 +146,7 @@ void test_splay_tree_equal_range()
         struct cdc_pair_splay_tree_iter res;
         struct cdc_splay_tree *t = NULL;
 
-        CU_ASSERT(cdc_splay_tree_ctorl(&t, NULL, lt_int, &a, &b, &c, &d, &g, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_splay_tree_ctorl1(&t, NULL, lt_int, &a, &b, &c, &d, &g, NULL) == CDC_STATUS_OK);
 
         cdc_splay_tree_equal_range(t, a.first, &res);
         CU_ASSERT(cdc_splay_tree_iter_value(&res.first) == a.second);
@@ -175,7 +175,7 @@ void test_splay_tree_clear()
 {
         struct cdc_splay_tree *t = NULL;
 
-        CU_ASSERT(cdc_splay_tree_ctorl(&t, NULL, lt_int, &a, &b, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_splay_tree_ctorl1(&t, NULL, lt_int, &a, &b, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_splay_tree_size(t) == 2);
         cdc_splay_tree_clear(t);
         CU_ASSERT(cdc_splay_tree_size(t) == 0);
@@ -192,7 +192,7 @@ void test_splay_tree_insert()
         bool failed = false;
         void *val;
 
-        CU_ASSERT(cdc_splay_tree_ctor(&t, NULL, lt_int) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_splay_tree_ctor1(&t, NULL, lt_int) == CDC_STATUS_OK);
 
         for (i = 0; i < count; ++i) {
                 if (cdc_splay_tree_insert(t, CDC_INT_TO_PTR(i),
@@ -224,7 +224,7 @@ void test_splay_tree_insert_or_assign()
         struct cdc_splay_tree *t = NULL;
         void *value;
 
-        CU_ASSERT(cdc_splay_tree_ctor(&t, NULL, lt_int) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_splay_tree_ctor1(&t, NULL, lt_int) == CDC_STATUS_OK);
 
         CU_ASSERT(cdc_splay_tree_insert_or_assign(t, a.first, a.second, &ret) == CDC_STATUS_OK);
         CU_ASSERT(cdc_splay_tree_size(t) == 1);
@@ -258,8 +258,8 @@ void test_splay_tree_erase()
         struct cdc_splay_tree *t = NULL;
         void *value;
 
-        CU_ASSERT(cdc_splay_tree_ctorl(&t, NULL, lt_int,
-                                       &a, &b, &c, &d, &g, &h, &e, &f, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_splay_tree_ctorl1(&t, NULL, lt_int,
+                                        &a, &b, &c, &d, &g, &h, &e, &f, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_splay_tree_size(t) == 8);
         CU_ASSERT(splay_tree_key_int_eq(t, 8, &a, &b, &c, &d, &g, &h, &e, &f));
         CU_ASSERT(cdc_splay_tree_erase(t, a.first) == 1);
@@ -316,8 +316,8 @@ void test_splay_tree_iterators()
         bool check;
         int i;
 
-        CU_ASSERT(cdc_splay_tree_ctorl(&t, NULL, lt_int,
-                                       &a, &b, &c, &d, &e, &f, &g, &h, NULL) == CDC_STATUS_OK);
+        CU_ASSERT(cdc_splay_tree_ctorl1(&t, NULL, lt_int,
+                                        &a, &b, &c, &d, &e, &f, &g, &h, NULL) == CDC_STATUS_OK);
         CU_ASSERT(cdc_splay_tree_size(t) == 8);
 
         check = true;

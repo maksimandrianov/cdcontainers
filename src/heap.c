@@ -108,11 +108,11 @@ static enum cdc_stat init_varg(struct cdc_heap *h, va_list args)
         return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_heap_ctor(struct cdc_heap **h, struct cdc_data_info *info,
-                            cdc_binary_pred_fn_t compar)
+enum cdc_stat cdc_heap_ctor1(struct cdc_heap **h, struct cdc_data_info *info,
+                             cdc_binary_pred_fn_t compar)
 {
         assert(h != NULL);
-        assert(compar != NULL);
+        assert(CDC_HAS_LT(info) || compar != NULL);
 
         struct cdc_heap *tmp;
         enum cdc_stat ret;
@@ -121,7 +121,7 @@ enum cdc_stat cdc_heap_ctor(struct cdc_heap **h, struct cdc_data_info *info,
         if (!tmp)
                 return CDC_STATUS_BAD_ALLOC;
 
-        tmp->compar = compar;
+        tmp->compar = compar ? compar : info->lt;
         ret = cdc_vector_ctor(&tmp->vector, info);
         if (ret != CDC_STATUS_OK) {
                 free(tmp);
@@ -132,35 +132,67 @@ enum cdc_stat cdc_heap_ctor(struct cdc_heap **h, struct cdc_data_info *info,
         return ret;
 }
 
-enum cdc_stat cdc_heap_ctorl(struct cdc_heap **h, struct cdc_data_info *info,
-                             cdc_binary_pred_fn_t compar, ...)
+enum cdc_stat cdc_heap_ctorl1(struct cdc_heap **h, struct cdc_data_info *info,
+                              cdc_binary_pred_fn_t compar, ...)
 {
         assert(h != NULL);
-        assert(compar != NULL);
+        assert(CDC_HAS_LT(info) || compar != NULL);
 
         enum cdc_stat ret;
         va_list args;
 
         va_start(args, compar);
-        ret = cdc_heap_ctorv(h, info, compar, args);
+        ret = cdc_heap_ctorv1(h, info, compar, args);
+        va_end(args);
+
+        return ret;
+}
+
+enum cdc_stat cdc_heap_ctorv1(struct cdc_heap **h, struct cdc_data_info *info,
+                              cdc_binary_pred_fn_t compar, va_list args)
+{
+        assert(h != NULL);
+        assert(CDC_HAS_LT(info) || compar != NULL);
+
+        enum cdc_stat ret;
+
+        ret = cdc_heap_ctor1(h, info, compar);
+        if (ret != CDC_STATUS_OK)
+                return ret;
+
+        return init_varg(*h, args);
+}
+
+enum cdc_stat cdc_heap_ctor(struct cdc_heap **h, struct cdc_data_info *info)
+{
+        assert(h != NULL);
+        assert(CDC_HAS_LT(info));
+
+        return cdc_heap_ctor1(h, info, NULL);
+}
+
+enum cdc_stat cdc_heap_ctorl(struct cdc_heap **h, struct cdc_data_info *info, ...)
+{
+        assert(h != NULL);
+        assert(CDC_HAS_LT(info));
+
+        enum cdc_stat ret;
+        va_list args;
+
+        va_start(args, info);
+        ret = cdc_heap_ctorv(h, info, args);
         va_end(args);
 
         return ret;
 }
 
 enum cdc_stat cdc_heap_ctorv(struct cdc_heap **h, struct cdc_data_info *info,
-                             cdc_binary_pred_fn_t compar, va_list args)
+                             va_list args)
 {
         assert(h != NULL);
-        assert(compar != NULL);
+        assert(CDC_HAS_LT(info));
 
-        enum cdc_stat ret;
-
-        ret = cdc_heap_ctor(h, info, compar);
-        if (ret != CDC_STATUS_OK)
-                return ret;
-
-        return init_varg(*h, args);
+        return cdc_heap_ctorv1(h, info, NULL, args);
 }
 
 void cdc_heap_dtor(struct cdc_heap *h)

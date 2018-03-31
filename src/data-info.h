@@ -26,9 +26,11 @@
 struct cdc_data_info *cdc_di_shared_ctorc(struct cdc_data_info *other);
 void cdc_di_shared_dtor(struct cdc_data_info *info);
 
-#define CDC_HAS_DFREE(container) (container->dinfo && container->dinfo->dfree)
-#define CDC_HAS_LT(container) (container->dinfo && container->dinfo->lt)
-#define CDC_HAS_SIZE(container) (container->dinfo && container->dinfo->size != 0)
+#define CDC_HAS_DFREE(dinfo) (dinfo && dinfo->dfree)
+#define CDC_HAS_LT(dinfo) (dinfo && dinfo->lt)
+#define CDC_HAS_EQ(dinfo) (dinfo && dinfo->eq)
+#define CDC_HAS_CP(dinfo) (dinfo && dinfo->cp)
+#define CDC_HAS_SIZE(dinfo) (dinfo && dinfo->size)
 
 static inline int cdc_eq(int (*pred)(const void *, const void *),
                          const void *l, const void *r)

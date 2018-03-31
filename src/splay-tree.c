@@ -37,7 +37,7 @@ static void free_node(struct cdc_splay_tree *t, struct cdc_splay_tree_node *node
 
         struct cdc_pair pair;
 
-        if (CDC_HAS_DFREE(t)) {
+        if (CDC_HAS_DFREE(t->dinfo)) {
                 pair.first = node->key;
                 pair.second = node->value;
                 t->dinfo->dfree(&pair);
@@ -352,10 +352,11 @@ static enum cdc_stat init_varg(struct cdc_splay_tree *t, va_list args)
         return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_splay_tree_ctor(struct cdc_splay_tree **t, struct cdc_data_info *info,
-                                  cdc_binary_pred_fn_t compar)
+enum cdc_stat cdc_splay_tree_ctor1(struct cdc_splay_tree **t, struct cdc_data_info *info,
+                                   cdc_binary_pred_fn_t compar)
 {
         assert(t != NULL);
+        assert(CDC_HAS_LT(info) || compar != NULL);
 
         struct cdc_splay_tree *tmp;
 
@@ -368,40 +369,74 @@ enum cdc_stat cdc_splay_tree_ctor(struct cdc_splay_tree **t, struct cdc_data_inf
                 return CDC_STATUS_BAD_ALLOC;
         }
 
-        tmp->compar = compar;
+        tmp->compar = compar ? compar : info->lt;
         *t = tmp;
         return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_splay_tree_ctorl(struct cdc_splay_tree **t, struct cdc_data_info *info,
-                                   cdc_binary_pred_fn_t compar, ...)
+enum cdc_stat cdc_splay_tree_ctorl1(struct cdc_splay_tree **t, struct cdc_data_info *info,
+                                    cdc_binary_pred_fn_t compar, ...)
 {
         assert(t != NULL);
-        assert(compar != NULL);
+        assert(CDC_HAS_LT(info) || compar != NULL);
 
         enum cdc_stat stat;
         va_list args;
 
         va_start(args, compar);
-        stat = cdc_splay_tree_ctorv(t, info, compar, args);
+        stat = cdc_splay_tree_ctorv1(t, info, compar, args);
         va_end(args);
 
         return stat;
 }
 
-enum cdc_stat cdc_splay_tree_ctorv(struct cdc_splay_tree **t, struct cdc_data_info *info,
-                                   cdc_binary_pred_fn_t compar, va_list args)
+enum cdc_stat cdc_splay_tree_ctorv1(struct cdc_splay_tree **t, struct cdc_data_info *info,
+                                    cdc_binary_pred_fn_t compar, va_list args)
 {
         assert(t != NULL);
-        assert(compar != NULL);
+        assert(CDC_HAS_LT(info) || compar != NULL);
 
         enum cdc_stat stat;
 
-        stat = cdc_splay_tree_ctor(t, info, compar);
+        stat = cdc_splay_tree_ctor1(t, info, compar);
         if (stat != CDC_STATUS_OK)
                 return stat;
 
         return init_varg(*t, args);
+}
+
+enum cdc_stat cdc_splay_tree_ctor(struct cdc_splay_tree **t,
+                                  struct cdc_data_info *info)
+{
+        assert(t != NULL);
+        assert(CDC_HAS_LT(info));
+
+        return cdc_splay_tree_ctor1(t, info, NULL);
+}
+
+enum cdc_stat cdc_splay_tree_ctorl(struct cdc_splay_tree **t,
+                                   struct cdc_data_info *info, ...)
+{
+        assert(t != NULL);
+        assert(CDC_HAS_LT(info));
+
+        enum cdc_stat stat;
+        va_list args;
+
+        va_start(args, info);
+        stat = cdc_splay_tree_ctorv(t, info, args);
+        va_end(args);
+
+        return stat;
+}
+
+enum cdc_stat cdc_splay_tree_ctorv(struct cdc_splay_tree **t,
+                                   struct cdc_data_info *info, va_list args)
+{
+        assert(t != NULL);
+        assert(CDC_HAS_LT(info));
+
+        return cdc_splay_tree_ctorv1(t, info, NULL, args);
 }
 
 void cdc_splay_tree_dtor(struct cdc_splay_tree *t)

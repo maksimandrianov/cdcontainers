@@ -29,7 +29,7 @@ static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info,
 
         struct cdc_binomial_heap **heap = (struct cdc_binomial_heap **)cntr;
 
-        return cdc_binomial_heap_ctor(heap, info, compar);
+        return cdc_binomial_heap_ctor1(heap, info, compar);
 }
 
 static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
@@ -39,7 +39,7 @@ static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
 
         struct cdc_binomial_heap **heap = (struct cdc_binomial_heap **)cntr;
 
-        return cdc_binomial_heap_ctorv(heap, info, compar, args);
+        return cdc_binomial_heap_ctorv1(heap, info, compar, args);
 }
 
 static void dtor(void *cntr)

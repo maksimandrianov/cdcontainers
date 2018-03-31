@@ -27,7 +27,7 @@
 static void free_node(struct cdc_list *l, struct cdc_list_node *node,
                       bool must_free)
 {
-        if (must_free && CDC_HAS_DFREE(l))
+        if (must_free && CDC_HAS_DFREE(l->dinfo))
                 l->dinfo->dfree(node->data);
 
         free(node);
@@ -598,6 +598,7 @@ void cdc_list_cmerge(struct cdc_list *l, struct cdc_list *other,
 void cdc_list_merge(struct cdc_list *l, struct cdc_list *other)
 {
         assert(l != NULL);
+        assert(CDC_HAS_LT(l->dinfo));
 
         cdc_list_cmerge(l, other, l->dinfo->lt);
 }
@@ -662,6 +663,7 @@ void cdc_list_punique(struct cdc_list *l, cdc_binary_pred_fn_t pred)
 void cdc_list_unique(struct cdc_list *l)
 {
         assert(l != NULL);
+        assert(CDC_HAS_LT(l->dinfo));
 
         struct cdc_list_node *curr = l->head, *next;
 
@@ -693,6 +695,7 @@ void cdc_list_csort(struct cdc_list *l, cdc_binary_pred_fn_t compare)
 void cdc_list_sort(struct cdc_list *l)
 {
         assert(l != NULL);
+        assert(CDC_HAS_LT(l->dinfo));
 
         cdc_list_csort(l, l->dinfo->lt);
 }

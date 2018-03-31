@@ -46,6 +46,7 @@
 typedef void (*cdc_free_fn_t)(void *);
 typedef int (*cdc_unary_pred_fn_t) (const void *);
 typedef int (*cdc_binary_pred_fn_t) (const void *, const void *);
+typedef void (*cdc_copy_fn_t) (void *, const void *);
 
 struct cdc_pair {
         void *first;
@@ -55,6 +56,8 @@ struct cdc_pair {
 struct cdc_data_info {
         cdc_free_fn_t dfree;
         cdc_binary_pred_fn_t lt;
+        cdc_binary_pred_fn_t eq;
+        cdc_copy_fn_t cp;
         size_t size;
         size_t __cnt;
 };

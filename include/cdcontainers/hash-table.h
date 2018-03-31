@@ -88,13 +88,52 @@ struct cdc_pair_hash_table_iter_bool {
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
  * @param hash - hash function to use
- * @param equal - comparison function to use for all key comparisons of this container
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
 enum cdc_stat cdc_hash_table_ctor(struct cdc_hash_table **t,
                                   struct cdc_data_info *info,
-                                  cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal);
+                                  cdc_hash_fn_t hash);
+
+/**
+ * @brief Constructs a hash table, initialized by an arbitrary number of
+ * pointers on cdc_pair's(first - key, and the second - value).  The last item
+ * must be NULL.
+ * @param t - cdc_hash_table
+ * @param info - cdc_data_info
+ * @param hash - hash function to use
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
+enum cdc_stat cdc_hash_table_ctorl(struct cdc_hash_table **t,
+                                   struct cdc_data_info *info,
+                                   cdc_hash_fn_t hash, ...);
+
+/**
+ * @brief Constructs a hash table, initialized by args. The last item
+ * must be NULL.
+ * @param t - cdc_hash_table
+ * @param info - cdc_data_info
+ * @param hash - hash function to use
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
+enum cdc_stat cdc_hash_table_ctorv(struct cdc_hash_table **t,
+                                   struct cdc_data_info *info,
+                                   cdc_hash_fn_t hash, va_list args);
+
+/**
+ * @brief Constructs an empty hash table
+ * @param t - cdc_hash_table
+ * @param info - cdc_data_info
+ * @param hash - hash function to use
+ * @param equal - comparison function to use for all key comparisons of this container
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
+enum cdc_stat cdc_hash_table_ctor1(struct cdc_hash_table **t,
+                                   struct cdc_data_info *info,
+                                   cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal);
 
 /**
  * @brief Constructs a hash table, initialized by an arbitrary number of
@@ -107,10 +146,10 @@ enum cdc_stat cdc_hash_table_ctor(struct cdc_hash_table **t,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_hash_table_ctorl(struct cdc_hash_table **t,
-                                   struct cdc_data_info *info,
-                                   cdc_hash_fn_t hash,
-                                   cdc_binary_pred_fn_t equal, ...);
+enum cdc_stat cdc_hash_table_ctorl1(struct cdc_hash_table **t,
+                                    struct cdc_data_info *info,
+                                    cdc_hash_fn_t hash,
+                                    cdc_binary_pred_fn_t equal, ...);
 
 /**
  * @brief Constructs a hash table, initialized by args. The last item
@@ -122,10 +161,10 @@ enum cdc_stat cdc_hash_table_ctorl(struct cdc_hash_table **t,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_hash_table_ctorv(struct cdc_hash_table **t,
-                                   struct cdc_data_info *info,
-                                   cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal,
-                                   va_list args);
+enum cdc_stat cdc_hash_table_ctorv1(struct cdc_hash_table **t,
+                                    struct cdc_data_info *info,
+                                    cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal,
+                                    va_list args);
 
 /**
  * @brief Constructs an empty hash table
@@ -137,7 +176,7 @@ enum cdc_stat cdc_hash_table_ctorv(struct cdc_hash_table **t,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_hash_table_ctor1(struct cdc_hash_table **t,
+enum cdc_stat cdc_hash_table_ctor2(struct cdc_hash_table **t,
                                    struct cdc_data_info *info,
                                    cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal,
                                    float load_factor);
@@ -154,7 +193,7 @@ enum cdc_stat cdc_hash_table_ctor1(struct cdc_hash_table **t,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_hash_table_ctorl1(struct cdc_hash_table **t,
+enum cdc_stat cdc_hash_table_ctorl2(struct cdc_hash_table **t,
                                     struct cdc_data_info *info,
                                     cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal,
                                     float load_factor, ...);
@@ -170,7 +209,7 @@ enum cdc_stat cdc_hash_table_ctorl1(struct cdc_hash_table **t,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_hash_table_ctorv1(struct cdc_hash_table **t,
+enum cdc_stat cdc_hash_table_ctorv2(struct cdc_hash_table **t,
                                     struct cdc_data_info *info,
                                     cdc_hash_fn_t hash, cdc_binary_pred_fn_t equal,
                                     float load_factor, va_list args);
@@ -485,6 +524,9 @@ typedef struct cdc_pair_hash_table_iter_bool pair_hash_table_iter_bool_t;
 #define hash_table_ctor1(...)               cdc_hash_table_ctor1(__VA_ARGS__)
 #define hash_table_ctorl1(...)              cdc_hash_table_ctorl1(__VA_ARGS__)
 #define hash_table_ctorv1(...)              cdc_hash_table_ctorv1(__VA_ARGS__)
+#define hash_table_ctor2(...)               cdc_hash_table_ctor2(__VA_ARGS__)
+#define hash_table_ctorl2(...)              cdc_hash_table_ctorl2(__VA_ARGS__)
+#define hash_table_ctorv2(...)              cdc_hash_table_ctorv2(__VA_ARGS__)
 #define hash_table_dtor(...)                cdc_hash_table_dtor(__VA_ARGS__)
 
 // Lookup

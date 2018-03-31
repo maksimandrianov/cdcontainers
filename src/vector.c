@@ -100,7 +100,7 @@ static void free_range(struct cdc_vector *v, size_t start, size_t end,
 
 static enum cdc_stat pop_back(struct cdc_vector *v, bool must_free)
 {
-        if (must_free && CDC_HAS_DFREE(v))
+        if (must_free && CDC_HAS_DFREE(v->dinfo))
                 v->dinfo->dfree(v->buffer[v->size - 1]);
 
         --v->size;
@@ -250,7 +250,7 @@ enum cdc_stat cdc_vector_remove(struct cdc_vector *v, size_t index, void **elem)
         if (elem) {
                 *elem = v->buffer[index];
         } else {
-                if (CDC_HAS_DFREE(v))
+                if (CDC_HAS_DFREE(v->dinfo))
                         v->dinfo->dfree(v->buffer[index]);
         }
 
