@@ -164,7 +164,7 @@ static void set(void *cntr, size_t index, void *value)
 
         struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
-        return cdc_deque_set(deque, index, value);
+        cdc_deque_set(deque, index, value);
 }
 
 

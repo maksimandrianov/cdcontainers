@@ -164,7 +164,7 @@ static void set(void *cntr, size_t index, void *value)
 
         struct cdc_vector *vector = (struct cdc_vector *)cntr;
 
-        return cdc_vector_set(vector, index, value);
+        cdc_vector_set(vector, index, value);
 }
 
 

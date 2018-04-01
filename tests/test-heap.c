@@ -24,7 +24,7 @@
 #include <float.h>
 #include <stdarg.h>
 #include <assert.h>
-#include "cdcontainers/heap.h"
+#include <cdcontainers/heap.h>
 
 static int gt_int(const void *a, const void *b)
 {

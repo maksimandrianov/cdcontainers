@@ -24,7 +24,8 @@
 #include <float.h>
 #include <stdarg.h>
 #include <assert.h>
-#include "cdcontainers/binomial-heap.h"
+#include <cdcontainers/binomial-heap.h>
+#include <cdcontainers/global.h>
 
 static size_t count_free = 0;
 
@@ -40,6 +41,8 @@ static int gt_ptr(const void *a, const void *b)
 
 static void test_free(void *ptr)
 {
+        CDC_UNUSED(ptr);
+
         ++count_free;
 }
 

@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <cdcontainers/vector.h>
+#include <cdcontainers/global.h>
 
 void exit_wiht_stat(enum cdc_stat s)
 {
@@ -30,7 +31,7 @@ void exit_wiht_stat(enum cdc_stat s)
 
 void print_int_vector(struct cdc_vector *v)
 {
-        int i;
+        size_t i;
 
         for (i = 0; i < cdc_vector_size(v); ++i)
                 printf("%i\n", *((int*)cdc_vector_get(v, i)));
@@ -38,6 +39,9 @@ void print_int_vector(struct cdc_vector *v)
 
 int main(int argc, char** argv)
 {
+
+        CDC_UNUSED(argc);
+        CDC_UNUSED(argv);
 
         struct cdc_vector *v, *w;
         enum cdc_stat ret;
@@ -96,4 +100,5 @@ int main(int argc, char** argv)
         cdc_vector_dtor(v);
         cdc_vector_dtor(w);
 
+        return 0;
 }

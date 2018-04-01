@@ -23,12 +23,13 @@
 #include <CUnit/Basic.h>
 #include <float.h>
 #include <stdarg.h>
-#include "cdcontainers/list.h"
+#include <cdcontainers/list.h>
 
 static bool list_range_int_eq(struct cdc_list *l, size_t count, ...)
 {
         va_list args;
-        int elem, i;
+        int elem;
+        size_t i;
         void *val;
         enum cdc_stat ret;
 
@@ -47,7 +48,7 @@ static bool list_range_int_eq(struct cdc_list *l, size_t count, ...)
 
 static inline void list_range_int_print(struct cdc_list *l)
 {
-        int i;
+        size_t i;
         void *val;
         enum cdc_stat ret;
 

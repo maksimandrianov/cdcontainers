@@ -23,8 +23,8 @@
 #include <CUnit/Basic.h>
 #include <float.h>
 #include <stdarg.h>
-#include "cdcontainers/map.h"
-#include "cdcontainers/casts.h"
+#include <cdcontainers/map.h>
+#include <cdcontainers/casts.h>
 
 static struct cdc_pair a = {CDC_INT_TO_PTR(0), CDC_INT_TO_PTR(0)};
 static struct cdc_pair b = {CDC_INT_TO_PTR(1), CDC_INT_TO_PTR(1)};
@@ -43,7 +43,7 @@ static int lt_int(const void *l, const void *r)
 static bool map_key_int_eq(struct cdc_map *m, size_t count, ...)
 {
         va_list args;
-        int i;
+        size_t i;
         struct cdc_pair *val;
         void *tmp;
 
@@ -149,7 +149,7 @@ void test_map_clear()
 void test_map_insert()
 {
         struct cdc_map *m;
-        int i, count = 100;
+        size_t i, count = 100;
         bool failed = false;
         void *val;
 
@@ -278,7 +278,7 @@ void test_map_iterators()
         struct cdc_map_iter it1, it2;
         struct cdc_pair *arr[] = {&a, &b, &c, &d, &e, &f, &g, &h};
         bool check;
-        int i;
+        size_t i;
 
         CU_ASSERT(cdc_mapa_ctorl1(&m, NULL, lt_int, &a, &b, &c, &d, &e, &f, &g, &h,
                                   NULL) == CDC_STATUS_OK);

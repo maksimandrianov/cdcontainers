@@ -19,11 +19,15 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 #include <CUnit/Basic.h>
+#include <cdcontainers/global.h>
 #include "test-common.h"
 
 
 int main(int argc, char** argv)
 {
+        CDC_UNUSED(argc);
+        CDC_UNUSED(argv);
+
         CU_pSuite p_suite = NULL;
 
         if (CUE_SUCCESS != CU_initialize_registry())

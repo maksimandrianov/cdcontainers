@@ -25,15 +25,16 @@
 #include <stdarg.h>
 #include <assert.h>
 #include <stdio.h>
-#include "cdcontainers/deque.h"
-#include "cdcontainers/casts.h"
+#include <cdcontainers/deque.h>
+#include <cdcontainers/casts.h>
 
 static bool deque_range_int_eq(struct cdc_deque *d, size_t count, ...)
 {
         assert(cdc_deque_size(d) >= count);
 
         va_list args;
-        int elem, i;
+        int elem;
+        size_t i;
         void *val;
         enum cdc_stat ret;
 
@@ -52,7 +53,7 @@ static bool deque_range_int_eq(struct cdc_deque *d, size_t count, ...)
 
 static inline void deque_range_int_print(struct cdc_deque *d)
 {
-        int i;
+        size_t i;
         void *val;
         enum cdc_stat ret;
 

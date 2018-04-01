@@ -164,7 +164,7 @@ static void set(void *cntr, size_t index, void *value)
 
         struct cdc_list *list = (struct cdc_list *)cntr;
 
-        return cdc_list_set(list, index, value);
+        cdc_list_set(list, index, value);
 }
 
 

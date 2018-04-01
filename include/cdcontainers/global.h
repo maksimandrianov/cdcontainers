@@ -18,25 +18,9 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
-#include "test-common.h"
+#ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_GLOBAL_H
+#define CDCONTAINERS_INCLUDE_CDCONTAINERS_GLOBAL_H
 
-#include <CUnit/Basic.h>
-#include <cdcontainers/casts.h>
+#define CDC_UNUSED(x) (void)(x)
 
-void test_ptr_float_cast()
-{
-#ifdef CDC_PTR_FLOAT_CAST
-        float value = 123456.123456;
-
-        CU_ASSERT(CDC_PTR_TO_FLOAT(CDC_FLOAT_TO_PTR(value)) == value);
-#endif
-}
-
-void test_ptr_double_cast()
-{
-#ifdef CDC_PTR_DOUBLE_CAST
-        double value = 123456.123456;
-
-        CU_ASSERT(CDC_PTR_TO_DOUBLE(CDC_DOUBLE_TO_PTR(value)) == value);
-#endif
-}
+#endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_GLOBAL_H

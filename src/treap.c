@@ -23,6 +23,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
+#include "cdcontainers/global.h"
 #include "data-info.h"
 #include "tree.h"
 
@@ -39,6 +40,8 @@ MAKE_PREDECESSOR(struct cdc_treap_node *)
 
 static int default_prior(void *value)
 {
+        CDC_UNUSED(value);
+
         return rand();
 }
 

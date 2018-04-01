@@ -26,8 +26,8 @@
 #include <assert.h>
 #include <stdio.h>
 #include <float.h>
-#include "cdcontainers/casts.h"
-#include "cdcontainers/hash-table.h"
+#include <cdcontainers/casts.h>
+#include <cdcontainers/hash-table.h>
 
 static struct cdc_pair a = {CDC_INT_TO_PTR(0), CDC_INT_TO_PTR(0)};
 static struct cdc_pair b = {CDC_INT_TO_PTR(1), CDC_INT_TO_PTR(1)};
@@ -51,7 +51,7 @@ static int eq_ptr2(const void *l, const void *r)
 static bool hash_table_key_int_eq(struct cdc_hash_table *t, size_t count, ...)
 {
         va_list args;
-        int i;
+        size_t i;
         struct cdc_pair *val;
         void *tmp;
 

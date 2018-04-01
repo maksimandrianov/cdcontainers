@@ -23,13 +23,13 @@
 #include <CUnit/Basic.h>
 #include <float.h>
 #include <stdarg.h>
-#include "cdcontainers/vector.h"
+#include <cdcontainers/vector.h>
 
 static bool vector_range_int_eq(struct cdc_vector *v, size_t count, ...)
 {
         va_list args;
         int elem;
-        int i;
+        size_t i;
 
         va_start(args, count);
         for (i = 0; i < count; ++i) {
