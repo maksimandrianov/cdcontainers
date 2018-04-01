@@ -452,6 +452,17 @@ enum cdc_stat cdc_treap_insert(struct cdc_treap *t, void *key, void *value,
 {
         assert(t != NULL);
 
+        if (ret)
+                return cdc_treap_insert1(t, key, value, &ret->first, &ret->second);
+
+        return cdc_treap_insert1(t, key, value, NULL, NULL);
+}
+
+enum cdc_stat cdc_treap_insert1(struct cdc_treap *t, void *key, void *value,
+                                struct cdc_treap_iter *it, bool *inserted)
+{
+        assert(t != NULL);
+
         struct cdc_treap_node *node = find_node(t->root, key, t->compar);
         bool finded = node;
 
@@ -461,18 +472,33 @@ enum cdc_stat cdc_treap_insert(struct cdc_treap *t, void *key, void *value,
                         return CDC_STATUS_BAD_ALLOC;
         }
 
-        if (ret) {
-                (*ret).first.container = t;
-                (*ret).first.current = node;
-                (*ret).first.prev = predecessor(node);
-                (*ret).second = !finded;
+        if (it) {
+                it->container = t;
+                it->current = node;
+                it->prev = predecessor(node);
         }
+
+        if (inserted)
+                *inserted = !finded;
 
         return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_treap_insert_or_assign(struct cdc_treap *t, void *key, void *value,
                                          struct cdc_pair_treap_iter_bool *ret)
+{
+        assert(t != NULL);
+
+        if (ret)
+                return cdc_treap_insert_or_assign1(t, key, value, &ret->first,
+                                                   &ret->second);
+
+        return cdc_treap_insert_or_assign1(t, key, value, NULL, NULL);
+}
+
+enum cdc_stat cdc_treap_insert_or_assign1(struct cdc_treap *t, void *key,
+                                          void *value, struct cdc_treap_iter *it,
+                                          bool *inserted)
 {
         assert(t != NULL);
 
@@ -487,12 +513,14 @@ enum cdc_stat cdc_treap_insert_or_assign(struct cdc_treap *t, void *key, void *v
                 node->value = value;
         }
 
-        if (ret) {
-                (*ret).first.container = t;
-                (*ret).first.current = node;
-                (*ret).first.prev = predecessor(node);
-                (*ret).second = !finded;
+        if (it) {
+                it->container = t;
+                it->current = node;
+                it->prev = predecessor(node);
         }
+
+        if (inserted)
+                *inserted = !finded;
 
         return CDC_STATUS_OK;
 }

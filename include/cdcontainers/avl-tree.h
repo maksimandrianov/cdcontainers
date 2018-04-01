@@ -242,6 +242,22 @@ enum cdc_stat cdc_avl_tree_insert(struct cdc_avl_tree *t, void *key, void *value
                                   struct cdc_pair_avl_tree_iter_bool *ret);
 
 /**
+ * @brief Inserts element into the container, if the container doesn't already
+ * contain an element with an equivalent key.
+ * @param t - cdc_map
+ * @param key - key of the element
+ * @param value - value of the element
+ * @param it - iterator to the inserted element (or to the element that prevented
+ * the insertion). The pointer can be equal to NULL
+ * @param inserted - bool denoting whether the insertion
+ * took place. The pointer can be equal to NULL
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
+enum cdc_stat cdc_avl_tree_insert1(struct cdc_avl_tree *t, void *key, void *value,
+                                   struct cdc_avl_tree_iter *it, bool *inserted);
+
+/**
  * @brief Inserts an element or assigns to the current element if the key
  * already exists
  * @param t - cdc_avl_tree
@@ -256,6 +272,23 @@ enum cdc_stat cdc_avl_tree_insert(struct cdc_avl_tree *t, void *key, void *value
 enum cdc_stat cdc_avl_tree_insert_or_assign(struct cdc_avl_tree *t,
                                             void *key, void *value,
                                             struct cdc_pair_avl_tree_iter_bool *ret);
+
+/**
+ * @brief Inserts an element or assigns to the current element if the key
+ * already exists
+ * @param t - cdc_map
+ * @param key - key of the element
+ * @param value - value of the element
+ * @param it - iterator is pointing at the element that was inserted or updated.
+ * The pointer can be equal to NULL
+ * @param inserted - bool is true if the insertion took place and false if the
+ * assignment took place. The pointer can be equal to NULL
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
+enum cdc_stat cdc_avl_tree_insert_or_assign1(struct cdc_avl_tree *t, void *key,
+                                             void *value, struct cdc_avl_tree_iter *it,
+                                             bool *inserted);
 
 /**
  * @brief Removes the element (if one exists) with the key equivalent to key.
@@ -396,7 +429,9 @@ typedef struct cdc_pair_avl_tree_iter_bool pair_avl_tree_iter_bool_t;
 // Modifiers
 #define avl_tree_clear(...)               cdc_avl_tree_clear(__VA_ARGS__)
 #define avl_tree_insert(...)              cdc_avl_tree_insert(__VA_ARGS__)
+#define avl_tree_insert1(...)             cdc_avl_tree_insert1(__VA_ARGS__)
 #define avl_tree_insert_or_assign(...)    cdc_avl_tree_insert_or_assign(__VA_ARGS__)
+#define avl_tree_insert_or_assign1(...)   cdc_avl_tree_insert_or_assign1(__VA_ARGS__)
 #define avl_tree_erase(...)               cdc_avl_tree_erase(__VA_ARGS__)
 #define avl_tree_swap(...)                cdc_avl_tree_swap(__VA_ARGS__)
 

@@ -173,8 +173,8 @@ static struct cdc_splay_tree_node *splay(struct cdc_splay_tree_node *node)
         return node;
 }
 
-static struct cdc_splay_tree_node *find_nearest(struct cdc_splay_tree_node *node,
-                                                void *key, cdc_binary_pred_fn_t compar)
+static struct cdc_splay_tree_node *find_hint(struct cdc_splay_tree_node *node,
+                                             void *key, cdc_binary_pred_fn_t compar)
 {
         struct cdc_splay_tree_node *tmp = node;
 
@@ -452,7 +452,19 @@ enum cdc_stat cdc_splay_tree_insert(struct cdc_splay_tree *t, void *key, void *v
 {
         assert(t != NULL);
 
-        struct cdc_splay_tree_node *node = find_nearest(t->root, key, t->compar);
+        if (ret)
+                return cdc_splay_tree_insert1(t, key, value, &ret->first,
+                                              &ret->second);
+
+        return cdc_splay_tree_insert1(t, key, value, NULL, NULL);
+}
+
+enum cdc_stat cdc_splay_tree_insert1(struct cdc_splay_tree *t, void *key, void *value,
+                                     struct cdc_splay_tree_iter *it, bool *inserted)
+{
+        assert(t != NULL);
+
+        struct cdc_splay_tree_node *node = find_hint(t->root, key, t->compar);
         bool finded = node ? cdc_eq(t->compar, node->key, key) : false;
 
         if (!finded) {
@@ -461,12 +473,14 @@ enum cdc_stat cdc_splay_tree_insert(struct cdc_splay_tree *t, void *key, void *v
                         return CDC_STATUS_BAD_ALLOC;
         }
 
-        if (ret) {
-                (*ret).first.container = t;
-                (*ret).first.current = node;
-                (*ret).first.prev = predecessor(node);
-                (*ret).second = !finded;
+        if (it) {
+                it->container = t;
+                it->current = node;
+                it->prev = predecessor(node);
         }
+
+        if (inserted)
+                *inserted = !finded;
 
         return CDC_STATUS_OK;
 }
@@ -477,7 +491,21 @@ enum cdc_stat cdc_splay_tree_insert_or_assign(struct cdc_splay_tree *t,
 {
         assert(t != NULL);
 
-        struct cdc_splay_tree_node *node = find_nearest(t->root, key, t->compar);
+        if (ret)
+                return cdc_splay_tree_insert_or_assign1(t, key, value,
+                                                        &ret->first, &ret->second);
+
+        return cdc_splay_tree_insert_or_assign1(t, key, value, NULL, NULL);
+}
+
+
+enum cdc_stat cdc_splay_tree_insert_or_assign1(struct cdc_splay_tree *t, void *key,
+                                               void *value, struct cdc_splay_tree_iter *it,
+                                               bool *inserted)
+{
+        assert(t != NULL);
+
+        struct cdc_splay_tree_node *node = find_hint(t->root, key, t->compar);
         bool finded = node ? cdc_eq(t->compar, node->key, key) : false;
 
         if (!finded) {
@@ -488,12 +516,14 @@ enum cdc_stat cdc_splay_tree_insert_or_assign(struct cdc_splay_tree *t,
                 node->value = value;
         }
 
-        if (ret) {
-                (*ret).first.container = t;
-                (*ret).first.current = node;
-                (*ret).first.prev = predecessor(node);
-                (*ret).second = !finded;
+        if (it) {
+                it->container = t;
+                it->current = node;
+                it->prev = predecessor(node);
         }
+
+        if (inserted)
+                *inserted = !finded;
 
         return CDC_STATUS_OK;
 }

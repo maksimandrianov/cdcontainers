@@ -436,6 +436,18 @@ enum cdc_stat cdc_avl_tree_insert(struct cdc_avl_tree *t, void *key, void *value
 {
         assert(t != NULL);
 
+        if (ret)
+                return cdc_avl_tree_insert1(t, key, value, &ret->first,
+                                            &ret->second);
+
+        return cdc_avl_tree_insert1(t, key, value, NULL, NULL);
+}
+
+enum cdc_stat cdc_avl_tree_insert1(struct cdc_avl_tree *t, void *key, void *value,
+                                   struct cdc_avl_tree_iter *it, bool *inserted)
+{
+        assert(t != NULL);
+
         struct cdc_avl_tree_node *node = find_hint(t->root, key, t->compar);
         bool finded = node ? cdc_eq(t->compar, node->key, key) : false;
 
@@ -445,12 +457,14 @@ enum cdc_stat cdc_avl_tree_insert(struct cdc_avl_tree *t, void *key, void *value
                         return CDC_STATUS_BAD_ALLOC;
         }
 
-        if (ret) {
-                (*ret).first.container = t;
-                (*ret).first.current = node;
-                (*ret).first.prev = predecessor(node);
-                (*ret).second = !finded;
+        if (it) {
+                it->container = t;
+                it->current = node;
+                it->prev = predecessor(node);
         }
+
+        if (inserted)
+                *inserted = !finded;
 
         return CDC_STATUS_OK;
 }
@@ -458,6 +472,19 @@ enum cdc_stat cdc_avl_tree_insert(struct cdc_avl_tree *t, void *key, void *value
 enum cdc_stat cdc_avl_tree_insert_or_assign(struct cdc_avl_tree *t,
                                             void *key, void *value,
                                             struct cdc_pair_avl_tree_iter_bool *ret)
+{
+        assert(t != NULL);
+
+        if (ret)
+                return cdc_avl_tree_insert_or_assign1(t, key, value, &ret->first,
+                                                      &ret->second);
+
+        return cdc_avl_tree_insert_or_assign1(t, key, value, NULL, NULL);
+}
+
+enum cdc_stat cdc_avl_tree_insert_or_assign1(struct cdc_avl_tree *t, void *key,
+                                             void *value, struct cdc_avl_tree_iter *it,
+                                             bool *inserted)
 {
         assert(t != NULL);
 
@@ -472,12 +499,14 @@ enum cdc_stat cdc_avl_tree_insert_or_assign(struct cdc_avl_tree *t,
                 node->value = value;
         }
 
-        if (ret) {
-                (*ret).first.container = t;
-                (*ret).first.current = node;
-                (*ret).first.prev = predecessor(node);
-                (*ret).second = !finded;
+        if (it) {
+                it->container = t;
+                it->current = node;
+                it->prev = predecessor(node);
         }
+
+        if (inserted)
+                *inserted = !finded;
 
         return CDC_STATUS_OK;
 }

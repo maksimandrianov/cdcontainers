@@ -284,6 +284,22 @@ enum cdc_stat cdc_treap_insert(struct cdc_treap *t, void *key, void *value,
                                struct cdc_pair_treap_iter_bool *ret);
 
 /**
+ * @brief Inserts element into the container, if the container doesn't already
+ * contain an element with an equivalent key.
+ * @param t - cdc_map
+ * @param key - key of the element
+ * @param value - value of the element
+ * @param it - iterator to the inserted element (or to the element that prevented
+ * the insertion). The pointer can be equal to NULL
+ * @param inserted - bool denoting whether the insertion
+ * took place. The pointer can be equal to NULL
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
+enum cdc_stat cdc_treap_insert1(struct cdc_treap *t, void *key, void *value,
+                                struct cdc_treap_iter *it, bool *inserted);
+
+/**
  * @brief Inserts an element or assigns to the current element if the key
  * already exists
  * @param t - cdc_treap
@@ -298,6 +314,23 @@ enum cdc_stat cdc_treap_insert(struct cdc_treap *t, void *key, void *value,
 enum cdc_stat cdc_treap_insert_or_assign(struct cdc_treap *t,
                                          void *key, void *value,
                                          struct cdc_pair_treap_iter_bool *ret);
+
+/**
+ * @brief Inserts an element or assigns to the current element if the key
+ * already exists
+ * @param t - cdc_map
+ * @param key - key of the element
+ * @param value - value of the element
+ * @param it - iterator is pointing at the element that was inserted or updated.
+ * The pointer can be equal to NULL
+ * @param inserted - bool is true if the insertion took place and false if the
+ * assignment took place. The pointer can be equal to NULL
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
+enum cdc_stat cdc_treap_insert_or_assign1(struct cdc_treap *t, void *key,
+                                          void *value, struct cdc_treap_iter *it,
+                                          bool *inserted);
 
 /**
  * @brief Removes the element (if one exists) with the key equivalent to key.
@@ -440,7 +473,9 @@ typedef struct cdc_pair_treap_iter_bool pair_treap_iter_bool_t;
 // Modifiers
 #define treap_clear(...)               cdc_treap_clear(__VA_ARGS__)
 #define treap_insert(...)              cdc_treap_insert(__VA_ARGS__)
+#define treap_insert1(...)             cdc_treap_insert1(__VA_ARGS__)
 #define treap_insert_or_assign(...)    cdc_treap_insert_or_assign(__VA_ARGS__)
+#define treap_insert_or_assign1(...)   cdc_treap_insert_or_assign1(__VA_ARGS__)
 #define treap_erase(...)               cdc_treap_erase(__VA_ARGS__)
 #define treap_swap(...)                cdc_treap_swap(__VA_ARGS__)
 
