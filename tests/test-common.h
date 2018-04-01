@@ -208,4 +208,18 @@ void test_avl_tree_clear();
 void test_avl_tree_insert_or_assign();
 void test_avl_tree_erase();
 
+// Map tests
+void test_map_ctor();
+void test_map_ctorl();
+void test_map_insert();
+void test_map_erase();
+void test_map_swap();
+void test_map_iterators();
+void test_map_get();
+void test_map_count();
+void test_map_find();
+void test_map_clear();
+void test_map_insert_or_assign();
+void test_map_erase();
+
 #endif  // CDSTRUCTURES_TESTS_TESTS_COMMON_H

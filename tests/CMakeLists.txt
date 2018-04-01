@@ -32,7 +32,9 @@ set(SOURCE
       test-heap.c
       test-stackv.c
       test-queued.c
-      test-priority-queue.c
+      test-priority-queueh.c
+      test-mapa.c
+      test-queued.c
       test-treap.c
       test-binomial-heap.c
       test-pairing-heap.c

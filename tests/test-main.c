@@ -321,6 +321,27 @@ int main(int argc, char** argv)
                 return CU_get_error();
         }
 
+        p_suite = CU_add_suite("MAP TESTS", NULL, NULL);
+        if (p_suite == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
+        if (CU_add_test(p_suite, "test_ctor", test_map_ctor) == NULL ||
+            CU_add_test(p_suite, "test_ctorl", test_map_ctorl) == NULL ||
+            CU_add_test(p_suite, "test_insert", test_map_insert) == NULL ||
+            CU_add_test(p_suite, "test_swap", test_map_swap) == NULL ||
+            CU_add_test(p_suite, "test_get", test_map_get) == NULL ||
+            CU_add_test(p_suite, "test_count", test_map_count) == NULL ||
+            CU_add_test(p_suite, "test_find", test_map_find) == NULL ||
+            CU_add_test(p_suite, "test_clear", test_map_clear) == NULL ||
+            CU_add_test(p_suite, "test_insert_or_assign", test_map_insert_or_assign) == NULL ||
+            CU_add_test(p_suite, "test_erase", test_map_erase) == NULL ||
+            CU_add_test(p_suite, "test_iterators", test_map_iterators) == NULL) {
+                CU_cleanup_registry();
+                return CU_get_error();
+        }
+
         CU_basic_set_mode(CU_BRM_VERBOSE);
         CU_basic_run_tests();
         CU_cleanup_registry();

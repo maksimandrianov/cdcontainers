@@ -15,6 +15,7 @@ set(SOURCE
         stack.c
         queue.c
         priority-queue.c
+        map.c
         treap.c
         binomial-heap.c
         pairing-heap.c
@@ -30,6 +31,9 @@ set(SOURCE
         tables/seq-vector.c
         tables/seq-list.c
         tables/seq-deque.c
+        tables/map-avl-tree.c
+        tables/map-splay-tree.c
+        tables/map-treap.c
 )
 
 include_directories("${PROJECT_INCLUDE_DIR}")
