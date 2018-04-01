@@ -23,8 +23,8 @@
   * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
   * @brief The cdc_sequence_table is a sequence container interface
   */
-#ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_ISEQUENCE_H
-#define CDCONTAINERS_INCLUDE_CDCONTAINERS_ISEQUENCE_H
+#ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_ISEQUENCE_H
+#define CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_ISEQUENCE_H
 
 #include <stdlib.h>
 #include <stdbool.h>
@@ -61,4 +61,4 @@ extern const void *cdc_seq_deque;
 extern const void *cdc_seq_vector;
 extern const void *cdc_seq_list;
 
-#endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_ISEQUENCE_H
+#endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_ISEQUENCE_H

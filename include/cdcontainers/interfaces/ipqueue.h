@@ -23,8 +23,8 @@
   * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
   * @brief The cdc_priority_queue_table is a priority queue interface
   */
-#ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_IPQUEUE_H
-#define CDCONTAINERS_INCLUDE_CDCONTAINERS_IPQUEUE_H
+#ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_IPQUEUE_H
+#define CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_IPQUEUE_H
 
 #include <stdlib.h>
 #include <stdbool.h>
@@ -54,4 +54,4 @@ extern const void *cdc_pq_heap;
 extern const void *cdc_pq_binheap;
 extern const void *cdc_pq_pheap;
 
-#endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_IPQUEUE_H
+#endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_IPQUEUE_H
