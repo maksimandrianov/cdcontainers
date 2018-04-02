@@ -12,6 +12,7 @@ The library contains the following data containers:
 * cdc_avl_tree - avl tree implementation
 * cdc_splay_tree - splay tree implementation
 * cdc_treep - сartesian tree implementation
+
 and following interfaces:
 * cdc_stack (Can work with: cdc_vector, cdc_list, cdc_deque)
 * cdc_queue (Can work with: cdc_vector, cdc_list, cdc_deque)
