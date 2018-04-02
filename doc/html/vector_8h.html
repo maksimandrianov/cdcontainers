@@ -102,6 +102,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a80c556761c364ce4d96862b52dcf2b01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#a80c556761c364ce4d96862b52dcf2b01">cdc_vector_dtor</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v)</td></tr>
 <tr class="memdesc:a80c556761c364ce4d96862b52dcf2b01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the vector.  <a href="#a80c556761c364ce4d96862b52dcf2b01">More...</a><br /></td></tr>
 <tr class="separator:a80c556761c364ce4d96862b52dcf2b01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a645f0d248d49d2116422fe6d1a0b448c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#a645f0d248d49d2116422fe6d1a0b448c">cdc_vector_cdtor</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v, <a class="el" href="common_8h.html#af7c34b27f2a151bddc3285f201c02974">cdc_free_fn_t</a> dfree)</td></tr>
+<tr class="memdesc:a645f0d248d49d2116422fe6d1a0b448c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the vector.  <a href="#a645f0d248d49d2116422fe6d1a0b448c">More...</a><br /></td></tr>
+<tr class="separator:a645f0d248d49d2116422fe6d1a0b448c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6385f8e20d3c4f60dde92fc14cb958d8"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#a6385f8e20d3c4f60dde92fc14cb958d8">cdc_vector_get</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v, size_t index)</td></tr>
 <tr class="memdesc:a6385f8e20d3c4f60dde92fc14cb958d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the item at index position index in the vector. Index must be a valid index position in the vector.  <a href="#a6385f8e20d3c4f60dde92fc14cb958d8">More...</a><br /></td></tr>
 <tr class="separator:a6385f8e20d3c4f60dde92fc14cb958d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,12 +147,21 @@ Functions</h2></td></tr>
 <tr class="memitem:aa847c5297f800c1bbbfe45800646ef4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#aa847c5297f800c1bbbfe45800646ef4b">cdc_vector_clear</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v)</td></tr>
 <tr class="memdesc:aa847c5297f800c1bbbfe45800646ef4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all the elements from the vector.  <a href="#aa847c5297f800c1bbbfe45800646ef4b">More...</a><br /></td></tr>
 <tr class="separator:aa847c5297f800c1bbbfe45800646ef4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe853bbca84ee400bab90d8db874bc62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#abe853bbca84ee400bab90d8db874bc62">cdc_vector_cclear</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v, <a class="el" href="common_8h.html#af7c34b27f2a151bddc3285f201c02974">cdc_free_fn_t</a> dfree)</td></tr>
+<tr class="memdesc:abe853bbca84ee400bab90d8db874bc62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all the elements from the vector.  <a href="#abe853bbca84ee400bab90d8db874bc62">More...</a><br /></td></tr>
+<tr class="separator:abe853bbca84ee400bab90d8db874bc62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a401660c347d68e2fef2bbd40a2b49445"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#a401660c347d68e2fef2bbd40a2b49445">cdc_vector_push_back</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v, void *value)</td></tr>
 <tr class="memdesc:a401660c347d68e2fef2bbd40a2b49445"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts value at the end of the vector.  <a href="#a401660c347d68e2fef2bbd40a2b49445">More...</a><br /></td></tr>
 <tr class="separator:a401660c347d68e2fef2bbd40a2b49445"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac24c30f4021f50474bb2a2f08ad51392"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#ac24c30f4021f50474bb2a2f08ad51392">cdc_vector_pop_back</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v)</td></tr>
 <tr class="memdesc:ac24c30f4021f50474bb2a2f08ad51392"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the last item in the vector.  <a href="#ac24c30f4021f50474bb2a2f08ad51392">More...</a><br /></td></tr>
 <tr class="separator:ac24c30f4021f50474bb2a2f08ad51392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d9087beb3df0fe8ef6605353ef683c9"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#a0d9087beb3df0fe8ef6605353ef683c9">cdc_vector_append</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v, void **data, size_t len)</td></tr>
+<tr class="memdesc:a0d9087beb3df0fe8ef6605353ef683c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends the data onto the end of <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> v.  <a href="#a0d9087beb3df0fe8ef6605353ef683c9">More...</a><br /></td></tr>
+<tr class="separator:a0d9087beb3df0fe8ef6605353ef683c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35d765f977a62766aff428e51f1a0054"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#a35d765f977a62766aff428e51f1a0054">cdc_vector_vappend</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *v, struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *other)</td></tr>
+<tr class="memdesc:a35d765f977a62766aff428e51f1a0054"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends the <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> other onto the end of <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> v.  <a href="#a35d765f977a62766aff428e51f1a0054">More...</a><br /></td></tr>
+<tr class="separator:a35d765f977a62766aff428e51f1a0054"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa6a9cf89bfa09ae0619292c02b53c4d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vector_8h.html#afa6a9cf89bfa09ae0619292c02b53c4d">cdc_vector_swap</a> (struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *a, struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *b)</td></tr>
 <tr class="memdesc:afa6a9cf89bfa09ae0619292c02b53c4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swaps vectors a and b. This operation is very fast and never fails.  <a href="#afa6a9cf89bfa09ae0619292c02b53c4d">More...</a><br /></td></tr>
 <tr class="separator:afa6a9cf89bfa09ae0619292c02b53c4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,6 +170,51 @@ Functions</h2></td></tr>
 <div class="textblock"><p>The <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> is a struct and functions that provide a dynamic array. </p>
 <dl class="section author"><dt>Author</dt><dd>Maksim Andrianov <a href="#" onclick="location.href='mai'+'lto:'+'mak'+'si'+'man'+'dr'+'ian'+'ov'+'1@y'+'an'+'dex'+'.r'+'u'; return false;">maksi<span style="display: none;">.nosp@m.</span>mand<span style="display: none;">.nosp@m.</span>riano<span style="display: none;">.nosp@m.</span>v1@y<span style="display: none;">.nosp@m.</span>andex<span style="display: none;">.nosp@m.</span>.ru</a> </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a0d9087beb3df0fe8ef6605353ef683c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d9087beb3df0fe8ef6605353ef683c9">&#9670;&nbsp;</a></span>cdc_vector_append()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_vector_append </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void **&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Appends the data onto the end of <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> v. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>- <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> </td></tr>
+    <tr><td class="paramname">data</td><td>- pointer on data </td></tr>
+    <tr><td class="paramname">len</td><td>- count of data elements </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>CDC_STATUS_OK in a successful case or an excellent value indicating an error </dd></dl>
+
+</div>
+</div>
 <a id="a72c5c91bad869260a517ace42414b5ee"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a72c5c91bad869260a517ace42414b5ee">&#9670;&nbsp;</a></span>cdc_vector_at()</h2>
 
@@ -270,6 +327,80 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>capacity </dd></dl>
+
+</div>
+</div>
+<a id="abe853bbca84ee400bab90d8db874bc62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe853bbca84ee400bab90d8db874bc62">&#9670;&nbsp;</a></span>cdc_vector_cclear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cdc_vector_cclear </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="common_8h.html#af7c34b27f2a151bddc3285f201c02974">cdc_free_fn_t</a>&#160;</td>
+          <td class="paramname"><em>dfree</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes all the elements from the vector. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>- <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> </td></tr>
+    <tr><td class="paramname">dfree</td><td>- function to free memory for data, if NULL, the data will not be deleted </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a645f0d248d49d2116422fe6d1a0b448c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a645f0d248d49d2116422fe6d1a0b448c">&#9670;&nbsp;</a></span>cdc_vector_cdtor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cdc_vector_cdtor </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="common_8h.html#af7c34b27f2a151bddc3285f201c02974">cdc_free_fn_t</a>&#160;</td>
+          <td class="paramname"><em>dfree</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destroys the vector. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>- <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> </td></tr>
+    <tr><td class="paramname">dfree</td><td>- function to free memory for data, if NULL, the data will not be deleted </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -962,6 +1093,44 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a35d765f977a62766aff428e51f1a0054"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35d765f977a62766aff428e51f1a0054">&#9670;&nbsp;</a></span>cdc_vector_vappend()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="status_8h.html#a2797832cb633edfe953b69565d31f5c6">cdc_stat</a> cdc_vector_vappend </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcdc__vector.html">cdc_vector</a> *&#160;</td>
+          <td class="paramname"><em>other</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Appends the <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> other onto the end of <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> v. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>- <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> </td></tr>
+    <tr><td class="paramname">other</td><td>- <a class="el" href="structcdc__vector.html" title="The cdc_vector struct. ">cdc_vector</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>CDC_STATUS_OK in a successful case or an excellent value indicating an error </dd></dl>
 
 </div>
 </div>
