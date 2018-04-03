@@ -508,4 +508,6 @@ void test_deque_pop_push()
         CU_ASSERT(cdc_deque_insert(d, 1, &i2) == CDC_STATUS_OK);
         CU_ASSERT(cdc_deque_size(d) == 8);
         CU_ASSERT(deque_range_int_eq(d, 8, i1, i2, b, i3, a, i1, b, i2));
+
+        cdc_deque_dtor(d);
 }

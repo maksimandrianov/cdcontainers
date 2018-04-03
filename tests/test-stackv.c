@@ -54,6 +54,7 @@ void test_stackv_ctorl()
         CU_ASSERT(cdc_stack_pop(s) == CDC_STATUS_OK);
         CU_ASSERT(cdc_stack_size(s) == 0);
 
+        cdc_stack_dtor(s);
 }
 
 void test_stackv_push()

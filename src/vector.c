@@ -77,7 +77,7 @@ static enum cdc_stat shrink(struct cdc_vector *v)
 
 static void move_left(struct cdc_vector *v, size_t index)
 {
-        size_t count_bytes = (v->size - index) * sizeof(void *);
+        size_t count_bytes = (v->size - index - 1) * sizeof(void *);
 
         memmove(v->buffer + index, v->buffer + index + 1, count_bytes);
 }

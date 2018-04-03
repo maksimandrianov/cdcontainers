@@ -42,6 +42,6 @@ struct cdc_data_info *cdc_di_shared_ctorc(struct cdc_data_info *other)
 
 void cdc_di_shared_dtor(struct cdc_data_info *info)
 {
-        if (info && info->__cnt-- == 0)
+        if (info && --info->__cnt == 0)
                 free(info);
 }
