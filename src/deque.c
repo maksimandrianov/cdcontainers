@@ -296,14 +296,17 @@ static bool should_move_to_right(struct cdc_deque *d, size_t idx)
         return !should_move_right(d, idx);
 }
 
-static void free_range(struct cdc_deque *d, size_t start, size_t end)
+static void free_data(struct cdc_deque *d)
 {
-        size_t nstart = mod(d->head + start, d->capacity);
-        size_t count = end - start;
+        size_t i, pos;
 
-        while (count--) {
-                d->dinfo->dfree(d->buffer[nstart]);
-                nstart = mod(nstart + 1, d->capacity);
+        if (!CDC_HAS_DFREE(d->dinfo))
+                return;
+
+        pos = mod(d->head, d->capacity);
+        for (i = 0; i < d->size; ++i) {
+                d->dinfo->dfree(d->buffer[pos]);
+                pos = mod(pos + 1, d->capacity);
         }
 }
 
@@ -384,9 +387,7 @@ void cdc_deque_dtor(struct cdc_deque *d)
 {
         assert(d != NULL);
 
-        if (CDC_HAS_DFREE(d->dinfo))
-                free_range(d, 0, d->size);
-
+        free_data(d);
         free(d->buffer);
         cdc_di_shared_dtor(d->dinfo);
         free(d);
@@ -482,9 +483,7 @@ void cdc_deque_clear(struct cdc_deque *d)
 {
         assert(d != NULL);
 
-        if (CDC_HAS_DFREE(d->dinfo))
-                free_range(d, 0, d->size);
-
+        free_data(d);
         d->tail = 0;
         d->head = 0;
         d->size = 0;

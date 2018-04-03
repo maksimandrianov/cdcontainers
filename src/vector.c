@@ -89,13 +89,15 @@ static void move_right(struct cdc_vector *v, size_t index)
         memmove(v->buffer + index + 1, v->buffer + index, count_bytes);
 }
 
-static void free_range(struct cdc_vector *v, size_t start, size_t end,
-                              void (*dfree)(void *))
+static void free_data(struct cdc_vector *v)
 {
         size_t i;
 
-        for (i = start; i < end; ++i)
-                dfree(v->buffer[i]);
+        if (!CDC_HAS_DFREE(v->dinfo))
+                return;
+
+        for (i = 0; i < v->size; ++i)
+                v->dinfo->dfree(v->buffer[i]);
 }
 
 static enum cdc_stat pop_back(struct cdc_vector *v, bool must_free)
@@ -188,16 +190,7 @@ void cdc_vector_dtor(struct cdc_vector *v)
 {
         assert(v != NULL);
 
-        cdc_vector_cdtor(v, v->dinfo ? v->dinfo->dfree : NULL);
-}
-
-void cdc_vector_cdtor(struct cdc_vector *v, cdc_free_fn_t dfree)
-{
-        assert(v != NULL);
-
-        if (dfree)
-                free_range(v, 0, v->size, dfree);
-
+        free_data(v);
         free(v->buffer);
         cdc_di_shared_dtor(v->dinfo);
         free(v);
@@ -229,16 +222,7 @@ void cdc_vector_clear(struct cdc_vector *v)
 {
         assert(v != NULL);
 
-        cdc_vector_cclear(v, v->dinfo ? v->dinfo->dfree : NULL);
-}
-
-void cdc_vector_cclear(struct cdc_vector *v, cdc_free_fn_t dfree)
-{
-        assert(v != NULL);
-
-        if (dfree)
-                free_range(v, 0, v->size, dfree);
-
+        free_data(v);
         v->size = 0;
 }
 
@@ -247,12 +231,11 @@ enum cdc_stat cdc_vector_remove(struct cdc_vector *v, size_t index, void **elem)
         assert(v != NULL);
         assert(index < v->size);
 
-        if (elem) {
+        if (elem)
                 *elem = v->buffer[index];
-        } else {
-                if (CDC_HAS_DFREE(v->dinfo))
-                        v->dinfo->dfree(v->buffer[index]);
-        }
+        else if (CDC_HAS_DFREE(v->dinfo))
+                v->dinfo->dfree(v->buffer[index]);
+
 
         if (index == v->size - 1)
                 return pop_back(v, false);
@@ -344,10 +327,17 @@ enum cdc_stat cdc_vector_append(struct cdc_vector *v, void **data, size_t len)
         return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_vector_vappend(struct cdc_vector *v, struct cdc_vector *other)
+enum cdc_stat cdc_vector_append_move(struct cdc_vector *v,
+                                     struct cdc_vector *other)
 {
         assert(v != NULL);
         assert(other != NULL);
 
-        return cdc_vector_append(v, other->buffer, other->size);
+        enum cdc_stat stat = cdc_vector_append(v, other->buffer, other->size);
+
+        if (stat != CDC_STATUS_OK)
+                return stat;
+
+        other->size = 0;
+        return CDC_STATUS_OK;
 }

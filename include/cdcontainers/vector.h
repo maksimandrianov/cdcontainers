@@ -81,14 +81,6 @@ enum cdc_stat cdc_vector_ctorv(struct cdc_vector **v,
  */
 void cdc_vector_dtor(struct cdc_vector *v);
 
-/**
- * @brief Destroys the vector.
- * @param v - cdc_vector
- * @param dfree - function to free memory for data, if NULL, the data will
- * not be deleted
- */
-void cdc_vector_cdtor(struct cdc_vector *v, cdc_free_fn_t dfree);
-
 // Element access
 /**
  * @brief Returns the item at index position index in the vector. Index must be a
@@ -267,14 +259,6 @@ static inline enum cdc_stat cdc_vector_erase(struct cdc_vector *v, size_t index)
 void cdc_vector_clear(struct cdc_vector *v);
 
 /**
- * @brief Removes all the elements from the vector.
- * @param v - cdc_vector
- * @param dfree - function to free memory for data, if NULL, the data will
- * not be deleted
- */
-void cdc_vector_cclear(struct cdc_vector *v, cdc_free_fn_t dfree);
-
-/**
  * @brief Inserts value at the end of the vector.
  * @param v - cdc_vector
  * @param value
@@ -308,7 +292,8 @@ enum cdc_stat cdc_vector_append(struct cdc_vector *v, void **data, size_t len);
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_vector_vappend(struct cdc_vector *v, struct cdc_vector *other);
+enum cdc_stat cdc_vector_append_move(struct cdc_vector *v,
+                                     struct cdc_vector *other);
 
 /**
  * @brief Swaps vectors a and b. This operation is very fast and never fails.
@@ -321,37 +306,35 @@ void cdc_vector_swap(struct cdc_vector *a, struct cdc_vector *b);
 #ifdef CDC_USE_SHORT_NAMES
 typedef struct cdc_vector vector_t;
 
-#define vector_ctor(...)      cdc_vector_ctor(__VA_ARGS__)
-#define vector_ctorl(...)     cdc_vector_ctorl(__VA_ARGS__)
-#define vector_ctorv(...)     cdc_vector_ctorv(__VA_ARGS__)
-#define vector_dtor(...)      cdc_vector_dtor(__VA_ARGS__)
-#define vector_cdtor(...)     cdc_vector_cdtor(__VA_ARGS__)
+#define vector_ctor(...)        cdc_vector_ctor(__VA_ARGS__)
+#define vector_ctorl(...)       cdc_vector_ctorl(__VA_ARGS__)
+#define vector_ctorv(...)       cdc_vector_ctorv(__VA_ARGS__)
+#define vector_dtor(...)        cdc_vector_dtor(__VA_ARGS__)
 
 // Element access
-#define vector_get(...)       cdc_vector_get(__VA_ARGS__)
-#define vector_at(...)        cdc_vector_at(__VA_ARGS__)
-#define vector_front(...)     cdc_vector_front(__VA_ARGS__)
-#define vector_back(...)      cdc_vector_back(__VA_ARGS__)
-#define vector_data(...)      cdc_vector_data(__VA_ARGS__)
+#define vector_get(...)         cdc_vector_get(__VA_ARGS__)
+#define vector_at(...)          cdc_vector_at(__VA_ARGS__)
+#define vector_front(...)       cdc_vector_front(__VA_ARGS__)
+#define vector_back(...)        cdc_vector_back(__VA_ARGS__)
+#define vector_data(...)        cdc_vector_data(__VA_ARGS__)
 
 // Capacity
-#define vector_reserve(...)   cdc_vector_reserve(__VA_ARGS__)
-#define vector_empty(...)     cdc_vector_empty(__VA_ARGS__)
-#define vector_size(...)      cdc_vector_size(__VA_ARGS__)
-#define vector_capacity(...)  cdc_vector_capacity(__VA_ARGS__)
-#define vector_cap_exp(...)   cdc_vector_cap_exp(__VA_ARGS__)
+#define vector_reserve(...)     cdc_vector_reserve(__VA_ARGS__)
+#define vector_empty(...)       cdc_vector_empty(__VA_ARGS__)
+#define vector_size(...)        cdc_vector_size(__VA_ARGS__)
+#define vector_capacity(...)    cdc_vector_capacity(__VA_ARGS__)
+#define vector_cap_exp(...)     cdc_vector_cap_exp(__VA_ARGS__)
 
 // Modifiers
-#define vector_set(...)       cdc_vector_set(__VA_ARGS__)
-#define vector_insert(...)    cdc_vector_insert(__VA_ARGS__)
-#define vector_erase(...)     cdc_vector_erase(__VA_ARGS__)
-#define vector_clear(...)     cdc_vector_clear(__VA_ARGS__)
-#define vector_cclear(...)    cdc_vector_cclear(__VA_ARGS__)
-#define vector_push_back(...) cdc_vector_push_back(__VA_ARGS__)
-#define vector_pop_back(...)  cdc_vector_pop_back(__VA_ARGS__)
-#define vector_append(...)    cdc_vector_append(__VA_ARGS__)
-#define vector_vappend(...)   cdc_vector_vappend(__VA_ARGS__)
-#define vector_swap(...)      cdc_vector_swap(__VA_ARGS__)
+#define vector_set(...)         cdc_vector_set(__VA_ARGS__)
+#define vector_insert(...)      cdc_vector_insert(__VA_ARGS__)
+#define vector_erase(...)       cdc_vector_erase(__VA_ARGS__)
+#define vector_clear(...)       cdc_vector_clear(__VA_ARGS__)
+#define vector_push_back(...)   cdc_vector_push_back(__VA_ARGS__)
+#define vector_pop_back(...)    cdc_vector_pop_back(__VA_ARGS__)
+#define vector_append(...)      cdc_vector_append(__VA_ARGS__)
+#define vector_append_move(...) cdc_vector_append_move(__VA_ARGS__)
+#define vector_swap(...)        cdc_vector_swap(__VA_ARGS__)
 #endif
 
 #endif  // CDSTRUCTURES_INCLUDE_CDCONTAINERS_VECTOR_H

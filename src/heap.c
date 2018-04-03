@@ -277,11 +277,10 @@ enum cdc_stat cdc_heap_merge(struct cdc_heap *h, struct cdc_heap *other)
 
         enum cdc_stat ret;
 
-        ret = cdc_vector_vappend(h->vector, other->vector);
+        ret = cdc_vector_append_move(h->vector, other->vector);
         if (ret != CDC_STATUS_OK)
                 return ret;
 
-        cdc_vector_cclear(other->vector, NULL);
         build_heap(h);
         return CDC_STATUS_OK;
 }
