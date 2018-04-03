@@ -87,9 +87,9 @@ static size_t sift_up(struct cdc_heap *h, size_t i)
 
 static void build_heap(struct cdc_heap *h)
 {
-        ssize_t i;
+        size_t i = cdc_vector_size(h->vector) / 2;
 
-        for (i = cdc_vector_size(h->vector) / 2; i >= 0; --i)
+        while (i--)
                 sift_down(h, i);
 }
 

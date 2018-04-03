@@ -137,7 +137,7 @@ static inline void *cdc_deque_back(struct cdc_deque *d)
         assert(d != NULL);
         assert(d->size > 0);
 
-        ssize_t idx = (d->tail - 1 + d->capacity) & (d->capacity - 1);
+        size_t idx = (d->tail - 1 + d->capacity) & (d->capacity - 1);
 
         return d->buffer[idx];
 }
