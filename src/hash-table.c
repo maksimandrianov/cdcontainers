@@ -521,9 +521,9 @@ enum cdc_stat cdc_hash_table_insert(struct cdc_hash_table *t,
         }
 
         if (ret) {
-                (*ret).first.container = t;
-                (*ret).first.current = (entry ? entry->next : new_entry->next);
-                (*ret).second = !entry;
+                ret->first.container = t;
+                ret->first.current = (entry ? entry->next : new_entry->next);
+                ret->second = !entry;
         }
 
         return CDC_STATUS_OK;
@@ -547,9 +547,9 @@ enum cdc_stat cdc_hash_table_insert_or_assign(struct cdc_hash_table *t,
         }
 
         if (ret) {
-                (*ret).first.container = t;
-                (*ret).first.current = (entry ? entry->next : new_entry->next);
-                (*ret).second = !entry;
+                ret->first.container = t;
+                ret->first.current = (entry ? entry->next : new_entry->next);
+                ret->second = !entry;
         }
 
         return CDC_STATUS_OK;
