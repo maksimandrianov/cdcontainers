@@ -63,10 +63,10 @@ The output of this program is the following
 To build and install cdcontainers from source, the following tools are needed:
 * make
 * cmake
-* gcc
+* gcc (or your other favorite compiler with minimal support ISO/IEC 9899:1999 (C99) standard)
 * cunit (for testing)
 
-On Ubuntu, you can install them with:
+On Ubuntu or Debian, you can install them with:
 
     $  sudo apt-get install cmake gcc make libcunit1-dev
 
