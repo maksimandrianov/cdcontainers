@@ -2,16 +2,16 @@
 
 Library of data containers for C programming language. The cdcontainers interface is similar to C ++ STL.
 The library contains the following data containers:
-* cdc_vector - dynamic array implementation
-* cdc_list - doubly linked list implementation
-* cdc_deque - double-ended queue implementation
-* cdc_heap - binary heap implementation
-* cdc_binomial_heap - binomial heap implementation 
-* cdc_pairing_heap - pairing heap implementation 
-* cdc_hash_table - hash table with collisions resolved by chaining implementation
-* cdc_avl_tree - avl tree implementation
-* cdc_splay_tree - splay tree implementation
-* cdc_treep - сartesian tree implementation
+* cdc_vector - dynamic array
+* cdc_list - doubly linked list
+* cdc_deque - double-ended queue
+* cdc_heap - binary heap
+* cdc_binomial_heap - binomial heap 
+* cdc_pairing_heap - pairing heap 
+* cdc_hash_table - hash table with collisions resolved by chaining
+* cdc_avl_tree - avl tree
+* cdc_splay_tree - splay tree
+* cdc_treep - сartesian tree
 
 and following interfaces:
 * cdc_stack (Can work with: cdc_vector, cdc_list, cdc_deque)
