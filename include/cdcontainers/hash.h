@@ -49,70 +49,70 @@ typedef size_t (*cdc_hash_fn_t)(void *);
 #define CDC_DIGITS_SIZE (CHAR_BIT * sizeof(size_t))
 
 #define MAKE_SIGNED_HASH(T, DIGITS, NAME) \
-        static inline size_t cdc_hash_##NAME(T val) \
-        { \
-                const unsigned int size_t_bits = CDC_DIGITS_SIZE; \
-                const int length = (DIGITS - 1) / (int)(size_t_bits); \
-                unsigned int i; \
-                size_t seed = 0; \
-                T positive = val < 0 ? -1 - val : val; \
-                for (i = length * size_t_bits; i > 0; i -= size_t_bits) \
-                        seed ^= (size_t) (positive >> i) + (seed << 6) + (seed >> 2); \
-                seed ^= (size_t) val + (seed << 6) + (seed >> 2); \
-                return seed; \
-        } \
+  static inline size_t cdc_hash_##NAME(T val) \
+{ \
+  const unsigned int size_t_bits = CDC_DIGITS_SIZE; \
+  const int length = (DIGITS - 1) / (int)(size_t_bits); \
+  unsigned int i; \
+  size_t seed = 0; \
+  T positive = val < 0 ? -1 - val : val; \
+  for (i = length * size_t_bits; i > 0; i -= size_t_bits) \
+  seed ^= (size_t) (positive >> i) + (seed << 6) + (seed >> 2); \
+  seed ^= (size_t) val + (seed << 6) + (seed >> 2); \
+  return seed; \
+  } \
 
 #define MAKE_UNSIGNED_HASH(T, DIGITS, NAME) \
-        static inline size_t cdc_hash_##NAME(T val) \
-        { \
-                const unsigned int size_t_bits = CDC_DIGITS_SIZE; \
-                const int length = (DIGITS - 1) / (int)(size_t_bits); \
-                unsigned int i; \
-                size_t seed = 0; \
-                for (i = length * size_t_bits; i > 0; i -= size_t_bits) \
-                        seed ^= (size_t) (seed >> i) + (seed << 6) + (seed >> 2); \
-                seed ^= (size_t) val + (seed << 6) + (seed >> 2); \
-                return seed; \
-        } \
+  static inline size_t cdc_hash_##NAME(T val) \
+{ \
+  const unsigned int size_t_bits = CDC_DIGITS_SIZE; \
+  const int length = (DIGITS - 1) / (int)(size_t_bits); \
+  unsigned int i; \
+  size_t seed = 0; \
+  for (i = length * size_t_bits; i > 0; i -= size_t_bits) \
+  seed ^= (size_t) (seed >> i) + (seed << 6) + (seed >> 2); \
+  seed ^= (size_t) val + (seed << 6) + (seed >> 2); \
+  return seed; \
+  } \
 
 static inline size_t cdc_hash_float_combine(size_t seed, size_t value)
 {
-        seed ^= value + (seed << 6) + (seed >> 2);
-        return seed;
+  seed ^= value + (seed << 6) + (seed >> 2);
+  return seed;
 }
 
 static inline size_t cdc_hash_binary(char* ptr, size_t length)
 {
-        size_t seed = 0;
+  size_t seed = 0;
 
-        if (length >= sizeof(size_t)) {
-                memcpy(&seed, ptr, sizeof(size_t));
-                length -= sizeof(size_t);
-                ptr += sizeof(size_t);
+  if (length >= sizeof(size_t)) {
+    memcpy(&seed, ptr, sizeof(size_t));
+    length -= sizeof(size_t);
+    ptr += sizeof(size_t);
 
-                while(length >= sizeof(size_t)) {
-                        size_t buffer = 0;
-                        memcpy(&buffer, ptr, sizeof(size_t));
-                        seed = cdc_hash_float_combine(seed, buffer);
-                        length -= sizeof(size_t);
-                        ptr += sizeof(size_t);
-                }
-        }
+    while(length >= sizeof(size_t)) {
+      size_t buffer = 0;
+      memcpy(&buffer, ptr, sizeof(size_t));
+      seed = cdc_hash_float_combine(seed, buffer);
+      length -= sizeof(size_t);
+      ptr += sizeof(size_t);
+    }
+  }
 
-        if (length > 0) {
-                size_t buffer = 0;
-                memcpy(&buffer, ptr, length);
-                seed = cdc_hash_float_combine(seed, buffer);
-        }
+  if (length > 0) {
+    size_t buffer = 0;
+    memcpy(&buffer, ptr, length);
+    seed = cdc_hash_float_combine(seed, buffer);
+  }
 
-        return seed;
+  return seed;
 }
 
 #define MAKE_FLOAT_HASH(T, NAME) \
-        static inline size_t cdc_hash_##NAME(T val) \
-        { \
-                return cdc_hash_binary((char*)&val, sizeof(T)); \
-        } \
+  static inline size_t cdc_hash_##NAME(T val) \
+{ \
+  return cdc_hash_binary((char*)&val, sizeof(T)); \
+  } \
 
 MAKE_SIGNED_HASH(signed char, CDC_DIGITS_SCHAR, schar)
 MAKE_SIGNED_HASH(short, CDC_DIGITS_SHORT, short)
@@ -129,17 +129,17 @@ MAKE_UNSIGNED_HASH(unsigned int, CDC_DIGITS_UINT, uint)
 MAKE_UNSIGNED_HASH(unsigned long, CDC_DIGITS_ULONG, ulong)
 
 #if CHAR_MIN < 0
-        MAKE_SIGNED_HASH(char, CDC_DIGITS_CHAR, char)
+MAKE_SIGNED_HASH(char, CDC_DIGITS_CHAR, char)
 #else
-        MAKE_UNSIGNED_HASH(char, CDC_DIGITS_CHAR, char)
+MAKE_UNSIGNED_HASH(char, CDC_DIGITS_CHAR, char)
 #endif
 
 #define MAKE_POINTER_DATA_HASH(T, NAME, CAST_FUNC) \
-        static inline size_t cdc_pdhash_##NAME(void *val) \
-        { \
-                T t = CAST_FUNC(val); \
-                return cdc_hash_##NAME(t); \
-        } \
+  static inline size_t cdc_pdhash_##NAME(void *val) \
+{ \
+  T t = CAST_FUNC(val); \
+  return cdc_hash_##NAME(t); \
+  } \
 
 
 MAKE_POINTER_DATA_HASH(char, char, CDC_PTR_TO_CHAR)
@@ -151,14 +151,14 @@ MAKE_POINTER_DATA_HASH(int, int, CDC_PTR_TO_INT)
 MAKE_POINTER_DATA_HASH(unsigned int, uint, CDC_PTR_TO_UINT)
 
 #ifdef CDC_PTR_LONG_CAST
-        MAKE_POINTER_DATA_HASH(long, long, CDC_PTR_TO_LONG)
-        MAKE_POINTER_DATA_HASH(unsigned long, ulong, CDC_PTR_TO_ULONG)
+MAKE_POINTER_DATA_HASH(long, long, CDC_PTR_TO_LONG)
+MAKE_POINTER_DATA_HASH(unsigned long, ulong, CDC_PTR_TO_ULONG)
 #endif
 #ifdef CDC_PTR_FLOAT_CAST
-        MAKE_POINTER_DATA_HASH(float, float, CDC_PTR_TO_FLOAT)
+MAKE_POINTER_DATA_HASH(float, float, CDC_PTR_TO_FLOAT)
 #endif
 #ifdef CDC_PTR_DOUBLE_CAST
-        MAKE_POINTER_DATA_HASH(double, double, CDC_PTR_TO_DOUBLE)
+MAKE_POINTER_DATA_HASH(double, double, CDC_PTR_TO_DOUBLE)
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_HASH_H

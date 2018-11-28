@@ -26,28 +26,28 @@ enum cdc_stat cdc_priority_queue_ctor1(const struct cdc_priority_queue_table *ta
                                        struct cdc_data_info *info,
                                        cdc_binary_pred_fn_t compar)
 {
-        assert(table != NULL);
-        assert(q != NULL);
-        assert(CDC_HAS_LT(info) || compar != NULL);
+  assert(table != NULL);
+  assert(q != NULL);
+  assert(CDC_HAS_LT(info) || compar != NULL);
 
-        struct cdc_priority_queue *tmp;
-        enum cdc_stat ret;
+  struct cdc_priority_queue *tmp;
+  enum cdc_stat ret;
 
-        tmp = (struct cdc_priority_queue *)malloc(
-                                sizeof(struct cdc_priority_queue));
-        if (!tmp)
-                return CDC_STATUS_BAD_ALLOC;
+  tmp = (struct cdc_priority_queue *)malloc(
+          sizeof(struct cdc_priority_queue));
+  if (!tmp)
+    return CDC_STATUS_BAD_ALLOC;
 
-        tmp->table = table;
-        ret = tmp->table->ctor(&tmp->container, info, compar);
-        if (ret != CDC_STATUS_OK) {
-                free(tmp);
-                return ret;
-        }
+  tmp->table = table;
+  ret = tmp->table->ctor(&tmp->container, info, compar);
+  if (ret != CDC_STATUS_OK) {
+    free(tmp);
+    return ret;
+  }
 
-        *q = tmp;
+  *q = tmp;
 
-        return CDC_STATUS_OK;
+  return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_priority_queue_ctorl1(const struct cdc_priority_queue_table *table,
@@ -55,18 +55,18 @@ enum cdc_stat cdc_priority_queue_ctorl1(const struct cdc_priority_queue_table *t
                                         struct cdc_data_info *info,
                                         cdc_binary_pred_fn_t compar, ...)
 {
-        assert(table != NULL);
-        assert(q != NULL);
-        assert(CDC_HAS_LT(info) || compar != NULL);
+  assert(table != NULL);
+  assert(q != NULL);
+  assert(CDC_HAS_LT(info) || compar != NULL);
 
-        enum cdc_stat ret;
-        va_list args;
+  enum cdc_stat ret;
+  va_list args;
 
-        va_start(args, compar);
-        ret = cdc_priority_queue_ctorv1(table, q, info, compar, args);
-        va_end(args);
+  va_start(args, compar);
+  ret = cdc_priority_queue_ctorv1(table, q, info, compar, args);
+  va_end(args);
 
-        return ret;
+  return ret;
 }
 
 enum cdc_stat cdc_priority_queue_ctorv1(const struct cdc_priority_queue_table *table,
@@ -74,39 +74,39 @@ enum cdc_stat cdc_priority_queue_ctorv1(const struct cdc_priority_queue_table *t
                                         struct cdc_data_info *info,
                                         cdc_binary_pred_fn_t compar, va_list args)
 {
-        assert(table != NULL);
-        assert(q != NULL);
-        assert(CDC_HAS_LT(info) || compar != NULL);
+  assert(table != NULL);
+  assert(q != NULL);
+  assert(CDC_HAS_LT(info) || compar != NULL);
 
-        struct cdc_priority_queue *tmp;
-        enum cdc_stat ret;
+  struct cdc_priority_queue *tmp;
+  enum cdc_stat ret;
 
-        tmp = (struct cdc_priority_queue *)malloc(
-                                sizeof(struct cdc_priority_queue));
-        if (!tmp)
-                return CDC_STATUS_BAD_ALLOC;
+  tmp = (struct cdc_priority_queue *)malloc(
+          sizeof(struct cdc_priority_queue));
+  if (!tmp)
+    return CDC_STATUS_BAD_ALLOC;
 
-        tmp->table = table;
-        ret = tmp->table->ctorv(&tmp->container, info, compar, args);
-        if (ret != CDC_STATUS_OK) {
-                free(tmp);
-                return ret;
-        }
+  tmp->table = table;
+  ret = tmp->table->ctorv(&tmp->container, info, compar, args);
+  if (ret != CDC_STATUS_OK) {
+    free(tmp);
+    return ret;
+  }
 
-        *q = tmp;
+  *q = tmp;
 
-        return ret;
+  return ret;
 }
 
 enum cdc_stat cdc_priority_queue_ctor(const struct cdc_priority_queue_table *table,
                                       struct cdc_priority_queue **q,
                                       struct cdc_data_info *info)
 {
-        assert(table != NULL);
-        assert(q != NULL);
-        assert(CDC_HAS_LT(info));
+  assert(table != NULL);
+  assert(q != NULL);
+  assert(CDC_HAS_LT(info));
 
-        return cdc_priority_queue_ctor1(table, q, info, NULL);
+  return cdc_priority_queue_ctor1(table, q, info, NULL);
 }
 
 
@@ -114,74 +114,74 @@ enum cdc_stat cdc_priority_queue_ctorl(const struct cdc_priority_queue_table *ta
                                        struct cdc_priority_queue **q,
                                        struct cdc_data_info *info, ...)
 {
-        assert(table != NULL);
-        assert(q != NULL);
-        assert(CDC_HAS_LT(info));
+  assert(table != NULL);
+  assert(q != NULL);
+  assert(CDC_HAS_LT(info));
 
-        enum cdc_stat ret;
-        va_list args;
+  enum cdc_stat ret;
+  va_list args;
 
-        va_start(args, info);
-        ret = cdc_priority_queue_ctorv(table, q, info, args);
-        va_end(args);
+  va_start(args, info);
+  ret = cdc_priority_queue_ctorv(table, q, info, args);
+  va_end(args);
 
-        return ret;
+  return ret;
 }
 
 enum cdc_stat cdc_priority_queue_ctorv(const struct cdc_priority_queue_table *table,
                                        struct cdc_priority_queue **q,
                                        struct cdc_data_info *info, va_list args)
 {
-        assert(table != NULL);
-        assert(q != NULL);
-        assert(CDC_HAS_LT(info));
+  assert(table != NULL);
+  assert(q != NULL);
+  assert(CDC_HAS_LT(info));
 
-        return cdc_priority_queue_ctorv1(table, q, info, NULL, args);
+  return cdc_priority_queue_ctorv1(table, q, info, NULL, args);
 }
 
 void cdc_priority_queue_dtor(struct cdc_priority_queue *q)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        q->table->dtor(q->container);
-        free(q);
+  q->table->dtor(q->container);
+  free(q);
 }
 
 void cdc_priority_queue_swap(struct cdc_priority_queue *a,
                              struct cdc_priority_queue *b)
 {
-        assert(a != NULL);
-        assert(b != NULL);
-        assert(a->table == b->table);
+  assert(a != NULL);
+  assert(b != NULL);
+  assert(a->table == b->table);
 
-        CDC_SWAP(void *, a->container, b->container);
+  CDC_SWAP(void *, a->container, b->container);
 }
 
 enum cdc_stat cdc_priority_queueh_ctor1(struct cdc_priority_queue **q,
                                         struct cdc_data_info *info,
                                         cdc_binary_pred_fn_t compar)
 {
-        assert(q != NULL);
-        assert(CDC_HAS_LT(info) || compar != NULL);
+  assert(q != NULL);
+  assert(CDC_HAS_LT(info) || compar != NULL);
 
-        return cdc_priority_queue_ctor1(cdc_pq_heap, q, info, compar);
+  return cdc_priority_queue_ctor1(cdc_pq_heap, q, info, compar);
 }
 
 enum cdc_stat cdc_priority_queueh_ctorl1(struct cdc_priority_queue **q,
                                          struct cdc_data_info *info,
                                          cdc_binary_pred_fn_t compar, ...)
 {
-        assert(q != NULL);
-        assert(CDC_HAS_LT(info) || compar != NULL);
+  assert(q != NULL);
+  assert(CDC_HAS_LT(info) || compar != NULL);
 
-        enum cdc_stat ret;
-        va_list args;
+  enum cdc_stat ret;
+  va_list args;
 
-        va_start(args, compar);
-        ret = cdc_priority_queueh_ctorv1(q, info, compar, args);
-        va_end(args);
+  va_start(args, compar);
+  ret = cdc_priority_queueh_ctorv1(q, info, compar, args);
+  va_end(args);
 
-        return ret;
+  return ret;
 }
 
 enum cdc_stat cdc_priority_queueh_ctorv1(struct cdc_priority_queue **q,
@@ -189,42 +189,42 @@ enum cdc_stat cdc_priority_queueh_ctorv1(struct cdc_priority_queue **q,
                                          cdc_binary_pred_fn_t compar,
                                          va_list args)
 {
-        assert(q != NULL);
-        assert(CDC_HAS_LT(info) || compar != NULL);
+  assert(q != NULL);
+  assert(CDC_HAS_LT(info) || compar != NULL);
 
-        return cdc_priority_queue_ctorv1(cdc_pq_heap, q, info, compar, args);
+  return cdc_priority_queue_ctorv1(cdc_pq_heap, q, info, compar, args);
 }
 
 enum cdc_stat cdc_priority_queueh_ctor(struct cdc_priority_queue **q,
                                        struct cdc_data_info *info)
 {
-        assert(q != NULL);
-        assert(CDC_HAS_LT(info));
+  assert(q != NULL);
+  assert(CDC_HAS_LT(info));
 
-        return cdc_priority_queueh_ctor1(q, info, NULL);
+  return cdc_priority_queueh_ctor1(q, info, NULL);
 }
 
 enum cdc_stat cdc_priority_queueh_ctorl(struct cdc_priority_queue **q,
                                         struct cdc_data_info *info, ...)
 {
-        assert(q != NULL);
-        assert(CDC_HAS_LT(info));
+  assert(q != NULL);
+  assert(CDC_HAS_LT(info));
 
-        enum cdc_stat ret;
-        va_list args;
+  enum cdc_stat ret;
+  va_list args;
 
-        va_start(args, info);
-        ret = cdc_priority_queueh_ctorv(q, info, args);
-        va_end(args);
+  va_start(args, info);
+  ret = cdc_priority_queueh_ctorv(q, info, args);
+  va_end(args);
 
-        return ret;
+  return ret;
 }
 
 enum cdc_stat cdc_priority_queueh_ctorv(struct cdc_priority_queue **q,
                                         struct cdc_data_info *info, va_list args)
 {
-        assert(q != NULL);
-        assert(CDC_HAS_LT(info));
+  assert(q != NULL);
+  assert(CDC_HAS_LT(info));
 
-        return cdc_priority_queueh_ctorv1(q, info, NULL, args);
+  return cdc_priority_queueh_ctorv1(q, info, NULL, args);
 }

@@ -40,8 +40,8 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_stack {
-        void *container;
-        const struct cdc_sequence_table *table;
+  void *container;
+  const struct cdc_sequence_table *table;
 };
 
 /**
@@ -90,9 +90,9 @@ enum cdc_stat cdc_stack_ctorv(const struct cdc_sequence_table *table,
 static inline enum cdc_stat cdc_stackl_ctor(struct cdc_stack **s,
                                             struct cdc_data_info *info)
 {
-        assert(s != NULL);
+  assert(s != NULL);
 
-        return cdc_stack_ctor(cdc_seq_list, s, info);
+  return cdc_stack_ctor(cdc_seq_list, s, info);
 }
 
 /**
@@ -118,9 +118,9 @@ static inline enum cdc_stat cdc_stackl_ctorv(struct cdc_stack **s,
                                              struct cdc_data_info *info,
                                              va_list args)
 {
-        assert(s != NULL);
+  assert(s != NULL);
 
-        return cdc_stack_ctorv(cdc_seq_list, s, info, args);
+  return cdc_stack_ctorv(cdc_seq_list, s, info, args);
 }
 
 /**
@@ -133,9 +133,9 @@ static inline enum cdc_stat cdc_stackl_ctorv(struct cdc_stack **s,
 static inline enum cdc_stat cdc_stackv_ctor(struct cdc_stack **s,
                                             struct cdc_data_info *info)
 {
-        assert(s != NULL);
+  assert(s != NULL);
 
-        return cdc_stack_ctor(cdc_seq_vector, s, info);
+  return cdc_stack_ctor(cdc_seq_vector, s, info);
 }
 
 /**
@@ -161,9 +161,9 @@ static inline enum cdc_stat cdc_stackv_ctorv(struct cdc_stack **s,
                                              struct cdc_data_info *info,
                                              va_list args)
 {
-        assert(s != NULL);
+  assert(s != NULL);
 
-        return cdc_stack_ctorv(cdc_seq_vector, s, info, args);
+  return cdc_stack_ctorv(cdc_seq_vector, s, info, args);
 }
 
 /**
@@ -181,9 +181,9 @@ void cdc_stack_dtor(struct cdc_stack *s);
  */
 static inline void *cdc_stack_top(struct cdc_stack *s)
 {
-        assert(s != NULL);
+  assert(s != NULL);
 
-        return s->table->back(s->container);
+  return s->table->back(s->container);
 }
 
 // Capacity
@@ -194,9 +194,9 @@ static inline void *cdc_stack_top(struct cdc_stack *s)
  */
 static inline bool cdc_stack_empty(struct cdc_stack *s)
 {
-        assert(s != NULL);
+  assert(s != NULL);
 
-        return s->table->empty(s->container);
+  return s->table->empty(s->container);
 }
 
 /**
@@ -206,9 +206,9 @@ static inline bool cdc_stack_empty(struct cdc_stack *s)
  */
 static inline size_t cdc_stack_size(struct cdc_stack *s)
 {
-        assert(s != NULL);
+  assert(s != NULL);
 
-        return s->table->size(s->container);
+  return s->table->size(s->container);
 }
 
 // Modifiers
@@ -221,9 +221,9 @@ static inline size_t cdc_stack_size(struct cdc_stack *s)
  */
 static inline enum cdc_stat cdc_stack_push(struct cdc_stack *s, void *elem)
 {
-        assert(s != NULL);
+  assert(s != NULL);
 
-        return s->table->push_back(s->container, elem);
+  return s->table->push_back(s->container, elem);
 }
 
 /**
@@ -235,9 +235,9 @@ static inline enum cdc_stat cdc_stack_push(struct cdc_stack *s, void *elem)
  */
 static inline enum cdc_stat cdc_stack_pop(struct cdc_stack *s)
 {
-        assert(s != NULL);
+  assert(s != NULL);
 
-        return s->table->pop_back(s->container);
+  return s->table->pop_back(s->container);
 }
 
 /**

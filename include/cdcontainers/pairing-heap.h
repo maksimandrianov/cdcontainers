@@ -40,10 +40,10 @@
 * Use only special functions to access and change structure fields.
 */
 struct cdc_pairing_heap_node {
-        struct cdc_pairing_heap_node *parent;
-        struct cdc_pairing_heap_node *child;
-        struct cdc_pairing_heap_node *sibling;
-        void *key;
+  struct cdc_pairing_heap_node *parent;
+  struct cdc_pairing_heap_node *child;
+  struct cdc_pairing_heap_node *sibling;
+  void *key;
 };
 
 /**
@@ -52,10 +52,10 @@ struct cdc_pairing_heap_node {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_pairing_heap {
-        struct cdc_pairing_heap_node *root;
-        size_t size;
-        cdc_binary_pred_fn_t compar;
-        struct cdc_data_info *dinfo;
+  struct cdc_pairing_heap_node *root;
+  size_t size;
+  cdc_binary_pred_fn_t compar;
+  struct cdc_data_info *dinfo;
 };
 
 /**
@@ -64,8 +64,8 @@ struct cdc_pairing_heap {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_pairing_heap_iter {
-        struct cdc_pairing_heap *container;
-        struct cdc_pairing_heap_node *current;
+  struct cdc_pairing_heap *container;
+  struct cdc_pairing_heap_node *current;
 };
 
 /**
@@ -153,9 +153,9 @@ void cdc_pairing_heap_dtor(struct cdc_pairing_heap *h);
  */
 static inline void *cdc_pairing_heap_top(struct cdc_pairing_heap *h)
 {
-        assert(h != NULL);
+  assert(h != NULL);
 
-        return h->root->key;
+  return h->root->key;
 }
 
 // Capacity
@@ -166,9 +166,9 @@ static inline void *cdc_pairing_heap_top(struct cdc_pairing_heap *h)
  */
 static inline size_t cdc_pairing_heap_size(struct cdc_pairing_heap *h)
 {
-        assert(h != NULL);
+  assert(h != NULL);
 
-        return h->size;
+  return h->size;
 }
 
 /**
@@ -178,9 +178,9 @@ static inline size_t cdc_pairing_heap_size(struct cdc_pairing_heap *h)
  */
 static inline bool cdc_pairing_heap_empty(struct cdc_pairing_heap *h)
 {
-        assert(h != NULL);
+  assert(h != NULL);
 
-        return h->size == 0;
+  return h->size == 0;
 }
 
 // Modifiers
@@ -216,9 +216,9 @@ enum cdc_stat cdc_pairing_heap_riinsert(struct cdc_pairing_heap *h, void *key,
 static inline enum cdc_stat cdc_pairing_heap_insert(struct cdc_pairing_heap *h,
                                                     void *key)
 {
-        assert(h != NULL);
+  assert(h != NULL);
 
-        return cdc_pairing_heap_riinsert(h, key, NULL);
+  return cdc_pairing_heap_riinsert(h, key, NULL);
 }
 
 /**
@@ -268,9 +268,9 @@ bool cdc_pairing_heap_is_heap(struct cdc_pairing_heap *h);
  */
 static inline void *cdc_pairing_heap_iter_data(struct cdc_pairing_heap_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current->key;
+  return it->current->key;
 }
 
 /**
@@ -280,10 +280,10 @@ static inline void *cdc_pairing_heap_iter_data(struct cdc_pairing_heap_iter *it)
 static inline bool cdc_pairing_heap_iter_is_eq(struct cdc_pairing_heap_iter *it1,
                                                struct cdc_pairing_heap_iter *it2)
 {
-        assert(it1 != NULL);
-        assert(it2 != NULL);
+  assert(it1 != NULL);
+  assert(it2 != NULL);
 
-        return it1->container == it2->container && it1->current == it2->current;
+  return it1->container == it2->container && it1->current == it2->current;
 }
 
 // Short names

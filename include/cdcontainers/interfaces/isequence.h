@@ -38,23 +38,23 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_sequence_table {
-        enum cdc_stat (*ctor)(void **cntr, struct cdc_data_info *info);
-        enum cdc_stat (*ctorv)(void **cntr, struct cdc_data_info *info,
-                               va_list args);
-        void (*dtor)(void *cntr);
-        void *(*front)(void *cntr);
-        void *(*back)(void *cntr);
-        bool (*empty)(void *cntr);
-        size_t (*size)(void *cntr);
-        enum cdc_stat (*push_back)(void *cntr, void *elem);
-        enum cdc_stat (*pop_back)(void *cntr);
-        enum cdc_stat (*push_front)(void *cntr, void *elem);
-        enum cdc_stat (*pop_front)(void *cntr);
-        enum cdc_stat (*insert)(void *cntr, size_t index, void *value);
-        enum cdc_stat (*erase)(void *cntr, size_t index);
-        void (*clear)(void *cntr);
-        void *(*get) (void *cntr, size_t index);
-        void (*set) (void *cntr, size_t index, void *value);
+  enum cdc_stat (*ctor)(void **cntr, struct cdc_data_info *info);
+  enum cdc_stat (*ctorv)(void **cntr, struct cdc_data_info *info,
+                         va_list args);
+  void (*dtor)(void *cntr);
+  void *(*front)(void *cntr);
+  void *(*back)(void *cntr);
+  bool (*empty)(void *cntr);
+  size_t (*size)(void *cntr);
+  enum cdc_stat (*push_back)(void *cntr, void *elem);
+  enum cdc_stat (*pop_back)(void *cntr);
+  enum cdc_stat (*push_front)(void *cntr, void *elem);
+  enum cdc_stat (*pop_front)(void *cntr);
+  enum cdc_stat (*insert)(void *cntr, size_t index, void *value);
+  enum cdc_stat (*erase)(void *cntr, size_t index);
+  void (*clear)(void *cntr);
+  void *(*get) (void *cntr, size_t index);
+  void (*set) (void *cntr, size_t index, void *value);
 };
 
 extern const void *cdc_seq_deque;

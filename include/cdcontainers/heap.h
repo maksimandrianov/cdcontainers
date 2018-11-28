@@ -39,8 +39,8 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_heap {
-        struct cdc_vector *vector;
-        cdc_binary_pred_fn_t compar;
+  struct cdc_vector *vector;
+  cdc_binary_pred_fn_t compar;
 };
 
 /**
@@ -49,8 +49,8 @@ struct cdc_heap {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_heap_iter {
-        struct cdc_vector *container;
-        size_t current;
+  struct cdc_vector *container;
+  size_t current;
 };
 
 /**
@@ -131,9 +131,9 @@ void cdc_heap_dtor(struct cdc_heap *h);
  */
 static inline void *cdc_heap_top(struct cdc_heap *h)
 {
-        assert(h != NULL);
+  assert(h != NULL);
 
-        return cdc_vector_front(h->vector);
+  return cdc_vector_front(h->vector);
 }
 
 // Capacity
@@ -144,9 +144,9 @@ static inline void *cdc_heap_top(struct cdc_heap *h)
  */
 static inline size_t cdc_heap_size(struct cdc_heap *h)
 {
-        assert(h != NULL);
+  assert(h != NULL);
 
-        return cdc_vector_size(h->vector);
+  return cdc_vector_size(h->vector);
 }
 
 /**
@@ -156,9 +156,9 @@ static inline size_t cdc_heap_size(struct cdc_heap *h)
  */
 static inline bool cdc_heap_empty(struct cdc_heap *h)
 {
-        assert(h != NULL);
+  assert(h != NULL);
 
-        return cdc_vector_empty(h->vector);
+  return cdc_vector_empty(h->vector);
 }
 
 // Modifiers
@@ -193,9 +193,9 @@ enum cdc_stat cdc_heap_riinsert(struct cdc_heap *h, void *key,
  */
 static inline enum cdc_stat cdc_heap_insert(struct cdc_heap *h, void *key)
 {
-        assert(h != NULL);
+  assert(h != NULL);
 
-        return cdc_heap_riinsert(h, key, NULL);
+  return cdc_heap_riinsert(h, key, NULL);
 }
 
 /**
@@ -242,9 +242,9 @@ bool cdc_heap_is_heap(struct cdc_heap *h);
  */
 static inline void *cdc_heap_iter_data(struct cdc_heap_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return cdc_vector_get(it->container, it->current);
+  return cdc_vector_get(it->container, it->current);
 }
 
 /**
@@ -254,10 +254,10 @@ static inline void *cdc_heap_iter_data(struct cdc_heap_iter *it)
 static inline bool cdc_heap_iter_is_eq(struct cdc_heap_iter *it1,
                                        struct cdc_heap_iter *it2)
 {
-        assert(it1 != NULL);
-        assert(it2 != NULL);
+  assert(it1 != NULL);
+  assert(it2 != NULL);
 
-        return it1->container == it2->container && it1->current == it2->current;
+  return it1->container == it2->container && it1->current == it2->current;
 }
 
 // Short names

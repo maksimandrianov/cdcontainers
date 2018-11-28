@@ -40,12 +40,12 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_deque {
-        void **buffer;
-        size_t head;
-        size_t tail;
-        size_t size;
-        size_t capacity;
-        struct cdc_data_info *dinfo;
+  void **buffer;
+  size_t head;
+  size_t tail;
+  size_t size;
+  size_t capacity;
+  struct cdc_data_info *dinfo;
 };
 
 /**
@@ -94,12 +94,12 @@ void cdc_deque_dtor(struct cdc_deque *d);
  */
 static inline void *cdc_deque_get(struct cdc_deque *d, size_t index)
 {
-        assert(d != NULL);
-        assert(index < d->size);
+  assert(d != NULL);
+  assert(index < d->size);
 
-        size_t idx = (d->head + index) & (d->capacity - 1);
+  size_t idx = (d->head + index) & (d->capacity - 1);
 
-        return d->buffer[idx];
+  return d->buffer[idx];
 }
 
 /**
@@ -120,10 +120,10 @@ enum cdc_stat cdc_deque_at(struct cdc_deque *d, size_t index, void **elem);
  */
 static inline void *cdc_deque_front(struct cdc_deque *d)
 {
-        assert(d != NULL);
-        assert(d->size > 0);
+  assert(d != NULL);
+  assert(d->size > 0);
 
-        return d->buffer[d->head];
+  return d->buffer[d->head];
 }
 
 /**
@@ -134,12 +134,12 @@ static inline void *cdc_deque_front(struct cdc_deque *d)
  */
 static inline void *cdc_deque_back(struct cdc_deque *d)
 {
-        assert(d != NULL);
-        assert(d->size > 0);
+  assert(d != NULL);
+  assert(d->size > 0);
 
-        size_t idx = (d->tail - 1 + d->capacity) & (d->capacity - 1);
+  size_t idx = (d->tail - 1 + d->capacity) & (d->capacity - 1);
 
-        return d->buffer[idx];
+  return d->buffer[idx];
 }
 
 // Capacity
@@ -150,9 +150,9 @@ static inline void *cdc_deque_back(struct cdc_deque *d)
  */
 static inline bool cdc_deque_empty(struct cdc_deque *d)
 {
-        assert(d != NULL);
+  assert(d != NULL);
 
-        return d->size == 0;
+  return d->size == 0;
 }
 
 /**
@@ -162,9 +162,9 @@ static inline bool cdc_deque_empty(struct cdc_deque *d)
  */
 static inline size_t cdc_deque_size(struct cdc_deque *d)
 {
-        assert(d != NULL);
+  assert(d != NULL);
 
-        return d->size;
+  return d->size;
 }
 
 // Modifiers
@@ -177,12 +177,12 @@ static inline size_t cdc_deque_size(struct cdc_deque *d)
  */
 static inline void cdc_deque_set(struct cdc_deque *d, size_t index, void *value)
 {
-        assert(d != NULL);
-        assert(index < d->size);
+  assert(d != NULL);
+  assert(index < d->size);
 
-        size_t idx = (d->head + index) & (d->capacity - 1);
+  size_t idx = (d->head + index) & (d->capacity - 1);
 
-        d->buffer[idx] = value;
+  d->buffer[idx] = value;
 }
 
 /**
@@ -219,9 +219,9 @@ enum cdc_stat cdc_deque_remove(struct cdc_deque *d, size_t index, void **elem);
  */
 static inline enum cdc_stat cdc_deque_erase(struct cdc_deque *d, size_t index)
 {
-        assert(d != NULL);
+  assert(d != NULL);
 
-        return cdc_deque_remove(d, index, NULL);
+  return cdc_deque_remove(d, index, NULL);
 }
 
 /**

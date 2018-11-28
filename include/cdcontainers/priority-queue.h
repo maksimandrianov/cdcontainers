@@ -41,8 +41,8 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_priority_queue {
-        void *container;
-        const struct cdc_priority_queue_table *table;
+  void *container;
+  const struct cdc_priority_queue_table *table;
 };
 
 /**
@@ -213,9 +213,9 @@ void cdc_priority_queue_dtor(struct cdc_priority_queue *q);
  */
 static inline void *cdc_priority_queue_top(struct cdc_priority_queue *q)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        return q->table->top(q->container);
+  return q->table->top(q->container);
 }
 
 // Capacity
@@ -226,9 +226,9 @@ static inline void *cdc_priority_queue_top(struct cdc_priority_queue *q)
  */
 static inline bool cdc_priority_queue_empty(struct cdc_priority_queue *q)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        return q->table->empty(q->container);
+  return q->table->empty(q->container);
 }
 
 /**
@@ -238,9 +238,9 @@ static inline bool cdc_priority_queue_empty(struct cdc_priority_queue *q)
  */
 static inline size_t cdc_priority_queue_size(struct cdc_priority_queue *q)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        return q->table->size(q->container);
+  return q->table->size(q->container);
 }
 
 // Modifiers
@@ -254,9 +254,9 @@ static inline size_t cdc_priority_queue_size(struct cdc_priority_queue *q)
 static inline enum cdc_stat cdc_priority_queue_push(struct cdc_priority_queue *q,
                                                     void *elem)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        return q->table->push(q->container, elem);
+  return q->table->push(q->container, elem);
 }
 
 /**
@@ -267,9 +267,9 @@ static inline enum cdc_stat cdc_priority_queue_push(struct cdc_priority_queue *q
  */
 static inline enum cdc_stat cdc_priority_queue_pop(struct cdc_priority_queue *q)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        return q->table->pop(q->container);
+  return q->table->pop(q->container);
 }
 
 /**

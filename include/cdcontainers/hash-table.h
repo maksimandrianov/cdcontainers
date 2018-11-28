@@ -40,10 +40,10 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_hash_table_entry {
-        struct cdc_hash_table_entry *next;
-        void *key;
-        void *value;
-        size_t hash;
+  struct cdc_hash_table_entry *next;
+  void *key;
+  void *value;
+  size_t hash;
 };
 
 /**
@@ -52,14 +52,14 @@ struct cdc_hash_table_entry {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_hash_table {
-        struct cdc_hash_table_entry *tail;
-        struct cdc_hash_table_entry **buckets;
-        size_t bcount;
-        float load_factor;
-        cdc_hash_fn_t hash;
-        cdc_binary_pred_fn_t eq;
-        size_t size;
-        struct cdc_data_info *dinfo;
+  struct cdc_hash_table_entry *tail;
+  struct cdc_hash_table_entry **buckets;
+  size_t bcount;
+  float load_factor;
+  cdc_hash_fn_t hash;
+  cdc_binary_pred_fn_t eq;
+  size_t size;
+  struct cdc_data_info *dinfo;
 };
 
 /**
@@ -68,19 +68,19 @@ struct cdc_hash_table {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_hash_table_iter {
-        struct cdc_hash_table *container;
-        struct cdc_hash_table_entry *current;
+  struct cdc_hash_table *container;
+  struct cdc_hash_table_entry *current;
 
 };
 
 struct cdc_pair_hash_table_iter {
-        struct cdc_hash_table_iter first;
-        struct cdc_hash_table_iter second;
+  struct cdc_hash_table_iter first;
+  struct cdc_hash_table_iter second;
 };
 
 struct cdc_pair_hash_table_iter_bool {
-        struct cdc_hash_table_iter first;
-        bool second;
+  struct cdc_hash_table_iter first;
+  bool second;
 };
 
 /**
@@ -271,9 +271,9 @@ void cdc_hash_table_equal_range(struct cdc_hash_table *t, void *key,
  */
 static inline size_t cdc_hash_table_size(struct cdc_hash_table *t)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        return t->size;
+  return t->size;
 }
 
 /**
@@ -283,9 +283,9 @@ static inline size_t cdc_hash_table_size(struct cdc_hash_table *t)
  */
 static inline bool cdc_hash_table_empty(struct cdc_hash_table *t)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        return t->size == 0;
+  return t->size == 0;
 }
 
 // Modifiers
@@ -350,11 +350,11 @@ void cdc_hash_table_swap(struct cdc_hash_table *a, struct cdc_hash_table *b);
 static inline void cdc_hash_table_begin(struct cdc_hash_table *t,
                                         struct cdc_hash_table_iter *it)
 {
-        assert(t != NULL);
-        assert(it != NULL);
+  assert(t != NULL);
+  assert(it != NULL);
 
-        it->container = t;
-        it->current = t->buckets[0]->next;
+  it->container = t;
+  it->current = t->buckets[0]->next;
 }
 
 /**
@@ -365,11 +365,11 @@ static inline void cdc_hash_table_begin(struct cdc_hash_table *t,
 static inline void cdc_hash_table_end(struct cdc_hash_table *t,
                                       struct cdc_hash_table_iter *it)
 {
-        assert(t != NULL);
-        assert(it != NULL);
+  assert(t != NULL);
+  assert(it != NULL);
 
-        it->container = t;
-        it->current = NULL;
+  it->container = t;
+  it->current = NULL;
 }
 
 // Hash policy
@@ -380,9 +380,9 @@ static inline void cdc_hash_table_end(struct cdc_hash_table *t,
  */
 static inline float cdc_hash_table_load_factor(struct cdc_hash_table *t)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        return (float)t->size / (float)t->bcount;
+  return (float)t->size / (float)t->bcount;
 }
 
 /**
@@ -392,9 +392,9 @@ static inline float cdc_hash_table_load_factor(struct cdc_hash_table *t)
  */
 static inline float cdc_hash_table_max_load_factor(struct cdc_hash_table *t)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        return t->load_factor;
+  return t->load_factor;
 }
 
 /**
@@ -405,9 +405,9 @@ static inline float cdc_hash_table_max_load_factor(struct cdc_hash_table *t)
 static inline void cdc_hash_table_set_max_load_factor(struct cdc_hash_table *t,
                                                       float load_factor)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        t->load_factor = load_factor;
+  t->load_factor = load_factor;
 }
 
 /**
@@ -438,9 +438,9 @@ enum cdc_stat cdc_hash_table_reserve(struct cdc_hash_table *t, size_t count);
  */
 static inline size_t cdc_hash_table_bucket_count(struct cdc_hash_table *t)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        return t->bcount;
+  return t->bcount;
 }
 
 // Iterators
@@ -449,9 +449,9 @@ static inline size_t cdc_hash_table_bucket_count(struct cdc_hash_table *t)
  */
 static inline void cdc_hash_table_iter_next(struct cdc_hash_table_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        it->current = it->current->next;
+  it->current = it->current->next;
 }
 
 /**
@@ -460,9 +460,9 @@ static inline void cdc_hash_table_iter_next(struct cdc_hash_table_iter *it)
  */
 static inline bool cdc_hash_table_iter_has_next(struct cdc_hash_table_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current->next != NULL;
+  return it->current->next != NULL;
 }
 
 /**
@@ -470,9 +470,9 @@ static inline bool cdc_hash_table_iter_has_next(struct cdc_hash_table_iter *it)
  */
 static inline void *cdc_hash_table_iter_key(struct cdc_hash_table_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current->key;
+  return it->current->key;
 }
 
 /**
@@ -480,22 +480,22 @@ static inline void *cdc_hash_table_iter_key(struct cdc_hash_table_iter *it)
  */
 static inline void *cdc_hash_table_iter_value(struct cdc_hash_table_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current->value;
+  return it->current->value;
 }
 
 /**
  * @brief Returns a pair, where first - key, second - value.
  */
 static inline struct cdc_pair cdc_hash_table_iter_key_value(
-                struct cdc_hash_table_iter *it)
+    struct cdc_hash_table_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        struct cdc_pair pair = {it->current->key, it->current->value};
+  struct cdc_pair pair = {it->current->key, it->current->value};
 
-        return pair;
+  return pair;
 }
 
 /**
@@ -505,10 +505,10 @@ static inline struct cdc_pair cdc_hash_table_iter_key_value(
 static inline bool cdc_hash_table_iter_is_eq(struct cdc_hash_table_iter *it1,
                                              struct cdc_hash_table_iter *it2)
 {
-        assert(it1 != NULL);
-        assert(it2 != NULL);
+  assert(it1 != NULL);
+  assert(it2 != NULL);
 
-        return it1->container == it2->container && it1->current == it2->current;
+  return it1->container == it2->container && it1->current == it2->current;
 }
 
 // Short names

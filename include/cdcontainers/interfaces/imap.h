@@ -38,16 +38,16 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_map_iter_table {
-        void *(*alloc)();
-        void (*free)(void *it);
-        void (*next)(void *it);
-        void (*prev)(void *it);
-        bool (*has_next)(void *it);
-        bool (*has_prev)(void *it);
-        void *(*key)(void *it);
-        void *(*value)(void *it);
-        struct cdc_pair (*key_value)(void *it);
-        bool (*eq) (void *it1, void *it2);
+  void *(*alloc)();
+  void (*free)(void *it);
+  void (*next)(void *it);
+  void (*prev)(void *it);
+  bool (*has_next)(void *it);
+  bool (*has_prev)(void *it);
+  void *(*key)(void *it);
+  void *(*value)(void *it);
+  struct cdc_pair (*key_value)(void *it);
+  bool (*eq) (void *it1, void *it2);
 };
 
 /**
@@ -56,26 +56,26 @@ struct cdc_map_iter_table {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_map_table {
-        enum cdc_stat (*ctor)(void **cntr, struct cdc_data_info *info,
-                              cdc_binary_pred_fn_t compar);
-        enum cdc_stat (*ctorv)(void **cntr, struct cdc_data_info *info,
-                               cdc_binary_pred_fn_t compar, va_list args);
-        void (*dtor)(void *cntr);
-        enum cdc_stat (*get)(void *cntr, void *key, void **value);
-        size_t (*count)(void *cntr, void *key);
-        void (*find)(void *cntr, void *key, void *it);
-        size_t (*size)(void *cntr);
-        bool (*empty)(void *cntr);
-        void (*clear)(void *cntr);
-        enum cdc_stat (*insert)(void *cntr, void *key, void *value,
-                                void *it, bool *inserted);
-        enum cdc_stat (*insert_or_assign)(void *cntr, void *key, void *value,
-                                          void *it, bool *inserted);
-        size_t (*erase)(void *cntr, void *key);
-        void (*swap)(void *a, void *b);
-        void (*begin)(void *cntr, void *it);
-        void (*end)(void *cntr, void *it);
-        const struct cdc_map_iter_table* iter_table;
+  enum cdc_stat (*ctor)(void **cntr, struct cdc_data_info *info,
+                        cdc_binary_pred_fn_t compar);
+  enum cdc_stat (*ctorv)(void **cntr, struct cdc_data_info *info,
+                         cdc_binary_pred_fn_t compar, va_list args);
+  void (*dtor)(void *cntr);
+  enum cdc_stat (*get)(void *cntr, void *key, void **value);
+  size_t (*count)(void *cntr, void *key);
+  void (*find)(void *cntr, void *key, void *it);
+  size_t (*size)(void *cntr);
+  bool (*empty)(void *cntr);
+  void (*clear)(void *cntr);
+  enum cdc_stat (*insert)(void *cntr, void *key, void *value,
+                          void *it, bool *inserted);
+  enum cdc_stat (*insert_or_assign)(void *cntr, void *key, void *value,
+                                    void *it, bool *inserted);
+  size_t (*erase)(void *cntr, void *key);
+  void (*swap)(void *a, void *b);
+  void (*begin)(void *cntr, void *it);
+  void (*end)(void *cntr, void *it);
+  const struct cdc_map_iter_table* iter_table;
 };
 
 extern const void *cdc_map_avl;

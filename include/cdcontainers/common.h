@@ -31,16 +31,16 @@
 #define CDC_ABS(x) ((x < 0) ? -(x) : x)
 
 #define CDC_SWAP(T, x, y) do \
-        { \
-                T tmp = x;  \
-                x = y; \
-                y = tmp; \
-        } while (0)
+{ \
+  T tmp = x;  \
+  x = y; \
+  y = tmp; \
+} while (0)
 
 #define CDC_INIT_STRUCT {0,}
 
 #define CDC_STATIC_ASSERT(COND, MSG) \
-        typedef char cdc_static_assertion_##MSG[(COND) ? 1 : -1]
+  typedef char cdc_static_assertion_##MSG[(COND) ? 1 : -1]
 
 
 typedef void (*cdc_free_fn_t)(void *);
@@ -49,28 +49,28 @@ typedef int (*cdc_binary_pred_fn_t) (const void *, const void *);
 typedef void (*cdc_copy_fn_t) (void *, const void *);
 
 struct cdc_pair {
-        void *first;
-        void *second;
+  void *first;
+  void *second;
 };
 
 struct cdc_data_info {
-        cdc_free_fn_t dfree;
-        cdc_binary_pred_fn_t lt;
-        cdc_binary_pred_fn_t eq;
-        cdc_copy_fn_t cp;
-        size_t size;
-        size_t __cnt;
+  cdc_free_fn_t dfree;
+  cdc_binary_pred_fn_t lt;
+  cdc_binary_pred_fn_t eq;
+  cdc_copy_fn_t cp;
+  size_t size;
+  size_t __cnt;
 };
 
 static inline size_t cdc_up_to_pow2(size_t x)
 {
-        x = x - 1;
-        x |= x >> 1;
-        x |= x >> 2;
-        x |= x >> 4;
-        x |= x >> 8;
-        x |= x >> 16;
-        return x + 1;
+  x = x - 1;
+  x |= x >> 1;
+  x |= x >> 2;
+  x |= x >> 4;
+  x |= x >> 8;
+  x |= x >> 16;
+  return x + 1;
 }
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_COMMON_H

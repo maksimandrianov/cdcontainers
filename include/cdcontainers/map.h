@@ -39,8 +39,8 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_map {
-        void *container;
-        const struct cdc_map_table *table;
+  void *container;
+  const struct cdc_map_table *table;
 };
 
 /**
@@ -49,8 +49,8 @@ struct cdc_map {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_map_iter {
-        void *iter;
-        const struct cdc_map_iter_table *table;
+  void *iter;
+  const struct cdc_map_iter_table *table;
 };
 
 /**
@@ -205,9 +205,9 @@ void cdc_map_dtor(struct cdc_map *m);
  */
 static inline enum cdc_stat cdc_map_get(struct cdc_map *m, void *key, void **value)
 {
-        assert(m != NULL);
+  assert(m != NULL);
 
-        return m->table->get(m->container, key, value);
+  return m->table->get(m->container, key, value);
 }
 
 /**
@@ -220,9 +220,9 @@ static inline enum cdc_stat cdc_map_get(struct cdc_map *m, void *key, void **val
  */
 static inline size_t cdc_map_count(struct cdc_map *m, void *key)
 {
-        assert(m != NULL);
+  assert(m != NULL);
 
-        return m->table->count(m->container, key);
+  return m->table->count(m->container, key);
 }
 
 /**
@@ -234,9 +234,9 @@ static inline size_t cdc_map_count(struct cdc_map *m, void *key)
  */
 static inline void cdc_map_find(struct cdc_map *m, void *key, struct cdc_map_iter *it)
 {
-        assert(m != NULL);
+  assert(m != NULL);
 
-        m->table->find(m->container, key, it->iter);
+  m->table->find(m->container, key, it->iter);
 }
 
 // Capacity
@@ -247,9 +247,9 @@ static inline void cdc_map_find(struct cdc_map *m, void *key, struct cdc_map_ite
  */
 static inline size_t cdc_map_size(struct cdc_map *m)
 {
-        assert(m != NULL);
+  assert(m != NULL);
 
-        return m->table->size(m->container);
+  return m->table->size(m->container);
 }
 
 /**
@@ -259,9 +259,9 @@ static inline size_t cdc_map_size(struct cdc_map *m)
  */
 static inline bool cdc_map_empty(struct cdc_map *m)
 {
-        assert(m != NULL);
+  assert(m != NULL);
 
-        return m->table->empty(m->container);
+  return m->table->empty(m->container);
 }
 
 // Modifiers
@@ -271,9 +271,9 @@ static inline bool cdc_map_empty(struct cdc_map *m)
  */
 static inline void cdc_map_clear(struct cdc_map *m)
 {
-        assert(m != NULL);
+  assert(m != NULL);
 
-        m->table->clear(m->container);
+  m->table->clear(m->container);
 }
 
 /**
@@ -292,11 +292,11 @@ static inline void cdc_map_clear(struct cdc_map *m)
 static inline enum cdc_stat cdc_map_insert(struct cdc_map *m, void *key, void *value,
                                            struct cdc_map_iter *it, bool *inserted)
 {
-        assert(m != NULL);
+  assert(m != NULL);
 
-        void *iter = it ? it->iter : NULL;
+  void *iter = it ? it->iter : NULL;
 
-        return m->table->insert(m->container, key, value, iter, inserted);
+  return m->table->insert(m->container, key, value, iter, inserted);
 }
 
 /**
@@ -317,11 +317,11 @@ static inline enum cdc_stat cdc_map_insert_or_assign(struct cdc_map *m,
                                                      struct cdc_map_iter *it,
                                                      bool *inserted)
 {
-        assert(m != NULL);
+  assert(m != NULL);
 
-        void *iter = it ? it->iter : NULL;
+  void *iter = it ? it->iter : NULL;
 
-        return m->table->insert_or_assign(m->container, key, value, iter, inserted);
+  return m->table->insert_or_assign(m->container, key, value, iter, inserted);
 }
 
 /**
@@ -332,9 +332,9 @@ static inline enum cdc_stat cdc_map_insert_or_assign(struct cdc_map *m,
  */
 static inline size_t cdc_map_erase(struct cdc_map *m, void *key)
 {
-        assert(m != NULL);
+  assert(m != NULL);
 
-        return m->table->erase(m->container, key);
+  return m->table->erase(m->container, key);
 }
 
 /**
@@ -344,11 +344,11 @@ static inline size_t cdc_map_erase(struct cdc_map *m, void *key)
  */
 static inline void cdc_map_swap(struct cdc_map *a, struct cdc_map *b)
 {
-        assert(a != NULL);
-        assert(b != NULL);
-        assert(a->table == b->table);
+  assert(a != NULL);
+  assert(b != NULL);
+  assert(a->table == b->table);
 
-        CDC_SWAP(void *, a->container, b->container);
+  CDC_SWAP(void *, a->container, b->container);
 }
 
 // Iterators
@@ -373,10 +373,10 @@ void cdc_map_iter_free(struct cdc_map_iter *it);
  */
 static inline void cdc_map_begin(struct cdc_map *m, struct cdc_map_iter *it)
 {
-        assert(m != NULL);
-        assert(it != NULL);
+  assert(m != NULL);
+  assert(it != NULL);
 
-        m->table->begin(m->container, it->iter);
+  m->table->begin(m->container, it->iter);
 }
 
 /**
@@ -386,10 +386,10 @@ static inline void cdc_map_begin(struct cdc_map *m, struct cdc_map_iter *it)
  */
 static inline void cdc_map_end(struct cdc_map *m, struct cdc_map_iter *it)
 {
-        assert(m != NULL);
-        assert(it != NULL);
+  assert(m != NULL);
+  assert(it != NULL);
 
-        m->table->end(m->container, it->iter);
+  m->table->end(m->container, it->iter);
 }
 
 // Iterators
@@ -398,9 +398,9 @@ static inline void cdc_map_end(struct cdc_map *m, struct cdc_map_iter *it)
  */
 static inline void cdc_map_iter_next(struct cdc_map_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        it->table->next(it->iter);
+  it->table->next(it->iter);
 }
 
 /**
@@ -408,9 +408,9 @@ static inline void cdc_map_iter_next(struct cdc_map_iter *it)
  */
 static inline void cdc_map_iter_prev(struct cdc_map_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        it->table->prev(it->iter);
+  it->table->prev(it->iter);
 }
 
 /**
@@ -419,9 +419,9 @@ static inline void cdc_map_iter_prev(struct cdc_map_iter *it)
  */
 static inline bool cdc_map_iter_has_next(struct cdc_map_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->table->has_next(it->iter);
+  return it->table->has_next(it->iter);
 }
 
 /**
@@ -430,9 +430,9 @@ static inline bool cdc_map_iter_has_next(struct cdc_map_iter *it)
  */
 static inline bool cdc_map_iter_has_prev(struct cdc_map_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->table->has_prev(it->iter);
+  return it->table->has_prev(it->iter);
 }
 
 /**
@@ -440,9 +440,9 @@ static inline bool cdc_map_iter_has_prev(struct cdc_map_iter *it)
  */
 static inline void *cdc_map_iter_key(struct cdc_map_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->table->key(it->iter);
+  return it->table->key(it->iter);
 }
 
 /**
@@ -450,9 +450,9 @@ static inline void *cdc_map_iter_key(struct cdc_map_iter *it)
  */
 static inline void *cdc_map_iter_value(struct cdc_map_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->table->value(it->iter);
+  return it->table->value(it->iter);
 }
 
 /**
@@ -460,9 +460,9 @@ static inline void *cdc_map_iter_value(struct cdc_map_iter *it)
  */
 static inline struct cdc_pair cdc_map_iter_key_value(struct cdc_map_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->table->key_value(it->iter);
+  return it->table->key_value(it->iter);
 }
 
 /**
@@ -472,11 +472,11 @@ static inline struct cdc_pair cdc_map_iter_key_value(struct cdc_map_iter *it)
 static inline bool cdc_map_iter_is_eq(struct cdc_map_iter *it1,
                                       struct cdc_map_iter *it2)
 {
-        assert(it1 != NULL);
-        assert(it2 != NULL);
-        assert(it1->table == it2->table);
+  assert(it1 != NULL);
+  assert(it2 != NULL);
+  assert(it1->table == it2->table);
 
-        return it1->table->eq(it1->iter, it2->iter);
+  return it1->table->eq(it1->iter, it2->iter);
 }
 
 // Short names

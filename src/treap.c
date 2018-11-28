@@ -29,7 +29,7 @@
 
 struct node_pair
 {
-        struct cdc_treap_node *l, *r;
+  struct cdc_treap_node *l, *r;
 };
 
 MAKE_FIND_NODE(struct cdc_treap_node *)
@@ -40,561 +40,561 @@ MAKE_PREDECESSOR(struct cdc_treap_node *)
 
 static int default_prior(void *value)
 {
-        CDC_UNUSED(value);
+  CDC_UNUSED(value);
 
-        return rand();
+  return rand();
 }
 
 static void free_node(struct cdc_treap *t, struct cdc_treap_node *node)
 {
-        struct cdc_pair pair;
+  struct cdc_pair pair;
 
-        if (CDC_HAS_DFREE(t->dinfo)) {
-                pair.first = node->key;
-                pair.second = node->value;
-                t->dinfo->dfree(&pair);
-        }
+  if (CDC_HAS_DFREE(t->dinfo)) {
+    pair.first = node->key;
+    pair.second = node->value;
+    t->dinfo->dfree(&pair);
+  }
 
-        free(node);
+  free(node);
 }
 
 static void free_treap(struct cdc_treap *t, struct cdc_treap_node *root)
 {
-        if (root == NULL)
-                return;
+  if (root == NULL)
+    return;
 
-        free_treap(t, root->left);
-        free_treap(t, root->right);
-        free_node(t, root);
+  free_treap(t, root->left);
+  free_treap(t, root->right);
+  free_node(t, root);
 }
 
 static struct cdc_treap_node *new_node(void *key, int prior,  void *val)
 {
-        struct cdc_treap_node *node;
+  struct cdc_treap_node *node;
 
-        node = (struct cdc_treap_node *)malloc(sizeof(struct cdc_treap_node));
-        if (node) {
-                node->priority = prior;
-                node->key = key;
-                node->value = val;
-                node->parent = node->left = node->right = NULL;
-        }
+  node = (struct cdc_treap_node *)malloc(sizeof(struct cdc_treap_node));
+  if (node) {
+    node->priority = prior;
+    node->key = key;
+    node->value = val;
+    node->parent = node->left = node->right = NULL;
+  }
 
-        return node;
+  return node;
 }
 
 static struct node_pair split(struct cdc_treap_node *root, void *key,
                               cdc_binary_pred_fn_t compar)
 {
-        struct node_pair pair;
+  struct node_pair pair;
 
-        if (root == NULL) {
-                pair.l = pair.r = NULL;
-                return pair;
-        }
+  if (root == NULL) {
+    pair.l = pair.r = NULL;
+    return pair;
+  }
 
-        if (compar(root->key, key)) {
-                pair = split(root->right, key, compar);
-                root->right = pair.l;
-                if (pair.l)
-                        pair.l->parent = root;
+  if (compar(root->key, key)) {
+    pair = split(root->right, key, compar);
+    root->right = pair.l;
+    if (pair.l)
+      pair.l->parent = root;
 
-                if (pair.r)
-                        pair.r->parent = NULL;
+    if (pair.r)
+      pair.r->parent = NULL;
 
-                pair.l = root;
-                pair.r = pair.r;
-                return pair;
-        } else {
-                pair = split(root->left, key, compar);
-                root->left = pair.r;
-                if (pair.l)
-                        pair.l->parent = NULL;
+    pair.l = root;
+    pair.r = pair.r;
+    return pair;
+  } else {
+    pair = split(root->left, key, compar);
+    root->left = pair.r;
+    if (pair.l)
+      pair.l->parent = NULL;
 
-                if (pair.r)
-                        pair.r->parent = root;
+    if (pair.r)
+      pair.r->parent = root;
 
-                pair.l = pair.l;
-                pair.r = root;
-                return pair;
-        }
+    pair.l = pair.l;
+    pair.r = root;
+    return pair;
+  }
 }
 
 static struct cdc_treap_node *merge(struct cdc_treap_node *l,
                                     struct cdc_treap_node *r)
 {
-        if (l == NULL)
-                return r;
+  if (l == NULL)
+    return r;
 
-        if (r == NULL)
-                return l;
+  if (r == NULL)
+    return l;
 
-        if (l->priority > r->priority) {
-                l->right = merge(l->right, r);
-                if (l->right)
-                        l->right->parent = l;
+  if (l->priority > r->priority) {
+    l->right = merge(l->right, r);
+    if (l->right)
+      l->right->parent = l;
 
-                return l;
-        } else {
-                r->left = merge(l, r->left);
-                if (r->left)
-                        r->left->parent = r;
+    return l;
+  } else {
+    r->left = merge(l, r->left);
+    if (r->left)
+      r->left->parent = r;
 
-                return r;
-        }
+    return r;
+  }
 }
 
 static struct cdc_treap_node *find_nearest(struct cdc_treap *t, void *key,
                                            int priority)
 {
-        struct cdc_treap_node *node = t->root;
+  struct cdc_treap_node *node = t->root;
 
-        while (node) {
-                if (node->priority <= priority)
-                        break;
+  while (node) {
+    if (node->priority <= priority)
+      break;
 
-                if (t->compar(key, node->key)) {
-                        if (node->left)
-                                node = node->left;
-                        else
-                                break;
-                } else {
-                        if (node->right)
-                                node = node->right;
-                        else
-                                break;
-                }
-        }
+    if (t->compar(key, node->key)) {
+      if (node->left)
+        node = node->left;
+      else
+        break;
+    } else {
+      if (node->right)
+        node = node->right;
+      else
+        break;
+    }
+  }
 
-        return node;
+  return node;
 }
 
 static void erase_node(struct cdc_treap *t, struct cdc_treap_node *node)
 {
-        struct cdc_treap_node *tmp;
+  struct cdc_treap_node *tmp;
 
-        tmp = merge(node->left, node->right);
-        if (t->root == node) {
-                if (tmp)
-                        tmp->parent = NULL;
-                t->root = tmp;
-        } else {
-                if (tmp)
-                        tmp->parent = node->parent;
+  tmp = merge(node->left, node->right);
+  if (t->root == node) {
+    if (tmp)
+      tmp->parent = NULL;
+    t->root = tmp;
+  } else {
+    if (tmp)
+      tmp->parent = node->parent;
 
-                if (node->parent->left && node->parent->left == node)
-                        node->parent->left = tmp;
-                else
-                        node->parent->right = tmp;
-        }
+    if (node->parent->left && node->parent->left == node)
+      node->parent->left = tmp;
+    else
+      node->parent->right = tmp;
+  }
 
-        --t->size;
-        free_node(t, node);
+  --t->size;
+  free_node(t, node);
 }
 
 static struct cdc_treap_node *insert_unique(struct cdc_treap *t,
                                             struct cdc_treap_node *node,
                                             struct cdc_treap_node *nearest)
 {
-        struct cdc_treap_node *pnode;
-        struct node_pair pair;
+  struct cdc_treap_node *pnode;
+  struct node_pair pair;
 
-        if (t->root == NULL) {
-                t->root = node;
-        } else {
-                if (nearest->priority > node->priority) {
-                        if (t->compar(node->key, nearest->key))
-                                nearest->left = node;
-                        else
-                                nearest->right = node;
+  if (t->root == NULL) {
+    t->root = node;
+  } else {
+    if (nearest->priority > node->priority) {
+      if (t->compar(node->key, nearest->key))
+        nearest->left = node;
+      else
+        nearest->right = node;
 
-                        node->parent = nearest;
-                } else {
-                        pnode = nearest->parent;
-                        pair = split(nearest, node->key, t->compar);
-                        node->left = pair.l;
-                        if (pair.l)
-                                pair.l->parent = node;
+      node->parent = nearest;
+    } else {
+      pnode = nearest->parent;
+      pair = split(nearest, node->key, t->compar);
+      node->left = pair.l;
+      if (pair.l)
+        pair.l->parent = node;
 
-                        node->right = pair.r;
-                        if (pair.r)
-                                pair.r->parent = node;
+      node->right = pair.r;
+      if (pair.r)
+        pair.r->parent = node;
 
-                        if (pnode == NULL) {
-                                node->parent = NULL;
-                                t->root = node;
-                        } else if (pnode->left == nearest) {
-                                node->parent = pnode;
-                                pnode->left = node;
-                        } else {
-                                node->parent = pnode;
-                                pnode->right = node;
-                        }
-                }
-        }
+      if (pnode == NULL) {
+        node->parent = NULL;
+        t->root = node;
+      } else if (pnode->left == nearest) {
+        node->parent = pnode;
+        pnode->left = node;
+      } else {
+        node->parent = pnode;
+        pnode->right = node;
+      }
+    }
+  }
 
-        ++t->size;
-        return node;
+  ++t->size;
+  return node;
 }
 
 static struct cdc_treap_node *make_and_insert_unique(struct cdc_treap *t,
                                                      void *key, void *value)
 {
-        struct cdc_treap_node *node = new_node(key, t->prior(value), value);
-        struct cdc_treap_node *nearest;
+  struct cdc_treap_node *node = new_node(key, t->prior(value), value);
+  struct cdc_treap_node *nearest;
 
-        if (!node)
-                return node;
+  if (!node)
+    return node;
 
-        nearest = find_nearest(t ,node->key, node->priority);
-        return insert_unique(t, node, nearest);
+  nearest = find_nearest(t ,node->key, node->priority);
+  return insert_unique(t, node, nearest);
 
 }
 
 static enum cdc_stat init_varg(struct cdc_treap *t, va_list args)
 {
-        enum cdc_stat stat;
-        struct cdc_pair *pair;
+  enum cdc_stat stat;
+  struct cdc_pair *pair;
 
-        while ((pair = va_arg(args, struct cdc_pair *)) != NULL) {
-                stat = cdc_treap_insert(t, pair->first, pair->second, NULL);
-                if (stat != CDC_STATUS_OK)
-                        return stat;
-        }
+  while ((pair = va_arg(args, struct cdc_pair *)) != NULL) {
+    stat = cdc_treap_insert(t, pair->first, pair->second, NULL);
+    if (stat != CDC_STATUS_OK)
+      return stat;
+  }
 
-        return CDC_STATUS_OK;
+  return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_treap_ctor2(struct cdc_treap **t, struct cdc_data_info *info,
                               cdc_binary_pred_fn_t compar, cdc_priority_fn_t prior)
 {
-        assert(t != NULL);
-        assert(CDC_HAS_LT(info) || compar != NULL);
+  assert(t != NULL);
+  assert(CDC_HAS_LT(info) || compar != NULL);
 
-        struct cdc_treap *tmp;
+  struct cdc_treap *tmp;
 
-        tmp = (struct cdc_treap *)calloc(sizeof(struct cdc_treap), 1);
-        if (!tmp)
-                return CDC_STATUS_BAD_ALLOC;
+  tmp = (struct cdc_treap *)calloc(sizeof(struct cdc_treap), 1);
+  if (!tmp)
+    return CDC_STATUS_BAD_ALLOC;
 
-        if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
-                free(tmp);
-                return CDC_STATUS_BAD_ALLOC;
-        }
+  if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
+    free(tmp);
+    return CDC_STATUS_BAD_ALLOC;
+  }
 
-        tmp->prior = prior ? prior : default_prior;
-        tmp->compar = compar ? compar : info->lt;
-        *t = tmp;
-        return CDC_STATUS_OK;
+  tmp->prior = prior ? prior : default_prior;
+  tmp->compar = compar ? compar : info->lt;
+  *t = tmp;
+  return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_treap_ctorl2(struct cdc_treap **t, struct cdc_data_info *info,
                                cdc_binary_pred_fn_t compar, cdc_priority_fn_t prior, ...)
 {
-        assert(t != NULL);
-        assert(CDC_HAS_LT(info) || compar != NULL);
+  assert(t != NULL);
+  assert(CDC_HAS_LT(info) || compar != NULL);
 
-        enum cdc_stat stat;
-        va_list args;
+  enum cdc_stat stat;
+  va_list args;
 
-        va_start(args, prior);
-        stat = cdc_treap_ctorv2(t, info, compar, prior, args);
-        va_end(args);
+  va_start(args, prior);
+  stat = cdc_treap_ctorv2(t, info, compar, prior, args);
+  va_end(args);
 
-        return stat;
+  return stat;
 }
 
 enum cdc_stat cdc_treap_ctorv2(struct cdc_treap **t, struct cdc_data_info *info,
                                cdc_binary_pred_fn_t compar, cdc_priority_fn_t prior,
                                va_list args)
 {
-        assert(t != NULL);
-        assert(CDC_HAS_LT(info) || compar != NULL);
+  assert(t != NULL);
+  assert(CDC_HAS_LT(info) || compar != NULL);
 
-        enum cdc_stat stat;
+  enum cdc_stat stat;
 
-        stat = cdc_treap_ctor2(t, info, compar, prior);
-        if (stat != CDC_STATUS_OK)
-                return stat;
+  stat = cdc_treap_ctor2(t, info, compar, prior);
+  if (stat != CDC_STATUS_OK)
+    return stat;
 
-        return init_varg(*t, args);
+  return init_varg(*t, args);
 }
 
 enum cdc_stat cdc_treap_ctor1(struct cdc_treap **t, struct cdc_data_info *info,
                               cdc_binary_pred_fn_t compar)
 {
-        assert(t != NULL);
-        assert(CDC_HAS_LT(info) || compar != NULL);
+  assert(t != NULL);
+  assert(CDC_HAS_LT(info) || compar != NULL);
 
-        return cdc_treap_ctor2(t, info, compar, NULL);
+  return cdc_treap_ctor2(t, info, compar, NULL);
 }
 
 
 enum cdc_stat cdc_treap_ctorl1(struct cdc_treap **t, struct cdc_data_info *info,
                                cdc_binary_pred_fn_t compar, ...)
 {
-        assert(t != NULL);
-        assert(CDC_HAS_LT(info) || compar != NULL);
+  assert(t != NULL);
+  assert(CDC_HAS_LT(info) || compar != NULL);
 
-        enum cdc_stat stat;
-        va_list args;
+  enum cdc_stat stat;
+  va_list args;
 
-        va_start(args, compar);
-        stat = cdc_treap_ctorv1(t, info, compar, args);
-        va_end(args);
+  va_start(args, compar);
+  stat = cdc_treap_ctorv1(t, info, compar, args);
+  va_end(args);
 
-        return stat;
+  return stat;
 }
 
 
 enum cdc_stat cdc_treap_ctorv1(struct cdc_treap **t, struct cdc_data_info *info,
                                cdc_binary_pred_fn_t compar, va_list args)
 {
-        assert(t != NULL);
-        assert(CDC_HAS_LT(info) || compar != NULL);
+  assert(t != NULL);
+  assert(CDC_HAS_LT(info) || compar != NULL);
 
-        return cdc_treap_ctorv2(t, info, compar, NULL, args);
+  return cdc_treap_ctorv2(t, info, compar, NULL, args);
 }
 
 enum cdc_stat cdc_treap_ctor(struct cdc_treap **t, struct cdc_data_info *info)
 {
-        assert(t != NULL);
-        assert(CDC_HAS_LT(info));
+  assert(t != NULL);
+  assert(CDC_HAS_LT(info));
 
-        return cdc_treap_ctor1(t, info, NULL);
+  return cdc_treap_ctor1(t, info, NULL);
 }
 
 enum cdc_stat cdc_treap_ctorl(struct cdc_treap **t, struct cdc_data_info *info, ...)
 {
-        assert(t != NULL);
-        assert(CDC_HAS_LT(info));
+  assert(t != NULL);
+  assert(CDC_HAS_LT(info));
 
-        enum cdc_stat stat;
-        va_list args;
+  enum cdc_stat stat;
+  va_list args;
 
-        va_start(args, info);
-        stat = cdc_treap_ctorv(t, info, args);
-        va_end(args);
+  va_start(args, info);
+  stat = cdc_treap_ctorv(t, info, args);
+  va_end(args);
 
-        return stat;
+  return stat;
 }
 
 enum cdc_stat cdc_treap_ctorv(struct cdc_treap **t, struct cdc_data_info *info,
                               va_list args)
 {
-        assert(t != NULL);
-        assert(CDC_HAS_LT(info));
+  assert(t != NULL);
+  assert(CDC_HAS_LT(info));
 
-        return cdc_treap_ctorv1(t, info, NULL, args);
+  return cdc_treap_ctorv1(t, info, NULL, args);
 }
 
 void cdc_treap_dtor(struct cdc_treap *t)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        free_treap(t, t->root);
-        cdc_di_shared_dtor(t->dinfo);
-        free(t);
+  free_treap(t, t->root);
+  cdc_di_shared_dtor(t->dinfo);
+  free(t);
 }
 
 enum cdc_stat cdc_treap_get(struct cdc_treap *t, void *key, void **value)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        struct cdc_treap_node *node = find_node(t->root, key, t->compar);
+  struct cdc_treap_node *node = find_node(t->root, key, t->compar);
 
-        if (node)
-                *value = node->value;
+  if (node)
+    *value = node->value;
 
-        return node ? CDC_STATUS_OK : CDC_STATUS_NOT_FOUND;
+  return node ? CDC_STATUS_OK : CDC_STATUS_NOT_FOUND;
 }
 
 size_t cdc_treap_count(struct cdc_treap *t, void *key)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        return (size_t)(find_node(t->root, key, t->compar) != NULL);
+  return (size_t)(find_node(t->root, key, t->compar) != NULL);
 }
 
 void cdc_treap_find(struct cdc_treap *t, void *key, struct cdc_treap_iter *it)
 {
-        assert(t != NULL);
-        assert(it != NULL);
+  assert(t != NULL);
+  assert(it != NULL);
 
-        struct cdc_treap_node *node = find_node(t->root, key, t->compar);
+  struct cdc_treap_node *node = find_node(t->root, key, t->compar);
 
-        if (!node) {
-                cdc_treap_end(t, it);
-                return;
-        }
+  if (!node) {
+    cdc_treap_end(t, it);
+    return;
+  }
 
-        it->container = t;
-        it->current = node;
-        it->prev = predecessor(node);
+  it->container = t;
+  it->current = node;
+  it->prev = predecessor(node);
 }
 
 void cdc_treap_equal_range(struct cdc_treap *t, void *key,
                            struct cdc_pair_treap_iter *pair)
 {
-        assert(t != NULL);
-        assert(pair != NULL);
+  assert(t != NULL);
+  assert(pair != NULL);
 
-        cdc_treap_find(t, key, &pair->first);
-        cdc_treap_end(t, &pair->second);
+  cdc_treap_find(t, key, &pair->first);
+  cdc_treap_end(t, &pair->second);
 
-        if (cdc_treap_iter_is_eq(&pair->first, &pair->second)) {
-                cdc_treap_end(t, &pair->first);
-        } else {
-                pair->second = pair->first;
-                cdc_treap_iter_next(&pair->second);
-        }
+  if (cdc_treap_iter_is_eq(&pair->first, &pair->second)) {
+    cdc_treap_end(t, &pair->first);
+  } else {
+    pair->second = pair->first;
+    cdc_treap_iter_next(&pair->second);
+  }
 }
 
 enum cdc_stat cdc_treap_insert(struct cdc_treap *t, void *key, void *value,
                                struct cdc_pair_treap_iter_bool *ret)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        if (ret)
-                return cdc_treap_insert1(t, key, value, &ret->first, &ret->second);
+  if (ret)
+    return cdc_treap_insert1(t, key, value, &ret->first, &ret->second);
 
-        return cdc_treap_insert1(t, key, value, NULL, NULL);
+  return cdc_treap_insert1(t, key, value, NULL, NULL);
 }
 
 enum cdc_stat cdc_treap_insert1(struct cdc_treap *t, void *key, void *value,
                                 struct cdc_treap_iter *it, bool *inserted)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        struct cdc_treap_node *node = find_node(t->root, key, t->compar);
-        bool finded = node;
+  struct cdc_treap_node *node = find_node(t->root, key, t->compar);
+  bool finded = node;
 
-        if (!node) {
-                node = make_and_insert_unique(t, key, value);
-                if (!node)
-                        return CDC_STATUS_BAD_ALLOC;
-        }
+  if (!node) {
+    node = make_and_insert_unique(t, key, value);
+    if (!node)
+      return CDC_STATUS_BAD_ALLOC;
+  }
 
-        if (it) {
-                it->container = t;
-                it->current = node;
-                it->prev = predecessor(node);
-        }
+  if (it) {
+    it->container = t;
+    it->current = node;
+    it->prev = predecessor(node);
+  }
 
-        if (inserted)
-                *inserted = !finded;
+  if (inserted)
+    *inserted = !finded;
 
-        return CDC_STATUS_OK;
+  return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_treap_insert_or_assign(struct cdc_treap *t, void *key, void *value,
                                          struct cdc_pair_treap_iter_bool *ret)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        if (ret)
-                return cdc_treap_insert_or_assign1(t, key, value, &ret->first,
-                                                   &ret->second);
+  if (ret)
+    return cdc_treap_insert_or_assign1(t, key, value, &ret->first,
+                                       &ret->second);
 
-        return cdc_treap_insert_or_assign1(t, key, value, NULL, NULL);
+  return cdc_treap_insert_or_assign1(t, key, value, NULL, NULL);
 }
 
 enum cdc_stat cdc_treap_insert_or_assign1(struct cdc_treap *t, void *key,
                                           void *value, struct cdc_treap_iter *it,
                                           bool *inserted)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        struct cdc_treap_node *node = find_node(t->root, key, t->compar);
-        bool finded = node;
+  struct cdc_treap_node *node = find_node(t->root, key, t->compar);
+  bool finded = node;
 
-        if (!node) {
-                node = make_and_insert_unique(t, key, value);
-                if (!node)
-                        return CDC_STATUS_BAD_ALLOC;
-        } else {
-                node->value = value;
-        }
+  if (!node) {
+    node = make_and_insert_unique(t, key, value);
+    if (!node)
+      return CDC_STATUS_BAD_ALLOC;
+  } else {
+    node->value = value;
+  }
 
-        if (it) {
-                it->container = t;
-                it->current = node;
-                it->prev = predecessor(node);
-        }
+  if (it) {
+    it->container = t;
+    it->current = node;
+    it->prev = predecessor(node);
+  }
 
-        if (inserted)
-                *inserted = !finded;
+  if (inserted)
+    *inserted = !finded;
 
-        return CDC_STATUS_OK;
+  return CDC_STATUS_OK;
 }
 
 size_t cdc_treap_erase(struct cdc_treap *t, void *key)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        struct cdc_treap_node *node = find_node(t->root, key, t->compar);
+  struct cdc_treap_node *node = find_node(t->root, key, t->compar);
 
-        if (node == NULL)
-                return 0;
+  if (node == NULL)
+    return 0;
 
-        erase_node(t, node);
-        return 1;
+  erase_node(t, node);
+  return 1;
 }
 
 void cdc_treap_clear(struct cdc_treap *t)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        free_treap(t, t->root);
-        t->size = 0;
-        t->root = NULL;
+  free_treap(t, t->root);
+  t->size = 0;
+  t->root = NULL;
 }
 
 void cdc_treap_swap(struct cdc_treap *a, struct cdc_treap *b)
 {
-        assert(a != NULL);
-        assert(b != NULL);
+  assert(a != NULL);
+  assert(b != NULL);
 
-        CDC_SWAP(struct cdc_treap_node *, a->root, b->root);
-        CDC_SWAP(size_t, a->size, b->size);
-        CDC_SWAP(cdc_priority_fn_t, a->prior, b->prior);
-        CDC_SWAP(cdc_binary_pred_fn_t, a->compar, b->compar);
-        CDC_SWAP(struct cdc_data_info *, a->dinfo, b->dinfo);
+  CDC_SWAP(struct cdc_treap_node *, a->root, b->root);
+  CDC_SWAP(size_t, a->size, b->size);
+  CDC_SWAP(cdc_priority_fn_t, a->prior, b->prior);
+  CDC_SWAP(cdc_binary_pred_fn_t, a->compar, b->compar);
+  CDC_SWAP(struct cdc_data_info *, a->dinfo, b->dinfo);
 }
 
 void cdc_treap_begin(struct cdc_treap *t, struct cdc_treap_iter *it)
 {
-        assert(t != NULL);
-        assert(it != NULL);
+  assert(t != NULL);
+  assert(it != NULL);
 
-        it->container = t;
-        it->current = min_node(t->root);
-        it->prev = NULL;
+  it->container = t;
+  it->current = min_node(t->root);
+  it->prev = NULL;
 }
 
 void cdc_treap_end(struct cdc_treap *t, struct cdc_treap_iter *it)
 {
-        assert(t != NULL);
-        assert(it != NULL);
+  assert(t != NULL);
+  assert(it != NULL);
 
-        it->container = t;
-        it->current = NULL;
-        it->prev = max_node(t->root);
+  it->container = t;
+  it->current = NULL;
+  it->prev = max_node(t->root);
 }
 
 void cdc_treap_iter_next(struct cdc_treap_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        it->prev = it->current;
-        it->current = successor(it->current);
+  it->prev = it->current;
+  it->current = successor(it->current);
 }
 
 void cdc_treap_iter_prev(struct cdc_treap_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        it->current = it->prev;
-        it->prev = predecessor(it->current);
+  it->current = it->prev;
+  it->prev = predecessor(it->current);
 }
 

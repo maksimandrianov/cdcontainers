@@ -40,12 +40,12 @@ typedef int (*cdc_priority_fn_t)(void *);
  * Use only special functions to access and change structure fields.
  */
 struct cdc_treap_node {
-        struct cdc_treap_node *parent;
-        struct cdc_treap_node *left;
-        struct cdc_treap_node *right;
-        void *key;
-        void *value;
-        int priority;
+  struct cdc_treap_node *parent;
+  struct cdc_treap_node *left;
+  struct cdc_treap_node *right;
+  void *key;
+  void *value;
+  int priority;
 };
 
 /**
@@ -54,11 +54,11 @@ struct cdc_treap_node {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_treap {
-        struct cdc_treap_node *root;
-        size_t size;
-        cdc_priority_fn_t prior;
-        cdc_binary_pred_fn_t compar;
-        struct cdc_data_info *dinfo;
+  struct cdc_treap_node *root;
+  size_t size;
+  cdc_priority_fn_t prior;
+  cdc_binary_pred_fn_t compar;
+  struct cdc_data_info *dinfo;
 };
 
 /**
@@ -67,19 +67,19 @@ struct cdc_treap {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_treap_iter {
-        struct cdc_treap *container;
-        struct cdc_treap_node *prev;
-        struct cdc_treap_node *current;
+  struct cdc_treap *container;
+  struct cdc_treap_node *prev;
+  struct cdc_treap_node *current;
 };
 
 struct cdc_pair_treap_iter {
-        struct cdc_treap_iter first;
-        struct cdc_treap_iter second;
+  struct cdc_treap_iter first;
+  struct cdc_treap_iter second;
 };
 
 struct cdc_pair_treap_iter_bool {
-        struct cdc_treap_iter first;
-        bool second;
+  struct cdc_treap_iter first;
+  bool second;
 };
 
 /**
@@ -244,9 +244,9 @@ void cdc_treap_equal_range(struct cdc_treap *t, void *key,
  */
 static inline size_t cdc_treap_size(struct cdc_treap *t)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        return t->size;
+  return t->size;
 }
 
 /**
@@ -256,9 +256,9 @@ static inline size_t cdc_treap_size(struct cdc_treap *t)
  */
 static inline bool cdc_treap_empty(struct cdc_treap *t)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        return t->size == 0;
+  return t->size == 0;
 }
 
 // Modifiers
@@ -379,9 +379,9 @@ void cdc_treap_iter_prev(struct cdc_treap_iter *it);
  */
 static inline bool cdc_treap_iter_has_next(struct cdc_treap_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current != NULL;
+  return it->current != NULL;
 }
 
 /**
@@ -390,9 +390,9 @@ static inline bool cdc_treap_iter_has_next(struct cdc_treap_iter *it)
  */
 static inline bool cdc_treap_iter_has_prev(struct cdc_treap_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->prev != NULL;
+  return it->prev != NULL;
 }
 
 /**
@@ -400,9 +400,9 @@ static inline bool cdc_treap_iter_has_prev(struct cdc_treap_iter *it)
  */
 static inline void *cdc_treap_iter_key(struct cdc_treap_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current->key;
+  return it->current->key;
 }
 
 /**
@@ -410,22 +410,22 @@ static inline void *cdc_treap_iter_key(struct cdc_treap_iter *it)
  */
 static inline void *cdc_treap_iter_value(struct cdc_treap_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current->value;
+  return it->current->value;
 }
 
 /**
  * @brief Returns a pair, where first - key, second - value.
  */
 static inline struct cdc_pair cdc_treap_iter_key_value(
-                struct cdc_treap_iter *it)
+    struct cdc_treap_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        struct cdc_pair pair = {it->prev->key, it->prev->value};
+  struct cdc_pair pair = {it->prev->key, it->prev->value};
 
-        return pair;
+  return pair;
 }
 
 /**
@@ -435,11 +435,11 @@ static inline struct cdc_pair cdc_treap_iter_key_value(
 static inline bool cdc_treap_iter_is_eq(struct cdc_treap_iter *it1,
                                         struct cdc_treap_iter *it2)
 {
-        assert(it1 != NULL);
-        assert(it2 != NULL);
+  assert(it1 != NULL);
+  assert(it2 != NULL);
 
-        return it1->container == it2->container && it1->prev == it2->prev &&
-                        it1->current == it2->current;
+  return it1->container == it2->container && it1->prev == it2->prev &&
+      it1->current == it2->current;
 }
 
 // Short names

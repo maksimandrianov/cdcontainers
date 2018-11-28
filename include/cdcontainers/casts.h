@@ -63,25 +63,25 @@
 #endif
 
 #if (defined(__GNUC__)) && \
-        defined(__SIZEOF_POINTER__)
+  defined(__SIZEOF_POINTER__)
 # if defined(__SIZEOF_FLOAT__) && (__SIZEOF_POINTER__ >= __SIZEOF_FLOAT__)
 union cdc_union_float_ptr {
-        void *ptr;
-        float flt;
+  void *ptr;
+  float flt;
 };
 
 static inline void *cdc_float_to_ptr(float flt)
 {
-        union cdc_union_float_ptr u;
-        u.flt = flt;
-        return u.ptr;
+  union cdc_union_float_ptr u;
+  u.flt = flt;
+  return u.ptr;
 }
 
 static inline float cdc_ptr_to_float(void *ptr)
 {
-        union cdc_union_float_ptr u;
-        u.ptr = ptr;
-        return u.flt;
+  union cdc_union_float_ptr u;
+  u.ptr = ptr;
+  return u.flt;
 }
 
 # define CDC_PTR_TO_FLOAT(p) cdc_ptr_to_float(p)
@@ -91,22 +91,22 @@ static inline float cdc_ptr_to_float(void *ptr)
 
 # if defined(__SIZEOF_DOUBLE__) && (__SIZEOF_POINTER__ >= __SIZEOF_DOUBLE__)
 union cdc_union_double_ptr {
-        void *ptr;
-        double dbl;
+  void *ptr;
+  double dbl;
 };
 
 static inline void *cdc_double_to_ptr(double dbl)
 {
-        union cdc_union_double_ptr u;
-        u.dbl = dbl;
-        return u.ptr;
+  union cdc_union_double_ptr u;
+  u.dbl = dbl;
+  return u.ptr;
 }
 
 static inline double cdc_ptr_to_double(void *ptr)
 {
-        union cdc_union_double_ptr u;
-        u.ptr = ptr;
-        return u.dbl;
+  union cdc_union_double_ptr u;
+  u.ptr = ptr;
+  return u.dbl;
 }
 
 # define CDC_PTR_TO_DOUBLE(p) cdc_ptr_to_double(p)

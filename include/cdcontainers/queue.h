@@ -40,8 +40,8 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_queue {
-        void *container;
-        const struct cdc_sequence_table *table;
+  void *container;
+  const struct cdc_sequence_table *table;
 };
 
 /**
@@ -91,9 +91,9 @@ enum cdc_stat cdc_queue_ctorv(const struct cdc_sequence_table *table,
 static inline enum cdc_stat cdc_queuel_ctor(struct cdc_queue **q,
                                             struct cdc_data_info *info)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        return cdc_queue_ctor(cdc_seq_list, q, info);
+  return cdc_queue_ctor(cdc_seq_list, q, info);
 }
 
 /**
@@ -119,9 +119,9 @@ static inline enum cdc_stat cdc_queuel_ctorv(struct cdc_queue **q,
                                              struct cdc_data_info *info,
                                              va_list args)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        return cdc_queue_ctorv(cdc_seq_list, q, info, args);
+  return cdc_queue_ctorv(cdc_seq_list, q, info, args);
 }
 
 /**
@@ -134,9 +134,9 @@ static inline enum cdc_stat cdc_queuel_ctorv(struct cdc_queue **q,
 static inline enum cdc_stat cdc_queued_ctor(struct cdc_queue **q,
                                             struct cdc_data_info *info)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        return cdc_queue_ctor(cdc_seq_deque, q, info);
+  return cdc_queue_ctor(cdc_seq_deque, q, info);
 }
 
 /**
@@ -162,9 +162,9 @@ static inline enum cdc_stat cdc_queued_ctorv(struct cdc_queue **q,
                                              struct cdc_data_info *info,
                                              va_list args)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        return cdc_queue_ctorv(cdc_seq_deque, q, info, args);
+  return cdc_queue_ctorv(cdc_seq_deque, q, info, args);
 }
 
 /**
@@ -182,9 +182,9 @@ void cdc_queue_dtor(struct cdc_queue *q);
  */
 static inline void *cdc_queue_front(struct cdc_queue *q)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        return q->table->front(q->container);
+  return q->table->front(q->container);
 }
 
 
@@ -196,9 +196,9 @@ static inline void *cdc_queue_front(struct cdc_queue *q)
  */
 static inline void *cdc_queue_back(struct cdc_queue *q)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        return q->table->back(q->container);
+  return q->table->back(q->container);
 }
 
 // Capacity
@@ -209,9 +209,9 @@ static inline void *cdc_queue_back(struct cdc_queue *q)
  */
 static inline bool cdc_queue_empty(struct cdc_queue *q)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        return q->table->empty(q->container);
+  return q->table->empty(q->container);
 }
 
 /**
@@ -221,9 +221,9 @@ static inline bool cdc_queue_empty(struct cdc_queue *q)
  */
 static inline size_t cdc_queue_size(struct cdc_queue *q)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        return q->table->size(q->container);
+  return q->table->size(q->container);
 }
 
 // Modifiers
@@ -236,9 +236,9 @@ static inline size_t cdc_queue_size(struct cdc_queue *q)
  */
 static inline enum cdc_stat cdc_queue_push(struct cdc_queue *q, void *elem)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        return q->table->push_back(q->container, elem);
+  return q->table->push_back(q->container, elem);
 }
 
 /**
@@ -250,9 +250,9 @@ static inline enum cdc_stat cdc_queue_push(struct cdc_queue *q, void *elem)
  */
 static inline enum cdc_stat cdc_queue_pop(struct cdc_queue *q)
 {
-        assert(q != NULL);
+  assert(q != NULL);
 
-        return q->table->pop_front(q->container);
+  return q->table->pop_front(q->container);
 }
 
 /**

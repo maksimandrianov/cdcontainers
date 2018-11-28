@@ -24,167 +24,167 @@
 
 static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque **deque = (struct cdc_deque **)cntr;
+  struct cdc_deque **deque = (struct cdc_deque **)cntr;
 
-        return cdc_deque_ctor(deque, info);
+  return cdc_deque_ctor(deque, info);
 }
 
 static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
                            va_list args)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque **deque = (struct cdc_deque **)cntr;
+  struct cdc_deque **deque = (struct cdc_deque **)cntr;
 
-        return cdc_deque_ctorv(deque, info, args);
+  return cdc_deque_ctorv(deque, info, args);
 }
 
 static void dtor(void *cntr)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque *deque = (struct cdc_deque *)cntr;
+  struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
-        cdc_deque_dtor(deque);
+  cdc_deque_dtor(deque);
 }
 
 static void *front(void *cntr)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque *deque = (struct cdc_deque *)cntr;
+  struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
-        return cdc_deque_front(deque);
+  return cdc_deque_front(deque);
 }
 
 static void *back(void *cntr)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque *deque = (struct cdc_deque *)cntr;
+  struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
-        return cdc_deque_back(deque);
+  return cdc_deque_back(deque);
 }
 
 static bool empty(void *cntr)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque *deque = (struct cdc_deque *)cntr;
+  struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
-        return cdc_deque_empty(deque);
+  return cdc_deque_empty(deque);
 }
 
 static size_t size(void *cntr)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque *deque = (struct cdc_deque *)cntr;
+  struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
-        return cdc_deque_size(deque);
+  return cdc_deque_size(deque);
 }
 
 static enum cdc_stat push_back(void *cntr, void *elem)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque *deque = (struct cdc_deque *)cntr;
+  struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
-        return cdc_deque_push_back(deque, elem);
+  return cdc_deque_push_back(deque, elem);
 }
 
 static enum cdc_stat pop_back(void *cntr)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque *deque = (struct cdc_deque *)cntr;
+  struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
-        return cdc_deque_pop_back(deque);
+  return cdc_deque_pop_back(deque);
 }
 
 static enum cdc_stat push_front(void *cntr, void *elem)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque *deque = (struct cdc_deque *)cntr;
+  struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
-        return cdc_deque_push_front(deque, elem);
+  return cdc_deque_push_front(deque, elem);
 }
 
 static enum cdc_stat pop_front(void *cntr)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque *deque = (struct cdc_deque *)cntr;
+  struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
-        return cdc_deque_pop_front(deque);
+  return cdc_deque_pop_front(deque);
 }
 
 static enum cdc_stat insert(void *cntr, size_t index, void *value)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque *deque = (struct cdc_deque *)cntr;
+  struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
-        return cdc_deque_insert(deque, index, value);
+  return cdc_deque_insert(deque, index, value);
 }
 
 static enum cdc_stat erase(void *cntr, size_t index)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque *deque = (struct cdc_deque *)cntr;
+  struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
-        return cdc_deque_erase(deque, index);
+  return cdc_deque_erase(deque, index);
 }
 
 static void clear(void *cntr)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque *deque = (struct cdc_deque *)cntr;
+  struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
-        cdc_deque_clear(deque);
+  cdc_deque_clear(deque);
 }
 
 static void *get(void *cntr, size_t index)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque *deque = (struct cdc_deque *)cntr;
+  struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
-        return cdc_deque_get(deque, index);
+  return cdc_deque_get(deque, index);
 }
 
 static void set(void *cntr, size_t index, void *value)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_deque *deque = (struct cdc_deque *)cntr;
+  struct cdc_deque *deque = (struct cdc_deque *)cntr;
 
-        cdc_deque_set(deque, index, value);
+  cdc_deque_set(deque, index, value);
 }
 
 
 static const struct cdc_sequence_table _table = {
-        .ctor = ctor,
-        .ctorv = ctorv,
-        .dtor = dtor,
-        .front = front,
-        .back = back,
-        .empty = empty,
-        .size = size,
-        .push_back = push_back,
-        .pop_back = pop_back,
-        .push_front = push_front,
-        .pop_front = pop_front,
-        .insert = insert,
-        .erase = erase,
-        .clear = clear,
-        .get = get,
-        .set =set
+  .ctor = ctor,
+  .ctorv = ctorv,
+  .dtor = dtor,
+  .front = front,
+  .back = back,
+  .empty = empty,
+  .size = size,
+  .push_back = push_back,
+  .pop_back = pop_back,
+  .push_front = push_front,
+  .pop_front = pop_front,
+  .insert = insert,
+  .erase = erase,
+  .clear = clear,
+  .get = get,
+  .set =set
 };
 
 const void *cdc_seq_deque = &_table;

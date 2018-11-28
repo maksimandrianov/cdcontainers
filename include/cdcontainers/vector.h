@@ -38,10 +38,10 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_vector {
-        size_t size;
-        size_t capacity;
-        void **buffer;
-        struct cdc_data_info *dinfo;
+  size_t size;
+  size_t capacity;
+  void **buffer;
+  struct cdc_data_info *dinfo;
 };
 
 /**
@@ -91,10 +91,10 @@ void cdc_vector_dtor(struct cdc_vector *v);
  */
 static inline void *cdc_vector_get(struct cdc_vector *v, size_t index)
 {
-        assert(v != NULL);
-        assert(index < v->size);
+  assert(v != NULL);
+  assert(index < v->size);
 
-        return v->buffer[index];
+  return v->buffer[index];
 }
 
 /**
@@ -115,10 +115,10 @@ enum cdc_stat cdc_vector_at(struct cdc_vector *v, size_t index, void **elem);
  */
 static inline void *cdc_vector_front(struct cdc_vector *v)
 {
-        assert(v != NULL);
-        assert(v->size > 0);
+  assert(v != NULL);
+  assert(v->size > 0);
 
-        return v->buffer[0];
+  return v->buffer[0];
 }
 
 /**
@@ -129,10 +129,10 @@ static inline void *cdc_vector_front(struct cdc_vector *v)
  */
 static inline void *cdc_vector_back(struct cdc_vector *v)
 {
-        assert(v != NULL);
-        assert(v->size > 0);
+  assert(v != NULL);
+  assert(v->size > 0);
 
-        return v->buffer[v->size - 1];
+  return v->buffer[v->size - 1];
 }
 
 /**
@@ -143,9 +143,9 @@ static inline void *cdc_vector_back(struct cdc_vector *v)
  */
 static inline void **cdc_vector_data(struct cdc_vector *v)
 {
-        assert(v != NULL);
+  assert(v != NULL);
 
-        return v->buffer;
+  return v->buffer;
 }
 
 // Capacity
@@ -167,9 +167,9 @@ enum cdc_stat cdc_vector_reserve(struct cdc_vector *v, size_t capacity);
  */
 static inline bool cdc_vector_empty(struct cdc_vector *v)
 {
-        assert(v != NULL);
+  assert(v != NULL);
 
-        return v->size == 0;
+  return v->size == 0;
 }
 
 /**
@@ -179,9 +179,9 @@ static inline bool cdc_vector_empty(struct cdc_vector *v)
  */
 static inline size_t cdc_vector_size(struct cdc_vector *v)
 {
-        assert(v != NULL);
+  assert(v != NULL);
 
-        return v->size;
+  return v->size;
 }
 
 /**
@@ -192,9 +192,9 @@ static inline size_t cdc_vector_size(struct cdc_vector *v)
  */
 static inline size_t cdc_vector_capacity(struct cdc_vector *v)
 {
-        assert(v != NULL);
+  assert(v != NULL);
 
-        return v->capacity;
+  return v->capacity;
 }
 
 // Modifiers
@@ -207,10 +207,10 @@ static inline size_t cdc_vector_capacity(struct cdc_vector *v)
  */
 static inline void cdc_vector_set(struct cdc_vector *v, size_t index, void *value)
 {
-        assert(v != NULL);
-        assert(index < v->size);
+  assert(v != NULL);
+  assert(index < v->size);
 
-        v->buffer[index] = value;
+  v->buffer[index] = value;
 }
 
 /**
@@ -247,9 +247,9 @@ enum cdc_stat cdc_vector_remove(struct cdc_vector *v, size_t index, void **elem)
  */
 static inline enum cdc_stat cdc_vector_erase(struct cdc_vector *v, size_t index)
 {
-        assert(v != NULL);
+  assert(v != NULL);
 
-        return cdc_vector_remove(v, index, NULL);
+  return cdc_vector_remove(v, index, NULL);
 }
 
 /**

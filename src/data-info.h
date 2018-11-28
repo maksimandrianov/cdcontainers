@@ -35,31 +35,31 @@ void cdc_di_shared_dtor(struct cdc_data_info *info);
 static inline int cdc_eq(int (*pred)(const void *, const void *),
                          const void *l, const void *r)
 {
-        return !(pred(l, r) || pred(r, l));
+  return !(pred(l, r) || pred(r, l));
 }
 
 static inline int cdc_not_eq(int (*pred)(const void *, const void *),
                              const void *l, const void *r)
 {
-        return pred(l, r) || pred(r, l);
+  return pred(l, r) || pred(r, l);
 }
 
 static inline int cdc_gt(int (*pred)(const void *, const void *),
                          const void *l, const void *r)
 {
-        return pred(r, l);
+  return pred(r, l);
 }
 
 static inline int cdc_gte(int (*pred)(const void *, const void *),
                           const void *l, const void *r)
 {
-        return !pred(l, r);
+  return !pred(l, r);
 }
 
 static inline int cdc_lte(int (*pred)(const void *, const void *),
                           const void *l, const void *r)
 {
-        return !pred(r, l);
+  return !pred(r, l);
 }
 
 #endif  // CDCONTAINERS_SRC_DATA_INFO_Hs

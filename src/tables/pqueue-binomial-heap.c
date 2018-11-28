@@ -25,86 +25,86 @@
 static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info,
                           cdc_binary_pred_fn_t compar)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_binomial_heap **heap = (struct cdc_binomial_heap **)cntr;
+  struct cdc_binomial_heap **heap = (struct cdc_binomial_heap **)cntr;
 
-        return cdc_binomial_heap_ctor1(heap, info, compar);
+  return cdc_binomial_heap_ctor1(heap, info, compar);
 }
 
 static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
                            cdc_binary_pred_fn_t compar, va_list args)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_binomial_heap **heap = (struct cdc_binomial_heap **)cntr;
+  struct cdc_binomial_heap **heap = (struct cdc_binomial_heap **)cntr;
 
-        return cdc_binomial_heap_ctorv1(heap, info, compar, args);
+  return cdc_binomial_heap_ctorv1(heap, info, compar, args);
 }
 
 static void dtor(void *cntr)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
+  struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
 
-        cdc_binomial_heap_dtor(heap);
+  cdc_binomial_heap_dtor(heap);
 }
 
 static void *top(void *cntr)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
+  struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
 
-        return cdc_binomial_heap_top(heap);
+  return cdc_binomial_heap_top(heap);
 }
 
 static bool empty(void *cntr)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
+  struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
 
-        return cdc_binomial_heap_empty(heap);
+  return cdc_binomial_heap_empty(heap);
 }
 
 static size_t size(void *cntr)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
+  struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
 
-        return cdc_binomial_heap_size(heap);
+  return cdc_binomial_heap_size(heap);
 }
 
 static enum cdc_stat push(void *cntr, void *elem)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
+  struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
 
-        return cdc_binomial_heap_insert(heap, elem);
+  return cdc_binomial_heap_insert(heap, elem);
 }
 
 static enum cdc_stat pop(void *cntr)
 {
-        assert(cntr != NULL);
+  assert(cntr != NULL);
 
-        struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
+  struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
 
-        return cdc_binomial_heap_extract_top(heap);
+  return cdc_binomial_heap_extract_top(heap);
 }
 
 static const struct cdc_priority_queue_table _table = {
-        .ctor = ctor,
-        .ctorv = ctorv,
-        .dtor = dtor,
-        .top = top,
-        .empty = empty,
-        .size = size,
-        .push = push,
-        .pop = pop
+  .ctor = ctor,
+  .ctorv = ctorv,
+  .dtor = dtor,
+  .top = top,
+  .empty = empty,
+  .size = size,
+  .push = push,
+  .pop = pop
 };
 
 const void *cdc_pq_binheap = &_table;

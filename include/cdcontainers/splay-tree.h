@@ -38,11 +38,11 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_splay_tree_node {
-        struct cdc_splay_tree_node *parent;
-        struct cdc_splay_tree_node *left;
-        struct cdc_splay_tree_node *right;
-        void *key;
-        void *value;
+  struct cdc_splay_tree_node *parent;
+  struct cdc_splay_tree_node *left;
+  struct cdc_splay_tree_node *right;
+  void *key;
+  void *value;
 };
 
 /**
@@ -51,10 +51,10 @@ struct cdc_splay_tree_node {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_splay_tree {
-        struct cdc_splay_tree_node *root;
-        size_t size;
-        cdc_binary_pred_fn_t compar;
-        struct cdc_data_info *dinfo;
+  struct cdc_splay_tree_node *root;
+  size_t size;
+  cdc_binary_pred_fn_t compar;
+  struct cdc_data_info *dinfo;
 };
 
 /**
@@ -63,19 +63,19 @@ struct cdc_splay_tree {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_splay_tree_iter {
-        struct cdc_splay_tree *container;
-        struct cdc_splay_tree_node *prev;
-        struct cdc_splay_tree_node *current;
+  struct cdc_splay_tree *container;
+  struct cdc_splay_tree_node *prev;
+  struct cdc_splay_tree_node *current;
 };
 
 struct cdc_pair_splay_tree_iter {
-        struct cdc_splay_tree_iter first;
-        struct cdc_splay_tree_iter second;
+  struct cdc_splay_tree_iter first;
+  struct cdc_splay_tree_iter second;
 };
 
 struct cdc_pair_splay_tree_iter_bool {
-        struct cdc_splay_tree_iter first;
-        bool second;
+  struct cdc_splay_tree_iter first;
+  bool second;
 };
 
 /**
@@ -203,9 +203,9 @@ void cdc_splay_tree_equal_range(struct cdc_splay_tree *t, void *key,
  */
 static inline size_t cdc_splay_tree_size(struct cdc_splay_tree *t)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        return t->size;
+  return t->size;
 }
 
 /**
@@ -215,9 +215,9 @@ static inline size_t cdc_splay_tree_size(struct cdc_splay_tree *t)
  */
 static inline bool cdc_splay_tree_empty(struct cdc_splay_tree *t)
 {
-        assert(t != NULL);
+  assert(t != NULL);
 
-        return t->size == 0;
+  return t->size == 0;
 }
 
 // Modifiers
@@ -338,9 +338,9 @@ void cdc_splay_tree_iter_prev(struct cdc_splay_tree_iter *it);
  */
 static inline bool cdc_splay_tree_iter_has_next(struct cdc_splay_tree_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current != NULL;
+  return it->current != NULL;
 }
 
 /**
@@ -349,9 +349,9 @@ static inline bool cdc_splay_tree_iter_has_next(struct cdc_splay_tree_iter *it)
  */
 static inline bool cdc_splay_tree_iter_has_prev(struct cdc_splay_tree_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->prev != NULL;
+  return it->prev != NULL;
 }
 
 /**
@@ -359,9 +359,9 @@ static inline bool cdc_splay_tree_iter_has_prev(struct cdc_splay_tree_iter *it)
  */
 static inline void *cdc_splay_tree_iter_key(struct cdc_splay_tree_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current->key;
+  return it->current->key;
 }
 
 /**
@@ -369,22 +369,22 @@ static inline void *cdc_splay_tree_iter_key(struct cdc_splay_tree_iter *it)
  */
 static inline void *cdc_splay_tree_iter_value(struct cdc_splay_tree_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current->value;
+  return it->current->value;
 }
 
 /**
  * @brief Returns a pair, where first - key, second - value.
  */
 static inline struct cdc_pair cdc_splay_tree_iter_key_value(
-                struct cdc_splay_tree_iter *it)
+    struct cdc_splay_tree_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        struct cdc_pair pair = {it->prev->key, it->prev->value};
+  struct cdc_pair pair = {it->prev->key, it->prev->value};
 
-        return pair;
+  return pair;
 }
 
 /**
@@ -394,12 +394,12 @@ static inline struct cdc_pair cdc_splay_tree_iter_key_value(
 static inline bool cdc_splay_tree_iter_is_eq(struct cdc_splay_tree_iter *it1,
                                              struct cdc_splay_tree_iter *it2)
 {
-        assert(it1 != NULL);
-        assert(it2 != NULL);
+  assert(it1 != NULL);
+  assert(it2 != NULL);
 
-        return it1->container == it2->container &&
-                        it1->prev == it2->prev &&
-                        it1->current == it2->current;
+  return it1->container == it2->container &&
+      it1->prev == it2->prev &&
+      it1->current == it2->current;
 }
 
 // Short names

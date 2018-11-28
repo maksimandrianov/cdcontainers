@@ -40,9 +40,9 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_list_node {
-        struct cdc_list_node *next;
-        struct cdc_list_node *prev;
-        void *data;
+  struct cdc_list_node *next;
+  struct cdc_list_node *prev;
+  void *data;
 };
 
 /**
@@ -51,10 +51,10 @@ struct cdc_list_node {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_list {
-        struct cdc_list_node *head;
-        struct cdc_list_node *tail;
-        size_t size;
-        struct cdc_data_info *dinfo;
+  struct cdc_list_node *head;
+  struct cdc_list_node *tail;
+  size_t size;
+  struct cdc_data_info *dinfo;
 };
 
 /**
@@ -63,8 +63,8 @@ struct cdc_list {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_list_iter {
-        struct cdc_list *container;
-        struct cdc_list_node *current;
+  struct cdc_list *container;
+  struct cdc_list_node *current;
 };
 
 /**
@@ -73,8 +73,8 @@ struct cdc_list_iter {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_list_riter {
-        struct cdc_list *container;
-        struct cdc_list_node *current;
+  struct cdc_list *container;
+  struct cdc_list_node *current;
 };
 
 /**
@@ -82,7 +82,7 @@ struct cdc_list_riter {
  * @warning This is macro
  */
 #define CDC_LIST_FOR_EACH(item, list) \
-        for (cdc_list_node *(item) = (list->head); (item); (item) = (item)->next)
+  for (cdc_list_node *(item) = (list->head); (item); (item) = (item)->next)
 
 /**
  * @brief Constructs an empty list.
@@ -148,10 +148,10 @@ enum cdc_stat cdc_list_at(struct cdc_list *l, size_t index, void **elem);
  */
 static inline void *cdc_list_front(struct cdc_list *l)
 {
-        assert(l != NULL);
-        assert(l->size > 0);
+  assert(l != NULL);
+  assert(l->size > 0);
 
-        return l->head->data;
+  return l->head->data;
 }
 
 /**
@@ -162,10 +162,10 @@ static inline void *cdc_list_front(struct cdc_list *l)
  */
 static inline  void *cdc_list_back(struct cdc_list *l)
 {
-        assert(l != NULL);
-        assert(l->size > 0);
+  assert(l != NULL);
+  assert(l->size > 0);
 
-        return l->tail->data;
+  return l->tail->data;
 }
 
 // Iterators
@@ -176,11 +176,11 @@ static inline  void *cdc_list_back(struct cdc_list *l)
  */
 static inline void cdc_list_begin(struct cdc_list *l, struct cdc_list_iter *it)
 {
-        assert(l != NULL);
-        assert(it != NULL);
+  assert(l != NULL);
+  assert(it != NULL);
 
-        it->container = l;
-        it->current = l->head;
+  it->container = l;
+  it->current = l->head;
 }
 
 /**
@@ -190,11 +190,11 @@ static inline void cdc_list_begin(struct cdc_list *l, struct cdc_list_iter *it)
  */
 static inline void cdc_list_end(struct cdc_list *l, struct cdc_list_iter *it)
 {
-        assert(l != NULL);
-        assert(it != NULL);
+  assert(l != NULL);
+  assert(it != NULL);
 
-        it->container = l;
-        it->current = NULL;
+  it->container = l;
+  it->current = NULL;
 }
 
 /**
@@ -204,11 +204,11 @@ static inline void cdc_list_end(struct cdc_list *l, struct cdc_list_iter *it)
  */
 static inline void cdc_list_rbegin(struct cdc_list *l, struct cdc_list_riter *it)
 {
-        assert(l != NULL);
-        assert(it != NULL);
+  assert(l != NULL);
+  assert(it != NULL);
 
-        it->container = l;
-        it->current = l->tail;
+  it->container = l;
+  it->current = l->tail;
 }
 
 /**
@@ -218,11 +218,11 @@ static inline void cdc_list_rbegin(struct cdc_list *l, struct cdc_list_riter *it
  */
 static inline void cdc_list_rend(struct cdc_list *l, struct cdc_list_riter *it)
 {
-        assert(l != NULL);
-        assert(it != NULL);
+  assert(l != NULL);
+  assert(it != NULL);
 
-        it->container = l;
-        it->current = NULL;
+  it->container = l;
+  it->current = NULL;
 }
 
 // Capacity
@@ -233,9 +233,9 @@ static inline void cdc_list_rend(struct cdc_list *l, struct cdc_list_riter *it)
  */
 static inline size_t cdc_list_size(struct cdc_list *l)
 {
-        assert(l != NULL);
+  assert(l != NULL);
 
-        return l->size;
+  return l->size;
 }
 
 /**
@@ -245,9 +245,9 @@ static inline size_t cdc_list_size(struct cdc_list *l)
  */
 static inline bool cdc_list_empty(struct cdc_list *l)
 {
-        assert(l != NULL);
+  assert(l != NULL);
 
-        return l->size == 0;
+  return l->size == 0;
 }
 
 // Modifiers
@@ -347,7 +347,7 @@ enum cdc_stat cdc_list_iremove(struct cdc_list_iter *pos, void **elem);
  */
 static inline enum cdc_stat cdc_list_erase(struct cdc_list *l, size_t index)
 {
-        return cdc_list_remove(l, index, NULL);
+  return cdc_list_remove(l, index, NULL);
 }
 
 /**
@@ -358,9 +358,9 @@ static inline enum cdc_stat cdc_list_erase(struct cdc_list *l, size_t index)
  */
 static inline enum cdc_stat cdc_list_ierase(struct cdc_list_iter *pos)
 {
-        assert(pos != NULL);
+  assert(pos != NULL);
 
-        return cdc_list_iremove(pos, NULL);
+  return cdc_list_iremove(pos, NULL);
 }
 
 /**
@@ -474,9 +474,9 @@ void cdc_list_foreach(struct cdc_list *l, void (*cb)(void *));
  */
 static inline void cdc_list_iter_next(struct cdc_list_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        it->current = it->current->next;
+  it->current = it->current->next;
 }
 
 /**
@@ -484,9 +484,9 @@ static inline void cdc_list_iter_next(struct cdc_list_iter *it)
  */
 static inline void cdc_list_iter_prev(struct cdc_list_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        it->current = it->current ? it->current->prev : it->container->tail;
+  it->current = it->current ? it->current->prev : it->container->tail;
 }
 
 /**
@@ -495,9 +495,9 @@ static inline void cdc_list_iter_prev(struct cdc_list_iter *it)
  */
 static inline bool cdc_list_iter_has_next(struct cdc_list_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current->next != NULL;
+  return it->current->next != NULL;
 }
 
 /**
@@ -506,9 +506,9 @@ static inline bool cdc_list_iter_has_next(struct cdc_list_iter *it)
  */
 static inline bool cdc_list_iter_has_prev(struct cdc_list_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current->prev != NULL;
+  return it->current->prev != NULL;
 }
 
 /**
@@ -516,9 +516,9 @@ static inline bool cdc_list_iter_has_prev(struct cdc_list_iter *it)
  */
 static inline void *cdc_list_iter_data(struct cdc_list_iter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current->data;
+  return it->current->data;
 }
 
 /**
@@ -527,11 +527,11 @@ static inline void *cdc_list_iter_data(struct cdc_list_iter *it)
 static inline void cdc_list_iter_from(struct cdc_list_riter *rit,
                                       struct cdc_list_iter *it)
 {
-        assert(rit != NULL);
-        assert(it != NULL);
+  assert(rit != NULL);
+  assert(it != NULL);
 
-        it->container = rit->container;
-        it->current = rit->current ? rit->current->next : rit->container->head;
+  it->container = rit->container;
+  it->current = rit->current ? rit->current->next : rit->container->head;
 }
 
 /**
@@ -541,10 +541,10 @@ static inline void cdc_list_iter_from(struct cdc_list_riter *rit,
 static inline bool cdc_list_iter_is_eq(struct cdc_list_iter *it1,
                                        struct cdc_list_iter *it2)
 {
-        assert(it1 != NULL);
-        assert(it2 != NULL);
+  assert(it1 != NULL);
+  assert(it2 != NULL);
 
-        return it1->container == it2->container && it1->current == it2->current;
+  return it1->container == it2->container && it1->current == it2->current;
 }
 
 /**
@@ -552,9 +552,9 @@ static inline bool cdc_list_iter_is_eq(struct cdc_list_iter *it1,
  */
 static inline void cdc_list_riter_next(struct cdc_list_riter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        it->current = it->current->prev;
+  it->current = it->current->prev;
 }
 
 /**
@@ -562,9 +562,9 @@ static inline void cdc_list_riter_next(struct cdc_list_riter *it)
  */
 static inline void cdc_list_riter_prev(struct cdc_list_riter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        it->current = it->current ? it->current->next : it->container->head;
+  it->current = it->current ? it->current->next : it->container->head;
 }
 
 /**
@@ -574,9 +574,9 @@ static inline void cdc_list_riter_prev(struct cdc_list_riter *it)
  */
 static inline bool cdc_list_riter_has_next(struct cdc_list_riter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current->prev != NULL;
+  return it->current->prev != NULL;
 }
 
 /**
@@ -586,9 +586,9 @@ static inline bool cdc_list_riter_has_next(struct cdc_list_riter *it)
  */
 static inline bool cdc_list_riter_has_prev(struct cdc_list_riter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current->next != NULL;
+  return it->current->next != NULL;
 }
 
 /**
@@ -596,9 +596,9 @@ static inline bool cdc_list_riter_has_prev(struct cdc_list_riter *it)
  */
 static inline void *cdc_list_riter_data(struct cdc_list_riter *it)
 {
-        assert(it != NULL);
+  assert(it != NULL);
 
-        return it->current->data;
+  return it->current->data;
 }
 
 /**
@@ -607,11 +607,11 @@ static inline void *cdc_list_riter_data(struct cdc_list_riter *it)
 static inline void cdc_list_riter_from(struct cdc_list_iter *it,
                                        struct cdc_list_riter *rit)
 {
-        assert(it != NULL);
-        assert(rit != NULL);
+  assert(it != NULL);
+  assert(rit != NULL);
 
-        rit->container = it->container;
-        rit->current = it->current ? it->current->prev : it->container->tail;
+  rit->container = it->container;
+  rit->current = it->current ? it->current->prev : it->container->tail;
 }
 
 /**
@@ -621,10 +621,10 @@ static inline void cdc_list_riter_from(struct cdc_list_iter *it,
 static inline bool cdc_list_riter_is_eq(struct cdc_list_riter *rit1,
                                         struct cdc_list_riter *rit2)
 {
-        assert(rit1 != NULL);
-        assert(rit2 != NULL);
+  assert(rit1 != NULL);
+  assert(rit2 != NULL);
 
-        return rit1->container == rit2->container && rit1->current == rit2->current;
+  return rit1->container == rit2->container && rit1->current == rit2->current;
 }
 
 // Short names
