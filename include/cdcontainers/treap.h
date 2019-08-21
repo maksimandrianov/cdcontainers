@@ -19,18 +19,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 /**
-  * @file
-  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_treap is a struct and functions that provide a cartesion tree
-  */
+ * @file
+ * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
+ * @brief The cdc_treap is a struct and functions that provide a cartesion tree
+ */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_TREAP_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_TREAP_H
 
-#include <stdbool.h>
-#include <stdarg.h>
 #include <assert.h>
-#include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
+#include <cdcontainers/status.h>
+#include <stdarg.h>
+#include <stdbool.h>
 
 typedef int (*cdc_priority_fn_t)(void *);
 
@@ -100,7 +100,8 @@ enum cdc_stat cdc_treap_ctor(struct cdc_treap **t, struct cdc_data_info *info);
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_treap_ctorl(struct cdc_treap **t, struct cdc_data_info *info, ...);
+enum cdc_stat cdc_treap_ctorl(struct cdc_treap **t, struct cdc_data_info *info,
+                              ...);
 
 /**
  * @brief Constructs a treap, initialized by args. The last item must be NULL.
@@ -157,7 +158,8 @@ enum cdc_stat cdc_treap_ctorv1(struct cdc_treap **t, struct cdc_data_info *info,
  * an error
  */
 enum cdc_stat cdc_treap_ctor2(struct cdc_treap **t, struct cdc_data_info *info,
-                              cdc_binary_pred_fn_t compar, cdc_priority_fn_t prior);
+                              cdc_binary_pred_fn_t compar,
+                              cdc_priority_fn_t prior);
 
 /**
  * @brief Constructs a treap, initialized by an arbitrary number of
@@ -184,8 +186,8 @@ enum cdc_stat cdc_treap_ctorl2(struct cdc_treap **t, struct cdc_data_info *info,
  * an error
  */
 enum cdc_stat cdc_treap_ctorv2(struct cdc_treap **t, struct cdc_data_info *info,
-                               cdc_binary_pred_fn_t compar, cdc_priority_fn_t prior,
-                               va_list args);
+                               cdc_binary_pred_fn_t compar,
+                               cdc_priority_fn_t prior, va_list args);
 
 /**
  * @brief Destroys the treap.
@@ -219,19 +221,21 @@ size_t cdc_treap_count(struct cdc_treap *t, void *key);
  * @param t - cdc_treap
  * @param key - key value of the element to search for
  * @param it - pointer will be recorded iterator to an element with key
- * equivalent to key. If no such element is found, past-the-end iterator is returned.
+ * equivalent to key. If no such element is found, past-the-end iterator is
+ * returned.
  */
 void cdc_treap_find(struct cdc_treap *t, void *key, struct cdc_treap_iter *it);
 
 /**
  * @brief Returns a range containing all elements with key key in the container.
- * The range is defined by two iterators, the first pointing to the first element
- * of the wanted range and the second pointing past the last element of the range.
+ * The range is defined by two iterators, the first pointing to the first
+ * element of the wanted range and the second pointing past the last element of
+ * the range.
  * @param t - cdc_treap
  * @param key - key value to compare the elements to
- * @param pair - pointer will be recorded a pair of iterators defining the wanted
- * range. If there are no such elements, past-the-end iterators are returned as
- * both elements of the pair.
+ * @param pair - pointer will be recorded a pair of iterators defining the
+ * wanted range. If there are no such elements, past-the-end iterators are
+ * returned as both elements of the pair.
  */
 void cdc_treap_equal_range(struct cdc_treap *t, void *key,
                            struct cdc_pair_treap_iter *pair);
@@ -274,9 +278,9 @@ void cdc_treap_clear(struct cdc_treap *t);
  * @param t - cdc_treap
  * @param key - key of the element
  * @param value - value of the element
- * @param ret - pair consisting of an iterator to the inserted element (or to the
- * element that prevented the insertion) and a bool denoting whether the insertion
- * took place. The pointer can be equal to NULL
+ * @param ret - pair consisting of an iterator to the inserted element (or to
+ * the element that prevented the insertion) and a bool denoting whether the
+ * insertion took place. The pointer can be equal to NULL
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
@@ -289,8 +293,8 @@ enum cdc_stat cdc_treap_insert(struct cdc_treap *t, void *key, void *value,
  * @param t - cdc_map
  * @param key - key of the element
  * @param value - value of the element
- * @param it - iterator to the inserted element (or to the element that prevented
- * the insertion). The pointer can be equal to NULL
+ * @param it - iterator to the inserted element (or to the element that
+ * prevented the insertion). The pointer can be equal to NULL
  * @param inserted - bool denoting whether the insertion
  * took place. The pointer can be equal to NULL
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
@@ -311,8 +315,8 @@ enum cdc_stat cdc_treap_insert1(struct cdc_treap *t, void *key, void *value,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_treap_insert_or_assign(struct cdc_treap *t,
-                                         void *key, void *value,
+enum cdc_stat cdc_treap_insert_or_assign(struct cdc_treap *t, void *key,
+                                         void *value,
                                          struct cdc_pair_treap_iter_bool *ret);
 
 /**
@@ -329,7 +333,8 @@ enum cdc_stat cdc_treap_insert_or_assign(struct cdc_treap *t,
  * an error
  */
 enum cdc_stat cdc_treap_insert_or_assign1(struct cdc_treap *t, void *key,
-                                          void *value, struct cdc_treap_iter *it,
+                                          void *value,
+                                          struct cdc_treap_iter *it,
                                           bool *inserted);
 
 /**
@@ -424,7 +429,6 @@ static inline struct cdc_pair cdc_treap_iter_key_value(
   assert(it != NULL);
 
   struct cdc_pair pair = {it->prev->key, it->prev->value};
-
   return pair;
 }
 
@@ -439,7 +443,7 @@ static inline bool cdc_treap_iter_is_eq(struct cdc_treap_iter *it1,
   assert(it2 != NULL);
 
   return it1->container == it2->container && it1->prev == it2->prev &&
-      it1->current == it2->current;
+         it1->current == it2->current;
 }
 
 // Short names
@@ -449,47 +453,47 @@ typedef struct cdc_treap_iter treap_iter_t;
 typedef struct cdc_pair_treap_iter pair_treap_iter_t;
 typedef struct cdc_pair_treap_iter_bool pair_treap_iter_bool_t;
 
-#define treap_ctor(...)                cdc_treap_ctor(__VA_ARGS__)
-#define treap_ctorv(...)               cdc_treap_ctorv(__VA_ARGS__)
-#define treap_ctorl(...)               cdc_treap_ctorl(__VA_ARGS__)
-#define treap_ctor1(...)               cdc_treap_ctor1(__VA_ARGS__)
-#define treap_ctorv1(...)              cdc_treap_ctorv1(__VA_ARGS__)
-#define treap_ctorl1(...)              cdc_treap_ctorl1(__VA_ARGS__)
-#define treap_ctor2(...)               cdc_treap_ctor2(__VA_ARGS__)
-#define treap_ctorv2(...)              cdc_treap_ctorv2(__VA_ARGS__)
-#define treap_ctorl2(...)              cdc_treap_ctorl2(__VA_ARGS__)
-#define treap_dtor(...)                cdc_treap_dtor(__VA_ARGS__)
+#define treap_ctor(...) cdc_treap_ctor(__VA_ARGS__)
+#define treap_ctorv(...) cdc_treap_ctorv(__VA_ARGS__)
+#define treap_ctorl(...) cdc_treap_ctorl(__VA_ARGS__)
+#define treap_ctor1(...) cdc_treap_ctor1(__VA_ARGS__)
+#define treap_ctorv1(...) cdc_treap_ctorv1(__VA_ARGS__)
+#define treap_ctorl1(...) cdc_treap_ctorl1(__VA_ARGS__)
+#define treap_ctor2(...) cdc_treap_ctor2(__VA_ARGS__)
+#define treap_ctorv2(...) cdc_treap_ctorv2(__VA_ARGS__)
+#define treap_ctorl2(...) cdc_treap_ctorl2(__VA_ARGS__)
+#define treap_dtor(...) cdc_treap_dtor(__VA_ARGS__)
 
 // Lookup
-#define treap_get(...)                 cdc_treap_get(__VA_ARGS__)
-#define treap_count(...)               cdc_treap_count(__VA_ARGS__)
-#define treap_find(...)                cdc_treap_find(__VA_ARGS__)
-#define treap_equal_range(...)         cdc_treap_equal_range(__VA_ARGS__)
+#define treap_get(...) cdc_treap_get(__VA_ARGS__)
+#define treap_count(...) cdc_treap_count(__VA_ARGS__)
+#define treap_find(...) cdc_treap_find(__VA_ARGS__)
+#define treap_equal_range(...) cdc_treap_equal_range(__VA_ARGS__)
 
 // Capacity
-#define treap_size(...)                cdc_treap_size(__VA_ARGS__)
-#define treap_empty(...)               cdc_treap_empty(__VA_ARGS__)
+#define treap_size(...) cdc_treap_size(__VA_ARGS__)
+#define treap_empty(...) cdc_treap_empty(__VA_ARGS__)
 
 // Modifiers
-#define treap_clear(...)               cdc_treap_clear(__VA_ARGS__)
-#define treap_insert(...)              cdc_treap_insert(__VA_ARGS__)
-#define treap_insert1(...)             cdc_treap_insert1(__VA_ARGS__)
-#define treap_insert_or_assign(...)    cdc_treap_insert_or_assign(__VA_ARGS__)
-#define treap_insert_or_assign1(...)   cdc_treap_insert_or_assign1(__VA_ARGS__)
-#define treap_erase(...)               cdc_treap_erase(__VA_ARGS__)
-#define treap_swap(...)                cdc_treap_swap(__VA_ARGS__)
+#define treap_clear(...) cdc_treap_clear(__VA_ARGS__)
+#define treap_insert(...) cdc_treap_insert(__VA_ARGS__)
+#define treap_insert1(...) cdc_treap_insert1(__VA_ARGS__)
+#define treap_insert_or_assign(...) cdc_treap_insert_or_assign(__VA_ARGS__)
+#define treap_insert_or_assign1(...) cdc_treap_insert_or_assign1(__VA_ARGS__)
+#define treap_erase(...) cdc_treap_erase(__VA_ARGS__)
+#define treap_swap(...) cdc_treap_swap(__VA_ARGS__)
 
 // Iterators
-#define treap_begin(...)               cdc_treap_begin(__VA_ARGS__)
-#define treap_end(...)                 cdc_treap_end(__VA_ARGS__)
+#define treap_begin(...) cdc_treap_begin(__VA_ARGS__)
+#define treap_end(...) cdc_treap_end(__VA_ARGS__)
 
 // Iterators
-#define treap_iter_next(...)           cdc_treap_iter_next(__VA_ARGS__)
-#define treap_iter_has_next(...)       cdc_treap_iter_has_next(__VA_ARGS__)
-#define treap_iter_key(...)            cdc_treap_iter_key(__VA_ARGS__)
-#define treap_iter_value(...)          cdc_treap_iter_value(__VA_ARGS__)
-#define treap_iter_key_value(...)      cdc_treap_iter_key_value(__VA_ARGS__)
-#define treap_iter_is_eq(...)          cdc_treap_iter_is_eq(__VA_ARGS__)
+#define treap_iter_next(...) cdc_treap_iter_next(__VA_ARGS__)
+#define treap_iter_has_next(...) cdc_treap_iter_has_next(__VA_ARGS__)
+#define treap_iter_key(...) cdc_treap_iter_key(__VA_ARGS__)
+#define treap_iter_value(...) cdc_treap_iter_value(__VA_ARGS__)
+#define treap_iter_key_value(...) cdc_treap_iter_key_value(__VA_ARGS__)
+#define treap_iter_is_eq(...) cdc_treap_iter_is_eq(__VA_ARGS__)
 #endif
 
 #endif  // CDSTRUCTURES_INCLUDE_CDCONTAINERS_VECTOR_H

@@ -19,20 +19,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 /**
-  * @file
-  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_queue is a struct and functions that provide a queue
-  */
+ * @file
+ * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
+ * @brief The cdc_queue is a struct and functions that provide a queue
+ */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_QUEUE_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_QUEUE_H
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdarg.h>
 #include <assert.h>
-#include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
 #include <cdcontainers/interfaces/isequence.h>
+#include <cdcontainers/status.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
 /**
  * @brief The cdc_queue struct
@@ -65,8 +65,8 @@ enum cdc_stat cdc_queue_ctor(const struct cdc_sequence_table *table,
  * an error
  */
 enum cdc_stat cdc_queue_ctorl(const struct cdc_sequence_table *table,
-                              struct cdc_queue **q,
-                              struct cdc_data_info *info, ...);
+                              struct cdc_queue **q, struct cdc_data_info *info,
+                              ...);
 
 /**
  * @brief Constructs a queue, initialized by args
@@ -78,8 +78,8 @@ enum cdc_stat cdc_queue_ctorl(const struct cdc_sequence_table *table,
  * an error
  */
 enum cdc_stat cdc_queue_ctorv(const struct cdc_sequence_table *table,
-                              struct cdc_queue **q,
-                              struct cdc_data_info *info, va_list args);
+                              struct cdc_queue **q, struct cdc_data_info *info,
+                              va_list args);
 
 /**
  * @brief Constructs an empty queue based on list.
@@ -104,8 +104,8 @@ static inline enum cdc_stat cdc_queuel_ctor(struct cdc_queue **q,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_queuel_ctorl(struct cdc_queue **q,
-                               struct cdc_data_info *info, ...);
+enum cdc_stat cdc_queuel_ctorl(struct cdc_queue **q, struct cdc_data_info *info,
+                               ...);
 
 /**
  * @brief Constructs a queue based on list, initialized by args
@@ -147,8 +147,8 @@ static inline enum cdc_stat cdc_queued_ctor(struct cdc_queue **q,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_queued_ctorl(struct cdc_queue **q,
-                               struct cdc_data_info *info, ...);
+enum cdc_stat cdc_queued_ctorl(struct cdc_queue **q, struct cdc_data_info *info,
+                               ...);
 
 /**
  * @brief Constructs a queue based on deque, initialized by args
@@ -175,8 +175,8 @@ void cdc_queue_dtor(struct cdc_queue *q);
 
 // Element access
 /**
- * @brief Returns pointer to the first element in the queue. This function assumes
- * that the queue isn't empty.
+ * @brief Returns pointer to the first element in the queue. This function
+ * assumes that the queue isn't empty.
  * @param q - cdc_queue
  * @return pointer to the first element in the queue
  */
@@ -187,10 +187,9 @@ static inline void *cdc_queue_front(struct cdc_queue *q)
   return q->table->front(q->container);
 }
 
-
 /**
- * @brief Returns pointer to the last element in the queue. This function assumes
- * that the queue isn't empty.
+ * @brief Returns pointer to the last element in the queue. This function
+ * assumes that the queue isn't empty.
  * @param q - cdc_queue
  * @return pointer to the last element in the queue
  */
@@ -266,23 +265,23 @@ void cdc_queue_swap(struct cdc_queue *a, struct cdc_queue *b);
 #ifdef CDC_USE_SHORT_NAMES
 typedef struct cdc_queue queue_t;
 
-#define queue_ctor(...)   cdc_queue_ctor(__VA_ARGS__)
-#define queue_ctorl(...)  cdc_queue_ctorl(__VA_ARGS__)
-#define queue_ctorv(...)  cdc_queue_ctorv(__VA_ARGS__)
-#define queue_dtor(...)   cdc_queue_dtor(__VA_ARGS__)
+#define queue_ctor(...) cdc_queue_ctor(__VA_ARGS__)
+#define queue_ctorl(...) cdc_queue_ctorl(__VA_ARGS__)
+#define queue_ctorv(...) cdc_queue_ctorv(__VA_ARGS__)
+#define queue_dtor(...) cdc_queue_dtor(__VA_ARGS__)
 
 // Element access
-#define queue_front(...)  cdc_queue_front(__VA_ARGS__)
-#define queue_back(...)   cdc_queue_back(__VA_ARGS__)
+#define queue_front(...) cdc_queue_front(__VA_ARGS__)
+#define queue_back(...) cdc_queue_back(__VA_ARGS__)
 
 // Capacity
-#define queue_empty(...)  cdc_queue_empty(__VA_ARGS__)
-#define queue_size(...)   cdc_queue_size(__VA_ARGS__)
+#define queue_empty(...) cdc_queue_empty(__VA_ARGS__)
+#define queue_size(...) cdc_queue_size(__VA_ARGS__)
 
 // Modifiers
-#define queue_push(...)   cdc_queue_push(__VA_ARGS__)
-#define queue_pop(...)    cdc_queue_pop(__VA_ARGS__)
-#define queue_swap(...)   cdc_queue_swap(__VA_ARGS__)
+#define queue_push(...) cdc_queue_push(__VA_ARGS__)
+#define queue_pop(...) cdc_queue_pop(__VA_ARGS__)
+#define queue_swap(...) cdc_queue_swap(__VA_ARGS__)
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_QUEUE_H

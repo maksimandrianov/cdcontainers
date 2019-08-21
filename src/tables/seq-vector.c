@@ -27,7 +27,6 @@ static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info)
   assert(cntr != NULL);
 
   struct cdc_vector **vector = (struct cdc_vector **)cntr;
-
   return cdc_vector_ctor(vector, info);
 }
 
@@ -37,7 +36,6 @@ static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
   assert(cntr != NULL);
 
   struct cdc_vector **vector = (struct cdc_vector **)cntr;
-
   return cdc_vector_ctorv(vector, info, args);
 }
 
@@ -46,7 +44,6 @@ static void dtor(void *cntr)
   assert(cntr != NULL);
 
   struct cdc_vector *vector = (struct cdc_vector *)cntr;
-
   cdc_vector_dtor(vector);
 }
 
@@ -55,7 +52,6 @@ static void *front(void *cntr)
   assert(cntr != NULL);
 
   struct cdc_vector *vector = (struct cdc_vector *)cntr;
-
   return cdc_vector_front(vector);
 }
 
@@ -64,7 +60,6 @@ static void *back(void *cntr)
   assert(cntr != NULL);
 
   struct cdc_vector *vector = (struct cdc_vector *)cntr;
-
   return cdc_vector_back(vector);
 }
 
@@ -73,7 +68,6 @@ static bool empty(void *cntr)
   assert(cntr != NULL);
 
   struct cdc_vector *vector = (struct cdc_vector *)cntr;
-
   return cdc_vector_empty(vector);
 }
 
@@ -82,7 +76,6 @@ static size_t size(void *cntr)
   assert(cntr != NULL);
 
   struct cdc_vector *vector = (struct cdc_vector *)cntr;
-
   return cdc_vector_size(vector);
 }
 
@@ -91,7 +84,6 @@ static enum cdc_stat push_back(void *cntr, void *elem)
   assert(cntr != NULL);
 
   struct cdc_vector *vector = (struct cdc_vector *)cntr;
-
   return cdc_vector_push_back(vector, elem);
 }
 
@@ -100,7 +92,6 @@ static enum cdc_stat pop_back(void *cntr)
   assert(cntr != NULL);
 
   struct cdc_vector *vector = (struct cdc_vector *)cntr;
-
   return cdc_vector_pop_back(vector);
 }
 
@@ -109,7 +100,6 @@ static enum cdc_stat push_front(void *cntr, void *elem)
   assert(cntr != NULL);
 
   struct cdc_vector *vector = (struct cdc_vector *)cntr;
-
   return cdc_vector_insert(vector, 0, elem);
 }
 
@@ -118,7 +108,6 @@ static enum cdc_stat pop_front(void *cntr)
   assert(cntr != NULL);
 
   struct cdc_vector *vector = (struct cdc_vector *)cntr;
-
   return cdc_vector_erase(vector, 0);
 }
 
@@ -127,7 +116,6 @@ static enum cdc_stat insert(void *cntr, size_t index, void *value)
   assert(cntr != NULL);
 
   struct cdc_vector *vector = (struct cdc_vector *)cntr;
-
   return cdc_vector_insert(vector, index, value);
 }
 
@@ -136,7 +124,6 @@ static enum cdc_stat erase(void *cntr, size_t index)
   assert(cntr != NULL);
 
   struct cdc_vector *vector = (struct cdc_vector *)cntr;
-
   return cdc_vector_erase(vector, index);
 }
 
@@ -145,7 +132,6 @@ static void clear(void *cntr)
   assert(cntr != NULL);
 
   struct cdc_vector *vector = (struct cdc_vector *)cntr;
-
   cdc_vector_clear(vector);
 }
 
@@ -154,7 +140,6 @@ static void *get(void *cntr, size_t index)
   assert(cntr != NULL);
 
   struct cdc_vector *vector = (struct cdc_vector *)cntr;
-
   return cdc_vector_get(vector, index);
 }
 
@@ -163,28 +148,24 @@ static void set(void *cntr, size_t index, void *value)
   assert(cntr != NULL);
 
   struct cdc_vector *vector = (struct cdc_vector *)cntr;
-
   cdc_vector_set(vector, index, value);
 }
 
-
-static const struct cdc_sequence_table _table = {
-  .ctor = ctor,
-  .ctorv = ctorv,
-  .dtor = dtor,
-  .front = front,
-  .back = back,
-  .empty = empty,
-  .size = size,
-  .push_back = push_back,
-  .pop_back = pop_back,
-  .push_front = push_front,
-  .pop_front = pop_front,
-  .insert = insert,
-  .erase = erase,
-  .clear = clear,
-  .get = get,
-  .set =set
-};
+static const struct cdc_sequence_table _table = {.ctor = ctor,
+                                                 .ctorv = ctorv,
+                                                 .dtor = dtor,
+                                                 .front = front,
+                                                 .back = back,
+                                                 .empty = empty,
+                                                 .size = size,
+                                                 .push_back = push_back,
+                                                 .pop_back = pop_back,
+                                                 .push_front = push_front,
+                                                 .pop_front = pop_front,
+                                                 .insert = insert,
+                                                 .erase = erase,
+                                                 .clear = clear,
+                                                 .get = get,
+                                                 .set = set};
 
 const void *cdc_seq_vector = &_table;

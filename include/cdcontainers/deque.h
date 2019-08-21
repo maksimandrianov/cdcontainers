@@ -19,20 +19,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 /**
-  * @file
-  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_deque is a struct and functions that provide a
-  * double-ended queue
-  */
+ * @file
+ * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
+ * @brief The cdc_deque is a struct and functions that provide a
+ * double-ended queue
+ */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_DEQUE_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_DEQUE_H
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdarg.h>
 #include <assert.h>
-#include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
+#include <cdcontainers/status.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
 /**
  * @brief The cdc_deque struct
@@ -65,8 +65,8 @@ enum cdc_stat cdc_deque_ctor(struct cdc_deque **d, struct cdc_data_info *info);
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_deque_ctorl(struct cdc_deque **d,
-                              struct cdc_data_info *info, ...);
+enum cdc_stat cdc_deque_ctorl(struct cdc_deque **d, struct cdc_data_info *info,
+                              ...);
 
 /**
  * @brief Constructs a deque, initialized by args. The last item must be NULL.
@@ -75,8 +75,8 @@ enum cdc_stat cdc_deque_ctorl(struct cdc_deque **d,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_deque_ctorv(struct cdc_deque **d,
-                              struct cdc_data_info *info, va_list args);
+enum cdc_stat cdc_deque_ctorv(struct cdc_deque **d, struct cdc_data_info *info,
+                              va_list args);
 
 /**
  * @brief Destroys the deque.
@@ -187,8 +187,8 @@ static inline void cdc_deque_set(struct cdc_deque *d, size_t index, void *value)
 
 /**
  * @brief Inserts value at index position in the deque. If index is 0, the value
- * is prepended to the deque. If index is cdc_deque_size(), the value is appended
- * to the deque.
+ * is prepended to the deque. If index is cdc_deque_size(), the value is
+ * appended to the deque.
  * @param d - cdc_deque
  * @param index - index position where the value will be inserted
  * @param value
@@ -275,32 +275,32 @@ void cdc_deque_swap(struct cdc_deque *a, struct cdc_deque *b);
 #ifdef CDC_USE_SHORT_NAMES
 typedef struct cdc_deque deque_t;
 
-#define deque_ctor(...)       cdc_deque_ctor(__VA_ARGS__)
-#define deque_ctorl(...)      cdc_deque_ctorl(__VA_ARGS__)
-#define deque_ctorv(...)      cdc_deque_ctorv(__VA_ARGS__)
-#define deque_dtor(...)       cdc_deque_dtor(__VA_ARGS__)
+#define deque_ctor(...) cdc_deque_ctor(__VA_ARGS__)
+#define deque_ctorl(...) cdc_deque_ctorl(__VA_ARGS__)
+#define deque_ctorv(...) cdc_deque_ctorv(__VA_ARGS__)
+#define deque_dtor(...) cdc_deque_dtor(__VA_ARGS__)
 
 // Element access
-#define deque_get(...)        cdc_deque_get(__VA_ARGS__)
-#define deque_at(...)         cdc_deque_at(__VA_ARGS__)
-#define deque_front(...)      cdc_deque_front(__VA_ARGS__)
-#define deque_back(...)       cdc_deque_back(__VA_ARGS__)
+#define deque_get(...) cdc_deque_get(__VA_ARGS__)
+#define deque_at(...) cdc_deque_at(__VA_ARGS__)
+#define deque_front(...) cdc_deque_front(__VA_ARGS__)
+#define deque_back(...) cdc_deque_back(__VA_ARGS__)
 
 // Capacity
-#define deque_empty(...)      cdc_deque_empty(__VA_ARGS__)
-#define deque_size(...)       cdc_deque_size(__VA_ARGS__)
+#define deque_empty(...) cdc_deque_empty(__VA_ARGS__)
+#define deque_size(...) cdc_deque_size(__VA_ARGS__)
 
 // Modifiers
-#define deque_set(...)        cdc_deque_set(__VA_ARGS__)
-#define deque_insert(...)     cdc_deque_insert(__VA_ARGS__)
-#define deque_remove(...)     cdc_deque_remove(__VA_ARGS__)
-#define deque_erase(...)      cdc_deque_erase(__VA_ARGS__)
-#define deque_clear(...)      cdc_deque_clear(__VA_ARGS__)
-#define deque_push_back(...)  cdc_deque_push_back(__VA_ARGS__)
-#define deque_pop_back(...)   cdc_deque_pop_back(__VA_ARGS__)
+#define deque_set(...) cdc_deque_set(__VA_ARGS__)
+#define deque_insert(...) cdc_deque_insert(__VA_ARGS__)
+#define deque_remove(...) cdc_deque_remove(__VA_ARGS__)
+#define deque_erase(...) cdc_deque_erase(__VA_ARGS__)
+#define deque_clear(...) cdc_deque_clear(__VA_ARGS__)
+#define deque_push_back(...) cdc_deque_push_back(__VA_ARGS__)
+#define deque_pop_back(...) cdc_deque_pop_back(__VA_ARGS__)
 #define deque_push_front(...) cdc_deque_push_front(__VA_ARGS__)
-#define deque_pop_front(...)  cdc_deque_pop_back(__VA_ARGS__)
-#define deque_swap(...)       cdc_deque_swap(__VA_ARGS__)
+#define deque_pop_front(...) cdc_deque_pop_back(__VA_ARGS__)
+#define deque_swap(...) cdc_deque_swap(__VA_ARGS__)
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_DEQUE_H

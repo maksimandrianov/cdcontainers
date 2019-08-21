@@ -23,8 +23,8 @@
 #include <CUnit/Basic.h>
 #include <float.h>
 #include <stdarg.h>
-#include <cdcontainers/map.h>
-#include <cdcontainers/casts.h>
+#include "cdcontainers/casts.h"
+#include "cdcontainers/map.h"
 
 static struct cdc_pair a = {CDC_INT_TO_PTR(0), CDC_INT_TO_PTR(0)};
 static struct cdc_pair b = {CDC_INT_TO_PTR(1), CDC_INT_TO_PTR(1)};
@@ -35,10 +35,7 @@ static struct cdc_pair f = {CDC_INT_TO_PTR(5), CDC_INT_TO_PTR(5)};
 static struct cdc_pair g = {CDC_INT_TO_PTR(6), CDC_INT_TO_PTR(6)};
 static struct cdc_pair h = {CDC_INT_TO_PTR(7), CDC_INT_TO_PTR(7)};
 
-static int lt_int(const void *l, const void *r)
-{
-  return l < r;
-}
+static int lt_int(const void *l, const void *r) { return l < r; }
 
 static bool map_key_int_eq(struct cdc_map *m, size_t count, ...)
 {
@@ -75,7 +72,8 @@ void test_map_ctorl()
 {
   struct cdc_map *m;
 
-  CU_ASSERT(cdc_mapa_ctorl1(&m, NULL, lt_int, &a, &g, &h, &d, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_mapa_ctorl1(&m, NULL, lt_int, &a, &g, &h, &d, NULL) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_map_size(m) == 4);
   CU_ASSERT(map_key_int_eq(m, 4, &a, &g, &h, &d));
 
@@ -87,8 +85,8 @@ void test_map_get()
   struct cdc_map *m = NULL;
   void *value;
 
-  CU_ASSERT(cdc_mapa_ctorl1(&m, NULL, lt_int,
-                            &a, &b, &c, &d, &g, &h, &e, &f, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_mapa_ctorl1(&m, NULL, lt_int, &a, &b, &c, &d, &g, &h, &e, &f,
+                            NULL) == CDC_STATUS_OK);
   CU_ASSERT(cdc_map_size(m) == 8);
   CU_ASSERT(map_key_int_eq(m, 8, &a, &b, &c, &d, &g, &h, &e, &f));
   CU_ASSERT(cdc_map_get(m, CDC_INT_TO_PTR(10), &value) == CDC_STATUS_NOT_FOUND);
@@ -113,7 +111,8 @@ void test_map_find()
   struct cdc_map *m = NULL;
   struct cdc_map_iter it, it_end;
 
-  CU_ASSERT(cdc_mapa_ctorl1(&m, NULL, lt_int, &a, &b, &c, &d, &g, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_mapa_ctorl1(&m, NULL, lt_int, &a, &b, &c, &d, &g, NULL) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_map_iter_init(m, &it) == CDC_STATUS_OK);
   CU_ASSERT(cdc_map_iter_init(m, &it_end) == CDC_STATUS_OK);
 
@@ -156,8 +155,8 @@ void test_map_insert()
   CU_ASSERT(cdc_mapa_ctor1(&m, NULL, lt_int) == CDC_STATUS_OK);
 
   for (i = 0; i < count; ++i) {
-    if (cdc_map_insert(m, CDC_INT_TO_PTR(i), CDC_INT_TO_PTR(i), NULL,
-                       NULL) != CDC_STATUS_OK) {
+    if (cdc_map_insert(m, CDC_INT_TO_PTR(i), CDC_INT_TO_PTR(i), NULL, NULL) !=
+        CDC_STATUS_OK) {
       failed = true;
       break;
     }
@@ -189,24 +188,28 @@ void test_map_insert_or_assign()
   CU_ASSERT(cdc_mapa_ctor1(&m, NULL, lt_int) == CDC_STATUS_OK);
   CU_ASSERT(cdc_map_iter_init(m, &it) == CDC_STATUS_OK);
 
-  CU_ASSERT(cdc_map_insert_or_assign(m, a.first, a.second, &it, &inserted) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_map_insert_or_assign(m, a.first, a.second, &it, &inserted) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_map_size(m) == 1);
   CU_ASSERT(cdc_map_iter_value(&it) == a.second);
   CU_ASSERT(inserted == true);
 
-  CU_ASSERT(cdc_map_insert_or_assign(m, a.first, b.second, &it, &inserted) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_map_insert_or_assign(m, a.first, b.second, &it, &inserted) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_map_size(m) == 1);
   CU_ASSERT(cdc_map_get(m, a.first, &value) == CDC_STATUS_OK);
   CU_ASSERT(value == b.second);
   CU_ASSERT(cdc_map_iter_value(&it) == b.second);
   CU_ASSERT(inserted == false);
 
-  CU_ASSERT(cdc_map_insert_or_assign(m, c.first, c.second, &it, &inserted) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_map_insert_or_assign(m, c.first, c.second, &it, &inserted) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_map_size(m) == 2);
   CU_ASSERT(cdc_map_iter_value(&it) == c.second);
   CU_ASSERT(inserted == true);
 
-  CU_ASSERT(cdc_map_insert_or_assign(m, c.first, d.second, &it, &inserted) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_map_insert_or_assign(m, c.first, d.second, &it, &inserted) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_map_size(m) == 2);
   CU_ASSERT(cdc_map_get(m, c.first, &value) == CDC_STATUS_OK);
   CU_ASSERT(value == d.second);
@@ -222,8 +225,8 @@ void test_map_erase()
   struct cdc_map *m = NULL;
   void *value;
 
-  CU_ASSERT(cdc_mapa_ctorl1(&m, NULL, lt_int,
-                            &a, &b, &c, &d, &g, &h, &e, &f, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_mapa_ctorl1(&m, NULL, lt_int, &a, &b, &c, &d, &g, &h, &e, &f,
+                            NULL) == CDC_STATUS_OK);
   CU_ASSERT(cdc_map_size(m) == 8);
   CU_ASSERT(map_key_int_eq(m, 8, &a, &b, &c, &d, &g, &h, &e, &f));
   CU_ASSERT(cdc_map_erase(m, a.first) == 1);
@@ -291,7 +294,7 @@ void test_map_iterators()
   i = 0;
   cdc_map_begin(m, &it1);
   cdc_map_end(m, &it2);
-  for ( ; !cdc_map_iter_is_eq(&it1, &it2); cdc_map_iter_next(&it1)) {
+  for (; !cdc_map_iter_is_eq(&it1, &it2); cdc_map_iter_next(&it1)) {
     if (cdc_map_iter_key(&it1) != arr[i]->first) {
       check = false;
       break;
@@ -306,7 +309,7 @@ void test_map_iterators()
   cdc_map_end(m, &it1);
   cdc_map_iter_prev(&it1);
   cdc_map_begin(m, &it2);
-  for ( ; !cdc_map_iter_is_eq(&it1, &it2); cdc_map_iter_prev(&it1)) {
+  for (; !cdc_map_iter_is_eq(&it1, &it2); cdc_map_iter_prev(&it1)) {
     if (cdc_map_iter_key(&it1) != arr[i]->first) {
       check = false;
       break;
@@ -350,7 +353,4 @@ void test_map_iterators()
   cdc_map_dtor(m);
 }
 
-void test_map_swap()
-{
-
-}
+void test_map_swap() {}

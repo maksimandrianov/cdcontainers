@@ -21,7 +21,7 @@
 #include "test-common.h"
 
 #include <CUnit/Basic.h>
-#include <cdcontainers/casts.h>
+#include "cdcontainers/casts.h"
 
 void test_ptr_float_cast()
 {

@@ -23,7 +23,7 @@
 #include <CUnit/Basic.h>
 #include <float.h>
 #include <stdarg.h>
-#include <cdcontainers/vector.h>
+#include "cdcontainers/vector.h"
 
 static bool vector_range_int_eq(struct cdc_vector *v, size_t count, ...)
 {
@@ -34,8 +34,7 @@ static bool vector_range_int_eq(struct cdc_vector *v, size_t count, ...)
   va_start(args, count);
   for (i = 0; i < count; ++i) {
     elem = va_arg(args, int);
-    if (elem != *((int *)cdc_vector_get(v, i)))
-      return false;
+    if (elem != *((int *)cdc_vector_get(v, i))) return false;
   }
 
   return true;
@@ -67,7 +66,7 @@ void test_vector_ctorl()
 void test_vector_reserve()
 {
   struct cdc_vector *v;
-  size_t count_reserved= 10;
+  size_t count_reserved = 10;
 
   CU_ASSERT(cdc_vector_ctor(&v, NULL) == CDC_STATUS_OK);
   CU_ASSERT(cdc_vector_reserve(v, count_reserved) == CDC_STATUS_OK);
@@ -206,7 +205,8 @@ void test_vector_erase()
   CU_ASSERT(cdc_vector_size(v) == 2);
   CU_ASSERT(vector_range_int_eq(v, 2, b, d));
 
-  CU_ASSERT(cdc_vector_remove(v, cdc_vector_size(v) - 1, &elem) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_vector_remove(v, cdc_vector_size(v) - 1, &elem) ==
+            CDC_STATUS_OK);
   CU_ASSERT(*((int *)elem) == d);
   CU_ASSERT(cdc_vector_size(v) == 1);
   CU_ASSERT(vector_range_int_eq(v, 1, b));
@@ -299,4 +299,3 @@ void test_vector_swap()
   cdc_vector_dtor(v);
   cdc_vector_dtor(w);
 }
-

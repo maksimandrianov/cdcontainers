@@ -23,8 +23,8 @@
 #include <CUnit/Basic.h>
 #include <float.h>
 #include <stdarg.h>
-#include <cdcontainers/treap.h>
-#include <cdcontainers/casts.h>
+#include "cdcontainers/casts.h"
+#include "cdcontainers/treap.h"
 
 static struct cdc_pair a = {CDC_INT_TO_PTR(0), CDC_INT_TO_PTR(0)};
 static struct cdc_pair b = {CDC_INT_TO_PTR(1), CDC_INT_TO_PTR(1)};
@@ -35,10 +35,7 @@ static struct cdc_pair f = {CDC_INT_TO_PTR(5), CDC_INT_TO_PTR(5)};
 static struct cdc_pair g = {CDC_INT_TO_PTR(6), CDC_INT_TO_PTR(6)};
 static struct cdc_pair h = {CDC_INT_TO_PTR(7), CDC_INT_TO_PTR(7)};
 
-static int lt_int(const void *l, const void *r)
-{
-  return l < r;
-}
+static int lt_int(const void *l, const void *r) { return l < r; }
 
 static bool treap_key_int_eq(struct cdc_treap *t, size_t count, ...)
 {
@@ -63,21 +60,18 @@ static bool treap_key_int_eq(struct cdc_treap *t, size_t count, ...)
 
 static inline void treap_inorder_print_int(struct cdc_treap_node *node)
 {
-  if (node->left)
-    treap_inorder_print_int(node->left);
+  if (node->left) treap_inorder_print_int(node->left);
 
   printf("%d ", CDC_PTR_TO_INT(node->key));
 
-  if (node->right)
-    treap_inorder_print_int(node->right);
+  if (node->right) treap_inorder_print_int(node->right);
 }
 
 static inline size_t treap_height(struct cdc_treap_node *node)
 {
   size_t lh, rh;
 
-  if (node == NULL)
-    return 0;
+  if (node == NULL) return 0;
 
   lh = treap_height(node->left);
   rh = treap_height(node->right);
@@ -98,7 +92,8 @@ void test_treap_ctorl()
 {
   struct cdc_treap *t;
 
-  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL, &a, &g, &h, &d, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL, &a, &g, &h, &d, NULL) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_treap_size(t) == 4);
   CU_ASSERT(treap_key_int_eq(t, 4, &a, &g, &h, &d));
 
@@ -110,11 +105,12 @@ void test_treap_get()
   struct cdc_treap *t = NULL;
   void *value;
 
-  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL,
-                             &a, &b, &c, &d, &g, &h, &e, &f, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL, &a, &b, &c, &d, &g, &h, &e,
+                             &f, NULL) == CDC_STATUS_OK);
   CU_ASSERT(cdc_treap_size(t) == 8);
   CU_ASSERT(treap_key_int_eq(t, 8, &a, &b, &c, &d, &g, &h, &e, &f));
-  CU_ASSERT(cdc_treap_get(t, CDC_INT_TO_PTR(10), &value) == CDC_STATUS_NOT_FOUND);
+  CU_ASSERT(cdc_treap_get(t, CDC_INT_TO_PTR(10), &value) ==
+            CDC_STATUS_NOT_FOUND);
   cdc_treap_dtor(t);
 }
 
@@ -122,7 +118,8 @@ void test_treap_count()
 {
   struct cdc_treap *t = NULL;
 
-  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL, &a, &b, NULL) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_treap_size(t) == 2);
   CU_ASSERT(cdc_treap_count(t, a.first) == 1);
   CU_ASSERT(cdc_treap_count(t, b.first) == 1);
@@ -136,8 +133,8 @@ void test_treap_find()
   struct cdc_treap *t = NULL;
   struct cdc_treap_iter it, it_end;
 
-
-  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL, &a, &b, &c, &d, &g, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL, &a, &b, &c, &d, &g,
+                             NULL) == CDC_STATUS_OK);
 
   cdc_treap_find(t, a.first, &it);
   CU_ASSERT(cdc_treap_iter_value(&it) == a.second);
@@ -157,7 +154,8 @@ void test_treap_equal_range()
   struct cdc_pair_treap_iter res;
   struct cdc_treap *t = NULL;
 
-  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL, &a, &b, &c, &d, &g, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL, &a, &b, &c, &d, &g,
+                             NULL) == CDC_STATUS_OK);
 
   cdc_treap_equal_range(t, a.first, &res);
   CU_ASSERT(cdc_treap_iter_value(&res.first) == a.second);
@@ -186,7 +184,8 @@ void test_treap_clear()
 {
   struct cdc_treap *t = NULL;
 
-  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL, &a, &b, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL, &a, &b, NULL) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_treap_size(t) == 2);
   cdc_treap_clear(t);
   CU_ASSERT(cdc_treap_size(t) == 0);
@@ -216,8 +215,8 @@ void test_treap_insert()
   cdc_treap_clear(t);
 
   for (i = 0; i < count; ++i) {
-    if (cdc_treap_insert(t, CDC_INT_TO_PTR(i),
-                         CDC_INT_TO_PTR(i), NULL) != CDC_STATUS_OK) {
+    if (cdc_treap_insert(t, CDC_INT_TO_PTR(i), CDC_INT_TO_PTR(i), NULL) !=
+        CDC_STATUS_OK) {
       failed = true;
       break;
     }
@@ -248,24 +247,28 @@ void test_treap_insert_or_assign()
 
   CU_ASSERT(cdc_treap_ctor2(&t, NULL, lt_int, NULL) == CDC_STATUS_OK);
 
-  CU_ASSERT(cdc_treap_insert_or_assign(t, a.first, a.second, &ret) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_treap_insert_or_assign(t, a.first, a.second, &ret) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_treap_size(t) == 1);
   CU_ASSERT(cdc_treap_iter_value(&ret.first) == a.second);
   CU_ASSERT(ret.second == true);
 
-  CU_ASSERT(cdc_treap_insert_or_assign(t, a.first, b.second, &ret) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_treap_insert_or_assign(t, a.first, b.second, &ret) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_treap_size(t) == 1);
   CU_ASSERT(cdc_treap_get(t, a.first, &value) == CDC_STATUS_OK);
   CU_ASSERT(value == b.second);
   CU_ASSERT(cdc_treap_iter_value(&ret.first) == b.second);
   CU_ASSERT(ret.second == false);
 
-  CU_ASSERT(cdc_treap_insert_or_assign(t, c.first, c.second, &ret) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_treap_insert_or_assign(t, c.first, c.second, &ret) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_treap_size(t) == 2);
   CU_ASSERT(cdc_treap_iter_value(&ret.first) == c.second);
   CU_ASSERT(ret.second == true);
 
-  CU_ASSERT(cdc_treap_insert_or_assign(t, c.first, d.second, &ret) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_treap_insert_or_assign(t, c.first, d.second, &ret) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_treap_size(t) == 2);
   CU_ASSERT(cdc_treap_get(t, c.first, &value) == CDC_STATUS_OK);
   CU_ASSERT(value == d.second);
@@ -280,8 +283,8 @@ void test_treap_erase()
   struct cdc_treap *t = NULL;
   void *value;
 
-  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL,
-                             &a, &b, &c, &d, &g, &h, &e, &f, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL, &a, &b, &c, &d, &g, &h, &e,
+                             &f, NULL) == CDC_STATUS_OK);
   CU_ASSERT(cdc_treap_size(t) == 8);
   CU_ASSERT(treap_key_int_eq(t, 8, &a, &b, &c, &d, &g, &h, &e, &f));
   CU_ASSERT(cdc_treap_erase(t, a.first) == 1);
@@ -338,15 +341,15 @@ void test_treap_iterators()
   bool check;
   size_t i;
 
-  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL,
-                             &a, &b, &c, &d, &e, &f, &g, &h, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_treap_ctorl2(&t, NULL, lt_int, NULL, &a, &b, &c, &d, &e, &f, &g,
+                             &h, NULL) == CDC_STATUS_OK);
   CU_ASSERT(cdc_treap_size(t) == 8);
 
   check = true;
   i = 0;
   cdc_treap_begin(t, &it1);
   cdc_treap_end(t, &it2);
-  for ( ; !cdc_treap_iter_is_eq(&it1, &it2); cdc_treap_iter_next(&it1)) {
+  for (; !cdc_treap_iter_is_eq(&it1, &it2); cdc_treap_iter_next(&it1)) {
     if (cdc_treap_iter_key(&it1) != arr[i]->first) {
       check = false;
       break;
@@ -361,7 +364,7 @@ void test_treap_iterators()
   cdc_treap_end(t, &it1);
   cdc_treap_iter_prev(&it1);
   cdc_treap_begin(t, &it2);
-  for ( ; !cdc_treap_iter_is_eq(&it1, &it2); cdc_treap_iter_prev(&it1)) {
+  for (; !cdc_treap_iter_is_eq(&it1, &it2); cdc_treap_iter_prev(&it1)) {
     if (cdc_treap_iter_key(&it1) != arr[i]->first) {
       check = false;
       break;
@@ -403,7 +406,4 @@ void test_treap_iterators()
   cdc_treap_dtor(t);
 }
 
-void test_treap_swap()
-{
-
-}
+void test_treap_swap() {}

@@ -19,26 +19,26 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 /**
-  * @file
-  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_pairing_heap is a struct and functions that provide a
-  * pairing heap
-  */
+ * @file
+ * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
+ * @brief The cdc_pairing_heap is a struct and functions that provide a
+ * pairing heap
+ */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_PAIRING_HEAP_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_PAIRING_HEAP_H
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdarg.h>
 #include <assert.h>
-#include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
+#include <cdcontainers/status.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
 /**
-* @brief The cdc_pairing_heap_node struct
-* @warning To avoid problems, do not change the structure fields in the code.
-* Use only special functions to access and change structure fields.
-*/
+ * @brief The cdc_pairing_heap_node struct
+ * @warning To avoid problems, do not change the structure fields in the code.
+ * Use only special functions to access and change structure fields.
+ */
 struct cdc_pairing_heap_node {
   struct cdc_pairing_heap_node *parent;
   struct cdc_pairing_heap_node *child;
@@ -136,7 +136,8 @@ enum cdc_stat cdc_pairing_heap_ctorl1(struct cdc_pairing_heap **h,
  */
 enum cdc_stat cdc_pairing_heap_ctorv1(struct cdc_pairing_heap **h,
                                       struct cdc_data_info *info,
-                                      cdc_binary_pred_fn_t compar, va_list args);
+                                      cdc_binary_pred_fn_t compar,
+                                      va_list args);
 
 /**
  * @brief Destroys the pairing heap.
@@ -224,7 +225,8 @@ static inline enum cdc_stat cdc_pairing_heap_insert(struct cdc_pairing_heap *h,
 /**
  * @brief Changes the item key on the pos position in the pairing heap.
  * @param h - cdc_pairing_heap
- * @param pos - iterator that indicates the item with key that you want to change
+ * @param pos - iterator that indicates the item with key that you want to
+ * change
  * @param key
  */
 void cdc_pairing_heap_change_key(struct cdc_pairing_heap *h,
@@ -277,8 +279,8 @@ static inline void *cdc_pairing_heap_iter_data(struct cdc_pairing_heap_iter *it)
  * @brief Returns false if the iterator it1 equal to the iterator it2,
  * otherwise returns false
  */
-static inline bool cdc_pairing_heap_iter_is_eq(struct cdc_pairing_heap_iter *it1,
-                                               struct cdc_pairing_heap_iter *it2)
+static inline bool cdc_pairing_heap_iter_is_eq(
+    struct cdc_pairing_heap_iter *it1, struct cdc_pairing_heap_iter *it2)
 {
   assert(it1 != NULL);
   assert(it2 != NULL);
@@ -291,37 +293,37 @@ static inline bool cdc_pairing_heap_iter_is_eq(struct cdc_pairing_heap_iter *it1
 typedef struct cdc_pairing_heap pairing_heap_t;
 typedef struct cdc_pairing_heap_iter pairing_heap_iter;
 
-#define pairing_heap_ctor(...)         cdc_pairing_heap_ctor(__VA_ARGS__)
-#define pairing_heap_ctorl(...)        cdc_pairing_heap_ctorl(__VA_ARGS__)
-#define pairing_heap_ctorv(...)        cdc_pairing_heap_ctorv(__VA_ARGS__)
-#define pairing_heap_ctor1(...)        cdc_pairing_heap_ctor1(__VA_ARGS__)
-#define pairing_heap_ctorl1(...)       cdc_pairing_heap_ctorl1(__VA_ARGS__)
-#define pairing_heap_ctorv1(...)       cdc_pairing_heap_ctorv1(__VA_ARGS__)
-#define pairing_heap_dtor(...)         cdc_pairing_heap_dtor(__VA_ARGS__)
+#define pairing_heap_ctor(...) cdc_pairing_heap_ctor(__VA_ARGS__)
+#define pairing_heap_ctorl(...) cdc_pairing_heap_ctorl(__VA_ARGS__)
+#define pairing_heap_ctorv(...) cdc_pairing_heap_ctorv(__VA_ARGS__)
+#define pairing_heap_ctor1(...) cdc_pairing_heap_ctor1(__VA_ARGS__)
+#define pairing_heap_ctorl1(...) cdc_pairing_heap_ctorl1(__VA_ARGS__)
+#define pairing_heap_ctorv1(...) cdc_pairing_heap_ctorv1(__VA_ARGS__)
+#define pairing_heap_dtor(...) cdc_pairing_heap_dtor(__VA_ARGS__)
 
 // Element access
-#define pairing_heap_top(...)          cdc_pairing_heap_top(__VA_ARGS__)
+#define pairing_heap_top(...) cdc_pairing_heap_top(__VA_ARGS__)
 
 // Capacity
-#define pairing_heap_empty(...)        cdc_pairing_heap_empty(__VA_ARGS__)
-#define pairing_heap_size(...)         cdc_pairing_heap_size(__VA_ARGS__)
+#define pairing_heap_empty(...) cdc_pairing_heap_empty(__VA_ARGS__)
+#define pairing_heap_size(...) cdc_pairing_heap_size(__VA_ARGS__)
 
 // Modifiers
-#define pairing_heap_extract_top(...)  cdc_pairing_heap_extract_top(__VA_ARGS__)
-#define pairing_heap_riinsert(...)     cdc_pairing_heap_riinsert(__VA_ARGS__)
-#define pairing_heap_insert(...)       cdc_pairing_heap_insert(__VA_ARGS__)
-#define pairing_heap_change_key(...)   cdc_pairing_heap_change_key(__VA_ARGS__)
-#define pairing_heap_clear(...)        cdc_pairing_heap_clear(__VA_ARGS__)
-#define pairing_heap_swap(...)         cdc_pairing_heap_swap(__VA_ARGS__)
+#define pairing_heap_extract_top(...) cdc_pairing_heap_extract_top(__VA_ARGS__)
+#define pairing_heap_riinsert(...) cdc_pairing_heap_riinsert(__VA_ARGS__)
+#define pairing_heap_insert(...) cdc_pairing_heap_insert(__VA_ARGS__)
+#define pairing_heap_change_key(...) cdc_pairing_heap_change_key(__VA_ARGS__)
+#define pairing_heap_clear(...) cdc_pairing_heap_clear(__VA_ARGS__)
+#define pairing_heap_swap(...) cdc_pairing_heap_swap(__VA_ARGS__)
 
 // Operations
-#define pairing_heap_merge(...)        cdc_pairing_heap_merge(__VA_ARGS__)
+#define pairing_heap_merge(...) cdc_pairing_heap_merge(__VA_ARGS__)
 
-#define pairing_heap_is_heap(...)      cdc_pairing_heap_is_heap(__VA_ARGS__)
+#define pairing_heap_is_heap(...) cdc_pairing_heap_is_heap(__VA_ARGS__)
 
 // Iterators
-#define pairing_heap_iter_data(...)    cdc_pairing_heap_iter_data(__VA_ARGS__)
-#define pairing_heap_iter_is_eq(...)   cdc_pairing_heap_iter_is_eq(__VA_ARGS__)
+#define pairing_heap_iter_data(...) cdc_pairing_heap_iter_data(__VA_ARGS__)
+#define pairing_heap_iter_is_eq(...) cdc_pairing_heap_iter_is_eq(__VA_ARGS__)
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_PAIRING_HEAP_H

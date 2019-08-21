@@ -19,18 +19,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 /**
-  * @file
-  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_priority_queue_table is a priority queue interface
-  */
+ * @file
+ * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
+ * @brief The cdc_priority_queue_table is a priority queue interface
+ */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_IPQUEUE_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_IPQUEUE_H
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdarg.h>
-#include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
+#include <cdcontainers/status.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
 /**
  * @brief The cdc_priority_queue_table struct

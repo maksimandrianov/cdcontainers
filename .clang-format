@@ -1,0 +1,5 @@
+BasedOnStyle: Google
+Language: Cpp
+IncludeBlocks: Preserve
+BreakBeforeBraces: Linux
+IndentCaseLabels: false

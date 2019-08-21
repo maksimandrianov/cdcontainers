@@ -19,18 +19,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 /**
-  * @file
-  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_sequence_table is a sequence container interface
-  */
+ * @file
+ * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
+ * @brief The cdc_sequence_table is a sequence container interface
+ */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_ISEQUENCE_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_ISEQUENCE_H
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdarg.h>
-#include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
+#include <cdcontainers/status.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
 /**
  * @brief The cdc_sequence_table struct
@@ -39,8 +39,7 @@
  */
 struct cdc_sequence_table {
   enum cdc_stat (*ctor)(void **cntr, struct cdc_data_info *info);
-  enum cdc_stat (*ctorv)(void **cntr, struct cdc_data_info *info,
-                         va_list args);
+  enum cdc_stat (*ctorv)(void **cntr, struct cdc_data_info *info, va_list args);
   void (*dtor)(void *cntr);
   void *(*front)(void *cntr);
   void *(*back)(void *cntr);
@@ -53,8 +52,8 @@ struct cdc_sequence_table {
   enum cdc_stat (*insert)(void *cntr, size_t index, void *value);
   enum cdc_stat (*erase)(void *cntr, size_t index);
   void (*clear)(void *cntr);
-  void *(*get) (void *cntr, size_t index);
-  void (*set) (void *cntr, size_t index, void *value);
+  void *(*get)(void *cntr, size_t index);
+  void (*set)(void *cntr, size_t index, void *value);
 };
 
 extern const void *cdc_seq_deque;

@@ -28,7 +28,6 @@ static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info,
   assert(cntr != NULL);
 
   struct cdc_pairing_heap **heap = (struct cdc_pairing_heap **)cntr;
-
   return cdc_pairing_heap_ctor1(heap, info, compar);
 }
 
@@ -38,7 +37,6 @@ static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
   assert(cntr != NULL);
 
   struct cdc_pairing_heap **heap = (struct cdc_pairing_heap **)cntr;
-
   return cdc_pairing_heap_ctorv1(heap, info, compar, args);
 }
 
@@ -47,7 +45,6 @@ static void dtor(void *cntr)
   assert(cntr != NULL);
 
   struct cdc_pairing_heap *heap = (struct cdc_pairing_heap *)cntr;
-
   cdc_pairing_heap_dtor(heap);
 }
 
@@ -56,7 +53,6 @@ static void *top(void *cntr)
   assert(cntr != NULL);
 
   struct cdc_pairing_heap *heap = (struct cdc_pairing_heap *)cntr;
-
   return cdc_pairing_heap_top(heap);
 }
 
@@ -65,7 +61,6 @@ static bool empty(void *cntr)
   assert(cntr != NULL);
 
   struct cdc_pairing_heap *heap = (struct cdc_pairing_heap *)cntr;
-
   return cdc_pairing_heap_empty(heap);
 }
 
@@ -74,7 +69,6 @@ static size_t size(void *cntr)
   assert(cntr != NULL);
 
   struct cdc_pairing_heap *heap = (struct cdc_pairing_heap *)cntr;
-
   return cdc_pairing_heap_size(heap);
 }
 
@@ -83,7 +77,6 @@ static enum cdc_stat push(void *cntr, void *elem)
   assert(cntr != NULL);
 
   struct cdc_pairing_heap *heap = (struct cdc_pairing_heap *)cntr;
-
   return cdc_pairing_heap_insert(heap, elem);
 }
 
@@ -92,19 +85,16 @@ static enum cdc_stat pop(void *cntr)
   assert(cntr != NULL);
 
   struct cdc_pairing_heap *heap = (struct cdc_pairing_heap *)cntr;
-
   return cdc_pairing_heap_extract_top(heap);
 }
 
-static const struct cdc_priority_queue_table _table = {
-  .ctor = ctor,
-  .ctorv = ctorv,
-  .dtor = dtor,
-  .top = top,
-  .empty = empty,
-  .size = size,
-  .push = push,
-  .pop = pop
-};
+static const struct cdc_priority_queue_table _table = {.ctor = ctor,
+                                                       .ctorv = ctorv,
+                                                       .dtor = dtor,
+                                                       .top = top,
+                                                       .empty = empty,
+                                                       .size = size,
+                                                       .push = push,
+                                                       .pop = pop};
 
 const void *cdc_pq_pheap = &_table;

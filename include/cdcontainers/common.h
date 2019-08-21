@@ -30,23 +30,25 @@
 
 #define CDC_ABS(x) ((x < 0) ? -(x) : x)
 
-#define CDC_SWAP(T, x, y) do \
-{ \
-  T tmp = x;  \
-  x = y; \
-  y = tmp; \
-} while (0)
+#define CDC_SWAP(T, x, y) \
+  do {                    \
+    T tmp = x;            \
+    x = y;                \
+    y = tmp;              \
+  } while (0)
 
-#define CDC_INIT_STRUCT {0,}
+#define CDC_INIT_STRUCT \
+  {                     \
+    0,                  \
+  }
 
 #define CDC_STATIC_ASSERT(COND, MSG) \
   typedef char cdc_static_assertion_##MSG[(COND) ? 1 : -1]
 
-
 typedef void (*cdc_free_fn_t)(void *);
-typedef int (*cdc_unary_pred_fn_t) (const void *);
-typedef int (*cdc_binary_pred_fn_t) (const void *, const void *);
-typedef void (*cdc_copy_fn_t) (void *, const void *);
+typedef int (*cdc_unary_pred_fn_t)(const void *);
+typedef int (*cdc_binary_pred_fn_t)(const void *, const void *);
+typedef void (*cdc_copy_fn_t)(void *, const void *);
 
 struct cdc_pair {
   void *first;

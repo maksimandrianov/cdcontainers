@@ -19,18 +19,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 /**
-  * @file
-  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_splay_tree is a struct and functions that provide a splay tree
-  */
+ * @file
+ * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
+ * @brief The cdc_splay_tree is a struct and functions that provide a splay tree
+ */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_SPLAY_TREE_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_SPLAY_TREE_H
 
-#include <stdbool.h>
-#include <stdarg.h>
 #include <assert.h>
-#include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
+#include <cdcontainers/status.h>
+#include <stdarg.h>
+#include <stdbool.h>
 
 /**
  * @brief The cdc_splay_tree_node struct
@@ -101,7 +101,8 @@ enum cdc_stat cdc_splay_tree_ctorl(struct cdc_splay_tree **t,
                                    struct cdc_data_info *info, ...);
 
 /**
- * @brief Constructs a splay tree, initialized by args. The last item must be NULL.
+ * @brief Constructs a splay tree, initialized by args. The last item must be
+ * NULL.
  * @param t - cdc_splay_tree
  * @param info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
@@ -118,7 +119,8 @@ enum cdc_stat cdc_splay_tree_ctorv(struct cdc_splay_tree **t,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_splay_tree_ctor1(struct cdc_splay_tree **t, struct cdc_data_info *info,
+enum cdc_stat cdc_splay_tree_ctor1(struct cdc_splay_tree **t,
+                                   struct cdc_data_info *info,
                                    cdc_binary_pred_fn_t compar);
 
 /**
@@ -131,18 +133,21 @@ enum cdc_stat cdc_splay_tree_ctor1(struct cdc_splay_tree **t, struct cdc_data_in
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_splay_tree_ctorl1(struct cdc_splay_tree **t, struct cdc_data_info *info,
+enum cdc_stat cdc_splay_tree_ctorl1(struct cdc_splay_tree **t,
+                                    struct cdc_data_info *info,
                                     cdc_binary_pred_fn_t compar, ...);
 
 /**
- * @brief Constructs a splay tree, initialized by args. The last item must be NULL.
+ * @brief Constructs a splay tree, initialized by args. The last item must be
+ * NULL.
  * @param t - cdc_splay_tree
  * @param info - cdc_data_info
  * @param compar - function that specifies a strict ordering
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_splay_tree_ctorv1(struct cdc_splay_tree **t, struct cdc_data_info *info,
+enum cdc_stat cdc_splay_tree_ctorv1(struct cdc_splay_tree **t,
+                                    struct cdc_data_info *info,
                                     cdc_binary_pred_fn_t compar, va_list args);
 
 /**
@@ -160,7 +165,8 @@ void cdc_splay_tree_dtor(struct cdc_splay_tree *t);
  * @param value - pinter to the value that is mapped to a key.
  * @return if the key is found - CDC_STATUS_OK, otherwise - CDC_STATUS_NOT_FOUND
  */
-enum cdc_stat cdc_splay_tree_get(struct cdc_splay_tree *t, void *key, void **value);
+enum cdc_stat cdc_splay_tree_get(struct cdc_splay_tree *t, void *key,
+                                 void **value);
 
 /**
  * @brief Returns the number of elements with key that compares equal to the
@@ -177,20 +183,22 @@ size_t cdc_splay_tree_count(struct cdc_splay_tree *t, void *key);
  * @param t - cdc_splay_tree
  * @param key - key value of the element to search for
  * @param it - pointer will be recorded iterator to an element with key
- * equivalent to key. If no such element is found, past-the-end iterator is returned.
+ * equivalent to key. If no such element is found, past-the-end iterator is
+ * returned.
  */
 void cdc_splay_tree_find(struct cdc_splay_tree *t, void *key,
                          struct cdc_splay_tree_iter *it);
 
 /**
  * @brief Returns a range containing all elements with key key in the container.
- * The range is defined by two iterators, the first pointing to the first element
- * of the wanted range and the second pointing past the last element of the range.
+ * The range is defined by two iterators, the first pointing to the first
+ * element of the wanted range and the second pointing past the last element of
+ * the range.
  * @param t - cdc_splay_tree
  * @param key - key value to compare the elements to
- * @param pair - pointer will be recorded a pair of iterators defining the wanted
- * range. If there are no such elements, past-the-end iterators are returned as
- * both elements of the pair.
+ * @param pair - pointer will be recorded a pair of iterators defining the
+ * wanted range. If there are no such elements, past-the-end iterators are
+ * returned as both elements of the pair.
  */
 void cdc_splay_tree_equal_range(struct cdc_splay_tree *t, void *key,
                                 struct cdc_pair_splay_tree_iter *pair);
@@ -233,13 +241,14 @@ void cdc_splay_tree_clear(struct cdc_splay_tree *t);
  * @param t - cdc_splay_tree
  * @param key - key of the element
  * @param value - value of the element
- * @param ret - pair consisting of an iterator to the inserted element (or to the
- * element that prevented the insertion) and a bool denoting whether the insertion
- * took place. The pointer can be equal to NULL
+ * @param ret - pair consisting of an iterator to the inserted element (or to
+ * the element that prevented the insertion) and a bool denoting whether the
+ * insertion took place. The pointer can be equal to NULL
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_splay_tree_insert(struct cdc_splay_tree *t, void *key, void *value,
+enum cdc_stat cdc_splay_tree_insert(struct cdc_splay_tree *t, void *key,
+                                    void *value,
                                     struct cdc_pair_splay_tree_iter_bool *ret);
 
 /**
@@ -248,15 +257,17 @@ enum cdc_stat cdc_splay_tree_insert(struct cdc_splay_tree *t, void *key, void *v
  * @param t - cdc_map
  * @param key - key of the element
  * @param value - value of the element
- * @param it - iterator to the inserted element (or to the element that prevented
- * the insertion). The pointer can be equal to NULL
+ * @param it - iterator to the inserted element (or to the element that
+ * prevented the insertion). The pointer can be equal to NULL
  * @param inserted - bool denoting whether the insertion
  * took place. The pointer can be equal to NULL
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_splay_tree_insert1(struct cdc_splay_tree *t, void *key, void *value,
-                                     struct cdc_splay_tree_iter *it, bool *inserted);
+enum cdc_stat cdc_splay_tree_insert1(struct cdc_splay_tree *t, void *key,
+                                     void *value,
+                                     struct cdc_splay_tree_iter *it,
+                                     bool *inserted);
 
 /**
  * @brief Inserts an element or assigns to the current element if the key
@@ -270,9 +281,9 @@ enum cdc_stat cdc_splay_tree_insert1(struct cdc_splay_tree *t, void *key, void *
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_splay_tree_insert_or_assign(struct cdc_splay_tree *t,
-                                              void *key, void *value,
-                                              struct cdc_pair_splay_tree_iter_bool *ret);
+enum cdc_stat cdc_splay_tree_insert_or_assign(
+    struct cdc_splay_tree *t, void *key, void *value,
+    struct cdc_pair_splay_tree_iter_bool *ret);
 
 /**
  * @brief Inserts an element or assigns to the current element if the key
@@ -287,8 +298,9 @@ enum cdc_stat cdc_splay_tree_insert_or_assign(struct cdc_splay_tree *t,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_splay_tree_insert_or_assign1(struct cdc_splay_tree *t, void *key,
-                                               void *value, struct cdc_splay_tree_iter *it,
+enum cdc_stat cdc_splay_tree_insert_or_assign1(struct cdc_splay_tree *t,
+                                               void *key, void *value,
+                                               struct cdc_splay_tree_iter *it,
                                                bool *inserted);
 
 /**
@@ -300,7 +312,8 @@ enum cdc_stat cdc_splay_tree_insert_or_assign1(struct cdc_splay_tree *t, void *k
 size_t cdc_splay_tree_erase(struct cdc_splay_tree *t, void *key);
 
 /**
- * @brief Swaps splay_trees a and b. This operation is very fast and never fails.
+ * @brief Swaps splay_trees a and b. This operation is very fast and never
+ * fails.
  * @param a - cdc_splay_tree
  * @param b - cdc_splay_tree
  */
@@ -312,14 +325,16 @@ void cdc_splay_tree_swap(struct cdc_splay_tree *a, struct cdc_splay_tree *b);
  * @param t - cdc_splay_tree
  * @param it - cdc_splay_tree_iter
  */
-void cdc_splay_tree_begin(struct cdc_splay_tree *t, struct cdc_splay_tree_iter *it);
+void cdc_splay_tree_begin(struct cdc_splay_tree *t,
+                          struct cdc_splay_tree_iter *it);
 
 /**
  * @brief Initializes the iterator to the end
  * @param t - cdc_splay_tree
  * @param it - cdc_splay_tree_iter
  */
-void cdc_splay_tree_end(struct cdc_splay_tree *t, struct cdc_splay_tree_iter *it);
+void cdc_splay_tree_end(struct cdc_splay_tree *t,
+                        struct cdc_splay_tree_iter *it);
 
 // Iterators
 /**
@@ -383,7 +398,6 @@ static inline struct cdc_pair cdc_splay_tree_iter_key_value(
   assert(it != NULL);
 
   struct cdc_pair pair = {it->prev->key, it->prev->value};
-
   return pair;
 }
 
@@ -397,9 +411,8 @@ static inline bool cdc_splay_tree_iter_is_eq(struct cdc_splay_tree_iter *it1,
   assert(it1 != NULL);
   assert(it2 != NULL);
 
-  return it1->container == it2->container &&
-      it1->prev == it2->prev &&
-      it1->current == it2->current;
+  return it1->container == it2->container && it1->prev == it2->prev &&
+         it1->current == it2->current;
 }
 
 // Short names
@@ -409,44 +422,47 @@ typedef struct cdc_splay_tree_iter splay_tree_iter_t;
 typedef struct cdc_pair_splay_tree_iter pair_splay_tree_iter_t;
 typedef struct cdc_pair_splay_tree_iter_bool pair_splay_tree_iter_bool_t;
 
-#define splay_tree_ctor(...)                cdc_splay_tree_ctor(__VA_ARGS__)
-#define splay_tree_ctorv(...)               cdc_splay_tree_ctorv(__VA_ARGS__)
-#define splay_tree_ctorl(...)               cdc_splay_tree_ctorl(__VA_ARGS__)
-#define splay_tree_ctor1(...)               cdc_splay_tree_ctor1(__VA_ARGS__)
-#define splay_tree_ctorv1(...)              cdc_splay_tree_ctorv1(__VA_ARGS__)
-#define splay_tree_ctorl1(...)              cdc_splay_tree_ctorl1(__VA_ARGS__)
-#define splay_tree_dtor(...)                cdc_splay_tree_dtor(__VA_ARGS__)
+#define splay_tree_ctor(...) cdc_splay_tree_ctor(__VA_ARGS__)
+#define splay_tree_ctorv(...) cdc_splay_tree_ctorv(__VA_ARGS__)
+#define splay_tree_ctorl(...) cdc_splay_tree_ctorl(__VA_ARGS__)
+#define splay_tree_ctor1(...) cdc_splay_tree_ctor1(__VA_ARGS__)
+#define splay_tree_ctorv1(...) cdc_splay_tree_ctorv1(__VA_ARGS__)
+#define splay_tree_ctorl1(...) cdc_splay_tree_ctorl1(__VA_ARGS__)
+#define splay_tree_dtor(...) cdc_splay_tree_dtor(__VA_ARGS__)
 
 // Lookup
-#define splay_tree_get(...)                 cdc_splay_tree_get(__VA_ARGS__)
-#define splay_tree_count(...)               cdc_splay_tree_count(__VA_ARGS__)
-#define splay_tree_find(...)                cdc_splay_tree_find(__VA_ARGS__)
-#define splay_tree_equal_range(...)         cdc_splay_tree_equal_range(__VA_ARGS__)
+#define splay_tree_get(...) cdc_splay_tree_get(__VA_ARGS__)
+#define splay_tree_count(...) cdc_splay_tree_count(__VA_ARGS__)
+#define splay_tree_find(...) cdc_splay_tree_find(__VA_ARGS__)
+#define splay_tree_equal_range(...) cdc_splay_tree_equal_range(__VA_ARGS__)
 
 // Capacity
-#define splay_tree_size(...)                cdc_splay_tree_size(__VA_ARGS__)
-#define splay_tree_empty(...)               cdc_splay_tree_empty(__VA_ARGS__)
+#define splay_tree_size(...) cdc_splay_tree_size(__VA_ARGS__)
+#define splay_tree_empty(...) cdc_splay_tree_empty(__VA_ARGS__)
 
 // Modifiers
-#define splay_tree_clear(...)               cdc_splay_tree_clear(__VA_ARGS__)
-#define splay_tree_insert(...)              cdc_splay_tree_insert(__VA_ARGS__)
-#define splay_tree_insert1(...)             cdc_splay_tree_insert1(__VA_ARGS__)
-#define splay_tree_insert_or_assign(...)    cdc_splay_tree_insert_or_assign(__VA_ARGS__)
-#define splay_tree_insert_or_assign1(...)   cdc_splay_tree_insert_or_assign1(__VA_ARGS__)
-#define splay_tree_erase(...)               cdc_splay_tree_erase(__VA_ARGS__)
-#define splay_tree_swap(...)                cdc_splay_tree_swap(__VA_ARGS__)
+#define splay_tree_clear(...) cdc_splay_tree_clear(__VA_ARGS__)
+#define splay_tree_insert(...) cdc_splay_tree_insert(__VA_ARGS__)
+#define splay_tree_insert1(...) cdc_splay_tree_insert1(__VA_ARGS__)
+#define splay_tree_insert_or_assign(...) \
+  cdc_splay_tree_insert_or_assign(__VA_ARGS__)
+#define splay_tree_insert_or_assign1(...) \
+  cdc_splay_tree_insert_or_assign1(__VA_ARGS__)
+#define splay_tree_erase(...) cdc_splay_tree_erase(__VA_ARGS__)
+#define splay_tree_swap(...) cdc_splay_tree_swap(__VA_ARGS__)
 
 // Iterators
-#define splay_tree_begin(...)               cdc_splay_tree_begin(__VA_ARGS__)
-#define splay_tree_end(...)                 cdc_splay_tree_end(__VA_ARGS__)
+#define splay_tree_begin(...) cdc_splay_tree_begin(__VA_ARGS__)
+#define splay_tree_end(...) cdc_splay_tree_end(__VA_ARGS__)
 
 // Iterators
-#define splay_tree_iter_next(...)           cdc_splay_tree_iter_next(__VA_ARGS__)
-#define splay_tree_iter_has_next(...)       cdc_splay_tree_iter_has_next(__VA_ARGS__)
-#define splay_tree_iter_key(...)            cdc_splay_tree_iter_key(__VA_ARGS__)
-#define splay_tree_iter_value(...)          cdc_splay_tree_iter_value(__VA_ARGS__)
-#define splay_tree_iter_key_value(...)      cdc_splay_tree_iter_key_value(__VA_ARGS__)
-#define splay_tree_iter_is_eq(...)          cdc_splay_tree_iter_is_eq(__VA_ARGS__)
+#define splay_tree_iter_next(...) cdc_splay_tree_iter_next(__VA_ARGS__)
+#define splay_tree_iter_has_next(...) cdc_splay_tree_iter_has_next(__VA_ARGS__)
+#define splay_tree_iter_key(...) cdc_splay_tree_iter_key(__VA_ARGS__)
+#define splay_tree_iter_value(...) cdc_splay_tree_iter_value(__VA_ARGS__)
+#define splay_tree_iter_key_value(...) \
+  cdc_splay_tree_iter_key_value(__VA_ARGS__)
+#define splay_tree_iter_is_eq(...) cdc_splay_tree_iter_is_eq(__VA_ARGS__)
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_SPLAY_TREE_H

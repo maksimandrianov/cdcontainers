@@ -19,19 +19,19 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 /**
-  * @file
-  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_map is a struct and functions that provide a map
-  */
+ * @file
+ * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
+ * @brief The cdc_map is a struct and functions that provide a map
+ */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_MAP_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_MAP_H
 
-#include <stdbool.h>
-#include <stdarg.h>
 #include <assert.h>
-#include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
 #include <cdcontainers/interfaces/imap.h>
+#include <cdcontainers/status.h>
+#include <stdarg.h>
+#include <stdbool.h>
 
 /**
  * @brief The cdc_map struct
@@ -60,8 +60,8 @@ struct cdc_map_iter {
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table, struct cdc_map **m,
-                           struct cdc_data_info *info);
+enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table,
+                           struct cdc_map **m, struct cdc_data_info *info);
 
 /**
  * @brief Constructs a map, initialized by an arbitrary number of
@@ -72,8 +72,9 @@ enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table, struct cdc_map **m
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table, struct cdc_map **m,
-                            struct cdc_data_info *info, ...);
+enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table,
+                            struct cdc_map **m, struct cdc_data_info *info,
+                            ...);
 
 /**
  * @brief Constructs a map, initialized by args. The last item must be NULL.
@@ -82,8 +83,9 @@ enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table, struct cdc_map **
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table, struct cdc_map **m,
-                            struct cdc_data_info *info, va_list args);
+enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table,
+                            struct cdc_map **m, struct cdc_data_info *info,
+                            va_list args);
 
 /**
  * @brief Constructs an empty map
@@ -93,8 +95,9 @@ enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table, struct cdc_map **
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_map_ctor1(const struct cdc_map_table *table, struct cdc_map **m,
-                            struct cdc_data_info *info, cdc_binary_pred_fn_t compar);
+enum cdc_stat cdc_map_ctor1(const struct cdc_map_table *table,
+                            struct cdc_map **m, struct cdc_data_info *info,
+                            cdc_binary_pred_fn_t compar);
 
 /**
  * @brief Constructs a map, initialized by an arbitrary number of
@@ -106,8 +109,9 @@ enum cdc_stat cdc_map_ctor1(const struct cdc_map_table *table, struct cdc_map **
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_map_ctorl1(const struct cdc_map_table *table, struct cdc_map **m,
-                             struct cdc_data_info *info, cdc_binary_pred_fn_t compar, ...);
+enum cdc_stat cdc_map_ctorl1(const struct cdc_map_table *table,
+                             struct cdc_map **m, struct cdc_data_info *info,
+                             cdc_binary_pred_fn_t compar, ...);
 
 /**
  * @brief Constructs a map, initialized by args. The last item must be NULL.
@@ -117,9 +121,9 @@ enum cdc_stat cdc_map_ctorl1(const struct cdc_map_table *table, struct cdc_map *
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_map_ctorv1(const struct cdc_map_table *table, struct cdc_map **m,
-                             struct cdc_data_info *info, cdc_binary_pred_fn_t compar,
-                             va_list args);
+enum cdc_stat cdc_map_ctorv1(const struct cdc_map_table *table,
+                             struct cdc_map **m, struct cdc_data_info *info,
+                             cdc_binary_pred_fn_t compar, va_list args);
 
 /**
  * @brief Constructs an empty map based on avl tree
@@ -131,15 +135,16 @@ enum cdc_stat cdc_map_ctorv1(const struct cdc_map_table *table, struct cdc_map *
 enum cdc_stat cdc_mapa_ctor(struct cdc_map **m, struct cdc_data_info *info);
 
 /**
- * @brief Constructs a map based on avl tree, initialized by an arbitrary number of
- * pointers on cdc_pair's(first - key, and the second - value).  The last item
- * must be NULL.
+ * @brief Constructs a map based on avl tree, initialized by an arbitrary number
+ * of pointers on cdc_pair's(first - key, and the second - value).  The last
+ * item must be NULL.
  * @param t - cdc_map
  * @param info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_mapa_ctorl(struct cdc_map **m, struct cdc_data_info *info, ...);
+enum cdc_stat cdc_mapa_ctorl(struct cdc_map **m, struct cdc_data_info *info,
+                             ...);
 
 /**
  * @brief Constructs a map based on avl tree, initialized by args.
@@ -164,9 +169,9 @@ enum cdc_stat cdc_mapa_ctor1(struct cdc_map **m, struct cdc_data_info *info,
                              cdc_binary_pred_fn_t compar);
 
 /**
- * @brief Constructs a map based on avl tree, initialized by an arbitrary number of
- * pointers on cdc_pair's(first - key, and the second - value).  The last item
- * must be NULL.
+ * @brief Constructs a map based on avl tree, initialized by an arbitrary number
+ * of pointers on cdc_pair's(first - key, and the second - value).  The last
+ * item must be NULL.
  * @param t - cdc_map
  * @param info - cdc_data_info
  * @param compar - function that specifies a strict ordering
@@ -203,7 +208,8 @@ void cdc_map_dtor(struct cdc_map *m);
  * @param value - pinter to the value that is mapped to a key.
  * @return if the key is found - CDC_STATUS_OK, otherwise - CDC_STATUS_NOT_FOUND
  */
-static inline enum cdc_stat cdc_map_get(struct cdc_map *m, void *key, void **value)
+static inline enum cdc_stat cdc_map_get(struct cdc_map *m, void *key,
+                                        void **value)
 {
   assert(m != NULL);
 
@@ -230,9 +236,11 @@ static inline size_t cdc_map_count(struct cdc_map *m, void *key)
  * @param t - cdc_map
  * @param key - key value of the element to search for
  * @param it - pointer will be recorded iterator to an element with key
- * equivalent to key. If no such element is found, past-the-end iterator is returned.
+ * equivalent to key. If no such element is found, past-the-end iterator is
+ * returned.
  */
-static inline void cdc_map_find(struct cdc_map *m, void *key, struct cdc_map_iter *it)
+static inline void cdc_map_find(struct cdc_map *m, void *key,
+                                struct cdc_map_iter *it)
 {
   assert(m != NULL);
 
@@ -282,20 +290,20 @@ static inline void cdc_map_clear(struct cdc_map *m)
  * @param t - cdc_map
  * @param key - key of the element
  * @param value - value of the element
- * @param it - iterator to the inserted element (or to the element that prevented
- * the insertion). The pointer can be equal to NULL
+ * @param it - iterator to the inserted element (or to the element that
+ * prevented the insertion). The pointer can be equal to NULL
  * @param inserted - bool denoting whether the insertion
  * took place. The pointer can be equal to NULL
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-static inline enum cdc_stat cdc_map_insert(struct cdc_map *m, void *key, void *value,
-                                           struct cdc_map_iter *it, bool *inserted)
+static inline enum cdc_stat cdc_map_insert(struct cdc_map *m, void *key,
+                                           void *value, struct cdc_map_iter *it,
+                                           bool *inserted)
 {
   assert(m != NULL);
 
   void *iter = it ? it->iter : NULL;
-
   return m->table->insert(m->container, key, value, iter, inserted);
 }
 
@@ -320,7 +328,6 @@ static inline enum cdc_stat cdc_map_insert_or_assign(struct cdc_map *m,
   assert(m != NULL);
 
   void *iter = it ? it->iter : NULL;
-
   return m->table->insert_or_assign(m->container, key, value, iter, inserted);
 }
 
@@ -484,49 +491,49 @@ static inline bool cdc_map_iter_is_eq(struct cdc_map_iter *it1,
 typedef struct cdc_map map_t;
 typedef struct cdc_map_iter map_iter_t;
 
-#define map_ctor(...)                cdc_map_ctor(__VA_ARGS__)
-#define map_ctorv(...)               cdc_map_ctorv(__VA_ARGS__)
-#define map_ctorl(...)               cdc_map_ctorl(__VA_ARGS__)
-#define map_ctor1(...)               cdc_map_ctor1(__VA_ARGS__)
-#define map_ctorv1(...)              cdc_map_ctorv1(__VA_ARGS__)
-#define map_ctorl1(...)              cdc_map_ctorl1(__VA_ARGS__)
-#define mapa_ctor(...)               cdc_mapa_ctor(__VA_ARGS__)
-#define mapa_ctorv(...)              cdc_mapa_ctorv(__VA_ARGS__)
-#define mapa_ctorl(...)              cdc_mapa_ctorl(__VA_ARGS__)
-#define mapa_ctor1(...)              cdc_mapa_ctor1(__VA_ARGS__)
-#define mapa_ctorv1(...)             cdc_mapa_ctorv1(__VA_ARGS__)
-#define mapa_ctorl1(...)             cdc_mapa_ctorl1(__VA_ARGS__)
-#define map_dtor(...)                cdc_map_dtor(__VA_ARGS__)
+#define map_ctor(...) cdc_map_ctor(__VA_ARGS__)
+#define map_ctorv(...) cdc_map_ctorv(__VA_ARGS__)
+#define map_ctorl(...) cdc_map_ctorl(__VA_ARGS__)
+#define map_ctor1(...) cdc_map_ctor1(__VA_ARGS__)
+#define map_ctorv1(...) cdc_map_ctorv1(__VA_ARGS__)
+#define map_ctorl1(...) cdc_map_ctorl1(__VA_ARGS__)
+#define mapa_ctor(...) cdc_mapa_ctor(__VA_ARGS__)
+#define mapa_ctorv(...) cdc_mapa_ctorv(__VA_ARGS__)
+#define mapa_ctorl(...) cdc_mapa_ctorl(__VA_ARGS__)
+#define mapa_ctor1(...) cdc_mapa_ctor1(__VA_ARGS__)
+#define mapa_ctorv1(...) cdc_mapa_ctorv1(__VA_ARGS__)
+#define mapa_ctorl1(...) cdc_mapa_ctorl1(__VA_ARGS__)
+#define map_dtor(...) cdc_map_dtor(__VA_ARGS__)
 
 // Lookup
-#define map_get(...)                 cdc_map_get(__VA_ARGS__)
-#define map_count(...)               cdc_map_count(__VA_ARGS__)
-#define map_find(...)                cdc_map_find(__VA_ARGS__)
+#define map_get(...) cdc_map_get(__VA_ARGS__)
+#define map_count(...) cdc_map_count(__VA_ARGS__)
+#define map_find(...) cdc_map_find(__VA_ARGS__)
 
 // Capacity
-#define map_size(...)                cdc_map_size(__VA_ARGS__)
-#define map_empty(...)               cdc_map_empty(__VA_ARGS__)
+#define map_size(...) cdc_map_size(__VA_ARGS__)
+#define map_empty(...) cdc_map_empty(__VA_ARGS__)
 
 // Modifiers
-#define map_clear(...)               cdc_map_clear(__VA_ARGS__)
-#define map_insert(...)              cdc_map_insert(__VA_ARGS__)
-#define map_insert_or_assign(...)    cdc_map_insert_or_assign(__VA_ARGS__)
-#define map_erase(...)               cdc_map_erase(__VA_ARGS__)
-#define map_swap(...)                cdc_map_swap(__VA_ARGS__)
+#define map_clear(...) cdc_map_clear(__VA_ARGS__)
+#define map_insert(...) cdc_map_insert(__VA_ARGS__)
+#define map_insert_or_assign(...) cdc_map_insert_or_assign(__VA_ARGS__)
+#define map_erase(...) cdc_map_erase(__VA_ARGS__)
+#define map_swap(...) cdc_map_swap(__VA_ARGS__)
 
 // Iterators
-#define map_iter_init(...)           cdc_map_iter_init(__VA_ARGS__)
-#define map_iter_free(...)           cdc_map_iter_free(__VA_ARGS__)
-#define map_begin(...)               cdc_map_begin(__VA_ARGS__)
-#define map_end(...)                 cdc_map_end(__VA_ARGS__)
+#define map_iter_init(...) cdc_map_iter_init(__VA_ARGS__)
+#define map_iter_free(...) cdc_map_iter_free(__VA_ARGS__)
+#define map_begin(...) cdc_map_begin(__VA_ARGS__)
+#define map_end(...) cdc_map_end(__VA_ARGS__)
 
 // Iterators
-#define map_iter_next(...)           cdc_map_iter_next(__VA_ARGS__)
-#define map_iter_has_next(...)       cdc_map_iter_has_next(__VA_ARGS__)
-#define map_iter_key(...)            cdc_map_iter_key(__VA_ARGS__)
-#define map_iter_value(...)          cdc_map_iter_value(__VA_ARGS__)
-#define map_iter_key_value(...)      cdc_map_iter_key_value(__VA_ARGS__)
-#define map_iter_is_eq(...)          cdc_map_iter_is_eq(__VA_ARGS__)
+#define map_iter_next(...) cdc_map_iter_next(__VA_ARGS__)
+#define map_iter_has_next(...) cdc_map_iter_has_next(__VA_ARGS__)
+#define map_iter_key(...) cdc_map_iter_key(__VA_ARGS__)
+#define map_iter_value(...) cdc_map_iter_value(__VA_ARGS__)
+#define map_iter_key_value(...) cdc_map_iter_key_value(__VA_ARGS__)
+#define map_iter_is_eq(...) cdc_map_iter_is_eq(__VA_ARGS__)
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_MAP_H

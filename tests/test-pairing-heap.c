@@ -21,11 +21,11 @@
 #include "test-common.h"
 
 #include <CUnit/Basic.h>
+#include <assert.h>
 #include <float.h>
 #include <stdarg.h>
-#include <assert.h>
-#include <cdcontainers/pairing-heap.h>
-#include <cdcontainers/global.h>
+#include "cdcontainers/global.h"
+#include "cdcontainers/pairing-heap.h"
 
 static size_t count_free = 0;
 
@@ -34,10 +34,7 @@ static int gt_int(const void *a, const void *b)
   return *((int *)a) > *((int *)b);
 }
 
-static int gt_ptr(const void *a, const void *b)
-{
-  return a > b;
-}
+static int gt_ptr(const void *a, const void *b) { return a > b; }
 
 static void test_free(void *ptr)
 {
@@ -71,7 +68,8 @@ void test_pairing_heap_ctorl()
   int a = 2;
   void *elem;
 
-  CU_ASSERT(cdc_pairing_heap_ctorl1(&h, NULL, gt_int, &a, &a, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_pairing_heap_ctorl1(&h, NULL, gt_int, &a, &a, NULL) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_pairing_heap_is_heap(h) == true);
   CU_ASSERT(cdc_pairing_heap_size(h) == 2);
 
@@ -101,7 +99,7 @@ void test_pairing_heap_dtor()
   for (i = count; i > 0; --i)
     CU_ASSERT(cdc_pairing_heap_insert(h, (size_t *)i) == CDC_STATUS_OK);
 
-  for (i = 0 ; i < count / 2; ++i)
+  for (i = 0; i < count / 2; ++i)
     CU_ASSERT(cdc_pairing_heap_insert(h, (size_t *)i) == CDC_STATUS_OK);
 
   CU_ASSERT(cdc_pairing_heap_is_heap(h) == true);
@@ -119,7 +117,8 @@ void test_pairing_heap_top()
   struct cdc_pairing_heap *h;
   int a = 1, b = 10, c = 2;
 
-  CU_ASSERT(cdc_pairing_heap_ctorl1(&h, NULL, gt_int, &a, &b, &c, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_pairing_heap_ctorl1(&h, NULL, gt_int, &a, &b, &c, NULL) ==
+            CDC_STATUS_OK);
   CU_ASSERT(*((int *)cdc_pairing_heap_top(h)) == b);
 
   cdc_pairing_heap_dtor(h);
@@ -131,7 +130,8 @@ void test_pairing_heap_extract_top()
   int a = 0, b = 3, c = 2, d = 1;
   void *elem;
 
-  CU_ASSERT(cdc_pairing_heap_ctorl1(&h, NULL, gt_int, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_pairing_heap_ctorl1(&h, NULL, gt_int, &a, &b, &c, &d, NULL) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_pairing_heap_is_heap(h) == true);
 
   elem = cdc_pairing_heap_top(h);
@@ -190,9 +190,10 @@ void test_pairing_heap_change_key()
   //        int a = 0, b = 4, c = 3, d = 1, n = 2, max_key = 10, min_key = -1;
   //        void *elem;
 
-  //        CU_ASSERT(cdc_pairing_heap_ctorl(&h, NULL, gt_int, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
-  //        CU_ASSERT(cdc_pairing_heap_is_heap(h) == true);
-  //        CU_ASSERT(cdc_pairing_heap_riinsert(h, &n, &iter1) == CDC_STATUS_OK);
+  //        CU_ASSERT(cdc_pairing_heap_ctorl(&h, NULL, gt_int, &a, &b, &c, &d,
+  //        NULL) == CDC_STATUS_OK); CU_ASSERT(cdc_pairing_heap_is_heap(h) ==
+  //        true); CU_ASSERT(cdc_pairing_heap_riinsert(h, &n, &iter1) ==
+  //        CDC_STATUS_OK);
 
   //        CU_ASSERT(cdc_pairing_heap_insert(h, &a) == CDC_STATUS_OK);
   //        CU_ASSERT(cdc_pairing_heap_insert(h, &c) == CDC_STATUS_OK);
@@ -216,7 +217,6 @@ void test_pairing_heap_change_key()
   //        CU_ASSERT(*((int *)elem) == b);
   //        CU_ASSERT(*((int *)cdc_pairing_heap_iter_data(iter1)) == min_key);
 
-
   //        cdc_pairing_heap_dtor(h);
 }
 
@@ -225,8 +225,10 @@ void test_pairing_heap_merge()
   struct cdc_pairing_heap *v, *w;
   int a = 2, b = 3, c = 4;
 
-  CU_ASSERT(cdc_pairing_heap_ctorl1(&v, NULL, gt_int, &b, NULL) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_pairing_heap_ctorl1(&w, NULL, gt_int, &a, &c, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_pairing_heap_ctorl1(&v, NULL, gt_int, &b, NULL) ==
+            CDC_STATUS_OK);
+  CU_ASSERT(cdc_pairing_heap_ctorl1(&w, NULL, gt_int, &a, &c, NULL) ==
+            CDC_STATUS_OK);
 
   cdc_pairing_heap_merge(v, w);
 
@@ -243,8 +245,10 @@ void test_pairing_heap_swap()
   struct cdc_pairing_heap *v, *w;
   int a = 2, b = 3, c = 4;
 
-  CU_ASSERT(cdc_pairing_heap_ctorl1(&v, NULL, gt_int, &b, NULL) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_pairing_heap_ctorl1(&w, NULL, gt_int, &a, &c, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_pairing_heap_ctorl1(&v, NULL, gt_int, &b, NULL) ==
+            CDC_STATUS_OK);
+  CU_ASSERT(cdc_pairing_heap_ctorl1(&w, NULL, gt_int, &a, &c, NULL) ==
+            CDC_STATUS_OK);
 
   cdc_pairing_heap_swap(v, w);
 

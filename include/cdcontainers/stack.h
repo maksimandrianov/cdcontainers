@@ -19,20 +19,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 /**
-  * @file
-  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_stack is a struct and functions that provide a stack
-  */
+ * @file
+ * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
+ * @brief The cdc_stack is a struct and functions that provide a stack
+ */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_STACK_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_STACK_H
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdarg.h>
 #include <assert.h>
-#include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
 #include <cdcontainers/interfaces/isequence.h>
+#include <cdcontainers/status.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
 /**
  * @brief The cdc_stack struct
@@ -65,8 +65,8 @@ enum cdc_stat cdc_stack_ctor(const struct cdc_sequence_table *table,
  * an error
  */
 enum cdc_stat cdc_stack_ctorl(const struct cdc_sequence_table *table,
-                              struct cdc_stack **s,
-                              struct cdc_data_info *info, ...);
+                              struct cdc_stack **s, struct cdc_data_info *info,
+                              ...);
 
 /**
  * @brief Constructs a stack, initialized by args. The last item must be NULL.
@@ -77,8 +77,8 @@ enum cdc_stat cdc_stack_ctorl(const struct cdc_sequence_table *table,
  * an error
  */
 enum cdc_stat cdc_stack_ctorv(const struct cdc_sequence_table *table,
-                              struct cdc_stack **s,
-                              struct cdc_data_info *info, va_list args);
+                              struct cdc_stack **s, struct cdc_data_info *info,
+                              va_list args);
 
 /**
  * @brief Constructs an empty stack based on list.
@@ -103,8 +103,8 @@ static inline enum cdc_stat cdc_stackl_ctor(struct cdc_stack **s,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_stackl_ctorl(struct cdc_stack **s,
-                               struct cdc_data_info *info, ...);
+enum cdc_stat cdc_stackl_ctorl(struct cdc_stack **s, struct cdc_data_info *info,
+                               ...);
 
 /**
  * @brief Constructs a stack based on list, initialized by args
@@ -146,8 +146,8 @@ static inline enum cdc_stat cdc_stackv_ctor(struct cdc_stack **s,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_stackv_ctorl(struct cdc_stack **s,
-                               struct cdc_data_info *info, ...);
+enum cdc_stat cdc_stackv_ctorl(struct cdc_stack **s, struct cdc_data_info *info,
+                               ...);
 
 /**
  * @brief Constructs a stack based on vector, initialized by args. The last item
@@ -251,22 +251,22 @@ void cdc_stack_swap(struct cdc_stack *a, struct cdc_stack *b);
 #ifdef CDC_USE_SHORT_NAMES
 typedef struct cdc_stack stack_t;
 
-#define stack_ctor(...)   cdc_stack_ctor(__VA_ARGS__)
-#define stack_ctorl(...)  cdc_stack_ctorl(__VA_ARGS__)
-#define stack_ctorv(...)  cdc_stack_ctorv(__VA_ARGS__)
-#define stack_dtor(...)   cdc_stack_dtor(__VA_ARGS__)
+#define stack_ctor(...) cdc_stack_ctor(__VA_ARGS__)
+#define stack_ctorl(...) cdc_stack_ctorl(__VA_ARGS__)
+#define stack_ctorv(...) cdc_stack_ctorv(__VA_ARGS__)
+#define stack_dtor(...) cdc_stack_dtor(__VA_ARGS__)
 
 // Element access
-#define stack_top(...)    cdc_stack_top(__VA_ARGS__)
+#define stack_top(...) cdc_stack_top(__VA_ARGS__)
 
 // Capacity
-#define stack_empty(...)  cdc_stack_empty(__VA_ARGS__)
-#define stack_size(...)   cdc_stack_size(__VA_ARGS__)
+#define stack_empty(...) cdc_stack_empty(__VA_ARGS__)
+#define stack_size(...) cdc_stack_size(__VA_ARGS__)
 
 // Modifiers
-#define stack_push(...)   cdc_stack_push(__VA_ARGS__)
-#define stack_pop(...)    cdc_stack_pop(__VA_ARGS__)
-#define stack_swap(...)   cdc_stack_swap(__VA_ARGS__)
+#define stack_push(...) cdc_stack_push(__VA_ARGS__)
+#define stack_pop(...) cdc_stack_pop(__VA_ARGS__)
+#define stack_swap(...) cdc_stack_swap(__VA_ARGS__)
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_STACK_H

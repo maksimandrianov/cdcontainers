@@ -21,9 +21,9 @@
 #ifndef CDCONTAINERS_TESTS_TESTS_COMMON_H
 #define CDCONTAINERS_TESTS_TESTS_COMMON_H
 
-#include <stdlib.h>
-#include <stdbool.h>
 #include <stdarg.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
 // Common tests
 void test_ptr_float_cast();

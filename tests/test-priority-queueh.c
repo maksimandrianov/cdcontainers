@@ -21,10 +21,10 @@
 #include "test-common.h"
 
 #include <CUnit/Basic.h>
+#include <assert.h>
 #include <float.h>
 #include <stdarg.h>
-#include <assert.h>
-#include <cdcontainers/priority-queue.h>
+#include "cdcontainers/priority-queue.h"
 
 static int gt_int(const void *a, const void *b)
 {
@@ -47,7 +47,8 @@ void test_priority_queue_ctorl()
   int a = 2, b = 3;
   void *elem;
 
-  CU_ASSERT(cdc_priority_queueh_ctorl1(&q, NULL, gt_int, &a, &b, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_priority_queueh_ctorl1(&q, NULL, gt_int, &a, &b, NULL) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_priority_queue_size(q) == 2);
 
   elem = cdc_priority_queue_top(q);
@@ -95,7 +96,8 @@ void test_priority_queue_pop()
   int a = 0, b = 3, c = 2, d = 1;
   void *elem;
 
-  CU_ASSERT(cdc_priority_queueh_ctorl1(&q, NULL, gt_int, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_priority_queueh_ctorl1(&q, NULL, gt_int, &a, &b, &c, &d,
+                                       NULL) == CDC_STATUS_OK);
 
   elem = cdc_priority_queue_top(q);
   CU_ASSERT(cdc_priority_queue_pop(q) == CDC_STATUS_OK);
@@ -125,7 +127,8 @@ void test_priority_queue_top()
   struct cdc_priority_queue *q;
   int a = 1, b = 10, c = 2;
 
-  CU_ASSERT(cdc_priority_queueh_ctorl1(&q, NULL, gt_int, &a, &b, &c, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_priority_queueh_ctorl1(&q, NULL, gt_int, &a, &b, &c, NULL) ==
+            CDC_STATUS_OK);
   CU_ASSERT(*((int *)cdc_priority_queue_top(q)) == b);
 
   cdc_priority_queue_dtor(q);
@@ -136,8 +139,10 @@ void test_priority_queue_swap()
   struct cdc_priority_queue *v, *w;
   int a = 2, b = 3, c = 4;
 
-  CU_ASSERT(cdc_priority_queueh_ctorl1(&v, NULL, gt_int, &b, NULL) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_priority_queueh_ctorl1(&w, NULL, gt_int, &a, &c, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_priority_queueh_ctorl1(&v, NULL, gt_int, &b, NULL) ==
+            CDC_STATUS_OK);
+  CU_ASSERT(cdc_priority_queueh_ctorl1(&w, NULL, gt_int, &a, &c, NULL) ==
+            CDC_STATUS_OK);
 
   cdc_priority_queue_swap(v, w);
 

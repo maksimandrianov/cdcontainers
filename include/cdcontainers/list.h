@@ -19,20 +19,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 /**
-  * @file
-  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_list is a struct and functions that provide a doubly
-  * linked list
-  */
+ * @file
+ * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
+ * @brief The cdc_list is a struct and functions that provide a doubly
+ * linked list
+ */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_LIST_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_LIST_H
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdarg.h>
 #include <assert.h>
-#include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
+#include <cdcontainers/status.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
 /**
  * @brief The cdc_list_node struct
@@ -82,7 +82,7 @@ struct cdc_list_riter {
  * @warning This is macro
  */
 #define CDC_LIST_FOR_EACH(item, list) \
-  for (cdc_list_node *(item) = (list->head); (item); (item) = (item)->next)
+  for (cdc_list_node * (item) = (list->head); (item); (item) = (item)->next)
 
 /**
  * @brief Constructs an empty list.
@@ -101,8 +101,8 @@ enum cdc_stat cdc_list_ctor(struct cdc_list **l, struct cdc_data_info *info);
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_list_ctorl(struct cdc_list **l,
-                             struct cdc_data_info *info, ...);
+enum cdc_stat cdc_list_ctorl(struct cdc_list **l, struct cdc_data_info *info,
+                             ...);
 
 /**
  * @brief Constructs a list, initialized by args. The last item must be NULL.
@@ -111,8 +111,8 @@ enum cdc_stat cdc_list_ctorl(struct cdc_list **l,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_list_ctorv(struct cdc_list **l,
-                             struct cdc_data_info *info, va_list args);
+enum cdc_stat cdc_list_ctorv(struct cdc_list **l, struct cdc_data_info *info,
+                             va_list args);
 
 /**
  * @brief Destroys the list.
@@ -160,7 +160,7 @@ static inline void *cdc_list_front(struct cdc_list *l)
  * @param l - cdc_list
  * @return pointer to the last item in the list
  */
-static inline  void *cdc_list_back(struct cdc_list *l)
+static inline void *cdc_list_back(struct cdc_list *l)
 {
   assert(l != NULL);
   assert(l->size > 0);
@@ -202,7 +202,8 @@ static inline void cdc_list_end(struct cdc_list *l, struct cdc_list_iter *it)
  * @param l - cdc_list
  * @param it - cdc_list_riter
  */
-static inline void cdc_list_rbegin(struct cdc_list *l, struct cdc_list_riter *it)
+static inline void cdc_list_rbegin(struct cdc_list *l,
+                                   struct cdc_list_riter *it)
 {
   assert(l != NULL);
   assert(it != NULL);
@@ -383,8 +384,8 @@ void cdc_list_swap(struct cdc_list *a, struct cdc_list *b);
  * @param position - iterator before which the content will be inserted
  * @param first, last -  range of elements to transfer from other
  */
-void cdc_list_splice(struct cdc_list_iter *position, struct cdc_list_iter *first,
-                     struct cdc_list_iter *last);
+void cdc_list_splice(struct cdc_list_iter *position,
+                     struct cdc_list_iter *first, struct cdc_list_iter *last);
 
 /**
  * @brief Transfers elements from one container, iterators (first, end] to
@@ -392,7 +393,8 @@ void cdc_list_splice(struct cdc_list_iter *position, struct cdc_list_iter *first
  * @param position - iterator before which the content will be inserted
  * @param first - beginning of the range from which elements will be transferred
  */
-void cdc_list_ssplice(struct cdc_list_iter *position, struct cdc_list_iter *first);
+void cdc_list_ssplice(struct cdc_list_iter *position,
+                      struct cdc_list_iter *first);
 
 /**
  * @brief Transfers all elements from container other to another container at
@@ -403,7 +405,8 @@ void cdc_list_ssplice(struct cdc_list_iter *position, struct cdc_list_iter *firs
 void cdc_list_lsplice(struct cdc_list_iter *position, struct cdc_list *other);
 
 /**
- * @brief Merges two sorted lists into one. The lists should be sorted into ascending order.
+ * @brief Merges two sorted lists into one. The lists should be sorted into
+ * ascending order.
  * @param l - cdc_list
  * @param other - another cdc_list to merge
  */
@@ -434,18 +437,18 @@ void cdc_list_erase_if(struct cdc_list *l, cdc_unary_pred_fn_t pred);
 void cdc_list_reverse(struct cdc_list *l);
 
 /**
- * @brief Removes all consecutive duplicate elements from the container. Only the
- * first element in each group of equal elements is left.
+ * @brief Removes all consecutive duplicate elements from the container. Only
+ * the first element in each group of equal elements is left.
  * @param l - cdc_list
  */
 void cdc_list_unique(struct cdc_list *l);
 
 /**
- * @brief Removes all consecutive duplicate elements from the container. Only the
- * first element in each group of equal elements is left.
+ * @brief Removes all consecutive duplicate elements from the container. Only
+ * the first element in each group of equal elements is left.
  * @param l - cdc_list
- * @param pred - binary predicate which returns ​true if the elements should be
- * treated as equal.
+ * @param pred - binary predicate which returns ​true if the elements should
+ * be treated as equal.
  */
 void cdc_list_punique(struct cdc_list *l, cdc_binary_pred_fn_t pred);
 
@@ -458,8 +461,8 @@ void cdc_list_sort(struct cdc_list *l);
 /**
  * @brief Sorts the elements in ascending order.
  * @param l - cdc_list
- * @param compare - comparison function object which returns ​true if the first
- * argument is less than (i.e. is ordered before) the second.
+ * @param compare - comparison function object which returns ​true if the
+ * first argument is less than (i.e. is ordered before) the second.
  */
 void cdc_list_csort(struct cdc_list *l, cdc_binary_pred_fn_t compare);
 
@@ -580,9 +583,9 @@ static inline bool cdc_list_riter_has_next(struct cdc_list_riter *it)
 }
 
 /**
- * @brief Returns true if there is at least one item behind the reverse iterator,
- * i.e. the reverse iterator is not at the front of the container; otherwise
- * returns false.
+ * @brief Returns true if there is at least one item behind the reverse
+ * iterator, i.e. the reverse iterator is not at the front of the container;
+ * otherwise returns false.
  */
 static inline bool cdc_list_riter_has_prev(struct cdc_list_riter *it)
 {
@@ -633,71 +636,71 @@ typedef struct cdc_list list_t;
 typedef struct cdc_list_iter list_iter_t;
 typedef struct cdc_list_riter list_riter_t;
 
-#define list_ctor(...)           cdc_list_ctor(__VA_ARGS__)
-#define list_ctorl(...)          cdc_list_ctorl(__VA_ARGS__)
-#define list_ctorv(...)          cdc_list_ctorv(__VA_ARGS__)
-#define list_dtor(...)           cdc_list_dtor(__VA_ARGS__)
+#define list_ctor(...) cdc_list_ctor(__VA_ARGS__)
+#define list_ctorl(...) cdc_list_ctorl(__VA_ARGS__)
+#define list_ctorv(...) cdc_list_ctorv(__VA_ARGS__)
+#define list_dtor(...) cdc_list_dtor(__VA_ARGS__)
 
 // Element access
-#define list_at(...)             cdc_list_at(__VA_ARGS__)
-#define list_front(...)          cdc_list_front(__VA_ARGS__)
-#define list_back(...)           cdc_list_back(__VA_ARGS__)
+#define list_at(...) cdc_list_at(__VA_ARGS__)
+#define list_front(...) cdc_list_front(__VA_ARGS__)
+#define list_back(...) cdc_list_back(__VA_ARGS__)
 
 // Iterators
-#define list_begin(...)          cdc_list_begin(__VA_ARGS__)
-#define list_end(...)            cdc_list_end(__VA_ARGS__)
-#define list_rbegin(...)         cdc_list_rbegin(__VA_ARGS__)
-#define list_rend(...)           cdc_list_rend(__VA_ARGS__)
+#define list_begin(...) cdc_list_begin(__VA_ARGS__)
+#define list_end(...) cdc_list_end(__VA_ARGS__)
+#define list_rbegin(...) cdc_list_rbegin(__VA_ARGS__)
+#define list_rend(...) cdc_list_rend(__VA_ARGS__)
 
 // Capacity
-#define list_empty(...)          cdc_list_empty(__VA_ARGS__)
-#define list_size(...)           cdc_list_size(__VA_ARGS__)
+#define list_empty(...) cdc_list_empty(__VA_ARGS__)
+#define list_size(...) cdc_list_size(__VA_ARGS__)
 
 // Modifiers
-#define list_insert(...)         cdc_list_insert(__VA_ARGS__)
-#define list_iinsert(...)        cdc_list_iinsert(__VA_ARGS__)
-#define list_erase(...)          cdc_list_erase(__VA_ARGS__)
-#define list_ierase(...)         cdc_list_ierase(__VA_ARGS__)
-#define list_remove(...)         cdc_list_remove(__VA_ARGS__)
-#define list_iremove(...)        cdc_list_iremove(__VA_ARGS__)
-#define list_clear(...)          cdc_list_clear(__VA_ARGS__)
-#define list_push_back(...)      cdc_list_push_back(__VA_ARGS__)
-#define list_pop_back(...)       cdc_list_pop_back(__VA_ARGS__)
-#define list_push_front(...)     cdc_list_push_front(__VA_ARGS__)
-#define list_pop_front(...)      cdc_list_pop_back(__VA_ARGS__)
-#define list_swap(...)           cdc_list_swap(__VA_ARGS__)
+#define list_insert(...) cdc_list_insert(__VA_ARGS__)
+#define list_iinsert(...) cdc_list_iinsert(__VA_ARGS__)
+#define list_erase(...) cdc_list_erase(__VA_ARGS__)
+#define list_ierase(...) cdc_list_ierase(__VA_ARGS__)
+#define list_remove(...) cdc_list_remove(__VA_ARGS__)
+#define list_iremove(...) cdc_list_iremove(__VA_ARGS__)
+#define list_clear(...) cdc_list_clear(__VA_ARGS__)
+#define list_push_back(...) cdc_list_push_back(__VA_ARGS__)
+#define list_pop_back(...) cdc_list_pop_back(__VA_ARGS__)
+#define list_push_front(...) cdc_list_push_front(__VA_ARGS__)
+#define list_pop_front(...) cdc_list_pop_back(__VA_ARGS__)
+#define list_swap(...) cdc_list_swap(__VA_ARGS__)
 
 // Operations
-#define list_splice(...)         cdc_list_splice(__VA_ARGS__)
-#define list_ssplice(...)        cdc_list_ssplice(__VA_ARGS__)
-#define list_lsplice(...)        cdc_list_lsplice(__VA_ARGS__)
-#define list_merge(...)          cdc_list_merge(__VA_ARGS__)
-#define list_cmerge(...)         cdc_list_cmerge(__VA_ARGS__)
-#define list_erase_if(...)       cdc_list_erase_if(__VA_ARGS__)
-#define list_reverse(...)        cdc_list_reverse(__VA_ARGS__)
-#define list_unique(...)         cdc_list_unique(__VA_ARGS__)
-#define list_punique(...)        cdc_list_punique(__VA_ARGS__)
-#define list_sort(...)           cdc_list_sort(__VA_ARGS__)
-#define list_csort(...)          cdc_list_csort(__VA_ARGS__)
+#define list_splice(...) cdc_list_splice(__VA_ARGS__)
+#define list_ssplice(...) cdc_list_ssplice(__VA_ARGS__)
+#define list_lsplice(...) cdc_list_lsplice(__VA_ARGS__)
+#define list_merge(...) cdc_list_merge(__VA_ARGS__)
+#define list_cmerge(...) cdc_list_cmerge(__VA_ARGS__)
+#define list_erase_if(...) cdc_list_erase_if(__VA_ARGS__)
+#define list_reverse(...) cdc_list_reverse(__VA_ARGS__)
+#define list_unique(...) cdc_list_unique(__VA_ARGS__)
+#define list_punique(...) cdc_list_punique(__VA_ARGS__)
+#define list_sort(...) cdc_list_sort(__VA_ARGS__)
+#define list_csort(...) cdc_list_csort(__VA_ARGS__)
 
-#define list_foreach(...)        cdc_list_foreach(__VA_ARGS__)
+#define list_foreach(...) cdc_list_foreach(__VA_ARGS__)
 
 // Iterators
-#define list_iter_next(...)      cdc_list_iter_next(__VA_ARGS__)
-#define list_iter_prev(...)      cdc_list_iter_prev(__VA_ARGS__)
-#define list_iter_has_next(...)  cdc_list_iter_has_next(__VA_ARGS__)
-#define list_iter_has_prev(...)  cdc_list_iter_has_prev(__VA_ARGS__)
-#define list_iter_data(...)      cdc_list_iter_data(__VA_ARGS__)
-#define list_riter_from(...)     cdc_list_riter_from(__VA_ARGS__)
-#define list_iter_is_eq(...)     cdc_list_iter_is_eq(__VA_ARGS__)
+#define list_iter_next(...) cdc_list_iter_next(__VA_ARGS__)
+#define list_iter_prev(...) cdc_list_iter_prev(__VA_ARGS__)
+#define list_iter_has_next(...) cdc_list_iter_has_next(__VA_ARGS__)
+#define list_iter_has_prev(...) cdc_list_iter_has_prev(__VA_ARGS__)
+#define list_iter_data(...) cdc_list_iter_data(__VA_ARGS__)
+#define list_riter_from(...) cdc_list_riter_from(__VA_ARGS__)
+#define list_iter_is_eq(...) cdc_list_iter_is_eq(__VA_ARGS__)
 
-#define list_riter_next(...)     cdc_list_riter_next(__VA_ARGS__)
-#define list_riter_prev(...)     cdc_list_riter_prev(__VA_ARGS__)
+#define list_riter_next(...) cdc_list_riter_next(__VA_ARGS__)
+#define list_riter_prev(...) cdc_list_riter_prev(__VA_ARGS__)
 #define list_riter_has_next(...) cdc_list_riter_has_next(__VA_ARGS__)
 #define list_riter_has_prev(...) cdc_list_riter_has_prev(__VA_ARGS__)
-#define list_riter_data(...)     cdc_list_riter_data(__VA_ARGS__)
-#define list_iter_from(...)      cdc_list_iter_from(__VA_ARGS__)
-#define list_riter_is_eq(...)    cdc_list_riter_is_eq(__VA_ARGS__)
+#define list_riter_data(...) cdc_list_riter_data(__VA_ARGS__)
+#define list_iter_from(...) cdc_list_iter_from(__VA_ARGS__)
+#define list_riter_is_eq(...) cdc_list_riter_is_eq(__VA_ARGS__)
 #endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_LIST_H

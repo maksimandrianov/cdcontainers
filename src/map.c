@@ -21,8 +21,8 @@
 #include "cdcontainers/map.h"
 #include "data-info.h"
 
-enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table, struct cdc_map **m,
-                           struct cdc_data_info *info)
+enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table,
+                           struct cdc_map **m, struct cdc_data_info *info)
 {
   assert(table != NULL);
   assert(m != NULL);
@@ -31,24 +31,23 @@ enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table, struct cdc_map **m
   return cdc_map_ctor1(table, m, info, NULL);
 }
 
-enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table, struct cdc_map **m,
-                            struct cdc_data_info *info, ...)
+enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table,
+                            struct cdc_map **m, struct cdc_data_info *info, ...)
 {
   assert(table != NULL);
   assert(m != NULL);
   assert(CDC_HAS_LT(info));
 
-  enum cdc_stat stat;
   va_list args;
-
   va_start(args, info);
-  stat = cdc_map_ctorv(table, m, info, args);
+  enum cdc_stat stat = cdc_map_ctorv(table, m, info, args);
   va_end(args);
   return stat;
 }
 
-enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table, struct cdc_map **m,
-                            struct cdc_data_info *info, va_list args)
+enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table,
+                            struct cdc_map **m, struct cdc_data_info *info,
+                            va_list args)
 {
   assert(table != NULL);
   assert(m != NULL);
@@ -57,22 +56,21 @@ enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table, struct cdc_map **
   return cdc_map_ctorv1(table, m, info, NULL, args);
 }
 
-enum cdc_stat cdc_map_ctor1(const struct cdc_map_table *table, struct cdc_map **m,
-                            struct cdc_data_info *info, cdc_binary_pred_fn_t compar)
+enum cdc_stat cdc_map_ctor1(const struct cdc_map_table *table,
+                            struct cdc_map **m, struct cdc_data_info *info,
+                            cdc_binary_pred_fn_t compar)
 {
   assert(table != NULL);
   assert(m != NULL);
   assert(CDC_HAS_LT(info) || compar != NULL);
 
-  struct cdc_map *tmp;
-  enum cdc_stat stat;
-
-  tmp = (struct cdc_map *)malloc(sizeof(struct cdc_map));
-  if (!tmp)
+  struct cdc_map *tmp = (struct cdc_map *)malloc(sizeof(struct cdc_map));
+  if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
+  }
 
   tmp->table = table;
-  stat = tmp->table->ctor(&tmp->container, info, compar);
+  enum cdc_stat stat = tmp->table->ctor(&tmp->container, info, compar);
   if (stat != CDC_STATUS_OK) {
     free(tmp);
     return stat;
@@ -82,39 +80,36 @@ enum cdc_stat cdc_map_ctor1(const struct cdc_map_table *table, struct cdc_map **
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_map_ctorl1(const struct cdc_map_table *table, struct cdc_map **m,
-                             struct cdc_data_info *info, cdc_binary_pred_fn_t compar, ...)
+enum cdc_stat cdc_map_ctorl1(const struct cdc_map_table *table,
+                             struct cdc_map **m, struct cdc_data_info *info,
+                             cdc_binary_pred_fn_t compar, ...)
 {
   assert(table != NULL);
   assert(m != NULL);
   assert(CDC_HAS_LT(info) || compar != NULL);
 
-  enum cdc_stat stat;
   va_list args;
-
   va_start(args, compar);
-  stat = cdc_map_ctorv1(table, m, info, compar, args);
+  enum cdc_stat stat = cdc_map_ctorv1(table, m, info, compar, args);
   va_end(args);
   return stat;
 }
 
-enum cdc_stat cdc_map_ctorv1(const struct cdc_map_table *table, struct cdc_map **m,
-                             struct cdc_data_info *info, cdc_binary_pred_fn_t compar,
-                             va_list args)
+enum cdc_stat cdc_map_ctorv1(const struct cdc_map_table *table,
+                             struct cdc_map **m, struct cdc_data_info *info,
+                             cdc_binary_pred_fn_t compar, va_list args)
 {
   assert(table != NULL);
   assert(m != NULL);
   assert(CDC_HAS_LT(info) || compar != NULL);
 
-  struct cdc_map *tmp;
-  enum cdc_stat stat;
-
-  tmp = (struct cdc_map *)malloc(sizeof(struct cdc_map));
-  if (!tmp)
+  struct cdc_map *tmp = (struct cdc_map *)malloc(sizeof(struct cdc_map));
+  if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
+  }
 
   tmp->table = table;
-  stat = tmp->table->ctorv(&tmp->container, info, compar, args);
+  enum cdc_stat stat = tmp->table->ctorv(&tmp->container, info, compar, args);
   if (stat != CDC_STATUS_OK) {
     free(tmp);
     return stat;
@@ -132,16 +127,15 @@ enum cdc_stat cdc_mapa_ctor(struct cdc_map **m, struct cdc_data_info *info)
   return cdc_mapa_ctor1(m, info, NULL);
 }
 
-enum cdc_stat cdc_mapa_ctorl(struct cdc_map **m, struct cdc_data_info *info, ...)
+enum cdc_stat cdc_mapa_ctorl(struct cdc_map **m, struct cdc_data_info *info,
+                             ...)
 {
   assert(m != NULL);
   assert(CDC_HAS_LT(info));
 
-  enum cdc_stat stat;
   va_list args;
-
   va_start(args, info);
-  stat = cdc_mapa_ctorv(m, info, args);
+  enum cdc_stat stat = cdc_mapa_ctorv(m, info, args);
   va_end(args);
   return stat;
 }
@@ -170,15 +164,12 @@ enum cdc_stat cdc_mapa_ctorl1(struct cdc_map **m, struct cdc_data_info *info,
   assert(m != NULL);
   assert(CDC_HAS_LT(info) || compar != NULL);
 
-  enum cdc_stat stat;
   va_list args;
-
   va_start(args, compar);
-  stat = cdc_mapa_ctorv1(m, info, compar, args);
+  enum cdc_stat stat = cdc_mapa_ctorv1(m, info, compar, args);
   va_end(args);
   return stat;
 }
-
 
 enum cdc_stat cdc_mapa_ctorv1(struct cdc_map **m, struct cdc_data_info *info,
                               cdc_binary_pred_fn_t compar, va_list args)
@@ -204,8 +195,9 @@ enum cdc_stat cdc_map_iter_init(struct cdc_map *m, struct cdc_map_iter *it)
 
   it->table = m->table->iter_table;
   it->iter = it->table->alloc();
-  if (!it->iter)
+  if (!it->iter) {
     return CDC_STATUS_BAD_ALLOC;
+  }
 
   return CDC_STATUS_OK;
 }

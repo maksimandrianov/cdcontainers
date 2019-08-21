@@ -21,10 +21,10 @@
 #include "test-common.h"
 
 #include <CUnit/Basic.h>
+#include <assert.h>
 #include <float.h>
 #include <stdarg.h>
-#include <assert.h>
-#include <cdcontainers/heap.h>
+#include "cdcontainers/heap.h"
 
 static int gt_int(const void *a, const void *b)
 {
@@ -76,7 +76,8 @@ void test_heap_top()
   struct cdc_heap *h;
   int a = 1, b = 10, c = 2;
 
-  CU_ASSERT(cdc_heap_ctorl1(&h, NULL, gt_int, &a, &b, &c, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_heap_ctorl1(&h, NULL, gt_int, &a, &b, &c, NULL) ==
+            CDC_STATUS_OK);
   CU_ASSERT(*((int *)cdc_heap_top(h)) == b);
 
   cdc_heap_dtor(h);
@@ -88,7 +89,8 @@ void test_heap_extract_top()
   int a = 0, b = 3, c = 2, d = 1;
   void *elem;
 
-  CU_ASSERT(cdc_heap_ctorl1(&h, NULL, gt_int, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_heap_ctorl1(&h, NULL, gt_int, &a, &b, &c, &d, NULL) ==
+            CDC_STATUS_OK);
 
   elem = cdc_heap_top(h);
   CU_ASSERT(cdc_heap_extract_top(h) == CDC_STATUS_OK);
@@ -146,7 +148,8 @@ void test_heap_change_key()
   int a = 0, b = 4, c = 3, d = 1, n = 2, max_key = 10, min_key = -1;
   void *elem;
 
-  CU_ASSERT(cdc_heap_ctorl1(&h, NULL, gt_int, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_heap_ctorl1(&h, NULL, gt_int, &a, &b, &c, &d, NULL) ==
+            CDC_STATUS_OK);
   CU_ASSERT(cdc_heap_riinsert(h, &n, &iter1) == CDC_STATUS_OK);
 
   CU_ASSERT(cdc_heap_insert(h, &a) == CDC_STATUS_OK);

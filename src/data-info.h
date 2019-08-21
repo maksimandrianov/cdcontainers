@@ -32,8 +32,8 @@ void cdc_di_shared_dtor(struct cdc_data_info *info);
 #define CDC_HAS_CP(dinfo) (dinfo && dinfo->cp)
 #define CDC_HAS_SIZE(dinfo) (dinfo && dinfo->size)
 
-static inline int cdc_eq(int (*pred)(const void *, const void *),
-                         const void *l, const void *r)
+static inline int cdc_eq(int (*pred)(const void *, const void *), const void *l,
+                         const void *r)
 {
   return !(pred(l, r) || pred(r, l));
 }
@@ -44,8 +44,8 @@ static inline int cdc_not_eq(int (*pred)(const void *, const void *),
   return pred(l, r) || pred(r, l);
 }
 
-static inline int cdc_gt(int (*pred)(const void *, const void *),
-                         const void *l, const void *r)
+static inline int cdc_gt(int (*pred)(const void *, const void *), const void *l,
+                         const void *r)
 {
   return pred(r, l);
 }

@@ -6,43 +6,41 @@ find_path(CUNIT_INCLUDE_DIR NAMES CUnit/CUnit.h)
 mark_as_advanced(CUNIT_INCLUDE_DIR)
 
 find_library(CUNIT_LIBRARY NAMES
-        cunit
-        libcunit
-        cunitlib
-)
+  cunit
+  libcunit
+  cunitlib)
 mark_as_advanced(CUNIT_LIBRARY)
 
 include(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(CUnit DEFAULT_MSG CUNIT_LIBRARY CUNIT_INCLUDE_DIR)
 
 if(CUNIT_FOUND)
-        set(CUNIT_LIBRARIES ${CUNIT_LIBRARY})
-        set(CUNIT_INCLUDE_DIRS ${CUNIT_INCLUDE_DIR})
+  set(CUNIT_LIBRARIES ${CUNIT_LIBRARY})
+  set(CUNIT_INCLUDE_DIRS ${CUNIT_INCLUDE_DIR})
 endif(CUNIT_FOUND)
 
 include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_INCLUDE_DIR}")
 
 set(SOURCE
-      test-common.h
-      test-common.c
-      test-vector.c
-      test-list.c
-      test-deque.c
-      test-heap.c
-      test-stackv.c
-      test-queued.c
-      test-priority-queueh.c
-      test-mapa.c
-      test-queued.c
-      test-treap.c
-      test-binomial-heap.c
-      test-pairing-heap.c
-      test-hash-table.c
-      test-splay-tree.c
-      test-avl-tree.c
-      test-main.c
-)
+  test-common.h
+  test-common.c
+  test-vector.c
+  test-list.c
+  test-deque.c
+  test-heap.c
+  test-stackv.c
+  test-queued.c
+  test-priority-queueh.c
+  test-mapa.c
+  test-queued.c
+  test-treap.c
+  test-binomial-heap.c
+  test-pairing-heap.c
+  test-hash-table.c
+  test-splay-tree.c
+  test-avl-tree.c
+  test-main.c)
 
 add_executable(${PROJECT_NAME} ${SOURCE})
 

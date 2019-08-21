@@ -19,18 +19,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 /**
-  * @file
-  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
-  * @brief The cdc_map_table is a map interface
-  */
+ * @file
+ * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
+ * @brief The cdc_map_table is a map interface
+ */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_IMAP_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_IMAP_H
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdarg.h>
-#include <cdcontainers/status.h>
 #include <cdcontainers/common.h>
+#include <cdcontainers/status.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
 /**
  * @brief The cdc_map_iter_table struct
@@ -47,7 +47,7 @@ struct cdc_map_iter_table {
   void *(*key)(void *it);
   void *(*value)(void *it);
   struct cdc_pair (*key_value)(void *it);
-  bool (*eq) (void *it1, void *it2);
+  bool (*eq)(void *it1, void *it2);
 };
 
 /**
@@ -67,15 +67,15 @@ struct cdc_map_table {
   size_t (*size)(void *cntr);
   bool (*empty)(void *cntr);
   void (*clear)(void *cntr);
-  enum cdc_stat (*insert)(void *cntr, void *key, void *value,
-                          void *it, bool *inserted);
+  enum cdc_stat (*insert)(void *cntr, void *key, void *value, void *it,
+                          bool *inserted);
   enum cdc_stat (*insert_or_assign)(void *cntr, void *key, void *value,
                                     void *it, bool *inserted);
   size_t (*erase)(void *cntr, void *key);
   void (*swap)(void *a, void *b);
   void (*begin)(void *cntr, void *it);
   void (*end)(void *cntr, void *it);
-  const struct cdc_map_iter_table* iter_table;
+  const struct cdc_map_iter_table *iter_table;
 };
 
 extern const void *cdc_map_avl;

@@ -23,7 +23,7 @@
 #include <CUnit/Basic.h>
 #include <float.h>
 #include <stdarg.h>
-#include <cdcontainers/list.h>
+#include "cdcontainers/list.h"
 
 static bool list_range_int_eq(struct cdc_list *l, size_t count, ...)
 {
@@ -36,11 +36,9 @@ static bool list_range_int_eq(struct cdc_list *l, size_t count, ...)
   va_start(args, count);
   for (i = 0; i < count; ++i) {
     elem = va_arg(args, int);
-    if ((ret = cdc_list_at(l, i, &val)) != CDC_STATUS_OK)
-      return false;
+    if ((ret = cdc_list_at(l, i, &val)) != CDC_STATUS_OK) return false;
 
-    if (elem != *((int *)val))
-      return false;
+    if (elem != *((int *)val)) return false;
   }
 
   return (*((int *)l->tail->data) == elem) ? true : false;
@@ -70,11 +68,7 @@ static int bin_pred_eq_int(const void *l, const void *r)
   return *((int *)l) == *((int *)r);
 }
 
-static int un_pred_eq_2_int(const void *d)
-{
-  return *((int *)d) == 2;
-}
-
+static int un_pred_eq_2_int(const void *d) { return *((int *)d) == 2; }
 
 void test_list_ctor()
 {
@@ -89,7 +83,7 @@ void test_list_ctor()
 void test_list_ctorl()
 {
   struct cdc_list *l = NULL;
-  int a = 0, b = 1, c = 2, d =3;
+  int a = 0, b = 1, c = 2, d = 3;
 
   CU_ASSERT(cdc_list_ctorl(&l, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
   CU_ASSERT(cdc_list_size(l) == 4);
@@ -570,7 +564,6 @@ void test_list_splice()
   CU_ASSERT(list_range_int_eq(l1, 4, a, a, b, c));
   CU_ASSERT(list_range_int_eq(l2, 4, b, c, d, d));
 
-
   cdc_list_begin(l1, &current);
   cdc_list_begin(l2, &first);
   cdc_list_end(l2, &last);
@@ -580,7 +573,6 @@ void test_list_splice()
   CU_ASSERT(cdc_list_size(l1) == 8);
   CU_ASSERT(cdc_list_size(l2) == 0);
   CU_ASSERT(list_range_int_eq(l1, 8, b, c, d, d, a, a, b, c));
-
 
   cdc_list_end(l1, &last);
   cdc_list_iter_prev(&last);
@@ -606,7 +598,6 @@ void test_list_splice()
   CU_ASSERT(cdc_list_size(l1) == 8);
   CU_ASSERT(cdc_list_size(l2) == 0);
   CU_ASSERT(list_range_int_eq(l1, 8, a, a, b, c, b, c, d, d));
-
 
   cdc_list_begin(l1, &first);
   cdc_list_iter_next(&first);
@@ -690,7 +681,6 @@ void test_list_merge()
   CU_ASSERT(cdc_list_ctorl(&l1, NULL, &a, &c, &e, &g, NULL) == CDC_STATUS_OK);
   CU_ASSERT(cdc_list_ctorl(&l2, NULL, &b, &d, &f, &h, NULL) == CDC_STATUS_OK);
 
-
   cdc_list_cmerge(l1, l2, cmp_int);
 
   CU_ASSERT(cdc_list_size(l1) == 8);
@@ -700,7 +690,6 @@ void test_list_merge()
 
   cdc_list_dtor(l1);
   cdc_list_dtor(l2);
-
 
   CU_ASSERT(cdc_list_ctorl(&l1, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
   CU_ASSERT(cdc_list_ctorl(&l2, NULL, &e, &f, &g, &h, NULL) == CDC_STATUS_OK);
@@ -715,8 +704,7 @@ void test_list_merge()
   cdc_list_dtor(l1);
   cdc_list_dtor(l2);
 
-
-  CU_ASSERT(cdc_list_ctorl(&l1, NULL, &e, &f, &g, &h,  NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_list_ctorl(&l1, NULL, &e, &f, &g, &h, NULL) == CDC_STATUS_OK);
   CU_ASSERT(cdc_list_ctorl(&l2, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
 
   cdc_list_cmerge(l1, l2, cmp_int);
@@ -734,7 +722,8 @@ void test_list_erase_if()
   struct cdc_list *l;
   int a = 0, b = 1, c = 2, d = 3;
 
-  CU_ASSERT(cdc_list_ctorl(&l, NULL, &c, &a, &b, &c, &c, &c, &d, &c, NULL) == CDC_STATUS_OK);
+  CU_ASSERT(cdc_list_ctorl(&l, NULL, &c, &a, &b, &c, &c, &c, &d, &c, NULL) ==
+            CDC_STATUS_OK);
 
   cdc_list_erase_if(l, un_pred_eq_2_int);
 
