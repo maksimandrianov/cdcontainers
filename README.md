@@ -24,6 +24,67 @@ and following interfaces:
 Example of using a vector from a library cdcontainers:
 
 ```c
+// cdc_map_t example usage:
+#define CDC_USE_SHORT_NAMES  // for short names (functions and structs without prefix cdc_*)
+#include <cdcontainers/map.h>
+#include <cdcontainers/casts.h>
+#include <stdio.h>
+
+static int lt_int(const void *l, const void *r)
+{
+  return l < r;
+}
+
+int main(int argc, char** argv)
+{
+  map_t *m = NULL;
+
+  map_ctor1(cdc_map_avl, &m, NULL /* info */, lt_int);
+  for (int i = 1; i < 10; ++i)
+    map_insert(m, CDC_INT_TO_PTR(i), CDC_INT_TO_PTR(i * 10), NULL /* it */, NULL /* inserted */);
+
+  map_iter_t it1;
+  map_iter_t it2;
+
+  map_iter_init(m, &it1);
+  map_iter_init(m, &it2);
+
+  map_begin(m, &it1);
+  map_end(m, &it2);
+
+  while (!map_iter_is_eq(&it1, &it2)) {
+    printf("%i: %i\n", CDC_PTR_TO_INT(map_iter_key(&it1)), CDC_PTR_TO_INT(map_iter_value(&it1)));
+    map_iter_next(&it1);
+  }
+
+  printf("\n");
+
+  map_find(m, CDC_INT_TO_PTR(4), &it1);
+  printf("Found %i: %i\n", CDC_PTR_TO_INT(map_iter_key(&it1)), CDC_PTR_TO_INT(map_iter_value(&it1)));
+
+  map_iter_free(&it1);
+  map_iter_free(&it2);
+  map_dtor(m);
+  return 0;
+}
+```
+The output of this program is the following:
+```
+1: 10
+2: 20
+3: 30
+4: 40
+5: 50
+6: 60
+7: 70
+8: 80
+9: 90
+
+Found 4: 40
+```
+
+```c
+// cdc_vector_t example usage:
 #define CDC_USE_SHORT_NAMES  // for short names (functions and structs without prefix cdc_*)
 #include <cdcontainers/vector.h>
 #include <cdcontainers/casts.h>
@@ -31,32 +92,26 @@ Example of using a vector from a library cdcontainers:
 
 int main(int argc, char** argv)
 {
-    vector_t *v;
-    size_t i;
+  vector_t *v = NULL;
+  vector_ctor(&v, NULL /* info */);
 
-    if (vector_ctor(&v, NULL) != CDC_STATUS_OK)
-        /* error handling */;
+  vector_push_back(v, CDC_INT_TO_PTR(7));
+  vector_push_back(v, CDC_INT_TO_PTR(8));
 
-    if (vector_push_back(v, CDC_INT_TO_PTR(7)) != CDC_STATUS_OK)
-        /* error handling */;
+  for (size_t i = 0; i < vector_size(v); ++i)
+    printf("%i ", CDC_PTR_TO_INT(vector_get(v, i)));
 
-    if (vector_push_back(v, CDC_INT_TO_PTR(8)) != CDC_STATUS_OK)
-        /* error handling */;
+  printf("\n");
 
-    for (i = 0; i < vector_size(v); ++i)
-        printf("%i ", CDC_PTR_TO_INT(vector_get(v, i)));
-
-    printf("\n");
-
-    vector_dtor(v);
-    
-    return 0;
+  vector_dtor(v);
+  return 0;
 }
 ```
 
-The output of this program is the following
-
-    $ 7 8
+The output of this program is the following:
+```
+7 8
+```
 
 ### Installation - Unix
 
