@@ -31,7 +31,7 @@ void cdc_print_stat(enum cdc_stat s)
                                        "CDC_STATUS_ALREADY_EXISTS",
                                        "CDC_STATUS_NOT_FOUND",
                                        "CDC_STATUS_UNKN"};
-  if (s < CDC_STATUS_OK && s > CDC_STATUS_UNKN) {
+  if (s < CDC_STATUS_OK || s > CDC_STATUS_UNKN) {
     s = CDC_STATUS_UNKN;
   }
 
