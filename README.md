@@ -1,6 +1,6 @@
-# cdcontainers - data containers for C
+# cdcontainers - data containers and data structures for C
 
-Library of data containers for C programming language. The cdcontainers interface is similar to C ++ STL.
+Library of data containers and data structures for C programming language. The cdcontainers interface is similar to C ++ STL.
 The library contains the following data containers:
 * cdc_vector - dynamic array
 * cdc_list - doubly linked list
