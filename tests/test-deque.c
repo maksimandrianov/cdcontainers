@@ -20,13 +20,15 @@
 // IN THE SOFTWARE.
 #include "test-common.h"
 
-#include <CUnit/Basic.h>
+#include "cdcontainers/casts.h"
+#include "cdcontainers/deque.h"
+
 #include <assert.h>
 #include <float.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include "cdcontainers/casts.h"
-#include "cdcontainers/deque.h"
+
+#include <CUnit/Basic.h>
 
 static bool deque_range_int_eq(struct cdc_deque *d, size_t count, ...)
 {

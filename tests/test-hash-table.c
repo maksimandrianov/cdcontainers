@@ -20,13 +20,15 @@
 // IN THE SOFTWARE.
 #include "test-common.h"
 
-#include <CUnit/Basic.h>
+#include "cdcontainers/casts.h"
+#include "cdcontainers/hash-table.h"
+
 #include <assert.h>
 #include <float.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include "cdcontainers/casts.h"
-#include "cdcontainers/hash-table.h"
+
+#include <CUnit/Basic.h>
 
 static struct cdc_pair a = {CDC_INT_TO_PTR(0), CDC_INT_TO_PTR(0)};
 static struct cdc_pair b = {CDC_INT_TO_PTR(1), CDC_INT_TO_PTR(1)};

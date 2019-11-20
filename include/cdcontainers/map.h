@@ -26,10 +26,11 @@
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_MAP_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_MAP_H
 
-#include <assert.h>
 #include <cdcontainers/common.h>
 #include <cdcontainers/interfaces/imap.h>
 #include <cdcontainers/status.h>
+
+#include <assert.h>
 #include <stdarg.h>
 #include <stdbool.h>
 

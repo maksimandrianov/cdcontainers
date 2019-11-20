@@ -20,11 +20,12 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/pairing-heap.h"
 
+#include "data-info.h"
+
 #include <assert.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include "data-info.h"
 
 static void free_node(struct cdc_pairing_heap *h,
                       struct cdc_pairing_heap_node *node)

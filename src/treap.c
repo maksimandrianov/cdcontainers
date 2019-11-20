@@ -20,12 +20,13 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/treap.h"
 
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
 #include "cdcontainers/global.h"
 #include "data-info.h"
 #include "tree.h"
+
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 
 struct node_pair {
   struct cdc_treap_node *l, *r;

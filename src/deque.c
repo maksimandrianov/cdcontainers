@@ -20,11 +20,12 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/deque.h"
 
+#include "data-info.h"
+
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include "data-info.h"
 
 #define CDC_DEQUE_MIN_CAPACITY 4  // must be pow 2
 #define CDC_DEQUE_COPACITY_SHIFT 1

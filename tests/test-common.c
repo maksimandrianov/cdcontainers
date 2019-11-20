@@ -20,8 +20,9 @@
 // IN THE SOFTWARE.
 #include "test-common.h"
 
-#include <CUnit/Basic.h>
 #include "cdcontainers/casts.h"
+
+#include <CUnit/Basic.h>
 
 void test_ptr_float_cast()
 {

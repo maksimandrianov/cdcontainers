@@ -20,9 +20,10 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/list.h"
 
+#include "data-info.h"
+
 #include <stdint.h>
 #include <string.h>
-#include "data-info.h"
 
 static void free_node(struct cdc_list *l, struct cdc_list_node *node,
                       bool must_free)

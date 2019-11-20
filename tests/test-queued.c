@@ -20,10 +20,12 @@
 // IN THE SOFTWARE.
 #include "test-common.h"
 
-#include <CUnit/Basic.h>
+#include "cdcontainers/queue.h"
+
 #include <float.h>
 #include <stdarg.h>
-#include "cdcontainers/queue.h"
+
+#include <CUnit/Basic.h>
 
 void test_queued_ctor()
 {

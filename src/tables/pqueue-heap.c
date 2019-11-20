@@ -18,9 +18,10 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
-#include <assert.h>
 #include "cdcontainers/heap.h"
 #include "cdcontainers/interfaces/ipqueue.h"
+
+#include <assert.h>
 
 static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info,
                           cdc_binary_pred_fn_t compar)

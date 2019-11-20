@@ -19,6 +19,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 #include "cdcontainers/priority-queue.h"
+
 #include "data-info.h"
 
 enum cdc_stat cdc_priority_queue_ctor1(

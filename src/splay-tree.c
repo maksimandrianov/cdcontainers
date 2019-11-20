@@ -20,11 +20,12 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/splay-tree.h"
 
+#include "data-info.h"
+#include "tree.h"
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include "data-info.h"
-#include "tree.h"
 
 struct node_pair {
   struct cdc_splay_tree_node *l, *r;

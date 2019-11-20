@@ -26,9 +26,10 @@
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_TREAP_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_TREAP_H
 
-#include <assert.h>
 #include <cdcontainers/common.h>
 #include <cdcontainers/status.h>
+
+#include <assert.h>
 #include <stdarg.h>
 #include <stdbool.h>
 

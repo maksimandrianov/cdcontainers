@@ -20,10 +20,12 @@
 // IN THE SOFTWARE.
 #include "test-common.h"
 
-#include <CUnit/Basic.h>
+#include "cdcontainers/vector.h"
+
 #include <float.h>
 #include <stdarg.h>
-#include "cdcontainers/vector.h"
+
+#include <CUnit/Basic.h>
 
 static bool vector_range_int_eq(struct cdc_vector *v, size_t count, ...)
 {

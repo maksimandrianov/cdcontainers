@@ -20,10 +20,12 @@
 // IN THE SOFTWARE.
 #include "test-common.h"
 
-#include <CUnit/Basic.h>
+#include "cdcontainers/list.h"
+
 #include <float.h>
 #include <stdarg.h>
-#include "cdcontainers/list.h"
+
+#include <CUnit/Basic.h>
 
 static bool list_range_int_eq(struct cdc_list *l, size_t count, ...)
 {

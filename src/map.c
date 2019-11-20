@@ -19,6 +19,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 #include "cdcontainers/map.h"
+
 #include "data-info.h"
 
 enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table,

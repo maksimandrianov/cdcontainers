@@ -20,12 +20,14 @@
 // IN THE SOFTWARE.
 #include "test-common.h"
 
-#include <CUnit/Basic.h>
+#include "cdcontainers/binomial-heap.h"
+#include "cdcontainers/global.h"
+
 #include <assert.h>
 #include <float.h>
 #include <stdarg.h>
-#include "cdcontainers/binomial-heap.h"
-#include "cdcontainers/global.h"
+
+#include <CUnit/Basic.h>
 
 static size_t count_free = 0;
 

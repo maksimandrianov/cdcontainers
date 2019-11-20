@@ -20,11 +20,13 @@
 // IN THE SOFTWARE.
 #include "test-common.h"
 
-#include <CUnit/Basic.h>
+#include "cdcontainers/heap.h"
+
 #include <assert.h>
 #include <float.h>
 #include <stdarg.h>
-#include "cdcontainers/heap.h"
+
+#include <CUnit/Basic.h>
 
 static int gt_int(const void *a, const void *b)
 {

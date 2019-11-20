@@ -21,8 +21,9 @@
 #ifndef CDCONTAINERS_SRC_TREE_H
 #define CDCONTAINERS_SRC_TREE_H
 
-#include <stddef.h>
 #include "data-info.h"
+
+#include <stddef.h>
 
 #define MAKE_FIND_NODE(T)                                         \
   static T find_node(T node, void *key, cdc_binary_pred_fn_t cmp) \

@@ -20,12 +20,13 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/hash-table.h"
 
+#include "data-info.h"
+
 #include <assert.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "data-info.h"
 
 #define HASH_TABLE_MIN_CAPACITY 4  // must be pow 2
 #define HASH_TABLE_COPACITY_SHIFT 1

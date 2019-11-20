@@ -20,12 +20,12 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/avl-tree.h"
 
+#include "data-info.h"
+#include "tree.h"
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "data-info.h"
-#include "tree.h"
 
 MAKE_FIND_NODE(struct cdc_avl_tree_node *)
 MAKE_MIN_NODE(struct cdc_avl_tree_node *)
