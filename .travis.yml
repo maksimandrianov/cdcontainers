@@ -1,0 +1,207 @@
+language: c
+
+matrix:
+  include:
+    - os: linux
+      dist: bionic
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: ['gcc-4.8', 'libcunit1-dev']
+      env:
+        - CC=gcc-4.8
+
+    - os: linux
+      dist: bionic
+      compiler: gcc
+      addons:
+        apt:
+          sources: 
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: ['gcc-5', 'libcunit1-dev']
+      env:
+        - CC=gcc-5
+
+    - os: linux
+      dist: bionic
+      compiler: gcc
+      addons:
+        apt:
+          sources: 
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: ['gcc-6', 'libcunit1-dev']
+      env:
+        - CC=gcc-6
+  
+    - os: linux
+      dist: bionic
+      compiler: gcc
+      addons:
+        apt:
+          sources: 
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: ['gcc-7', 'libcunit1-dev']
+      env:
+        - CC=gcc-7
+
+    - os: linux
+      dist: bionic
+      compiler: gcc
+      addons:
+        apt:
+          sources: 
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: ['gcc-8', 'libcunit1-dev']
+      env:
+        - CC=gcc-8
+
+    - os: linux
+      dist: bionic
+      compiler: gcc
+      addons:
+        apt:
+          sources: 
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: ['gcc-9', 'libcunit1-dev']
+      env:
+        - CC=gcc-9
+
+      dist: xenail  
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - sourceline: "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-3.8 main" 
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: ['clang-3.8', 'libcunit1-dev']
+      env:
+        - CC=clang-3.8
+
+    - os: linux
+      dist: xenail  
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - sourceline: "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-3.9 main" 
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: ['clang-3.9', 'libcunit1-dev']
+      env:
+        - CC=clang-3.9
+
+    - os: linux
+      dist: xenail  
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - sourceline: "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-4.0 main" 
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: ['clang-4.0', 'libcunit1-dev']
+      env:
+        - CC=clang-4.0
+
+    - os: linux
+      dist: xenail  
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - sourceline: "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" 
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: ['clang-5.0', 'libcunit1-dev']
+      env:
+        - CC=clang-5.0
+
+    - os: linux
+      dist: xenail  
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - sourceline: "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-6.0 main" 
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: ['clang-6.0', 'libcunit1-dev']
+      env:
+        - CC=clang-6.0
+
+    - os: linux
+      dist: xenail  
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - sourceline: "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7 main" 
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: ['clang-7', 'libcunit1-dev']
+      env:
+        - CC=clang-7
+
+    - os: linux
+      dist: xenail  
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - sourceline: "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-8 main" 
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: ['clang-8', 'libcunit1-dev']
+      env:
+        - CC=clang-8
+
+    - os: linux
+      dist: xenail  
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - sourceline: "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main" 
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: ['clang-9', 'libcunit1-dev']
+      env:
+        - CC=clang-9
+
+    - os: osx
+      osx_image: xcode6.4
+      compiler: clang
+      before_install: brew update && brew install cunit
+      env:
+        - CC=clang
+
+    - os: osx
+      osx_image: xcode7.3
+      compiler: clang
+      before_install: brew update && brew install cunit
+      env:
+        - CC=clang
+
+    - os: osx
+      osx_image: xcode8.3
+      compiler: clang
+      before_install: brew update && brew install cunit
+      env:
+        - CC=clang
+
+    - os: osx
+      osx_image: xcode9.4
+      compiler: clang
+      before_install: brew update && brew install cunit
+      env:
+        - CC=clang
+
+script:
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make
+  - make tests && make check
