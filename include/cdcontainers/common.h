@@ -26,7 +26,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#define CDC_END CDC_INT_TO_PTR(UINTPTR_MAX)
+#define CDC_END CDC_FROM_INT(UINTPTR_MAX)
 
 #define CDC_MAX(a, b) ((a) > (b) ? (a) : (b))
 

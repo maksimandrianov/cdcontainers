@@ -32,13 +32,13 @@
 
 static int gt(const void *a, const void *b)
 {
-  return CDC_PTR_TO_INT(a) > CDC_PTR_TO_INT(b);
+  return CDC_TO_INT(a) > CDC_TO_INT(b);
 }
 
 static inline void heap_int_print(struct cdc_heap *h)
 {
   for (size_t i = 0; i < cdc_heap_size(h); ++i) {
-    printf("%d ", CDC_PTR_TO_INT(cdc_vector_get(h->vector, i)));
+    printf("%d ", CDC_TO_INT(cdc_vector_get(h->vector, i)));
   }
 }
 
@@ -59,15 +59,15 @@ void test_heap_ctorl()
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.cmp = gt;
   CU_ASSERT_EQUAL(
-      cdc_heap_ctorl(&h, &info, CDC_INT_TO_PTR(a), CDC_INT_TO_PTR(b), CDC_END),
+      cdc_heap_ctorl(&h, &info, CDC_FROM_INT(a), CDC_FROM_INT(b), CDC_END),
       CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_heap_size(h), 2);
 
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_top(h)), b);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), b);
   CU_ASSERT_EQUAL(cdc_heap_extract_top(h), CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_heap_size(h), 1);
 
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_top(h)), a);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), a);
   CU_ASSERT_EQUAL(cdc_heap_extract_top(h), CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_heap_size(h), 0);
   cdc_heap_dtor(h);
@@ -79,10 +79,10 @@ void test_heap_top()
   int a = 1, b = 10, c = 2;
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.cmp = gt;
-  CU_ASSERT_EQUAL(cdc_heap_ctorl(&h, &info, CDC_INT_TO_PTR(a),
-                                 CDC_INT_TO_PTR(b), CDC_INT_TO_PTR(c), CDC_END),
+  CU_ASSERT_EQUAL(cdc_heap_ctorl(&h, &info, CDC_FROM_INT(a), CDC_FROM_INT(b),
+                                 CDC_FROM_INT(c), CDC_END),
                   CDC_STATUS_OK);
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_top(h)), b);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), b);
   cdc_heap_dtor(h);
 }
 
@@ -92,24 +92,23 @@ void test_heap_extract_top()
   int a = 0, b = 3, c = 2, d = 1;
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.cmp = gt;
-  CU_ASSERT_EQUAL(
-      cdc_heap_ctorl(&h, &info, CDC_INT_TO_PTR(a), CDC_INT_TO_PTR(b),
-                     CDC_INT_TO_PTR(c), CDC_INT_TO_PTR(d), CDC_END),
-      CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_heap_ctorl(&h, &info, CDC_FROM_INT(a), CDC_FROM_INT(b),
+                                 CDC_FROM_INT(c), CDC_FROM_INT(d), CDC_END),
+                  CDC_STATUS_OK);
 
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_top(h)), b);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), b);
   CU_ASSERT_EQUAL(cdc_heap_extract_top(h), CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_heap_size(h), 3);
 
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_top(h)), c);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), c);
   CU_ASSERT_EQUAL(cdc_heap_extract_top(h), CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_heap_size(h), 2);
 
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_top(h)), d);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), d);
   CU_ASSERT_EQUAL(cdc_heap_extract_top(h), CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_heap_size(h), 1);
 
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_top(h)), a);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), a);
   CU_ASSERT_EQUAL(cdc_heap_extract_top(h), CDC_STATUS_OK);
   CU_ASSERT(cdc_heap_empty(h));
   cdc_heap_dtor(h);
@@ -123,17 +122,17 @@ void test_heap_insert()
   info.cmp = gt;
   CU_ASSERT_EQUAL(cdc_heap_ctor(&h, &info), CDC_STATUS_OK);
 
-  CU_ASSERT_EQUAL(cdc_heap_insert(h, CDC_INT_TO_PTR(a)), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_heap_insert(h, CDC_FROM_INT(a)), CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_heap_size(h), 1);
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_top(h)), a);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), a);
 
-  CU_ASSERT_EQUAL(cdc_heap_insert(h, CDC_INT_TO_PTR(c)), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_heap_insert(h, CDC_FROM_INT(c)), CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_heap_size(h), 2);
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_top(h)), c);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), c);
 
-  CU_ASSERT_EQUAL(cdc_heap_insert(h, CDC_INT_TO_PTR(b)), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_heap_insert(h, CDC_FROM_INT(b)), CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_heap_size(h), 3);
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_top(h)), c);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), c);
   cdc_heap_dtor(h);
 }
 
@@ -145,28 +144,26 @@ void test_heap_change_key()
   int n = 2, max_key = 10, min_key = -1;
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.cmp = gt;
-  CU_ASSERT_EQUAL(
-      cdc_heap_ctorl(&h, &info, CDC_INT_TO_PTR(a), CDC_INT_TO_PTR(b),
-                     CDC_INT_TO_PTR(c), CDC_INT_TO_PTR(d), CDC_END),
-      CDC_STATUS_OK);
-
-  CU_ASSERT_EQUAL(cdc_heap_riinsert(h, CDC_INT_TO_PTR(n), &iter1),
+  CU_ASSERT_EQUAL(cdc_heap_ctorl(&h, &info, CDC_FROM_INT(a), CDC_FROM_INT(b),
+                                 CDC_FROM_INT(c), CDC_FROM_INT(d), CDC_END),
                   CDC_STATUS_OK);
 
-  CU_ASSERT_EQUAL(cdc_heap_insert(h, CDC_INT_TO_PTR(a)), CDC_STATUS_OK);
-  CU_ASSERT_EQUAL(cdc_heap_insert(h, CDC_INT_TO_PTR(c)), CDC_STATUS_OK);
-  CU_ASSERT_EQUAL(cdc_heap_insert(h, CDC_INT_TO_PTR(b)), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_heap_riinsert(h, CDC_FROM_INT(n), &iter1), CDC_STATUS_OK);
+
+  CU_ASSERT_EQUAL(cdc_heap_insert(h, CDC_FROM_INT(a)), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_heap_insert(h, CDC_FROM_INT(c)), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_heap_insert(h, CDC_FROM_INT(b)), CDC_STATUS_OK);
   CU_ASSERT(cdc_heap_is_heap(h));
 
-  cdc_heap_change_key(h, &iter1, CDC_INT_TO_PTR(max_key));
+  cdc_heap_change_key(h, &iter1, CDC_FROM_INT(max_key));
   CU_ASSERT(cdc_heap_is_heap(h));
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_top(h)), max_key);
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_iter_data(&iter1)), max_key);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), max_key);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_iter_data(&iter1)), max_key);
 
-  cdc_heap_change_key(h, &iter1, CDC_INT_TO_PTR(min_key));
+  cdc_heap_change_key(h, &iter1, CDC_FROM_INT(min_key));
   CU_ASSERT(cdc_heap_is_heap(h));
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_top(h)), b);
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_iter_data(&iter1)), min_key);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), b);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_iter_data(&iter1)), min_key);
   cdc_heap_dtor(h);
 }
 
@@ -177,16 +174,16 @@ void test_heap_merge()
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.cmp = gt;
 
-  CU_ASSERT_EQUAL(cdc_heap_ctorl(&v, &info, CDC_INT_TO_PTR(b), CDC_END),
+  CU_ASSERT_EQUAL(cdc_heap_ctorl(&v, &info, CDC_FROM_INT(b), CDC_END),
                   CDC_STATUS_OK);
   CU_ASSERT_EQUAL(
-      cdc_heap_ctorl(&w, &info, CDC_INT_TO_PTR(a), CDC_INT_TO_PTR(c), CDC_END),
+      cdc_heap_ctorl(&w, &info, CDC_FROM_INT(a), CDC_FROM_INT(c), CDC_END),
       CDC_STATUS_OK);
 
   cdc_heap_merge(v, w);
   CU_ASSERT(cdc_heap_is_heap(v));
   CU_ASSERT_EQUAL(cdc_heap_size(v), 3);
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_top(v)), 4);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(v)), 4);
   CU_ASSERT(cdc_heap_empty(w));
   cdc_heap_dtor(v);
   cdc_heap_dtor(w);
@@ -199,17 +196,17 @@ void test_heap_swap()
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.cmp = gt;
 
-  CU_ASSERT_EQUAL(cdc_heap_ctorl(&v, &info, CDC_INT_TO_PTR(b), CDC_END),
+  CU_ASSERT_EQUAL(cdc_heap_ctorl(&v, &info, CDC_FROM_INT(b), CDC_END),
                   CDC_STATUS_OK);
   CU_ASSERT_EQUAL(
-      cdc_heap_ctorl(&w, &info, CDC_INT_TO_PTR(a), CDC_INT_TO_PTR(c), CDC_END),
+      cdc_heap_ctorl(&w, &info, CDC_FROM_INT(a), CDC_FROM_INT(c), CDC_END),
       CDC_STATUS_OK);
 
   cdc_heap_swap(v, w);
   CU_ASSERT_EQUAL(cdc_heap_size(v), 2);
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_top(v)), c);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(v)), c);
   CU_ASSERT_EQUAL(cdc_heap_size(w), 1);
-  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_heap_top(w)), b);
+  CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(w)), b);
   cdc_heap_dtor(v);
   cdc_heap_dtor(w);
 }

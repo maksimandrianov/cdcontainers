@@ -28,18 +28,18 @@
 
 #include <CUnit/Basic.h>
 
-static struct cdc_pair a = {CDC_INT_TO_PTR(0), CDC_INT_TO_PTR(0)};
-static struct cdc_pair b = {CDC_INT_TO_PTR(1), CDC_INT_TO_PTR(1)};
-static struct cdc_pair c = {CDC_INT_TO_PTR(2), CDC_INT_TO_PTR(2)};
-static struct cdc_pair d = {CDC_INT_TO_PTR(3), CDC_INT_TO_PTR(3)};
-static struct cdc_pair e = {CDC_INT_TO_PTR(4), CDC_INT_TO_PTR(4)};
-static struct cdc_pair f = {CDC_INT_TO_PTR(5), CDC_INT_TO_PTR(5)};
-static struct cdc_pair g = {CDC_INT_TO_PTR(6), CDC_INT_TO_PTR(6)};
-static struct cdc_pair h = {CDC_INT_TO_PTR(7), CDC_INT_TO_PTR(7)};
+static struct cdc_pair a = {CDC_FROM_INT(0), CDC_FROM_INT(0)};
+static struct cdc_pair b = {CDC_FROM_INT(1), CDC_FROM_INT(1)};
+static struct cdc_pair c = {CDC_FROM_INT(2), CDC_FROM_INT(2)};
+static struct cdc_pair d = {CDC_FROM_INT(3), CDC_FROM_INT(3)};
+static struct cdc_pair e = {CDC_FROM_INT(4), CDC_FROM_INT(4)};
+static struct cdc_pair f = {CDC_FROM_INT(5), CDC_FROM_INT(5)};
+static struct cdc_pair g = {CDC_FROM_INT(6), CDC_FROM_INT(6)};
+static struct cdc_pair h = {CDC_FROM_INT(7), CDC_FROM_INT(7)};
 
 static int lt(const void *l, const void *r)
 {
-  return CDC_PTR_TO_INT(l) < CDC_PTR_TO_INT(r);
+  return CDC_TO_INT(l) < CDC_TO_INT(r);
 }
 
 static bool map_key_int_eq(struct cdc_map *t, size_t count, ...)
@@ -98,7 +98,7 @@ void test_map_get()
                   CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_map_size(m), 8);
   CU_ASSERT(map_key_int_eq(m, 8, &a, &b, &c, &d, &g, &h, &e, &f));
-  CU_ASSERT_EQUAL(cdc_map_get(m, CDC_INT_TO_PTR(10), &value),
+  CU_ASSERT_EQUAL(cdc_map_get(m, CDC_FROM_INT(10), &value),
                   CDC_STATUS_NOT_FOUND);
   cdc_map_dtor(m);
 }
@@ -114,7 +114,7 @@ void test_map_count()
   CU_ASSERT_EQUAL(cdc_map_size(m), 2);
   CU_ASSERT_EQUAL(cdc_map_count(m, a.first), 1);
   CU_ASSERT_EQUAL(cdc_map_count(m, b.first), 1);
-  CU_ASSERT_EQUAL(cdc_map_count(m, CDC_INT_TO_PTR(10)), 0);
+  CU_ASSERT_EQUAL(cdc_map_count(m, CDC_FROM_INT(10)), 0);
   cdc_map_dtor(m);
 }
 
@@ -173,14 +173,14 @@ void test_map_insert()
   CU_ASSERT_EQUAL(cdc_map_ctor(cdc_map_avl, &m, &info), CDC_STATUS_OK);
   for (int i = 0; i < count; ++i) {
     CU_ASSERT_EQUAL(
-        cdc_map_insert(m, CDC_INT_TO_PTR(i), CDC_INT_TO_PTR(i), NULL, NULL),
+        cdc_map_insert(m, CDC_FROM_INT(i), CDC_FROM_INT(i), NULL, NULL),
         CDC_STATUS_OK);
   }
 
   CU_ASSERT_EQUAL(cdc_map_size(m), count);
   for (int i = 0; i < count; ++i) {
-    CU_ASSERT_EQUAL(cdc_map_get(m, CDC_INT_TO_PTR(i), &val), CDC_STATUS_OK);
-    CU_ASSERT_EQUAL(CDC_PTR_TO_INT(val), i);
+    CU_ASSERT_EQUAL(cdc_map_get(m, CDC_FROM_INT(i), &val), CDC_STATUS_OK);
+    CU_ASSERT_EQUAL(CDC_TO_INT(val), i);
   }
   cdc_map_dtor(m);
 }

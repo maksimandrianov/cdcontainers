@@ -43,7 +43,7 @@ int main(int argc, char** argv)
 
   map_ctor1(cdc_map_avl, &m, NULL /* info */, lt_int);
   for (int i = 1; i < 10; ++i)
-    map_insert(m, CDC_INT_TO_PTR(i), CDC_INT_TO_PTR(i * 10), NULL /* it */, NULL /* inserted */);
+    map_insert(m, CDC_FROM_INT(i), CDC_FROM_INT(i * 10), NULL /* it */, NULL /* inserted */);
 
   map_iter_t it1;
   map_iter_t it2;
@@ -55,14 +55,14 @@ int main(int argc, char** argv)
   map_end(m, &it2);
 
   while (!map_iter_is_eq(&it1, &it2)) {
-    printf("%i: %i\n", CDC_PTR_TO_INT(map_iter_key(&it1)), CDC_PTR_TO_INT(map_iter_value(&it1)));
+    printf("%i: %i\n", CDC_TO_INT(map_iter_key(&it1)), CDC_TO_INT(map_iter_value(&it1)));
     map_iter_next(&it1);
   }
 
   printf("\n");
 
-  map_find(m, CDC_INT_TO_PTR(4), &it1);
-  printf("Found %i: %i\n", CDC_PTR_TO_INT(map_iter_key(&it1)), CDC_PTR_TO_INT(map_iter_value(&it1)));
+  map_find(m, CDC_INT_TO(4), &it1);
+  printf("Found %i: %i\n", CDC_TO_INT(map_iter_key(&it1)), CDC_TO_INT(map_iter_value(&it1)));
 
   map_iter_free(&it1);
   map_iter_free(&it2);
@@ -97,11 +97,11 @@ int main(int argc, char** argv)
   vector_t *v = NULL;
   vector_ctor(&v, NULL /* info */);
 
-  vector_push_back(v, CDC_INT_TO_PTR(7));
-  vector_push_back(v, CDC_INT_TO_PTR(8));
+  vector_push_back(v, CDC_FROM_INT(7));
+  vector_push_back(v, CDC_FROM_INT(8));
 
   for (size_t i = 0; i < vector_size(v); ++i)
-    printf("%i ", CDC_PTR_TO_INT(vector_get(v, i)));
+    printf("%i ", CDC_TO_INT(vector_get(v, i)));
 
   printf("\n");
 

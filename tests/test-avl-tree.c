@@ -29,18 +29,18 @@
 
 #include <CUnit/Basic.h>
 
-static struct cdc_pair a = {CDC_INT_TO_PTR(0), CDC_INT_TO_PTR(0)};
-static struct cdc_pair b = {CDC_INT_TO_PTR(1), CDC_INT_TO_PTR(1)};
-static struct cdc_pair c = {CDC_INT_TO_PTR(2), CDC_INT_TO_PTR(2)};
-static struct cdc_pair d = {CDC_INT_TO_PTR(3), CDC_INT_TO_PTR(3)};
-static struct cdc_pair e = {CDC_INT_TO_PTR(4), CDC_INT_TO_PTR(4)};
-static struct cdc_pair f = {CDC_INT_TO_PTR(5), CDC_INT_TO_PTR(5)};
-static struct cdc_pair g = {CDC_INT_TO_PTR(6), CDC_INT_TO_PTR(6)};
-static struct cdc_pair h = {CDC_INT_TO_PTR(7), CDC_INT_TO_PTR(7)};
+static struct cdc_pair a = {CDC_FROM_INT(0), CDC_FROM_INT(0)};
+static struct cdc_pair b = {CDC_FROM_INT(1), CDC_FROM_INT(1)};
+static struct cdc_pair c = {CDC_FROM_INT(2), CDC_FROM_INT(2)};
+static struct cdc_pair d = {CDC_FROM_INT(3), CDC_FROM_INT(3)};
+static struct cdc_pair e = {CDC_FROM_INT(4), CDC_FROM_INT(4)};
+static struct cdc_pair f = {CDC_FROM_INT(5), CDC_FROM_INT(5)};
+static struct cdc_pair g = {CDC_FROM_INT(6), CDC_FROM_INT(6)};
+static struct cdc_pair h = {CDC_FROM_INT(7), CDC_FROM_INT(7)};
 
 static int lt(const void *l, const void *r)
 {
-  return CDC_PTR_TO_INT(l) < CDC_PTR_TO_INT(r);
+  return CDC_TO_INT(l) < CDC_TO_INT(r);
 }
 
 static bool avl_tree_key_int_eq(struct cdc_avl_tree *t, size_t count, ...)
@@ -67,7 +67,7 @@ static inline void avl_tree_inorder_print_int(struct cdc_avl_tree_node *node)
     avl_tree_inorder_print_int(node->left);
   }
 
-  printf("%d ", CDC_PTR_TO_INT(node->key));
+  printf("%d ", CDC_TO_INT(node->key));
 
   if (node->right) {
     avl_tree_inorder_print_int(node->right);
@@ -111,7 +111,7 @@ void test_avl_tree_get()
   CU_ASSERT(avl_tree_key_int_eq(t, 8, &a, &b, &c, &d, &g, &h, &e, &f));
 
   void *value = NULL;
-  CU_ASSERT_EQUAL(cdc_avl_tree_get(t, CDC_INT_TO_PTR(10), &value),
+  CU_ASSERT_EQUAL(cdc_avl_tree_get(t, CDC_FROM_INT(10), &value),
                   CDC_STATUS_NOT_FOUND);
   cdc_avl_tree_dtor(t);
 }
@@ -127,7 +127,7 @@ void test_avl_tree_count()
   CU_ASSERT_EQUAL(cdc_avl_tree_size(t), 2);
   CU_ASSERT_EQUAL(cdc_avl_tree_count(t, a.first), 1);
   CU_ASSERT_EQUAL(cdc_avl_tree_count(t, b.first), 1);
-  CU_ASSERT_EQUAL(cdc_avl_tree_count(t, CDC_INT_TO_PTR(10)), 0);
+  CU_ASSERT_EQUAL(cdc_avl_tree_count(t, CDC_FROM_INT(10)), 0);
   cdc_avl_tree_dtor(t);
 }
 
@@ -211,7 +211,7 @@ void test_avl_tree_insert()
 
   for (int i = 0; i < kCount; ++i) {
     CU_ASSERT_EQUAL(
-        cdc_avl_tree_insert(t, CDC_INT_TO_PTR(i), CDC_INT_TO_PTR(i), NULL),
+        cdc_avl_tree_insert(t, CDC_FROM_INT(i), CDC_FROM_INT(i), NULL),
         CDC_STATUS_OK);
   }
 
@@ -219,9 +219,8 @@ void test_avl_tree_insert()
 
   for (int i = 0; i < kCount; ++i) {
     void *val = NULL;
-    CU_ASSERT_EQUAL(cdc_avl_tree_get(t, CDC_INT_TO_PTR(i), &val),
-                    CDC_STATUS_OK);
-    CU_ASSERT_EQUAL(CDC_PTR_TO_INT(val), i);
+    CU_ASSERT_EQUAL(cdc_avl_tree_get(t, CDC_FROM_INT(i), &val), CDC_STATUS_OK);
+    CU_ASSERT_EQUAL(CDC_TO_INT(val), i);
   }
   cdc_avl_tree_dtor(t);
 }

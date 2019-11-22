@@ -35,7 +35,7 @@ void exit_wiht_stat(enum cdc_stat s)
 void print_int_vector(vector_t *v)
 {
   for (size_t i = 0; i < vector_size(v); ++i) {
-    printf("%i\n", CDC_PTR_TO_INT(vector_get(v, i)));
+    printf("%i\n", CDC_TO_INT(vector_get(v, i)));
   }
 }
 
@@ -53,19 +53,19 @@ int main(int argc, char **argv)
   }
 
   int a = 0, b = 1, c = 2, d = 4, f = 5;
-  if ((ret = vector_push_back(v, CDC_INT_TO_PTR(a))) != CDC_STATUS_OK) {
+  if ((ret = vector_push_back(v, CDC_FROM_INT(a))) != CDC_STATUS_OK) {
     exit_wiht_stat(ret);
   }
-  if ((ret = vector_push_back(v, CDC_INT_TO_PTR(b))) != CDC_STATUS_OK) {
+  if ((ret = vector_push_back(v, CDC_FROM_INT(b))) != CDC_STATUS_OK) {
     exit_wiht_stat(ret);
   }
-  if ((ret = vector_push_back(v, CDC_INT_TO_PTR(c))) != CDC_STATUS_OK) {
+  if ((ret = vector_push_back(v, CDC_FROM_INT(c))) != CDC_STATUS_OK) {
     exit_wiht_stat(ret);
   }
-  if ((ret = vector_push_back(v, CDC_INT_TO_PTR(d))) != CDC_STATUS_OK) {
+  if ((ret = vector_push_back(v, CDC_FROM_INT(d))) != CDC_STATUS_OK) {
     exit_wiht_stat(ret);
   }
-  if ((ret = vector_push_back(v, CDC_INT_TO_PTR(f))) != CDC_STATUS_OK) {
+  if ((ret = vector_push_back(v, CDC_FROM_INT(f))) != CDC_STATUS_OK) {
     exit_wiht_stat(ret);
   }
 
@@ -75,21 +75,21 @@ int main(int argc, char **argv)
   }
 
   vector_dtor(v);
-  if ((ret = vector_ctorl(&v, NULL, CDC_PTR_TO_INT(a), CDC_PTR_TO_INT(b),
-                          CDC_PTR_TO_INT(c), CDC_PTR_TO_INT(d),
-                          CDC_PTR_TO_INT(f), CDC_END)) != CDC_STATUS_OK) {
+  if ((ret = vector_ctorl(&v, NULL, CDC_TO_INT(a), CDC_TO_INT(b), CDC_TO_INT(c),
+                          CDC_TO_INT(d), CDC_TO_INT(f), CDC_END)) !=
+      CDC_STATUS_OK) {
     exit_wiht_stat(ret);
   }
 
   print_int_vector(v);
   vector_dtor(v);
-  if ((ret = vector_ctorl(&v, NULL, CDC_PTR_TO_INT(c), CDC_PTR_TO_INT(d),
-                          CDC_END)) != CDC_STATUS_OK) {
+  if ((ret = vector_ctorl(&v, NULL, CDC_TO_INT(c), CDC_TO_INT(d), CDC_END)) !=
+      CDC_STATUS_OK) {
     exit_wiht_stat(ret);
   }
 
-  if ((ret = vector_ctorl(&w, NULL, CDC_PTR_TO_INT(a), CDC_PTR_TO_INT(b),
-                          CDC_END)) != CDC_STATUS_OK) {
+  if ((ret = vector_ctorl(&w, NULL, CDC_TO_INT(a), CDC_TO_INT(b), CDC_END)) !=
+      CDC_STATUS_OK) {
     exit_wiht_stat(ret);
   }
 

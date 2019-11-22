@@ -30,14 +30,14 @@
 
 #include <CUnit/Basic.h>
 
-static struct cdc_pair a = {CDC_INT_TO_PTR(0), CDC_INT_TO_PTR(0)};
-static struct cdc_pair b = {CDC_INT_TO_PTR(1), CDC_INT_TO_PTR(1)};
-static struct cdc_pair c = {CDC_INT_TO_PTR(2), CDC_INT_TO_PTR(2)};
-static struct cdc_pair d = {CDC_INT_TO_PTR(3), CDC_INT_TO_PTR(3)};
-static struct cdc_pair e = {CDC_INT_TO_PTR(4), CDC_INT_TO_PTR(4)};
-static struct cdc_pair f = {CDC_INT_TO_PTR(5), CDC_INT_TO_PTR(5)};
-static struct cdc_pair g = {CDC_INT_TO_PTR(6), CDC_INT_TO_PTR(6)};
-static struct cdc_pair h = {CDC_INT_TO_PTR(7), CDC_INT_TO_PTR(7)};
+static struct cdc_pair a = {CDC_FROM_INT(0), CDC_FROM_INT(0)};
+static struct cdc_pair b = {CDC_FROM_INT(1), CDC_FROM_INT(1)};
+static struct cdc_pair c = {CDC_FROM_INT(2), CDC_FROM_INT(2)};
+static struct cdc_pair d = {CDC_FROM_INT(3), CDC_FROM_INT(3)};
+static struct cdc_pair e = {CDC_FROM_INT(4), CDC_FROM_INT(4)};
+static struct cdc_pair f = {CDC_FROM_INT(5), CDC_FROM_INT(5)};
+static struct cdc_pair g = {CDC_FROM_INT(6), CDC_FROM_INT(6)};
+static struct cdc_pair h = {CDC_FROM_INT(7), CDC_FROM_INT(7)};
 
 static int eq_ptr(const void *l, const void *r) { return l == r; }
 
@@ -97,7 +97,7 @@ void test_hash_table_get()
                                   CDC_END) == CDC_STATUS_OK);
   CU_ASSERT(cdc_hash_table_size(t) == 8);
   CU_ASSERT(hash_table_key_int_eq(t, 8, &a, &b, &c, &d, &g, &h, &e, &f));
-  CU_ASSERT(cdc_hash_table_get(t, CDC_INT_TO_PTR(10), &value) ==
+  CU_ASSERT(cdc_hash_table_get(t, CDC_FROM_INT(10), &value) ==
             CDC_STATUS_NOT_FOUND);
   cdc_hash_table_dtor(t);
 }
@@ -111,7 +111,7 @@ void test_hash_table_count()
   CU_ASSERT(cdc_hash_table_size(t) == 2);
   CU_ASSERT(cdc_hash_table_count(t, a.first) == 1);
   CU_ASSERT(cdc_hash_table_count(t, b.first) == 1);
-  CU_ASSERT(cdc_hash_table_count(t, CDC_INT_TO_PTR(10)) == 0);
+  CU_ASSERT(cdc_hash_table_count(t, CDC_FROM_INT(10)) == 0);
 
   cdc_hash_table_dtor(t);
 }

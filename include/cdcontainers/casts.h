@@ -26,38 +26,38 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define CDC_PTR_TO_CHAR(p) ((char)(intptr_t)(p))
-#define CDC_CHAR_TO_PTR(s) ((void *)(intptr_t)(char)(s))
+#define CDC_TO_CHAR(p) ((char)(intptr_t)(p))
+#define CDC_FROM_CHAR(s) ((void *)(intptr_t)(char)(s))
 
-#define CDC_PTR_TO_SCHAR(p) ((signed char)(intptr_t)(p))
-#define CDC_SCHAR_TO_PTR(s) ((void *)(intptr_t)(signed char)(s))
+#define CDC_TO_SCHAR(p) ((signed char)(intptr_t)(p))
+#define CDC_FROM_SCHAR(s) ((void *)(intptr_t)(signed char)(s))
 
-#define CDC_PTR_TO_UCHAR(p) ((unsigned char)(uintptr_t)(p))
-#define CDC_UCHAR_TO_PTR(s) ((void *)(uintptr_t)(unsigned char)(s))
+#define CDC_TO_UCHAR(p) ((unsigned char)(uintptr_t)(p))
+#define CDC_FROM_UCHAR(s) ((void *)(uintptr_t)(unsigned char)(s))
 
-#define CDC_PTR_TO_SHORT(p) ((short)(intptr_t)(p))
-#define CDC_SHORT_TO_PTR(s) ((void *)(intptr_t)(short)(s))
+#define CDC_TO_SHORT(p) ((short)(intptr_t)(p))
+#define CDC_FROM_SHORT(s) ((void *)(intptr_t)(short)(s))
 
-#define CDC_PTR_TO_USHORT(p) ((unsigned short)(uintptr_t)(p))
-#define CDC_USHORT_TO_PTR(s) ((void *)(uintptr_t)(unsigned short)(s))
+#define CDC_TO_USHORT(p) ((unsigned short)(uintptr_t)(p))
+#define CDC_FROM_USHORT(s) ((void *)(uintptr_t)(unsigned short)(s))
 
-#define CDC_PTR_TO_INT(p) ((int)(intptr_t)(p))
-#define CDC_INT_TO_PTR(s) ((void *)(intptr_t)(int)(s))
+#define CDC_TO_INT(p) ((int)(intptr_t)(p))
+#define CDC_FROM_INT(s) ((void *)(intptr_t)(int)(s))
 
-#define CDC_PTR_TO_UINT(p) ((unsigned int)(uintptr_t)(p))
-#define CDC_UINT_TO_PTR(s) ((void *)(uintptr_t)(unsigned int)(s))
+#define CDC_TO_UINT(p) ((unsigned int)(uintptr_t)(p))
+#define CDC_FROM_UINT(s) ((void *)(uintptr_t)(unsigned int)(s))
 
-#define CDC_PTR_TO_SIZE(p) ((size_t)(uintptr_t)(p))
-#define CDC_SIZE_TO_PTR(s) ((void *)(uintptr_t)(size_t)(s))
+#define CDC_TO_SIZE(p) ((size_t)(uintptr_t)(p))
+#define CDC_FROM_SIZE(s) ((void *)(uintptr_t)(size_t)(s))
 
 #if UINTPTR_MAX >= ULONG_MAX
-#define CDC_PTR_TO_LONG(p) ((long)(intptr_t)(p))
-#define CDC_LONG_TO_PTR(s) ((void *)(intptr_t)(long)(s))
-#define CDC_PTR_LONG_CAST
+#define CDC_TO_LONG(p) ((long)(intptr_t)(p))
+#define CDC_FROM_LONG(s) ((void *)(intptr_t)(long)(s))
+#define CDC_LONG_CAST
 
-#define CDC_PTR_TO_ULONG(p) ((unsigned long)(uintptr_t)(p))
-#define CDC_ULONG_TO_PTR(s) ((void *)(uintptr_t)(unsigned long)(s))
-#define CDC_PTR_ULONG_CAST
+#define CDC_TO_ULONG(p) ((unsigned long)(uintptr_t)(p))
+#define CDC_FROM_ULONG(s) ((void *)(uintptr_t)(unsigned long)(s))
+#define CDC_ULONG_CAST
 #endif
 
 #if (defined(__GNUC__)) && defined(__SIZEOF_POINTER__)
@@ -81,9 +81,9 @@ static inline float cdc_ptr_to_float(void *ptr)
   return u.flt;
 }
 
-#define CDC_PTR_TO_FLOAT(p) cdc_ptr_to_float(p)
-#define CDC_FLOAT_TO_PTR(s) cdc_float_to_ptr(s)
-#define CDC_PTR_FLOAT_CAST
+#define CDC_TO_FLOAT(p) cdc_ptr_to_float(p)
+#define CDC_FROM_FLOAT(s) cdc_float_to_ptr(s)
+#define CDC_FLOAT_CAST
 #endif
 
 #if defined(__SIZEOF_DOUBLE__) && (__SIZEOF_POINTER__ >= __SIZEOF_DOUBLE__)
@@ -106,9 +106,9 @@ static inline double cdc_ptr_to_double(void *ptr)
   return u.dbl;
 }
 
-#define CDC_PTR_TO_DOUBLE(p) cdc_ptr_to_double(p)
-#define CDC_DOUBLE_TO_PTR(s) cdc_double_to_ptr(s)
-#define CDC_PTR_DOUBLE_CAST
+#define CDC_TO_DOUBLE(p) cdc_ptr_to_double(p)
+#define CDC_FROM_DOUBLE(s) cdc_double_to_ptr(s)
+#define CDC_DOUBLE_CAST
 #endif
 #endif
 
