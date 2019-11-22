@@ -18,8 +18,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+#include "cdcontainers/array.h"
 #include "cdcontainers/interfaces/isequence.h"
-#include "cdcontainers/vector.h"
 
 #include <assert.h>
 
@@ -27,8 +27,8 @@ static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info)
 {
   assert(cntr != NULL);
 
-  struct cdc_vector **vector = (struct cdc_vector **)cntr;
-  return cdc_vector_ctor(vector, info);
+  struct cdc_array **array = (struct cdc_array **)cntr;
+  return cdc_array_ctor(array, info);
 }
 
 static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
@@ -36,120 +36,120 @@ static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
 {
   assert(cntr != NULL);
 
-  struct cdc_vector **vector = (struct cdc_vector **)cntr;
-  return cdc_vector_ctorv(vector, info, args);
+  struct cdc_array **array = (struct cdc_array **)cntr;
+  return cdc_array_ctorv(array, info, args);
 }
 
 static void dtor(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_vector *vector = (struct cdc_vector *)cntr;
-  cdc_vector_dtor(vector);
+  struct cdc_array *array = (struct cdc_array *)cntr;
+  cdc_array_dtor(array);
 }
 
 static void *front(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_vector *vector = (struct cdc_vector *)cntr;
-  return cdc_vector_front(vector);
+  struct cdc_array *array = (struct cdc_array *)cntr;
+  return cdc_array_front(array);
 }
 
 static void *back(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_vector *vector = (struct cdc_vector *)cntr;
-  return cdc_vector_back(vector);
+  struct cdc_array *array = (struct cdc_array *)cntr;
+  return cdc_array_back(array);
 }
 
 static bool empty(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_vector *vector = (struct cdc_vector *)cntr;
-  return cdc_vector_empty(vector);
+  struct cdc_array *array = (struct cdc_array *)cntr;
+  return cdc_array_empty(array);
 }
 
 static size_t size(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_vector *vector = (struct cdc_vector *)cntr;
-  return cdc_vector_size(vector);
+  struct cdc_array *array = (struct cdc_array *)cntr;
+  return cdc_array_size(array);
 }
 
 static enum cdc_stat push_back(void *cntr, void *elem)
 {
   assert(cntr != NULL);
 
-  struct cdc_vector *vector = (struct cdc_vector *)cntr;
-  return cdc_vector_push_back(vector, elem);
+  struct cdc_array *array = (struct cdc_array *)cntr;
+  return cdc_array_push_back(array, elem);
 }
 
 static enum cdc_stat pop_back(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_vector *vector = (struct cdc_vector *)cntr;
-  return cdc_vector_pop_back(vector);
+  struct cdc_array *array = (struct cdc_array *)cntr;
+  return cdc_array_pop_back(array);
 }
 
 static enum cdc_stat push_front(void *cntr, void *elem)
 {
   assert(cntr != NULL);
 
-  struct cdc_vector *vector = (struct cdc_vector *)cntr;
-  return cdc_vector_insert(vector, 0, elem);
+  struct cdc_array *array = (struct cdc_array *)cntr;
+  return cdc_array_insert(array, 0, elem);
 }
 
 static enum cdc_stat pop_front(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_vector *vector = (struct cdc_vector *)cntr;
-  return cdc_vector_erase(vector, 0);
+  struct cdc_array *array = (struct cdc_array *)cntr;
+  return cdc_array_erase(array, 0);
 }
 
 static enum cdc_stat insert(void *cntr, size_t index, void *value)
 {
   assert(cntr != NULL);
 
-  struct cdc_vector *vector = (struct cdc_vector *)cntr;
-  return cdc_vector_insert(vector, index, value);
+  struct cdc_array *array = (struct cdc_array *)cntr;
+  return cdc_array_insert(array, index, value);
 }
 
 static enum cdc_stat erase(void *cntr, size_t index)
 {
   assert(cntr != NULL);
 
-  struct cdc_vector *vector = (struct cdc_vector *)cntr;
-  return cdc_vector_erase(vector, index);
+  struct cdc_array *array = (struct cdc_array *)cntr;
+  return cdc_array_erase(array, index);
 }
 
 static void clear(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_vector *vector = (struct cdc_vector *)cntr;
-  cdc_vector_clear(vector);
+  struct cdc_array *array = (struct cdc_array *)cntr;
+  cdc_array_clear(array);
 }
 
 static void *get(void *cntr, size_t index)
 {
   assert(cntr != NULL);
 
-  struct cdc_vector *vector = (struct cdc_vector *)cntr;
-  return cdc_vector_get(vector, index);
+  struct cdc_array *array = (struct cdc_array *)cntr;
+  return cdc_array_get(array, index);
 }
 
 static void set(void *cntr, size_t index, void *value)
 {
   assert(cntr != NULL);
 
-  struct cdc_vector *vector = (struct cdc_vector *)cntr;
-  cdc_vector_set(vector, index, value);
+  struct cdc_array *array = (struct cdc_array *)cntr;
+  cdc_array_set(array, index, value);
 }
 
 static const struct cdc_sequence_table _table = {.ctor = ctor,
@@ -169,4 +169,4 @@ static const struct cdc_sequence_table _table = {.ctor = ctor,
                                                  .get = get,
                                                  .set = set};
 
-const void *cdc_seq_vector = &_table;
+const void *cdc_seq_array = &_table;

@@ -38,7 +38,7 @@ static int gt(const void *a, const void *b)
 static inline void heap_int_print(struct cdc_heap *h)
 {
   for (size_t i = 0; i < cdc_heap_size(h); ++i) {
-    printf("%d ", CDC_TO_INT(cdc_vector_get(h->vector, i)));
+    printf("%d ", CDC_TO_INT(cdc_array_get(h->array, i)));
   }
 }
 

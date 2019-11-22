@@ -125,7 +125,7 @@ static inline enum cdc_stat cdc_stackl_ctorv(struct cdc_stack **s,
 }
 
 /**
- * @brief Constructs an empty stack based on vector.
+ * @brief Constructs an empty stack based on array.
  * @param s - cdc_stack
  * @param info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
@@ -136,11 +136,11 @@ static inline enum cdc_stat cdc_stackv_ctor(struct cdc_stack **s,
 {
   assert(s != NULL);
 
-  return cdc_stack_ctor(cdc_seq_vector, s, info);
+  return cdc_stack_ctor(cdc_seq_array, s, info);
 }
 
 /**
- * @brief Constructs a stack based on vector, initialized by an arbitrary number
+ * @brief Constructs a stack based on array, initialized by an arbitrary number
  * of pointers. The last item must be NULL.
  * @param s - cdc_stack
  * @param info - cdc_data_info
@@ -151,7 +151,7 @@ enum cdc_stat cdc_stackv_ctorl(struct cdc_stack **s, struct cdc_data_info *info,
                                ...);
 
 /**
- * @brief Constructs a stack based on vector, initialized by args. The last item
+ * @brief Constructs a stack based on array, initialized by args. The last item
  * must be NULL.
  * @param s - cdc_stack
  * @param info - cdc_data_info
@@ -164,7 +164,7 @@ static inline enum cdc_stat cdc_stackv_ctorv(struct cdc_stack **s,
 {
   assert(s != NULL);
 
-  return cdc_stack_ctorv(cdc_seq_vector, s, info, args);
+  return cdc_stack_ctorv(cdc_seq_array, s, info, args);
 }
 
 /**

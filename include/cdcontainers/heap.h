@@ -26,9 +26,9 @@
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_HEAP_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_HEAP_H
 
+#include <cdcontainers/array.h>
 #include <cdcontainers/common.h>
 #include <cdcontainers/status.h>
-#include <cdcontainers/vector.h>
 
 #include <stdarg.h>
 #include <stdbool.h>
@@ -40,7 +40,7 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_heap {
-  struct cdc_vector *vector;
+  struct cdc_array *array;
 };
 
 /**
@@ -49,7 +49,7 @@ struct cdc_heap {
  * Use only special functions to access and change structure fields.
  */
 struct cdc_heap_iter {
-  struct cdc_vector *container;
+  struct cdc_array *container;
   size_t current;
 };
 
@@ -100,7 +100,7 @@ static inline void *cdc_heap_top(struct cdc_heap *h)
 {
   assert(h != NULL);
 
-  return cdc_vector_front(h->vector);
+  return cdc_array_front(h->array);
 }
 
 // Capacity
@@ -113,7 +113,7 @@ static inline size_t cdc_heap_size(struct cdc_heap *h)
 {
   assert(h != NULL);
 
-  return cdc_vector_size(h->vector);
+  return cdc_array_size(h->array);
 }
 
 /**
@@ -125,7 +125,7 @@ static inline bool cdc_heap_empty(struct cdc_heap *h)
 {
   assert(h != NULL);
 
-  return cdc_vector_empty(h->vector);
+  return cdc_array_empty(h->array);
 }
 
 // Modifiers
@@ -212,7 +212,7 @@ static inline void *cdc_heap_iter_data(struct cdc_heap_iter *it)
 {
   assert(it != NULL);
 
-  return cdc_vector_get(it->container, it->current);
+  return cdc_array_get(it->container, it->current);
 }
 
 /**

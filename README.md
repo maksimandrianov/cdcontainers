@@ -4,7 +4,7 @@
 
 Library of data containers and data structures for C programming language. The cdcontainers interface is similar to C ++ STL.
 The library contains the following data containers:
-* cdc_vector - dynamic array
+* cdc_array - dynamic array
 * cdc_list - doubly linked list
 * cdc_deque - double-ended queue
 * cdc_heap - binary heap
@@ -16,14 +16,14 @@ The library contains the following data containers:
 * cdc_treep - сartesian tree
 
 and following interfaces:
-* cdc_stack (Can work with: cdc_vector, cdc_list, cdc_deque)
-* cdc_queue (Can work with: cdc_vector, cdc_list, cdc_deque)
+* cdc_stack (Can work with: cdc_array, cdc_list, cdc_deque)
+* cdc_queue (Can work with: cdc_array, cdc_list, cdc_deque)
 * cdc_proirity_queue (Can work with: cdc_heap, cdc_binomial_heap, cdc_pairing_heap)
 * cdc_map (Can work with: cdc_avl_tree, cdc_splay_tree, cdc_treep)
 
 ### Usage
 
-Example of using a vector from a library cdcontainers:
+Example of using a array from a library cdcontainers:
 
 ```c
 // cdc_map_t example usage:
@@ -86,26 +86,26 @@ Found 4: 40
 ```
 
 ```c
-// cdc_vector_t example usage:
+// cdc_array_t example usage:
 #define CDC_USE_SHORT_NAMES  // for short names (functions and structs without prefix cdc_*)
-#include <cdcontainers/vector.h>
+#include <cdcontainers/array.h>
 #include <cdcontainers/casts.h>
 #include <stdio.h>
 
 int main(int argc, char** argv)
 {
-  vector_t *v = NULL;
-  vector_ctor(&v, NULL /* info */);
+  array_t *v = NULL;
+  array_ctor(&v, NULL /* info */);
 
-  vector_push_back(v, CDC_FROM_INT(7));
-  vector_push_back(v, CDC_FROM_INT(8));
+  array_push_back(v, CDC_FROM_INT(7));
+  array_push_back(v, CDC_FROM_INT(8));
 
-  for (size_t i = 0; i < vector_size(v); ++i)
-    printf("%i ", CDC_TO_INT(vector_get(v, i)));
+  for (size_t i = 0; i < array_size(v); ++i)
+    printf("%i ", CDC_TO_INT(array_get(v, i)));
 
   printf("\n");
 
-  vector_dtor(v);
+  array_dtor(v);
   return 0;
 }
 ```

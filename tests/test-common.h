@@ -30,21 +30,21 @@ void test_ptr_float_cast();
 void test_ptr_double_cast();
 
 // Vector tests
-void test_vector_ctor();
-void test_vector_ctorl();
-void test_vector_reserve();
-void test_vector_data();
-void test_vector_get();
-void test_vector_at();
-void test_vector_set();
-void test_vector_front();
-void test_vector_back();
-void test_vector_insert();
-void test_vector_erase();
-void test_vector_clear();
-void test_vector_push_back();
-void test_vector_pop_back();
-void test_vector_swap();
+void test_array_ctor();
+void test_array_ctorl();
+void test_array_reserve();
+void test_array_data();
+void test_array_get();
+void test_array_at();
+void test_array_set();
+void test_array_front();
+void test_array_back();
+void test_array_insert();
+void test_array_erase();
+void test_array_clear();
+void test_array_push_back();
+void test_array_pop_back();
+void test_array_swap();
 
 // List tests
 void test_list_ctor();

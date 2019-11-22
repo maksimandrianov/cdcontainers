@@ -52,21 +52,21 @@ int main(int argc, char** argv)
     return CU_get_error();
   }
 
-  if (CU_add_test(p_suite, "test_ctor", test_vector_ctor) == NULL ||
-      CU_add_test(p_suite, "test_ctorl", test_vector_ctorl) == NULL ||
-      CU_add_test(p_suite, "test_reserve", test_vector_reserve) == NULL ||
-      CU_add_test(p_suite, "test_data", test_vector_data) == NULL ||
-      CU_add_test(p_suite, "test_get", test_vector_get) == NULL ||
-      CU_add_test(p_suite, "test_at", test_vector_at) == NULL ||
-      CU_add_test(p_suite, "test_set", test_vector_set) == NULL ||
-      CU_add_test(p_suite, "test_front", test_vector_front) == NULL ||
-      CU_add_test(p_suite, "test_back", test_vector_back) == NULL ||
-      CU_add_test(p_suite, "test_insert", test_vector_insert) == NULL ||
-      CU_add_test(p_suite, "test_erase", test_vector_erase) == NULL ||
-      CU_add_test(p_suite, "test_clear", test_vector_clear) == NULL ||
-      CU_add_test(p_suite, "test_push_back", test_vector_push_back) == NULL ||
-      CU_add_test(p_suite, "test_pop_back", test_vector_pop_back) == NULL ||
-      CU_add_test(p_suite, "test_swap", test_vector_swap) == NULL) {
+  if (CU_add_test(p_suite, "test_ctor", test_array_ctor) == NULL ||
+      CU_add_test(p_suite, "test_ctorl", test_array_ctorl) == NULL ||
+      CU_add_test(p_suite, "test_reserve", test_array_reserve) == NULL ||
+      CU_add_test(p_suite, "test_data", test_array_data) == NULL ||
+      CU_add_test(p_suite, "test_get", test_array_get) == NULL ||
+      CU_add_test(p_suite, "test_at", test_array_at) == NULL ||
+      CU_add_test(p_suite, "test_set", test_array_set) == NULL ||
+      CU_add_test(p_suite, "test_front", test_array_front) == NULL ||
+      CU_add_test(p_suite, "test_back", test_array_back) == NULL ||
+      CU_add_test(p_suite, "test_insert", test_array_insert) == NULL ||
+      CU_add_test(p_suite, "test_erase", test_array_erase) == NULL ||
+      CU_add_test(p_suite, "test_clear", test_array_clear) == NULL ||
+      CU_add_test(p_suite, "test_push_back", test_array_push_back) == NULL ||
+      CU_add_test(p_suite, "test_pop_back", test_array_pop_back) == NULL ||
+      CU_add_test(p_suite, "test_swap", test_array_swap) == NULL) {
     CU_cleanup_registry();
     return CU_get_error();
   }
