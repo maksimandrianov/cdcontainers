@@ -29,7 +29,7 @@ void test_ptr_float_cast()
 #ifdef CDC_PTR_FLOAT_CAST
   float value = 123456.123456;
 
-  CU_ASSERT(CDC_PTR_TO_FLOAT(CDC_FLOAT_TO_PTR(value)) == value);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_FLOAT(CDC_FLOAT_TO_PTR(value)), value);
 #endif
 }
 
@@ -38,6 +38,6 @@ void test_ptr_double_cast()
 #ifdef CDC_PTR_DOUBLE_CAST
   double value = 123456.123456;
 
-  CU_ASSERT(CDC_PTR_TO_DOUBLE(CDC_DOUBLE_TO_PTR(value)) == value);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_DOUBLE(CDC_DOUBLE_TO_PTR(value)), value);
 #endif
 }

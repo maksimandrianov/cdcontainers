@@ -95,27 +95,3 @@ void cdc_queue_swap(struct cdc_queue *a, struct cdc_queue *b)
 
   CDC_SWAP(void *, a->container, b->container);
 }
-
-enum cdc_stat cdc_queuel_ctorl(struct cdc_queue **q, struct cdc_data_info *info,
-                               ...)
-{
-  assert(q != NULL);
-
-  va_list args;
-  va_start(args, info);
-  enum cdc_stat ret = cdc_queuel_ctorv(q, info, args);
-  va_end(args);
-  return ret;
-}
-
-enum cdc_stat cdc_queued_ctorl(struct cdc_queue **q, struct cdc_data_info *info,
-                               ...)
-{
-  assert(q != NULL);
-
-  va_list args;
-  va_start(args, info);
-  enum cdc_stat ret = cdc_queued_ctorv(q, info, args);
-  va_end(args);
-  return ret;
-}

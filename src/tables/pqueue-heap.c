@@ -23,22 +23,21 @@
 
 #include <assert.h>
 
-static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info,
-                          cdc_binary_pred_fn_t compar)
+static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info)
 {
   assert(cntr != NULL);
 
   struct cdc_heap **heap = (struct cdc_heap **)cntr;
-  return cdc_heap_ctor1(heap, info, compar);
+  return cdc_heap_ctor(heap, info);
 }
 
 static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
-                           cdc_binary_pred_fn_t compar, va_list args)
+                           va_list args)
 {
   assert(cntr != NULL);
 
   struct cdc_heap **heap = (struct cdc_heap **)cntr;
-  return cdc_heap_ctorv1(heap, info, compar, args);
+  return cdc_heap_ctorv(heap, info, args);
 }
 
 static void dtor(void *cntr)

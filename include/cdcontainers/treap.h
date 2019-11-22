@@ -58,7 +58,6 @@ struct cdc_treap {
   struct cdc_treap_node *root;
   size_t size;
   cdc_priority_fn_t prior;
-  cdc_binary_pred_fn_t compar;
   struct cdc_data_info *dinfo;
 };
 
@@ -119,47 +118,11 @@ enum cdc_stat cdc_treap_ctorv(struct cdc_treap **t, struct cdc_data_info *info,
  * @param t - cdc_treap
  * @param info - cdc_data_info
  * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_treap_ctor1(struct cdc_treap **t, struct cdc_data_info *info,
-                              cdc_binary_pred_fn_t compar);
-
-/**
- * @brief Constructs a treap, initialized by an arbitrary number of
- * pointers on cdc_pair's(first - key, and the second - value).  The last item
- * must be NULL.
- * @param t - cdc_treap
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_treap_ctorl1(struct cdc_treap **t, struct cdc_data_info *info,
-                               cdc_binary_pred_fn_t compar, ...);
-
-/**
- * @brief Constructs a treap, initialized by args. The last item must be NULL.
- * @param t - cdc_treap
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_treap_ctorv1(struct cdc_treap **t, struct cdc_data_info *info,
-                               cdc_binary_pred_fn_t compar, va_list args);
-
-/**
- * @brief Constructs an empty treap
- * @param t - cdc_treap
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
  * @param prior - function that generates a priority
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_treap_ctor2(struct cdc_treap **t, struct cdc_data_info *info,
-                              cdc_binary_pred_fn_t compar,
+enum cdc_stat cdc_treap_ctor1(struct cdc_treap **t, struct cdc_data_info *info,
                               cdc_priority_fn_t prior);
 
 /**
@@ -173,8 +136,7 @@ enum cdc_stat cdc_treap_ctor2(struct cdc_treap **t, struct cdc_data_info *info,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_treap_ctorl2(struct cdc_treap **t, struct cdc_data_info *info,
-                               cdc_binary_pred_fn_t compar,
+enum cdc_stat cdc_treap_ctorl1(struct cdc_treap **t, struct cdc_data_info *info,
                                cdc_priority_fn_t prior, ...);
 
 /**
@@ -186,8 +148,7 @@ enum cdc_stat cdc_treap_ctorl2(struct cdc_treap **t, struct cdc_data_info *info,
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_treap_ctorv2(struct cdc_treap **t, struct cdc_data_info *info,
-                               cdc_binary_pred_fn_t compar,
+enum cdc_stat cdc_treap_ctorv1(struct cdc_treap **t, struct cdc_data_info *info,
                                cdc_priority_fn_t prior, va_list args);
 
 /**
@@ -460,9 +421,6 @@ typedef struct cdc_pair_treap_iter_bool pair_treap_iter_bool_t;
 #define treap_ctor1(...) cdc_treap_ctor1(__VA_ARGS__)
 #define treap_ctorv1(...) cdc_treap_ctorv1(__VA_ARGS__)
 #define treap_ctorl1(...) cdc_treap_ctorl1(__VA_ARGS__)
-#define treap_ctor2(...) cdc_treap_ctor2(__VA_ARGS__)
-#define treap_ctorv2(...) cdc_treap_ctorv2(__VA_ARGS__)
-#define treap_ctorl2(...) cdc_treap_ctorl2(__VA_ARGS__)
 #define treap_dtor(...) cdc_treap_dtor(__VA_ARGS__)
 
 // Lookup

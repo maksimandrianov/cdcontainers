@@ -73,7 +73,7 @@ static struct cdc_binomial_heap_node *find_prev_top(struct cdc_binomial_heap *h)
   struct cdc_binomial_heap_node *m = h->root, *prev = NULL, *next = h->root;
   while (next->sibling) {
     prev = next;
-    if (h->compar(m->key, next->key)) {
+    if (h->dinfo->cmp(m->key, next->key)) {
       m = next->key;
     }
     next = next->sibling;
@@ -93,7 +93,7 @@ static void update_top(struct cdc_binomial_heap *h,
 {
   if (h->top == NULL) {
     h->top = v;
-  } else if (v && h->compar(v->key, h->top->key)) {
+  } else if (v && h->dinfo->cmp(v->key, h->top->key)) {
     h->top = v;
   }
 }
@@ -196,7 +196,7 @@ static struct cdc_binomial_heap_node *decrease_key(
 
   node->key = key;
   struct cdc_binomial_heap_node *p = node->parent;
-  while (p != NULL && h->compar(node->key, p->key)) {
+  while (p != NULL && h->dinfo->cmp(node->key, p->key)) {
     CDC_SWAP(void *, node->key, p->key);
     node = p;
     p = node->parent;
@@ -216,10 +216,10 @@ static struct cdc_binomial_heap_node *increase_key(
   curr->key = key;
   struct cdc_binomial_heap_node *ch = curr->child, *t = NULL;
   while (ch != NULL) {
-    if (h->compar(ch->key, curr->key)) {
+    if (h->dinfo->cmp(ch->key, curr->key)) {
       t = ch;
       while (ch->sibling != NULL) {
-        if (h->compar(ch->sibling->key, t->key)) {
+        if (h->dinfo->cmp(ch->sibling->key, t->key)) {
           t = ch->sibling;
         }
 
@@ -241,7 +241,7 @@ static enum cdc_stat init_varg(struct cdc_binomial_heap *h, va_list args)
 {
   enum cdc_stat ret = CDC_STATUS_OK;
   void *elem;
-  while ((elem = va_arg(args, void *)) != NULL) {
+  while ((elem = va_arg(args, void *)) != CDC_END) {
     ret = cdc_binomial_heap_insert(h, elem);
     if (ret != CDC_STATUS_OK) {
       return ret;
@@ -251,12 +251,11 @@ static enum cdc_stat init_varg(struct cdc_binomial_heap *h, va_list args)
   return ret;
 }
 
-enum cdc_stat cdc_binomial_heap_ctor1(struct cdc_binomial_heap **h,
-                                      struct cdc_data_info *info,
-                                      cdc_binary_pred_fn_t compar)
+enum cdc_stat cdc_binomial_heap_ctor(struct cdc_binomial_heap **h,
+                                     struct cdc_data_info *info)
 {
   assert(h != NULL);
-  assert(CDC_HAS_LT(info) || compar != NULL);
+  assert(CDC_HAS_CMP(info));
 
   struct cdc_binomial_heap *tmp =
       (struct cdc_binomial_heap *)calloc(sizeof(struct cdc_binomial_heap), 1);
@@ -269,55 +268,15 @@ enum cdc_stat cdc_binomial_heap_ctor1(struct cdc_binomial_heap **h,
     return CDC_STATUS_BAD_ALLOC;
   }
 
-  tmp->compar = compar ? compar : info->lt;
   *h = tmp;
   return CDC_STATUS_OK;
-}
-
-enum cdc_stat cdc_binomial_heap_ctorl1(struct cdc_binomial_heap **h,
-                                       struct cdc_data_info *info,
-                                       cdc_binary_pred_fn_t compar, ...)
-{
-  assert(h != NULL);
-  assert(CDC_HAS_LT(info) || compar != NULL);
-
-  va_list args;
-  va_start(args, compar);
-  enum cdc_stat ret = cdc_binomial_heap_ctorv1(h, info, compar, args);
-  va_end(args);
-  return ret;
-}
-
-enum cdc_stat cdc_binomial_heap_ctorv1(struct cdc_binomial_heap **h,
-                                       struct cdc_data_info *info,
-                                       cdc_binary_pred_fn_t compar,
-                                       va_list args)
-{
-  assert(h != NULL);
-  assert(CDC_HAS_LT(info) || compar != NULL);
-
-  enum cdc_stat ret = cdc_binomial_heap_ctor1(h, info, compar);
-  if (ret != CDC_STATUS_OK) {
-    return ret;
-  }
-
-  return init_varg(*h, args);
-}
-
-enum cdc_stat cdc_binomial_heap_ctor(struct cdc_binomial_heap **h,
-                                     struct cdc_data_info *info)
-{
-  assert(h != NULL);
-  assert(CDC_HAS_LT(info));
-
-  return cdc_binomial_heap_ctor1(h, info, NULL);
 }
 
 enum cdc_stat cdc_binomial_heap_ctorl(struct cdc_binomial_heap **h,
                                       struct cdc_data_info *info, ...)
 {
   assert(h != NULL);
-  assert(CDC_HAS_LT(info));
+  assert(CDC_HAS_CMP(info));
 
   va_list args;
   va_start(args, info);
@@ -330,9 +289,14 @@ enum cdc_stat cdc_binomial_heap_ctorv(struct cdc_binomial_heap **h,
                                       struct cdc_data_info *info, va_list args)
 {
   assert(h != NULL);
-  assert(CDC_HAS_LT(info));
+  assert(CDC_HAS_CMP(info));
 
-  return cdc_binomial_heap_ctorv1(h, info, NULL, args);
+  enum cdc_stat ret = cdc_binomial_heap_ctor(h, info);
+  if (ret != CDC_STATUS_OK) {
+    return ret;
+  }
+
+  return init_varg(*h, args);
 }
 
 void cdc_binomial_heap_dtor(struct cdc_binomial_heap *h)
@@ -365,7 +329,7 @@ enum cdc_stat cdc_binomial_heap_extract_top(struct cdc_binomial_heap *h)
     tmp = tmp->sibling;
   }
 
-  h->root = meld(h->root, root, h->compar);
+  h->root = meld(h->root, root, h->dinfo->cmp);
   h->top = find_top(h);
   --h->size;
   return CDC_STATUS_OK;
@@ -384,7 +348,7 @@ enum cdc_stat cdc_binomial_heap_riinsert(struct cdc_binomial_heap *h, void *key,
 
   root->key = key;
   update_top(h, root);
-  h->root = meld(h->root, root, h->compar);
+  h->root = meld(h->root, root, h->dinfo->cmp);
   ++h->size;
   if (ret) {
     ret->container = h;
@@ -402,7 +366,7 @@ void cdc_binomial_heap_change_key(struct cdc_binomial_heap *h,
   assert(h == pos->container);
 
   struct cdc_binomial_heap_node *node, *curr = pos->current;
-  if (h->compar(key, curr->key)) {
+  if (h->dinfo->cmp(key, curr->key)) {
     node = decrease_key(h, curr, key);
     update_top(h, node);
 
@@ -435,7 +399,6 @@ void cdc_binomial_heap_swap(struct cdc_binomial_heap *a,
   CDC_SWAP(struct cdc_binomial_heap_node *, a->root, b->root);
   CDC_SWAP(struct cdc_binomial_heap_node *, a->top, b->top);
   CDC_SWAP(size_t, a->size, b->size);
-  CDC_SWAP(cdc_binary_pred_fn_t, a->compar, b->compar);
   CDC_SWAP(struct cdc_data_info *, a->dinfo, b->dinfo);
 }
 
@@ -445,7 +408,7 @@ void cdc_binomial_heap_merge(struct cdc_binomial_heap *h,
   assert(h != NULL);
   assert(other != NULL);
 
-  h->root = meld(h->root, other->root, h->compar);
+  h->root = meld(h->root, other->root, h->dinfo->cmp);
   update_top(h, other->top);
   h->size += other->size;
   other->size = 0;
@@ -457,5 +420,5 @@ bool cdc_binomial_heap_is_heap(struct cdc_binomial_heap *h)
 {
   assert(h != NULL);
 
-  return is_heap(h->root, h->compar);
+  return is_heap(h->root, h->dinfo->cmp);
 }

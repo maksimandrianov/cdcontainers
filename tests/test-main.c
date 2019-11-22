@@ -30,7 +30,9 @@ int main(int argc, char** argv)
 
   CU_pSuite p_suite = NULL;
 
-  if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
+  if (CUE_SUCCESS != CU_initialize_registry()) {
+    return CU_get_error();
+  }
 
   p_suite = CU_add_suite("COMMON TESTS", NULL, NULL);
   if (p_suite == NULL) {

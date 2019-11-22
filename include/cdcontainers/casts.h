@@ -21,8 +21,6 @@
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_CASTS_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_CASTS_H
 
-#include <cdcontainers/common.h>
-
 #include <float.h>
 #include <limits.h>
 #include <stddef.h>

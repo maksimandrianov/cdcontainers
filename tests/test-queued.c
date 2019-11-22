@@ -20,6 +20,7 @@
 // IN THE SOFTWARE.
 #include "test-common.h"
 
+#include "cdcontainers/casts.h"
 #include "cdcontainers/queue.h"
 
 #include <float.h>
@@ -29,130 +30,134 @@
 
 void test_queued_ctor()
 {
-  struct cdc_queue *q;
+  struct cdc_queue *q = NULL;
 
-  CU_ASSERT(cdc_queued_ctor(&q, NULL) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_queue_size(q) == 0);
-
+  CU_ASSERT_EQUAL(cdc_queue_ctor(cdc_seq_deque, &q, NULL), CDC_STATUS_OK);
+  CU_ASSERT(cdc_queue_empty(q));
   cdc_queue_dtor(q);
 }
 
 void test_queued_ctorl()
 {
-  struct cdc_queue *q;
+  struct cdc_queue *q = NULL;
   int a = 2, b = 3;
-  void *elem;
 
-  CU_ASSERT(cdc_queued_ctorl(&q, NULL, &a, &b, NULL) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_queue_size(q) == 2);
+  CU_ASSERT_EQUAL(cdc_queue_ctorl(cdc_seq_deque, &q, NULL, CDC_INT_TO_PTR(a),
+                                  CDC_INT_TO_PTR(b), CDC_END),
+                  CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_queue_size(q), 2);
+
+  void *elem = cdc_queue_front(q);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(elem), a);
+  CU_ASSERT_EQUAL(cdc_queue_pop(q), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_queue_size(q), 1);
 
   elem = cdc_queue_front(q);
-  CU_ASSERT(*((int *)elem) == a);
-  CU_ASSERT(cdc_queue_pop(q) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_queue_size(q) == 1);
-
-  elem = cdc_queue_front(q);
-  CU_ASSERT(*((int *)elem) == b);
-  CU_ASSERT(cdc_queue_pop(q) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_queue_size(q) == 0);
-
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(elem), b);
+  CU_ASSERT_EQUAL(cdc_queue_pop(q), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_queue_size(q), 0);
   cdc_queue_dtor(q);
 }
 
 void test_queued_push()
 {
-  struct cdc_queue *q;
+  struct cdc_queue *q = NULL;
   int a = 0, b = 1, c = 2;
-  void *elem;
 
-  CU_ASSERT(cdc_queued_ctor(&q, NULL) == CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_queue_ctor(cdc_seq_deque, &q, NULL), CDC_STATUS_OK);
 
-  cdc_queue_push(q, &a);
-  CU_ASSERT(cdc_queue_size(q) == 1);
+  cdc_queue_push(q, CDC_INT_TO_PTR(a));
+  CU_ASSERT_EQUAL(cdc_queue_size(q), 1);
+  void *elem = cdc_queue_back(q);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(elem), a);
+
+  cdc_queue_push(q, CDC_INT_TO_PTR(b));
+  CU_ASSERT_EQUAL(cdc_queue_size(q), 2);
   elem = cdc_queue_back(q);
-  CU_ASSERT(*((int *)elem) == a);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(elem), b);
 
-  cdc_queue_push(q, &b);
-  CU_ASSERT(cdc_queue_size(q) == 2);
+  cdc_queue_push(q, CDC_INT_TO_PTR(c));
+  CU_ASSERT_EQUAL(cdc_queue_size(q), 3);
   elem = cdc_queue_back(q);
-  CU_ASSERT(*((int *)elem) == b);
-
-  cdc_queue_push(q, &c);
-  CU_ASSERT(cdc_queue_size(q) == 3);
-  elem = cdc_queue_back(q);
-  CU_ASSERT(*((int *)elem) == c);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(elem), c);
 
   cdc_queue_dtor(q);
 }
 
 void test_queued_pop()
 {
-  struct cdc_queue *q;
+  struct cdc_queue *q = NULL;
   int a = 0, b = 1, c = 2, d = 3;
-  void *elem;
 
-  CU_ASSERT(cdc_queued_ctorl(&q, NULL, &a, &b, &c, &d, NULL) == CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_queue_ctorl(cdc_seq_deque, &q, NULL, CDC_INT_TO_PTR(a),
+                                  CDC_INT_TO_PTR(b), CDC_INT_TO_PTR(c),
+                                  CDC_INT_TO_PTR(d), CDC_END),
+                  CDC_STATUS_OK);
 
-  elem = cdc_queue_front(q);
-  CU_ASSERT(cdc_queue_pop(q) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_queue_size(q) == 3);
-  CU_ASSERT(*((int *)elem) == a);
-
-  elem = cdc_queue_front(q);
-  CU_ASSERT(cdc_queue_pop(q) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_queue_size(q) == 2);
-  CU_ASSERT(*((int *)elem) == b);
+  void *elem = cdc_queue_front(q);
+  CU_ASSERT_EQUAL(cdc_queue_pop(q), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_queue_size(q), 3);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(elem), a);
 
   elem = cdc_queue_front(q);
-  CU_ASSERT(cdc_queue_pop(q) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_queue_size(q) == 1);
-  CU_ASSERT(*((int *)elem) == c);
+  CU_ASSERT_EQUAL(cdc_queue_pop(q), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_queue_size(q), 2);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(elem), b);
 
   elem = cdc_queue_front(q);
-  CU_ASSERT(cdc_queue_pop(q) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_queue_size(q) == 0);
-  CU_ASSERT(*((int *)elem) == d);
+  CU_ASSERT_EQUAL(cdc_queue_pop(q), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_queue_size(q), 1);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(elem), c);
 
+  elem = cdc_queue_front(q);
+  CU_ASSERT_EQUAL(cdc_queue_pop(q), CDC_STATUS_OK);
+  CU_ASSERT(cdc_queue_empty(q));
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(elem), d);
   cdc_queue_dtor(q);
 }
 
 void test_queued_front()
 {
-  struct cdc_queue *q;
+  struct cdc_queue *q = NULL;
   int a = 1, b = 2;
 
-  CU_ASSERT(cdc_queued_ctorl(&q, NULL, &a, &b, NULL) == CDC_STATUS_OK);
-  CU_ASSERT(*((int *)cdc_queue_front(q)) == a);
-
+  CU_ASSERT_EQUAL(cdc_queue_ctorl(cdc_seq_deque, &q, NULL, CDC_INT_TO_PTR(a),
+                                  CDC_INT_TO_PTR(b), CDC_END),
+                  CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_queue_front(q)), a);
   cdc_queue_dtor(q);
 }
 
 void test_queued_back()
 {
-  struct cdc_queue *q;
+  struct cdc_queue *q = NULL;
   int a = 1, b = 2;
 
-  CU_ASSERT(cdc_queued_ctorl(&q, NULL, &a, &b, NULL) == CDC_STATUS_OK);
-  CU_ASSERT(*((int *)cdc_queue_back(q)) == b);
-
+  CU_ASSERT_EQUAL(cdc_queue_ctorl(cdc_seq_deque, &q, NULL, CDC_INT_TO_PTR(a),
+                                  CDC_INT_TO_PTR(b), CDC_END),
+                  CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_queue_back(q)), b);
   cdc_queue_dtor(q);
 }
 
 void test_queued_swap()
 {
-  struct cdc_queue *v, *w;
+  struct cdc_queue *v = NULL;
+  struct cdc_queue *w = NULL;
   int a = 2, b = 3, c = 4;
 
-  CU_ASSERT(cdc_queued_ctorl(&v, NULL, &b, NULL) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_queued_ctorl(&w, NULL, &a, &c, NULL) == CDC_STATUS_OK);
-
+  CU_ASSERT_EQUAL(
+      cdc_queue_ctorl(cdc_seq_deque, &v, NULL, CDC_INT_TO_PTR(b), CDC_END),
+      CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_queue_ctorl(cdc_seq_deque, &w, NULL, CDC_INT_TO_PTR(a),
+                                  CDC_INT_TO_PTR(c), CDC_END),
+                  CDC_STATUS_OK);
   cdc_queue_swap(v, w);
 
-  CU_ASSERT(cdc_queue_size(v) == 2);
-  CU_ASSERT(*((int *)cdc_queue_back(v)) == c);
-  CU_ASSERT(cdc_queue_size(w) == 1);
-  CU_ASSERT(*((int *)cdc_queue_back(w)) == b);
-
+  CU_ASSERT_EQUAL(cdc_queue_size(v), 2);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_queue_back(v)), c);
+  CU_ASSERT_EQUAL(cdc_queue_size(w), 1);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_queue_back(w)), b);
   cdc_queue_dtor(v);
   cdc_queue_dtor(w);
 }

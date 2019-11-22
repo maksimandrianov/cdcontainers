@@ -262,7 +262,7 @@ static enum cdc_stat init_varg(struct cdc_hash_table *t, va_list args)
 {
   enum cdc_stat stat = CDC_STATUS_OK;
   struct cdc_pair *pair;
-  while ((pair = va_arg(args, struct cdc_pair *)) != NULL) {
+  while ((pair = va_arg(args, struct cdc_pair *)) != CDC_END) {
     stat = cdc_hash_table_insert(t, pair->first, pair->second, NULL);
     if (stat != CDC_STATUS_OK) {
       return stat;

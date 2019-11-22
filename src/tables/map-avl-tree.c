@@ -24,22 +24,21 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info,
-                          cdc_binary_pred_fn_t compar)
+static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info)
 {
   assert(cntr != NULL);
 
   struct cdc_avl_tree **tree = (struct cdc_avl_tree **)cntr;
-  return cdc_avl_tree_ctor1(tree, info, compar);
+  return cdc_avl_tree_ctor(tree, info);
 }
 
 static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
-                           cdc_binary_pred_fn_t compar, va_list args)
+                           va_list args)
 {
   assert(cntr != NULL);
 
   struct cdc_avl_tree **tree = (struct cdc_avl_tree **)cntr;
-  return cdc_avl_tree_ctorv1(tree, info, compar, args);
+  return cdc_avl_tree_ctorv(tree, info, args);
 }
 
 static void dtor(void *cntr)

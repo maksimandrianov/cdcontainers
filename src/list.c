@@ -255,7 +255,7 @@ static void merge_sort(struct cdc_list_node **head, struct cdc_list_node **tail,
 static enum cdc_stat init_varg(struct cdc_list *l, va_list args)
 {
   void *elem = NULL;
-  while ((elem = va_arg(args, void *)) != NULL) {
+  while ((elem = va_arg(args, void *)) != CDC_END) {
     enum cdc_stat ret = cdc_list_push_back(l, elem);
     if (ret != CDC_STATUS_OK) {
       return ret;
@@ -577,9 +577,9 @@ void cdc_list_cmerge(struct cdc_list *l, struct cdc_list *other,
 void cdc_list_merge(struct cdc_list *l, struct cdc_list *other)
 {
   assert(l != NULL);
-  assert(CDC_HAS_LT(l->dinfo));
+  assert(CDC_HAS_CMP(l->dinfo));
 
-  cdc_list_cmerge(l, other, l->dinfo->lt);
+  cdc_list_cmerge(l, other, l->dinfo->cmp);
 }
 
 void cdc_list_erase_if(struct cdc_list *l, cdc_unary_pred_fn_t pred)
@@ -631,39 +631,19 @@ void cdc_list_punique(struct cdc_list *l, cdc_binary_pred_fn_t pred)
     if (pred(curr->data, next->data)) {
       remove(l, next, NULL);
       next = curr->next;
-      if (next == NULL) {
-        return;
-      }
+    } else {
+      curr = next;
+      next = next->next;
     }
-
-    curr = next;
-    next = next->next;
   }
 }
 
 void cdc_list_unique(struct cdc_list *l)
 {
   assert(l != NULL);
-  assert(CDC_HAS_LT(l->dinfo));
+  assert(CDC_HAS_CMP(l->dinfo));
 
-  struct cdc_list_node *curr = l->head;
-  if (curr == NULL) {
-    return;
-  }
-
-  struct cdc_list_node *next = curr->next;
-  while (next) {
-    if (cdc_eq(l->dinfo->lt, curr->data, next->data)) {
-      remove(l, next, NULL);
-      next = curr->next;
-      if (next == NULL) {
-        return;
-      }
-    }
-
-    curr = next;
-    next = next->next;
-  }
+  cdc_list_punique(l, l->dinfo->cmp);
 }
 
 void cdc_list_csort(struct cdc_list *l, cdc_binary_pred_fn_t compare)
@@ -677,7 +657,7 @@ void cdc_list_csort(struct cdc_list *l, cdc_binary_pred_fn_t compare)
 void cdc_list_sort(struct cdc_list *l)
 {
   assert(l != NULL);
-  assert(CDC_HAS_LT(l->dinfo));
+  assert(CDC_HAS_CMP(l->dinfo));
 
-  cdc_list_csort(l, l->dinfo->lt);
+  cdc_list_csort(l, l->dinfo->cmp);
 }

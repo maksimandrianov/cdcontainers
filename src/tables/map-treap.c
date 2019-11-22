@@ -18,28 +18,27 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
-#include "cdcontainers/treap.h"
 #include "cdcontainers/interfaces/imap.h"
+#include "cdcontainers/treap.h"
 
 #include <assert.h>
 #include <stdlib.h>
 
-static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info,
-                          cdc_binary_pred_fn_t compar)
+static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info)
 {
   assert(cntr != NULL);
 
   struct cdc_treap **tree = (struct cdc_treap **)cntr;
-  return cdc_treap_ctor1(tree, info, compar);
+  return cdc_treap_ctor(tree, info);
 }
 
 static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
-                           cdc_binary_pred_fn_t compar, va_list args)
+                           va_list args)
 {
   assert(cntr != NULL);
 
   struct cdc_treap **tree = (struct cdc_treap **)cntr;
-  return cdc_treap_ctorv1(tree, info, compar, args);
+  return cdc_treap_ctorv(tree, info, args);
 }
 
 static void dtor(void *cntr)

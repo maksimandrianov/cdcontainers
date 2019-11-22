@@ -39,10 +39,8 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_priority_queue_table {
-  enum cdc_stat (*ctor)(void **cntr, struct cdc_data_info *info,
-                        cdc_binary_pred_fn_t compar);
-  enum cdc_stat (*ctorv)(void **cntr, struct cdc_data_info *info,
-                         cdc_binary_pred_fn_t compar, va_list args);
+  enum cdc_stat (*ctor)(void **cntr, struct cdc_data_info *info);
+  enum cdc_stat (*ctorv)(void **cntr, struct cdc_data_info *info, va_list args);
   void (*dtor)(void *cntr);
   void *(*top)(void *cntr);
   bool (*empty)(void *cntr);

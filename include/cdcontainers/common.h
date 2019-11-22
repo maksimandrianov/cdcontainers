@@ -21,8 +21,12 @@
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_COMMON_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_COMMON_H
 
+#include <cdcontainers/casts.h>
+
 #include <stdbool.h>
 #include <stddef.h>
+
+#define CDC_END CDC_INT_TO_PTR(UINTPTR_MAX)
 
 #define CDC_MAX(a, b) ((a) > (b) ? (a) : (b))
 
@@ -57,7 +61,7 @@ struct cdc_pair {
 
 struct cdc_data_info {
   cdc_free_fn_t dfree;
-  cdc_binary_pred_fn_t lt;
+  cdc_binary_pred_fn_t cmp;
   cdc_binary_pred_fn_t eq;
   cdc_copy_fn_t cp;
   size_t size;

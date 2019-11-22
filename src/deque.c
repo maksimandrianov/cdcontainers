@@ -306,7 +306,7 @@ static void free_data(struct cdc_deque *d)
 static enum cdc_stat init_varg(struct cdc_deque *d, va_list args)
 {
   void *elem = NULL;
-  while ((elem = va_arg(args, void *)) != NULL) {
+  while ((elem = va_arg(args, void *)) != CDC_END) {
     enum cdc_stat stat = cdc_deque_push_back(d, elem);
     if (stat != CDC_STATUS_OK) {
       return stat;

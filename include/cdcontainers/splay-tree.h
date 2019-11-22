@@ -54,7 +54,6 @@ struct cdc_splay_tree_node {
 struct cdc_splay_tree {
   struct cdc_splay_tree_node *root;
   size_t size;
-  cdc_binary_pred_fn_t compar;
   struct cdc_data_info *dinfo;
 };
 
@@ -111,45 +110,6 @@ enum cdc_stat cdc_splay_tree_ctorl(struct cdc_splay_tree **t,
  */
 enum cdc_stat cdc_splay_tree_ctorv(struct cdc_splay_tree **t,
                                    struct cdc_data_info *info, va_list args);
-
-/**
- * @brief Constructs an empty splay tree
- * @param t - cdc_splay_tree
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_splay_tree_ctor1(struct cdc_splay_tree **t,
-                                   struct cdc_data_info *info,
-                                   cdc_binary_pred_fn_t compar);
-
-/**
- * @brief Constructs a splay tree, initialized by an arbitrary number of
- * pointers on cdc_pair's(first - key, and the second - value).  The last item
- * must be NULL.
- * @param t - cdc_splay_tree
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_splay_tree_ctorl1(struct cdc_splay_tree **t,
-                                    struct cdc_data_info *info,
-                                    cdc_binary_pred_fn_t compar, ...);
-
-/**
- * @brief Constructs a splay tree, initialized by args. The last item must be
- * NULL.
- * @param t - cdc_splay_tree
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_splay_tree_ctorv1(struct cdc_splay_tree **t,
-                                    struct cdc_data_info *info,
-                                    cdc_binary_pred_fn_t compar, va_list args);
 
 /**
  * @brief Destroys the splay tree.
@@ -426,9 +386,6 @@ typedef struct cdc_pair_splay_tree_iter_bool pair_splay_tree_iter_bool_t;
 #define splay_tree_ctor(...) cdc_splay_tree_ctor(__VA_ARGS__)
 #define splay_tree_ctorv(...) cdc_splay_tree_ctorv(__VA_ARGS__)
 #define splay_tree_ctorl(...) cdc_splay_tree_ctorl(__VA_ARGS__)
-#define splay_tree_ctor1(...) cdc_splay_tree_ctor1(__VA_ARGS__)
-#define splay_tree_ctorv1(...) cdc_splay_tree_ctorv1(__VA_ARGS__)
-#define splay_tree_ctorl1(...) cdc_splay_tree_ctorl1(__VA_ARGS__)
 #define splay_tree_dtor(...) cdc_splay_tree_dtor(__VA_ARGS__)
 
 // Lookup

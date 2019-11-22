@@ -113,7 +113,7 @@ static enum cdc_stat pop_back(struct cdc_vector *v, bool must_free)
 static enum cdc_stat init_varg(struct cdc_vector *v, va_list args)
 {
   void *elem = NULL;
-  while ((elem = va_arg(args, void *)) != NULL) {
+  while ((elem = va_arg(args, void *)) != CDC_END) {
     enum cdc_stat ret = cdc_vector_push_back(v, elem);
     if (ret != CDC_STATUS_OK) {
       return ret;

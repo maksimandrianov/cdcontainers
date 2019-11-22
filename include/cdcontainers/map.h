@@ -87,113 +87,6 @@ enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table,
 enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table,
                             struct cdc_map **m, struct cdc_data_info *info,
                             va_list args);
-
-/**
- * @brief Constructs an empty map
- * @param t - cdc_map
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_map_ctor1(const struct cdc_map_table *table,
-                            struct cdc_map **m, struct cdc_data_info *info,
-                            cdc_binary_pred_fn_t compar);
-
-/**
- * @brief Constructs a map, initialized by an arbitrary number of
- * pointers on cdc_pair's(first - key, and the second - value).  The last item
- * must be NULL.
- * @param t - cdc_map
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_map_ctorl1(const struct cdc_map_table *table,
-                             struct cdc_map **m, struct cdc_data_info *info,
-                             cdc_binary_pred_fn_t compar, ...);
-
-/**
- * @brief Constructs a map, initialized by args. The last item must be NULL.
- * @param t - cdc_map
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_map_ctorv1(const struct cdc_map_table *table,
-                             struct cdc_map **m, struct cdc_data_info *info,
-                             cdc_binary_pred_fn_t compar, va_list args);
-
-/**
- * @brief Constructs an empty map based on avl tree
- * @param t - cdc_map
- * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_mapa_ctor(struct cdc_map **m, struct cdc_data_info *info);
-
-/**
- * @brief Constructs a map based on avl tree, initialized by an arbitrary number
- * of pointers on cdc_pair's(first - key, and the second - value).  The last
- * item must be NULL.
- * @param t - cdc_map
- * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_mapa_ctorl(struct cdc_map **m, struct cdc_data_info *info,
-                             ...);
-
-/**
- * @brief Constructs a map based on avl tree, initialized by args.
- * The last item must be NULL.
- * @param t - cdc_map
- * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_mapa_ctorv(struct cdc_map **m, struct cdc_data_info *info,
-                             va_list args);
-
-/**
- * @brief Constructs an empty map based on avl tree
- * @param t - cdc_map
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_mapa_ctor1(struct cdc_map **m, struct cdc_data_info *info,
-                             cdc_binary_pred_fn_t compar);
-
-/**
- * @brief Constructs a map based on avl tree, initialized by an arbitrary number
- * of pointers on cdc_pair's(first - key, and the second - value).  The last
- * item must be NULL.
- * @param t - cdc_map
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_mapa_ctorl1(struct cdc_map **m, struct cdc_data_info *info,
-                              cdc_binary_pred_fn_t compar, ...);
-
-/**
- * @brief Constructs a map based on avl tree, initialized by args.
- * The last item must be NULL.
- * @param t - cdc_map
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_mapa_ctorv1(struct cdc_map **m, struct cdc_data_info *info,
-                              cdc_binary_pred_fn_t compar, va_list args);
-
 /**
  * @brief Destroys the map.
  * @param t - cdc_map
@@ -496,14 +389,6 @@ typedef struct cdc_map_iter map_iter_t;
 #define map_ctorv(...) cdc_map_ctorv(__VA_ARGS__)
 #define map_ctorl(...) cdc_map_ctorl(__VA_ARGS__)
 #define map_ctor1(...) cdc_map_ctor1(__VA_ARGS__)
-#define map_ctorv1(...) cdc_map_ctorv1(__VA_ARGS__)
-#define map_ctorl1(...) cdc_map_ctorl1(__VA_ARGS__)
-#define mapa_ctor(...) cdc_mapa_ctor(__VA_ARGS__)
-#define mapa_ctorv(...) cdc_mapa_ctorv(__VA_ARGS__)
-#define mapa_ctorl(...) cdc_mapa_ctorl(__VA_ARGS__)
-#define mapa_ctor1(...) cdc_mapa_ctor1(__VA_ARGS__)
-#define mapa_ctorv1(...) cdc_mapa_ctorv1(__VA_ARGS__)
-#define mapa_ctorl1(...) cdc_mapa_ctorl1(__VA_ARGS__)
 #define map_dtor(...) cdc_map_dtor(__VA_ARGS__)
 
 // Lookup

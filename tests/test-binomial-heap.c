@@ -21,6 +21,8 @@
 #include "test-common.h"
 
 #include "cdcontainers/binomial-heap.h"
+#include "cdcontainers/casts.h"
+#include "cdcontainers/common.h"
 #include "cdcontainers/global.h"
 
 #include <assert.h>
@@ -29,26 +31,22 @@
 
 #include <CUnit/Basic.h>
 
-static size_t count_free = 0;
-
-static int gt_int(const void *a, const void *b)
+static int gt(const void *a, const void *b)
 {
-  return *((int *)a) > *((int *)b);
+  return CDC_PTR_TO_INT(a) > CDC_PTR_TO_INT(b);
 }
 
-static int gt_ptr(const void *a, const void *b) { return a > b; }
-
+static size_t g_count_free = 0;
 static void test_free(void *ptr)
 {
   CDC_UNUSED(ptr);
-
-  ++count_free;
+  ++g_count_free;
 }
 
 static inline void heap_int_print(struct cdc_binomial_heap_node *node)
 {
   while (node) {
-    printf("%d ", *((int *)node->key));
+    printf("%d ", CDC_PTR_TO_INT(node->key));
     heap_int_print(node->child);
     node = node->sibling;
   }
@@ -56,209 +54,213 @@ static inline void heap_int_print(struct cdc_binomial_heap_node *node)
 
 void test_binomial_heap_ctor()
 {
-  struct cdc_binomial_heap *h;
+  struct cdc_binomial_heap *h = NULL;
+  struct cdc_data_info info = CDC_INIT_STRUCT;
+  info.cmp = gt;
 
-  CU_ASSERT(cdc_binomial_heap_ctor1(&h, NULL, gt_int) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_size(h) == 0);
-
+  CU_ASSERT_EQUAL(cdc_binomial_heap_ctor(&h, &info), CDC_STATUS_OK);
+  CU_ASSERT(cdc_binomial_heap_empty(h));
   cdc_binomial_heap_dtor(h);
 }
 
 void test_binomial_heap_ctorl()
 {
-  struct cdc_binomial_heap *h;
+  struct cdc_binomial_heap *h = NULL;
   int a = 2;
-  void *elem;
+  struct cdc_data_info info = CDC_INIT_STRUCT;
+  info.cmp = gt;
 
-  CU_ASSERT(cdc_binomial_heap_ctorl1(&h, NULL, gt_int, &a, &a, NULL) ==
-            CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
-  CU_ASSERT(cdc_binomial_heap_size(h) == 2);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_ctorl(&h, &info, CDC_INT_TO_PTR(a),
+                                          CDC_INT_TO_PTR(a), CDC_END),
+                  CDC_STATUS_OK);
+  CU_ASSERT(cdc_binomial_heap_is_heap(h));
+  CU_ASSERT_EQUAL(cdc_binomial_heap_size(h), 2);
 
-  elem = cdc_binomial_heap_top(h);
-  CU_ASSERT(*((int *)elem) == a);
-  CU_ASSERT(cdc_binomial_heap_extract_top(h) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_size(h) == 1);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(h)), a);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_extract_top(h), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_size(h), 1);
 
-  elem = cdc_binomial_heap_top(h);
-  CU_ASSERT(*((int *)elem) == a);
-  CU_ASSERT(cdc_binomial_heap_extract_top(h) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_size(h) == 0);
-
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(h)), a);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_extract_top(h), CDC_STATUS_OK);
+  CU_ASSERT(cdc_binomial_heap_empty(h));
   cdc_binomial_heap_dtor(h);
 }
 
 void test_binomial_heap_dtor()
 {
-  struct cdc_binomial_heap *h;
+  struct cdc_binomial_heap *h = NULL;
+  const int count = 9;
   struct cdc_data_info info = CDC_INIT_STRUCT;
-  size_t i;
-  const size_t count = 9;
-
   info.dfree = test_free;
-  CU_ASSERT(cdc_binomial_heap_ctor1(&h, &info, gt_ptr) == CDC_STATUS_OK);
+  info.cmp = gt;
 
-  for (i = count; i > 0; --i)
-    CU_ASSERT(cdc_binomial_heap_insert(h, (size_t *)i) == CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_ctor(&h, &info), CDC_STATUS_OK);
 
-  for (i = 0; i < count / 2; ++i)
-    CU_ASSERT(cdc_binomial_heap_insert(h, (size_t *)i) == CDC_STATUS_OK);
+  for (int i = count; i > 0; --i)
+    CU_ASSERT_EQUAL(cdc_binomial_heap_insert(h, CDC_INT_TO_PTR(i)),
+                    CDC_STATUS_OK);
 
-  CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
-  CU_ASSERT(cdc_binomial_heap_size(h) == count + count / 2);
-  CU_ASSERT(cdc_binomial_heap_top(h) == (void *)((size_t *)count));
+  for (int i = 0; i < count / 2; ++i)
+    CU_ASSERT_EQUAL(cdc_binomial_heap_insert(h, CDC_INT_TO_PTR(i)),
+                    CDC_STATUS_OK);
 
+  CU_ASSERT(cdc_binomial_heap_is_heap(h));
+  CU_ASSERT_EQUAL(cdc_binomial_heap_size(h), count + count / 2);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(h)), count);
   cdc_binomial_heap_dtor(h);
 
-  CU_ASSERT(count_free == count + count / 2);
-  count_free = 0;
+  CU_ASSERT_EQUAL(g_count_free, count + count / 2);
+  g_count_free = 0;
 }
 
 void test_binomial_heap_top()
 {
-  struct cdc_binomial_heap *h;
+  struct cdc_binomial_heap *h = NULL;
   int a = 1, b = 10, c = 2;
+  struct cdc_data_info info = CDC_INIT_STRUCT;
+  info.cmp = gt;
 
-  CU_ASSERT(cdc_binomial_heap_ctorl1(&h, NULL, gt_int, &a, &b, &c, NULL) ==
-            CDC_STATUS_OK);
-  CU_ASSERT(*((int *)cdc_binomial_heap_top(h)) == b);
-
+  CU_ASSERT_EQUAL(
+      cdc_binomial_heap_ctorl(&h, &info, CDC_INT_TO_PTR(a), CDC_INT_TO_PTR(b),
+                              CDC_INT_TO_PTR(c), CDC_END),
+      CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(h)), b);
   cdc_binomial_heap_dtor(h);
 }
 
 void test_binomial_heap_extract_top()
 {
-  struct cdc_binomial_heap *h;
+  struct cdc_binomial_heap *h = NULL;
   int a = 0, b = 3, c = 2, d = 1;
-  void *elem;
+  struct cdc_data_info info = CDC_INIT_STRUCT;
+  info.cmp = gt;
+  CU_ASSERT_EQUAL(
+      cdc_binomial_heap_ctorl(&h, &info, CDC_INT_TO_PTR(a), CDC_INT_TO_PTR(b),
+                              CDC_INT_TO_PTR(c), CDC_INT_TO_PTR(d), CDC_END),
+      CDC_STATUS_OK);
 
-  CU_ASSERT(cdc_binomial_heap_ctorl1(&h, NULL, gt_int, &a, &b, &c, &d, NULL) ==
-            CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(h)), b);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_extract_top(h), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_size(h), 3);
 
-  elem = cdc_binomial_heap_top(h);
-  CU_ASSERT(cdc_binomial_heap_extract_top(h) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_size(h) == 3);
-  CU_ASSERT(*((int *)elem) == b);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(h)), c);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_extract_top(h), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_size(h), 2);
 
-  elem = cdc_binomial_heap_top(h);
-  CU_ASSERT(cdc_binomial_heap_extract_top(h) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_size(h) == 2);
-  CU_ASSERT(*((int *)elem) == c);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(h)), d);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_extract_top(h), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_size(h), 1);
 
-  elem = cdc_binomial_heap_top(h);
-  CU_ASSERT(cdc_binomial_heap_extract_top(h) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_size(h) == 1);
-  CU_ASSERT(*((int *)elem) == d);
-
-  elem = cdc_binomial_heap_top(h);
-  CU_ASSERT(cdc_binomial_heap_extract_top(h) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_size(h) == 0);
-  CU_ASSERT(*((int *)elem) == a);
-
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(h)), a);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_extract_top(h), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_size(h), 0);
   cdc_binomial_heap_dtor(h);
 }
 
 void test_binomial_heap_insert()
 {
-  struct cdc_binomial_heap *h;
+  struct cdc_binomial_heap *h = NULL;
   int a = 0, b = 1, c = 2;
-  void *elem;
+  struct cdc_data_info info = CDC_INIT_STRUCT;
+  info.cmp = gt;
+  CU_ASSERT_EQUAL(cdc_binomial_heap_ctor(&h, &info), CDC_STATUS_OK);
 
-  CU_ASSERT(cdc_binomial_heap_ctor1(&h, NULL, gt_int) == CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_insert(h, CDC_INT_TO_PTR(a)),
+                  CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_size(h), 1);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(h)), a);
 
-  CU_ASSERT(cdc_binomial_heap_insert(h, &a) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_size(h) == 1);
-  elem = cdc_binomial_heap_top(h);
-  CU_ASSERT(*((int *)elem) == a);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_insert(h, CDC_INT_TO_PTR(c)),
+                  CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_size(h), 2);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(h)), c);
 
-  CU_ASSERT(cdc_binomial_heap_insert(h, &c) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_size(h) == 2);
-  elem = cdc_binomial_heap_top(h);
-  CU_ASSERT(*((int *)elem) == c);
-
-  CU_ASSERT(cdc_binomial_heap_insert(h, &b) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_size(h) == 3);
-  elem = cdc_binomial_heap_top(h);
-  CU_ASSERT(*((int *)elem) == c);
-
+  CU_ASSERT_EQUAL(cdc_binomial_heap_insert(h, CDC_INT_TO_PTR(b)),
+                  CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_size(h), 3);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(h)), c);
   cdc_binomial_heap_dtor(h);
 }
 
 void test_binomial_heap_change_key()
 {
-  struct cdc_binomial_heap *h;
-  struct cdc_binomial_heap_iter iter1;
-  int a = 0, b = 4, c = 3, d = 1, n = 2, max_key = 10, min_key = -1;
-  void *elem;
+  struct cdc_binomial_heap *h = NULL;
+  struct cdc_binomial_heap_iter iter1 = CDC_INIT_STRUCT;
+  int a = 0, b = 4, c = 3, d = 1;
+  int n = 2, max_key = 10, min_key = -1;
+  struct cdc_data_info info = CDC_INIT_STRUCT;
+  info.cmp = gt;
+  CU_ASSERT_EQUAL(
+      cdc_binomial_heap_ctorl(&h, &info, CDC_INT_TO_PTR(a), CDC_INT_TO_PTR(b),
+                              CDC_INT_TO_PTR(c), CDC_INT_TO_PTR(d), CDC_END),
+      CDC_STATUS_OK);
 
-  CU_ASSERT(cdc_binomial_heap_ctorl1(&h, NULL, gt_int, &a, &b, &c, &d, NULL) ==
-            CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
-  CU_ASSERT(cdc_binomial_heap_riinsert(h, &n, &iter1) == CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_riinsert(h, CDC_INT_TO_PTR(n), &iter1),
+                  CDC_STATUS_OK);
 
-  CU_ASSERT(cdc_binomial_heap_insert(h, &a) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_insert(h, &c) == CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_insert(h, &b) == CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_insert(h, CDC_INT_TO_PTR(a)),
+                  CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_insert(h, CDC_INT_TO_PTR(c)),
+                  CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_insert(h, CDC_INT_TO_PTR(b)),
+                  CDC_STATUS_OK);
+  CU_ASSERT(cdc_binomial_heap_is_heap(h));
 
-  cdc_binomial_heap_change_key(h, &iter1, &max_key);
-  CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
-  elem = cdc_binomial_heap_top(h);
-  CU_ASSERT(*((int *)elem) == max_key);
-  CU_ASSERT(*((int *)cdc_binomial_heap_iter_data(&iter1)) == max_key);
+  cdc_binomial_heap_change_key(h, &iter1, CDC_INT_TO_PTR(max_key));
+  CU_ASSERT(cdc_binomial_heap_is_heap(h));
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(h)), max_key);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_iter_data(&iter1)), max_key);
 
-  cdc_binomial_heap_change_key(h, &iter1, &max_key);
-  CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
-  elem = cdc_binomial_heap_top(h);
-  CU_ASSERT(*((int *)elem) == max_key);
-  CU_ASSERT(*((int *)cdc_binomial_heap_iter_data(&iter1)) == max_key);
+  cdc_binomial_heap_change_key(h, &iter1, CDC_INT_TO_PTR(min_key));
+  CU_ASSERT(cdc_binomial_heap_is_heap(h));
 
-  cdc_binomial_heap_change_key(h, &iter1, &min_key);
-  CU_ASSERT(cdc_binomial_heap_is_heap(h) == true);
-  elem = cdc_binomial_heap_top(h);
-  CU_ASSERT(*((int *)elem) == b);
-  CU_ASSERT(*((int *)cdc_binomial_heap_iter_data(&iter1)) == min_key);
-
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(h)), b);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_iter_data(&iter1)), min_key);
   cdc_binomial_heap_dtor(h);
 }
 
 void test_binomial_heap_merge()
 {
-  struct cdc_binomial_heap *v, *w;
+  struct cdc_binomial_heap *v = NULL, *w = NULL;
   int a = 2, b = 3, c = 4;
+  struct cdc_data_info info = CDC_INIT_STRUCT;
+  info.cmp = gt;
 
-  CU_ASSERT(cdc_binomial_heap_ctorl1(&v, NULL, gt_int, &b, NULL) ==
-            CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_ctorl1(&w, NULL, gt_int, &a, &c, NULL) ==
-            CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(
+      cdc_binomial_heap_ctorl(&v, &info, CDC_INT_TO_PTR(b), CDC_END),
+      CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_ctorl(&w, &info, CDC_INT_TO_PTR(a),
+                                          CDC_INT_TO_PTR(c), CDC_END),
+                  CDC_STATUS_OK);
 
   cdc_binomial_heap_merge(v, w);
-
-  CU_ASSERT(cdc_binomial_heap_size(v) == 3);
-  CU_ASSERT(*((int *)cdc_binomial_heap_top(v)) == 4);
-  CU_ASSERT(cdc_binomial_heap_size(w) == 0);
-
+  CU_ASSERT(cdc_binomial_heap_is_heap(v));
+  CU_ASSERT_EQUAL(cdc_binomial_heap_size(v), 3);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(v)), 4);
+  CU_ASSERT(cdc_binomial_heap_empty(w));
   cdc_binomial_heap_dtor(v);
   cdc_binomial_heap_dtor(w);
 }
 
 void test_binomial_heap_swap()
 {
-  struct cdc_binomial_heap *v, *w;
+  struct cdc_binomial_heap *v = NULL, *w = NULL;
   int a = 2, b = 3, c = 4;
+  struct cdc_data_info info = CDC_INIT_STRUCT;
+  info.cmp = gt;
 
-  CU_ASSERT(cdc_binomial_heap_ctorl1(&v, NULL, gt_int, &b, NULL) ==
-            CDC_STATUS_OK);
-  CU_ASSERT(cdc_binomial_heap_ctorl1(&w, NULL, gt_int, &a, &c, NULL) ==
-            CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(
+      cdc_binomial_heap_ctorl(&v, &info, CDC_INT_TO_PTR(b), CDC_END),
+      CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_ctorl(&w, &info, CDC_INT_TO_PTR(a),
+                                          CDC_INT_TO_PTR(c), CDC_END),
+                  CDC_STATUS_OK);
 
   cdc_binomial_heap_swap(v, w);
-
-  CU_ASSERT(cdc_binomial_heap_size(v) == 2);
-  CU_ASSERT(*((int *)cdc_binomial_heap_top(v)) == c);
-  CU_ASSERT(cdc_binomial_heap_size(w) == 1);
-  CU_ASSERT(*((int *)cdc_binomial_heap_top(w)) == b);
-
+  CU_ASSERT_EQUAL(cdc_binomial_heap_size(v), 2);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(v)), c);
+  CU_ASSERT_EQUAL(cdc_binomial_heap_size(w), 1);
+  CU_ASSERT_EQUAL(CDC_PTR_TO_INT(cdc_binomial_heap_top(w)), b);
   cdc_binomial_heap_dtor(v);
   cdc_binomial_heap_dtor(w);
 }

@@ -41,7 +41,6 @@
  */
 struct cdc_heap {
   struct cdc_vector *vector;
-  cdc_binary_pred_fn_t compar;
 };
 
 /**
@@ -83,40 +82,6 @@ enum cdc_stat cdc_heap_ctorl(struct cdc_heap **h, struct cdc_data_info *info,
  */
 enum cdc_stat cdc_heap_ctorv(struct cdc_heap **h, struct cdc_data_info *info,
                              va_list args);
-
-/**
- * @brief Constructs an empty heap.
- * @param h - cdc_heap
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_heap_ctor1(struct cdc_heap **h, struct cdc_data_info *info,
-                             cdc_binary_pred_fn_t compar);
-
-/**
- * @brief Constructs a heap, initialized by an arbitrary number of pointers. The
- * last item must be NULL.
- * @param h - cdc_heap
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_heap_ctorl1(struct cdc_heap **h, struct cdc_data_info *info,
-                              cdc_binary_pred_fn_t compar, ...);
-
-/**
- * @brief Constructs a heap, initialized by args. The last item must be NULL.
- * @param h - cdc_heap
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_heap_ctorv1(struct cdc_heap **h, struct cdc_data_info *info,
-                              cdc_binary_pred_fn_t compar, va_list args);
 
 /**
  * @brief Destroys the heap.
@@ -271,9 +236,6 @@ typedef struct cdc_heap_iter heap_iter_t;
 #define heap_ctor(...) cdc_heap_ctor(__VA_ARGS__)
 #define heap_ctorl(...) cdc_heap_ctorl(__VA_ARGS__)
 #define heap_ctorv(...) cdc_heap_ctorv(__VA_ARGS__)
-#define heap_ctor1(...) cdc_heap_ctor1(__VA_ARGS__)
-#define heap_ctorl1(...) cdc_heap_ctorl1(__VA_ARGS__)
-#define heap_ctorv1(...) cdc_heap_ctorv1(__VA_ARGS__)
 #define heap_dtor(...) cdc_heap_dtor(__VA_ARGS__)
 
 // Element access

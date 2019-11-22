@@ -85,119 +85,6 @@ enum cdc_stat cdc_priority_queue_ctorv(
     struct cdc_data_info *info, va_list args);
 
 /**
- * @brief Constructs an empty priority queue.
- * @param table - method table for a particular implementation
- * @param q - cdc_priority_queue
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_priority_queue_ctor1(
-    const struct cdc_priority_queue_table *table, struct cdc_priority_queue **q,
-    struct cdc_data_info *info, cdc_binary_pred_fn_t compar);
-
-/**
- * @brief Constructs a priority queue, initialized by an arbitrary number of
- * pointers. The last item must be NULL.
- * @param table - method table for a particular implementation
- * @param q - cdc_priority_queue
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_priority_queue_ctorl1(
-    const struct cdc_priority_queue_table *table, struct cdc_priority_queue **q,
-    struct cdc_data_info *info, cdc_binary_pred_fn_t compar, ...);
-
-/**
- * @brief Constructs a priority queue, initialized by args.
- * The last item must be NULL.
- * @param table - method table for a particular implementation
- * @param q - cdc_priority_queue
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_priority_queue_ctorv1(
-    const struct cdc_priority_queue_table *table, struct cdc_priority_queue **q,
-    struct cdc_data_info *info, cdc_binary_pred_fn_t compar, va_list args);
-
-/**
- * @brief Constructs an empty priority queue based on heap.
- * @param q - cdc_priority_queue
- * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_priority_queueh_ctor(struct cdc_priority_queue **q,
-                                       struct cdc_data_info *info);
-
-/**
- * @brief Constructs a priority queue based on heap, initialized by an arbitrary
- * number of pointers. The last item must be NULL.
- * @param q - cdc_priority_queue
- * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_priority_queueh_ctorl(struct cdc_priority_queue **q,
-                                        struct cdc_data_info *info, ...);
-
-/**
- * @brief Constructs a priority queue based on heap, initialized by args.
- * The last item must be NULL.
- * @param q - cdc_priority_queue
- * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_priority_queueh_ctorv(struct cdc_priority_queue **q,
-                                        struct cdc_data_info *info,
-                                        va_list args);
-
-/**
- * @brief Constructs an empty priority queue based on heap.
- * @param q - cdc_priority_queue
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_priority_queueh_ctor1(struct cdc_priority_queue **q,
-                                        struct cdc_data_info *info,
-                                        cdc_binary_pred_fn_t compar);
-
-/**
- * @brief Constructs a priority queue based on heap, initialized by an arbitrary
- * number of pointers. The last item must be NULL.
- * @param q - cdc_priority_queue
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_priority_queueh_ctorl1(struct cdc_priority_queue **q,
-                                         struct cdc_data_info *info,
-                                         cdc_binary_pred_fn_t compar, ...);
-
-/**
- * @brief Constructs a priority queue based on heap, initialized by args.
- * The last item must be NULL.
- * @param q - cdc_priority_queue
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_priority_queueh_ctorv1(struct cdc_priority_queue **q,
-                                         struct cdc_data_info *info,
-                                         cdc_binary_pred_fn_t compar,
-                                         va_list args);
-
-/**
  * @brief Destroys the priority queue.
  * @param q - cdc_priority_queue
  */
@@ -288,15 +175,6 @@ typedef struct cdc_priority_queue priority_queue_t;
 #define priority_queue_ctor(...) cdc_priority_queue_ctor(__VA_ARGS__)
 #define priority_queue_ctorl(...) cdc_priority_queue_ctorl(__VA_ARGS__)
 #define priority_queue_ctorv(...) cdc_priority_queue_ctorv(__VA_ARGS__)
-#define priority_queue_ctor1(...) cdc_priority_queue_ctor1(__VA_ARGS__)
-#define priority_queue_ctorl1(...) cdc_priority_queue_ctorl1(__VA_ARGS__)
-#define priority_queue_ctorv1(...) cdc_priority_queue_ctorv1(__VA_ARGS__)
-#define priority_queueh_ctor(...) cdc_priority_queueh_ctor(__VA_ARGS__)
-#define priority_queueh_ctorl(...) cdc_priority_queueh_ctorl(__VA_ARGS__)
-#define priority_queueh_ctorv(...) cdc_priority_queueh_ctorv(__VA_ARGS__)
-#define priority_queueh_ctor1(...) cdc_priority_queueh_ctor1(__VA_ARGS__)
-#define priority_queueh_ctorl1(...) cdc_priority_queueh_ctorl1(__VA_ARGS__)
-#define priority_queueh_ctorv1(...) cdc_priority_queueh_ctorv1(__VA_ARGS__)
 #define priority_queue_dtor(...) cdc_priority_queue_dtor(__VA_ARGS__)
 
 // Element access
