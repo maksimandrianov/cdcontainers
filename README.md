@@ -1,6 +1,7 @@
-# cdcontainers - data containers and data structures for C
+# [cdcontainers](https://maksimandrianov.github.io/cdcontainers.github.io/) - data containers and data structures for C
 
 [![Build Status](https://travis-ci.org/maksimandrianov/cdcontainers.svg?branch=master)](https://travis-ci.org/maksimandrianov/cdcontainers)
+[![Documentation](https://img.shields.io/badge/api-reference-blue.svg)](https://maksimandrianov.github.io/cdcontainers.github.io/)
 
 Library of data containers and data structures for C programming language. The cdcontainers interface is similar to C ++ STL.
 The library contains the following data containers:
