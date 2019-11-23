@@ -18,25 +18,47 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+
+// Program to find first n prime numbers.
 #define CDC_USE_SHORT_NAMES
-#include <cdcontainers/array.h>
-#include <cdcontainers/casts.h>
-#include <cdcontainers/global.h>
+#include <cdcontainers/cdc.h>
 
 #include <stdio.h>
-#include <stdlib.h>
 
-void exit_wiht_stat(enum cdc_stat s)
+// This function based on the Sieve of Eratosthenes.
+// https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+array_t *find_uint_prime_numbers(unsigned int n)
 {
-  cdc_print_stat(s);
-  exit(EXIT_FAILURE);
-}
+  array_t *numbers = NULL;
+  if (array_ctor(&numbers, NULL /* data info */) != CDC_STATUS_OK)
+    return NULL;
 
-void print_int_array(array_t *v)
-{
-  for (size_t i = 0; i < array_size(v); ++i) {
-    printf("%i\n", CDC_TO_INT(array_get(v, i)));
+  array_reserve(numbers, n + 1);
+  for (unsigned int i = 0; i < n + 1; ++i)
+    array_push_back(numbers, CDC_FROM_UINT(i));
+
+  array_t *prime_numbers = NULL;
+  if (array_ctor(&prime_numbers, NULL /* data info */) != CDC_STATUS_OK) {
+    array_dtor(numbers);
+    return NULL;
   }
+
+  for (unsigned int p = 2; p < n + 1; ++p) {
+    void *val = array_get(numbers, p);
+    if (CDC_TO_UINT(val) != 0) {
+      if (array_push_back(prime_numbers, val) != CDC_STATUS_OK) {
+        array_dtor(prime_numbers);
+        array_dtor(numbers);
+        return NULL;
+      }
+
+      for (unsigned int i = p * p; i < n + 1; i += p)
+        array_set(numbers, i, CDC_FROM_UINT(0));
+    }
+  }
+
+  array_dtor(numbers);
+  return prime_numbers;
 }
 
 int main(int argc, char **argv)
@@ -44,59 +66,14 @@ int main(int argc, char **argv)
   CDC_UNUSED(argc);
   CDC_UNUSED(argv);
 
-  array_t *v = NULL;
-  array_t *w = NULL;
+  array_t *prime_numbers = find_uint_prime_numbers(1000);
+  if (!prime_numbers)
+    return EXIT_FAILURE;
 
-  enum cdc_stat ret;
-  if ((ret = cdc_array_ctor(&v, NULL)) != CDC_STATUS_OK) {
-    exit_wiht_stat(ret);
-  }
+  for (unsigned i = 0; i < array_size(prime_numbers); ++i)
+    printf("%u ", CDC_TO_UINT(array_get(prime_numbers, i)));
 
-  int a = 0, b = 1, c = 2, d = 4, f = 5;
-  if ((ret = array_push_back(v, CDC_FROM_INT(a))) != CDC_STATUS_OK) {
-    exit_wiht_stat(ret);
-  }
-  if ((ret = array_push_back(v, CDC_FROM_INT(b))) != CDC_STATUS_OK) {
-    exit_wiht_stat(ret);
-  }
-  if ((ret = array_push_back(v, CDC_FROM_INT(c))) != CDC_STATUS_OK) {
-    exit_wiht_stat(ret);
-  }
-  if ((ret = array_push_back(v, CDC_FROM_INT(d))) != CDC_STATUS_OK) {
-    exit_wiht_stat(ret);
-  }
-  if ((ret = array_push_back(v, CDC_FROM_INT(f))) != CDC_STATUS_OK) {
-    exit_wiht_stat(ret);
-  }
-
-  print_int_array(v);
-  while (!array_empty(v)) {
-    array_pop_back(v);
-  }
-
-  array_dtor(v);
-  if ((ret = array_ctorl(&v, NULL, CDC_TO_INT(a), CDC_TO_INT(b), CDC_TO_INT(c),
-                         CDC_TO_INT(d), CDC_TO_INT(f), CDC_END)) !=
-      CDC_STATUS_OK) {
-    exit_wiht_stat(ret);
-  }
-
-  print_int_array(v);
-  array_dtor(v);
-  if ((ret = array_ctorl(&v, NULL, CDC_TO_INT(c), CDC_TO_INT(d), CDC_END)) !=
-      CDC_STATUS_OK) {
-    exit_wiht_stat(ret);
-  }
-
-  if ((ret = array_ctorl(&w, NULL, CDC_TO_INT(a), CDC_TO_INT(b), CDC_END)) !=
-      CDC_STATUS_OK) {
-    exit_wiht_stat(ret);
-  }
-
-  array_swap(v, w);
-  print_int_array(v);
-  print_int_array(w);
-  array_dtor(v);
-  array_dtor(w);
-  return 0;
+  printf("\n");
+  array_dtor(prime_numbers);
+  return EXIT_SUCCESS;
 }
