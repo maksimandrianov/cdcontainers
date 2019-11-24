@@ -250,7 +250,7 @@ void cdc_stack_swap(struct cdc_stack *a, struct cdc_stack *b);
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
-typedef struct cdc_stack stack_t;
+typedef struct cdc_stack cstack_t;
 
 #define stack_ctor(...) cdc_stack_ctor(__VA_ARGS__)
 #define stack_ctorl(...) cdc_stack_ctorl(__VA_ARGS__)
