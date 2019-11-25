@@ -1,5 +1,7 @@
 # [cdcontainers](https://maksimandrianov.github.io/cdcontainers.github.io/) - data containers and data structures for C
 
+![](https://repository-images.githubusercontent.com/109067289/e3459080-0fac-11ea-8f62-94d4455f0e53)
+
 [![Build Status](https://travis-ci.org/maksimandrianov/cdcontainers.svg?branch=master)](https://travis-ci.org/maksimandrianov/cdcontainers)
 [![Documentation](https://img.shields.io/badge/api-reference-blue.svg)](https://maksimandrianov.github.io/cdcontainers.github.io/)
 
@@ -27,93 +29,111 @@ and following interfaces:
 Example of using a array from a library cdcontainers:
 
 ```c
-// cdc_map_t example usage:
-#define CDC_USE_SHORT_NAMES  // for short names (functions and structs without prefix cdc_*)
-#include <cdcontainers/map.h>
-#include <cdcontainers/casts.h>
-#include <stdio.h>
+// Program to emulates the phone book.
+#define CDC_USE_SHORT_NAMES
+#include <cdcontainers/cdc.h>
 
-static int lt_int(const void *l, const void *r)
+#include <stdio.h>
+#include <string.h>
+
+int str_lt(const void *lhs, const void *rhs)
 {
-  return l < r;
+  return strcmp((const char *)lhs, (const char *)rhs) < 0;
 }
 
-int main(int argc, char** argv)
+int handle_error(map_t *phone_book)
 {
-  map_t *m = NULL;
+  map_dtor(phone_book);
+  return EXIT_FAILURE;
+}
 
-  map_ctor1(cdc_map_avl, &m, NULL /* info */, lt_int);
-  for (int i = 1; i < 10; ++i)
-    map_insert(m, CDC_FROM_INT(i), CDC_FROM_INT(i * 10), NULL /* it */, NULL /* inserted */);
-
-  map_iter_t it1;
-  map_iter_t it2;
-
-  map_iter_init(m, &it1);
-  map_iter_init(m, &it2);
-
-  map_begin(m, &it1);
-  map_end(m, &it2);
-
-  while (!map_iter_is_eq(&it1, &it2)) {
-    printf("%i: %i\n", CDC_TO_INT(map_iter_key(&it1)), CDC_TO_INT(map_iter_value(&it1)));
-    map_iter_next(&it1);
+void print_phone_book(map_t *phone_book)
+{
+  map_iter_t iter = CDC_INIT_STRUCT;
+  if (map_iter_init(phone_book, &iter) != CDC_STATUS_OK)
+  {
+    printf("Error map_iter_init.\n");
+    return;
   }
 
-  printf("\n");
-
-  map_find(m, CDC_INT_TO(4), &it1);
-  printf("Found %i: %i\n", CDC_TO_INT(map_iter_key(&it1)), CDC_TO_INT(map_iter_value(&it1)));
-
-  map_iter_free(&it1);
-  map_iter_free(&it2);
-  map_dtor(m);
-  return 0;
+  map_begin(phone_book, &iter);
+  while (map_iter_has_next(&iter))
+  {
+    printf("%s - %s\n",(char *)map_iter_key(&iter), (char *)map_iter_value(&iter));
+    map_iter_next(&iter);
+  }
 }
-```
-The output of this program is the following:
-```
-1: 10
-2: 20
-3: 30
-4: 40
-5: 50
-6: 60
-7: 70
-8: 80
-9: 90
 
-Found 4: 40
-```
-
-```c
-// cdc_array_t example usage:
-#define CDC_USE_SHORT_NAMES  // for short names (functions and structs without prefix cdc_*)
-#include <cdcontainers/array.h>
-#include <cdcontainers/casts.h>
-#include <stdio.h>
-
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
-  array_t *v = NULL;
-  array_ctor(&v, NULL /* info */);
+  CDC_UNUSED(argc);
+  CDC_UNUSED(argv);
 
-  array_push_back(v, CDC_FROM_INT(7));
-  array_push_back(v, CDC_FROM_INT(8));
+  map_t *phone_book = NULL;
+  data_info_t data_info = CDC_INIT_STRUCT;
+  data_info.cmp = str_lt;
 
-  for (size_t i = 0; i < array_size(v); ++i)
-    printf("%i ", CDC_TO_INT(array_get(v, i)));
+  pair_t Lilia_Friedman = {.first = "Lilia Friedman", .second = "(892) 670-4739"};
+  pair_t Tariq_Beltran = {.first = "Tariq Beltran", .second = "(489) 600-7575"};
+  pair_t Laiba_Juarez = {.first = "Laiba Juarez", .second = "(303) 885-5692"};
+  pair_t Elliott_Mooney = {.first = "Elliott Mooney", .second = "(945) 616-4482"};
 
-  printf("\n");
+  // map based on avl tree
+  if (map_ctorl(cdc_map_avl, &phone_book, &data_info, &Lilia_Friedman, &Tariq_Beltran,
+                &Laiba_Juarez, &Elliott_Mooney, CDC_END) != CDC_STATUS_OK) {
+    return EXIT_FAILURE;
+  }
 
-  array_dtor(v);
-  return 0;
+  printf("Phone book:\n");
+  print_phone_book(phone_book);
+
+  if (map_insert(phone_book, "Zak Byers", "(551) 396-1880",
+                 NULL /* iterator */, NULL /* is_inserted */) != CDC_STATUS_OK) {
+    return handle_error(phone_book);
+  }
+
+  printf("Phone book after adding Zak Byers:\n");
+  print_phone_book(phone_book);
+
+  if (map_count(phone_book, "Tariq Beltran") != 0)
+    map_erase(phone_book, "Tariq Beltran");
+
+  printf("Phone book after erasing Tariq Beltran:\n");
+  print_phone_book(phone_book);
+
+  if (map_insert_or_assign(phone_book, "Zak Byers", "(555) 396-188",
+                           NULL /* iterator */, NULL /* is_inserted */) != CDC_STATUS_OK) {
+    return handle_error(phone_book);
+  }
+
+  printf("Phone book after update phone of Zak Byers:\n");
+  print_phone_book(phone_book);
+  return EXIT_SUCCESS;
 }
 ```
-
 The output of this program is the following:
 ```
-7 8
+Phone book:
+Elliott Mooney - (945) 616-4482
+Laiba Juarez - (303) 885-5692
+Lilia Friedman - (892) 670-4739
+Tariq Beltran - (489) 600-7575
+Phone book after adding Zak Byers:
+Elliott Mooney - (945) 616-4482
+Laiba Juarez - (303) 885-5692
+Lilia Friedman - (892) 670-4739
+Tariq Beltran - (489) 600-7575
+Zak Byers - (551) 396-1880
+Phone book after erasing Tariq Beltran:
+Elliott Mooney - (945) 616-4482
+Laiba Juarez - (303) 885-5692
+Lilia Friedman - (892) 670-4739
+Zak Byers - (551) 396-1880
+Phone book after update phone of Zak Byers:
+Elliott Mooney - (945) 616-4482
+Laiba Juarez - (303) 885-5692
+Lilia Friedman - (892) 670-4739
+Zak Byers - (555) 396-188
 ```
 
 ### Installation - Unix
