@@ -19,9 +19,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 /**
- * @file
+ * @file map.h
+ * @brief The cdc_map is a struct and functions that provide a map.
+ *
+ * Example usage map:
+ * @include map.c
+ *
  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
- * @brief The cdc_map is a struct and functions that provide a map
  */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_MAP_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_MAP_H
@@ -388,7 +392,6 @@ typedef struct cdc_map_iter map_iter_t;
 #define map_ctor(...) cdc_map_ctor(__VA_ARGS__)
 #define map_ctorv(...) cdc_map_ctorv(__VA_ARGS__)
 #define map_ctorl(...) cdc_map_ctorl(__VA_ARGS__)
-#define map_ctor1(...) cdc_map_ctor1(__VA_ARGS__)
 #define map_dtor(...) cdc_map_dtor(__VA_ARGS__)
 
 // Lookup

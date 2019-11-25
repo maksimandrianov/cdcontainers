@@ -79,4 +79,10 @@ static inline size_t cdc_up_to_pow2(size_t x)
   return x + 1;
 }
 
+// Short names
+#ifdef CDC_USE_SHORT_NAMES
+typedef struct cdc_pair pair_t;
+typedef struct cdc_data_info data_info_t;
+#endif
+
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_COMMON_H
