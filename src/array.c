@@ -28,25 +28,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define VECTOR_MIN_CAPACITY 4
-#define VECTOR_COPACITY_EXP 2.0f
-#define VECTOR_SHRINK_THRESHOLD 4.0f
-
-static bool should_shrink(struct cdc_array *v)
-{
-  return v->size * VECTOR_SHRINK_THRESHOLD <= v->capacity;
-}
+#define ARRAY_MIN_CAPACITY 4
+#define ARRAY_COPACITY_EXP 2.0f
 
 static bool should_grow(struct cdc_array *v) { return v->size == v->capacity; }
 
 static enum cdc_stat reallocate(struct cdc_array *v, size_t capacity)
 {
-  if (capacity < VECTOR_MIN_CAPACITY) {
-    if (v->capacity > VECTOR_MIN_CAPACITY) {
-      capacity = VECTOR_MIN_CAPACITY;
-    } else {
-      return CDC_STATUS_OK;
-    }
+  if (capacity < ARRAY_MIN_CAPACITY) {
+    capacity = ARRAY_MIN_CAPACITY;
+  }
+
+  if (capacity < v->size) {
+    return CDC_STATUS_OK;
   }
 
   void **tmp = (void **)malloc(capacity * sizeof(void *));
@@ -61,14 +55,25 @@ static enum cdc_stat reallocate(struct cdc_array *v, size_t capacity)
   return CDC_STATUS_OK;
 }
 
-static enum cdc_stat grow(struct cdc_array *v)
+static void free_data(struct cdc_array *v)
 {
-  return reallocate(v, v->capacity * VECTOR_COPACITY_EXP);
+  if (CDC_HAS_DFREE(v->dinfo)) {
+    for (size_t i = 0; i < v->size; ++i) {
+      v->dinfo->dfree(v->buffer[i]);
+    }
+  }
 }
 
-static enum cdc_stat shrink(struct cdc_array *v)
+static void free_buffer(struct cdc_array *v)
 {
-  return reallocate(v, v->capacity / VECTOR_COPACITY_EXP);
+  free_data(v);
+  free(v->buffer);
+  v->buffer = NULL;
+}
+
+static enum cdc_stat grow(struct cdc_array *v)
+{
+  return reallocate(v, (size_t)(v->capacity * ARRAY_COPACITY_EXP));
 }
 
 static void move_left(struct cdc_array *v, size_t index)
@@ -81,33 +86,6 @@ static void move_right(struct cdc_array *v, size_t index)
 {
   size_t count_bytes = (v->size - index) * sizeof(void *);
   memmove(v->buffer + index + 1, v->buffer + index, count_bytes);
-}
-
-static void free_data(struct cdc_array *v)
-{
-  if (!CDC_HAS_DFREE(v->dinfo)) {
-    return;
-  }
-
-  for (size_t i = 0; i < v->size; ++i) {
-    v->dinfo->dfree(v->buffer[i]);
-  }
-}
-
-static enum cdc_stat pop_back(struct cdc_array *v, bool must_free)
-{
-  if (must_free && CDC_HAS_DFREE(v->dinfo)) {
-    v->dinfo->dfree(v->buffer[v->size - 1]);
-  }
-
-  --v->size;
-  if (should_shrink(v)) {
-    enum cdc_stat ret = shrink(v);
-    if (ret != CDC_STATUS_OK) {
-      return ret;
-    }
-  }
-  return CDC_STATUS_OK;
 }
 
 static enum cdc_stat init_varg(struct cdc_array *v, va_list args)
@@ -126,28 +104,29 @@ enum cdc_stat cdc_array_ctor(struct cdc_array **v, struct cdc_data_info *info)
 {
   assert(v != NULL);
 
-  enum cdc_stat ret = CDC_STATUS_OK;
   struct cdc_array *tmp =
       (struct cdc_array *)calloc(sizeof(struct cdc_array), 1);
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
+  enum cdc_stat ret = CDC_STATUS_OK;
   if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
     ret = CDC_STATUS_BAD_ALLOC;
-    goto error1;
+    goto free_di;
   }
 
-  ret = reallocate(tmp, VECTOR_MIN_CAPACITY);
+  ret = reallocate(tmp, ARRAY_MIN_CAPACITY);
   if (ret != CDC_STATUS_OK) {
-    goto error2;
+    goto free_array;
   }
 
   *v = tmp;
   return ret;
-error2:
+
+free_di:
   cdc_di_shared_dtor(tmp->dinfo);
-error1:
+free_array:
   free(tmp);
   return ret;
 }
@@ -173,6 +152,7 @@ enum cdc_stat cdc_array_ctorv(struct cdc_array **v, struct cdc_data_info *info,
   if (ret != CDC_STATUS_OK) {
     return ret;
   }
+
   return init_varg(*v, args);
 }
 
@@ -180,8 +160,7 @@ void cdc_array_dtor(struct cdc_array *v)
 {
   assert(v != NULL);
 
-  free_data(v);
-  free(v->buffer);
+  free_buffer(v);
   cdc_di_shared_dtor(v->dinfo);
   free(v);
 }
@@ -190,10 +169,6 @@ enum cdc_stat cdc_array_insert(struct cdc_array *v, size_t index, void *value)
 {
   assert(v != NULL);
   assert(index <= v->size);
-
-  if (index == v->size) {
-    return cdc_array_push_back(v, value);
-  }
 
   if (should_grow(v)) {
     enum cdc_stat ret = grow(v);
@@ -216,31 +191,17 @@ void cdc_array_clear(struct cdc_array *v)
   v->size = 0;
 }
 
-enum cdc_stat cdc_array_remove(struct cdc_array *v, size_t index, void **elem)
+void cdc_array_erase(struct cdc_array *v, size_t index)
 {
   assert(v != NULL);
   assert(index < v->size);
 
-  if (elem) {
-    *elem = v->buffer[index];
-  } else if (CDC_HAS_DFREE(v->dinfo)) {
+  if (CDC_HAS_DFREE(v->dinfo)) {
     v->dinfo->dfree(v->buffer[index]);
-  }
-
-  if (index == v->size - 1) {
-    return pop_back(v, false);
   }
 
   move_left(v, index);
   --v->size;
-  if (should_shrink(v)) {
-    enum cdc_stat ret = shrink(v);
-    if (ret != CDC_STATUS_OK) {
-      return ret;
-    }
-  }
-
-  return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_array_reserve(struct cdc_array *v, size_t capacity)
@@ -250,30 +211,22 @@ enum cdc_stat cdc_array_reserve(struct cdc_array *v, size_t capacity)
   if (capacity > v->capacity) {
     return reallocate(v, capacity);
   }
+
   return CDC_STATUS_OK;
+}
+
+enum cdc_stat shrink_to_fit(struct cdc_array *v)
+{
+  assert(v != NULL);
+
+  return reallocate(v, v->size);
 }
 
 enum cdc_stat cdc_array_push_back(struct cdc_array *v, void *value)
 {
   assert(v != NULL);
 
-  if (should_grow(v)) {
-    enum cdc_stat ret = grow(v);
-    if (ret != CDC_STATUS_OK) {
-      return ret;
-    }
-  }
-
-  v->buffer[v->size++] = value;
-  return CDC_STATUS_OK;
-}
-
-enum cdc_stat cdc_array_pop_back(struct cdc_array *v)
-{
-  assert(v != NULL);
-  assert(v->size > 0);
-
-  return pop_back(v, true);
+  return cdc_array_insert(v, v->size, value);
 }
 
 void cdc_array_swap(struct cdc_array *a, struct cdc_array *b)
@@ -306,7 +259,8 @@ enum cdc_stat cdc_array_append(struct cdc_array *v, void **data, size_t len)
 
   size_t new_capacity = v->size + len;
   if (new_capacity > v->capacity) {
-    enum cdc_stat ret = reallocate(v, new_capacity * VECTOR_COPACITY_EXP);
+    enum cdc_stat ret =
+        reallocate(v, (size_t)(new_capacity * ARRAY_COPACITY_EXP));
     if (ret != CDC_STATUS_OK) {
       return ret;
     }

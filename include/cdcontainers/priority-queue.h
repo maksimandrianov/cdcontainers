@@ -149,14 +149,12 @@ static inline enum cdc_stat cdc_priority_queue_push(
 /**
  * @brief Removes the top element.
  * @param q - cdc_priority_queue
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
  */
-static inline enum cdc_stat cdc_priority_queue_pop(struct cdc_priority_queue *q)
+static inline void cdc_priority_queue_pop(struct cdc_priority_queue *q)
 {
   assert(q != NULL);
 
-  return q->table->pop(q->container);
+  q->table->pop(q->container);
 }
 
 /**

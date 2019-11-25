@@ -64,11 +64,11 @@ void test_heap_ctorl()
   CU_ASSERT_EQUAL(cdc_heap_size(h), 2);
 
   CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), b);
-  CU_ASSERT_EQUAL(cdc_heap_extract_top(h), CDC_STATUS_OK);
+  cdc_heap_extract_top(h);
   CU_ASSERT_EQUAL(cdc_heap_size(h), 1);
 
   CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), a);
-  CU_ASSERT_EQUAL(cdc_heap_extract_top(h), CDC_STATUS_OK);
+  cdc_heap_extract_top(h);
   CU_ASSERT_EQUAL(cdc_heap_size(h), 0);
   cdc_heap_dtor(h);
 }
@@ -97,19 +97,19 @@ void test_heap_extract_top()
                   CDC_STATUS_OK);
 
   CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), b);
-  CU_ASSERT_EQUAL(cdc_heap_extract_top(h), CDC_STATUS_OK);
+  cdc_heap_extract_top(h);
   CU_ASSERT_EQUAL(cdc_heap_size(h), 3);
 
   CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), c);
-  CU_ASSERT_EQUAL(cdc_heap_extract_top(h), CDC_STATUS_OK);
+  cdc_heap_extract_top(h);
   CU_ASSERT_EQUAL(cdc_heap_size(h), 2);
 
   CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), d);
-  CU_ASSERT_EQUAL(cdc_heap_extract_top(h), CDC_STATUS_OK);
+  cdc_heap_extract_top(h);
   CU_ASSERT_EQUAL(cdc_heap_size(h), 1);
 
   CU_ASSERT_EQUAL(CDC_TO_INT(cdc_heap_top(h)), a);
-  CU_ASSERT_EQUAL(cdc_heap_extract_top(h), CDC_STATUS_OK);
+  cdc_heap_extract_top(h);
   CU_ASSERT(cdc_heap_empty(h));
   cdc_heap_dtor(h);
 }

@@ -80,12 +80,12 @@ static enum cdc_stat push(void *cntr, void *elem)
   return cdc_binomial_heap_insert(heap, elem);
 }
 
-static enum cdc_stat pop(void *cntr)
+static void pop(void *cntr)
 {
   assert(cntr != NULL);
 
   struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
-  return cdc_binomial_heap_extract_top(heap);
+  cdc_binomial_heap_extract_top(heap);
 }
 
 static const struct cdc_priority_queue_table _table = {.ctor = ctor,

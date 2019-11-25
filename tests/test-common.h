@@ -29,7 +29,7 @@
 void test_ptr_float_cast();
 void test_ptr_double_cast();
 
-// Vector tests
+// Array tests
 void test_array_ctor();
 void test_array_ctorl();
 void test_array_reserve();

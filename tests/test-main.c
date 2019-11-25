@@ -46,7 +46,7 @@ int main(int argc, char** argv)
     return CU_get_error();
   }
 
-  p_suite = CU_add_suite("VECTOR TESTS", NULL, NULL);
+  p_suite = CU_add_suite("ARRAY TESTS", NULL, NULL);
   if (p_suite == NULL) {
     CU_cleanup_registry();
     return CU_get_error();

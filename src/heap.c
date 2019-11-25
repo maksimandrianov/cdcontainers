@@ -153,24 +153,20 @@ void cdc_heap_dtor(struct cdc_heap *h)
   free(h);
 }
 
-enum cdc_stat cdc_heap_extract_top(struct cdc_heap *h)
+void cdc_heap_extract_top(struct cdc_heap *h)
 {
   assert(h != NULL);
   assert(cdc_heap_size(h) > 0);
 
   void *elem = cdc_array_back(h->array);
-  enum cdc_stat ret = cdc_array_pop_back(h->array);
-  if (ret != CDC_STATUS_OK) {
-    return ret;
-  }
+  cdc_array_pop_back(h->array);
 
   if (cdc_array_empty(h->array)) {
-    return ret;
+    return;
   }
 
   cdc_array_set(h->array, 0, elem);
   sift_down(h, 0);
-  return ret;
 }
 
 void cdc_heap_change_key(struct cdc_heap *h, struct cdc_heap_iter *pos,

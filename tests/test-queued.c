@@ -49,12 +49,12 @@ void test_queued_ctorl()
 
   void *elem = cdc_queue_front(q);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), a);
-  CU_ASSERT_EQUAL(cdc_queue_pop(q), CDC_STATUS_OK);
+  cdc_queue_pop(q);
   CU_ASSERT_EQUAL(cdc_queue_size(q), 1);
 
   elem = cdc_queue_front(q);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), b);
-  CU_ASSERT_EQUAL(cdc_queue_pop(q), CDC_STATUS_OK);
+  cdc_queue_pop(q);
   CU_ASSERT_EQUAL(cdc_queue_size(q), 0);
   cdc_queue_dtor(q);
 }
@@ -95,22 +95,22 @@ void test_queued_pop()
       CDC_STATUS_OK);
 
   void *elem = cdc_queue_front(q);
-  CU_ASSERT_EQUAL(cdc_queue_pop(q), CDC_STATUS_OK);
+  cdc_queue_pop(q);
   CU_ASSERT_EQUAL(cdc_queue_size(q), 3);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), a);
 
   elem = cdc_queue_front(q);
-  CU_ASSERT_EQUAL(cdc_queue_pop(q), CDC_STATUS_OK);
+  cdc_queue_pop(q);
   CU_ASSERT_EQUAL(cdc_queue_size(q), 2);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), b);
 
   elem = cdc_queue_front(q);
-  CU_ASSERT_EQUAL(cdc_queue_pop(q), CDC_STATUS_OK);
+  cdc_queue_pop(q);
   CU_ASSERT_EQUAL(cdc_queue_size(q), 1);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), c);
 
   elem = cdc_queue_front(q);
-  CU_ASSERT_EQUAL(cdc_queue_pop(q), CDC_STATUS_OK);
+  cdc_queue_pop(q);
   CU_ASSERT(cdc_queue_empty(q));
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), d);
   cdc_queue_dtor(q);

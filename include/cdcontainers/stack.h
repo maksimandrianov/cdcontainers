@@ -231,14 +231,12 @@ static inline enum cdc_stat cdc_stack_push(struct cdc_stack *s, void *elem)
  * @brief Removes the top item from the stack. This function assumes that the
  * stack isn't empty.
  * @param s - cdc_stack
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
  */
-static inline enum cdc_stat cdc_stack_pop(struct cdc_stack *s)
+static inline void cdc_stack_pop(struct cdc_stack *s)
 {
   assert(s != NULL);
 
-  return s->table->pop_back(s->container);
+  s->table->pop_back(s->container);
 }
 
 /**

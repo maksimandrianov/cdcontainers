@@ -88,12 +88,12 @@ static enum cdc_stat push_back(void *cntr, void *elem)
   return cdc_deque_push_back(deque, elem);
 }
 
-static enum cdc_stat pop_back(void *cntr)
+static void pop_back(void *cntr)
 {
   assert(cntr != NULL);
 
   struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  return cdc_deque_pop_back(deque);
+  cdc_deque_pop_back(deque);
 }
 
 static enum cdc_stat push_front(void *cntr, void *elem)
@@ -104,12 +104,12 @@ static enum cdc_stat push_front(void *cntr, void *elem)
   return cdc_deque_push_front(deque, elem);
 }
 
-static enum cdc_stat pop_front(void *cntr)
+static void pop_front(void *cntr)
 {
   assert(cntr != NULL);
 
   struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  return cdc_deque_pop_front(deque);
+  cdc_deque_pop_front(deque);
 }
 
 static enum cdc_stat insert(void *cntr, size_t index, void *value)
@@ -120,12 +120,12 @@ static enum cdc_stat insert(void *cntr, size_t index, void *value)
   return cdc_deque_insert(deque, index, value);
 }
 
-static enum cdc_stat erase(void *cntr, size_t index)
+static void erase(void *cntr, size_t index)
 {
   assert(cntr != NULL);
 
   struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  return cdc_deque_erase(deque, index);
+  cdc_deque_erase(deque, index);
 }
 
 static void clear(void *cntr)

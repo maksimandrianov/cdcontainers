@@ -47,11 +47,11 @@ struct cdc_sequence_table {
   bool (*empty)(void *cntr);
   size_t (*size)(void *cntr);
   enum cdc_stat (*push_back)(void *cntr, void *elem);
-  enum cdc_stat (*pop_back)(void *cntr);
+  void (*pop_back)(void *cntr);
   enum cdc_stat (*push_front)(void *cntr, void *elem);
-  enum cdc_stat (*pop_front)(void *cntr);
+  void (*pop_front)(void *cntr);
   enum cdc_stat (*insert)(void *cntr, size_t index, void *value);
-  enum cdc_stat (*erase)(void *cntr, size_t index);
+  void (*erase)(void *cntr, size_t index);
   void (*clear)(void *cntr);
   void *(*get)(void *cntr, size_t index);
   void (*set)(void *cntr, size_t index, void *value);

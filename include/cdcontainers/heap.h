@@ -133,10 +133,8 @@ static inline bool cdc_heap_empty(struct cdc_heap *h)
  * @brief Extracts the top item from the heap. This function assumes that the
  * heap isn't empty.
  * @param h - cdc_heap
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
  */
-enum cdc_stat cdc_heap_extract_top(struct cdc_heap *h);
+void cdc_heap_extract_top(struct cdc_heap *h);
 
 /**
  * @brief Inserts element key to the heap. Write an iterator pointing to a new

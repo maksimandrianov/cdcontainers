@@ -200,25 +200,20 @@ void test_array_erase()
 {
   struct cdc_array *v = NULL;
   int a = 0, b = 1, c = 2, d = 3;
-  void *elem = NULL;
 
   CU_ASSERT_EQUAL(cdc_array_ctorl(&v, NULL, CDC_FROM_INT(a), CDC_FROM_INT(b),
                                   CDC_FROM_INT(c), CDC_FROM_INT(d), CDC_END),
                   CDC_STATUS_OK);
 
-  CU_ASSERT_EQUAL(cdc_array_remove(v, 2, &elem), CDC_STATUS_OK);
-  CU_ASSERT_EQUAL(CDC_TO_INT(elem), c);
+  cdc_array_erase(v, 2);
   CU_ASSERT_EQUAL(cdc_array_size(v), 3);
   CU_ASSERT(array_range_int_eq(v, 3, a, b, d));
 
-  CU_ASSERT_EQUAL(cdc_array_remove(v, 0, &elem), CDC_STATUS_OK);
-  CU_ASSERT_EQUAL(CDC_TO_INT(elem), a);
+  cdc_array_erase(v, 0);
   CU_ASSERT_EQUAL(cdc_array_size(v), 2);
   CU_ASSERT(array_range_int_eq(v, 2, b, d));
 
-  CU_ASSERT_EQUAL(cdc_array_remove(v, cdc_array_size(v) - 1, &elem),
-                  CDC_STATUS_OK);
-  CU_ASSERT_EQUAL(CDC_TO_INT(elem), d);
+  cdc_array_erase(v, cdc_array_size(v) - 1);
   CU_ASSERT_EQUAL(cdc_array_size(v), 1);
   CU_ASSERT(array_range_int_eq(v, 1, b));
   cdc_array_dtor(v);
@@ -269,22 +264,22 @@ void test_array_pop_back()
                   CDC_STATUS_OK);
 
   void *elem = cdc_array_back(v);
-  CU_ASSERT_EQUAL(cdc_array_pop_back(v), CDC_STATUS_OK);
+  cdc_array_pop_back(v);
   CU_ASSERT_EQUAL(cdc_array_size(v), 3);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), d);
 
   elem = cdc_array_back(v);
-  CU_ASSERT_EQUAL(cdc_array_pop_back(v), CDC_STATUS_OK);
+  cdc_array_pop_back(v);
   CU_ASSERT_EQUAL(cdc_array_size(v), 2);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), c);
 
   elem = cdc_array_back(v);
-  CU_ASSERT_EQUAL(cdc_array_pop_back(v), CDC_STATUS_OK);
+  cdc_array_pop_back(v);
   CU_ASSERT_EQUAL(cdc_array_size(v), 1);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), b);
 
   elem = cdc_array_back(v);
-  CU_ASSERT_EQUAL(cdc_array_pop_back(v), CDC_STATUS_OK);
+  cdc_array_pop_back(v);
   CU_ASSERT(cdc_array_empty(v));
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), a);
   cdc_array_dtor(v);

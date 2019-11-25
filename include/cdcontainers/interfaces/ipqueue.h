@@ -46,7 +46,7 @@ struct cdc_priority_queue_table {
   bool (*empty)(void *cntr);
   size_t (*size)(void *cntr);
   enum cdc_stat (*push)(void *cntr, void *elem);
-  enum cdc_stat (*pop)(void *cntr);
+  void (*pop)(void *cntr);
 };
 
 extern const void *cdc_pq_heap;

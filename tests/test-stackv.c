@@ -49,12 +49,12 @@ void test_stackv_ctorl()
 
   void *elem = cdc_stack_top(s);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), b);
-  CU_ASSERT_EQUAL(cdc_stack_pop(s), CDC_STATUS_OK);
+  cdc_stack_pop(s);
   CU_ASSERT_EQUAL(cdc_stack_size(s), 1);
 
   elem = cdc_stack_top(s);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), a);
-  CU_ASSERT_EQUAL(cdc_stack_pop(s), CDC_STATUS_OK);
+  cdc_stack_pop(s);
   CU_ASSERT(cdc_stack_empty(s));
   cdc_stack_dtor(s);
 }
@@ -93,22 +93,22 @@ void test_stackv_pop()
                   CDC_STATUS_OK);
 
   void *elem = cdc_stack_top(s);
-  CU_ASSERT_EQUAL(cdc_stack_pop(s), CDC_STATUS_OK);
+  cdc_stack_pop(s);
   CU_ASSERT_EQUAL(cdc_stack_size(s), 3);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), d);
 
   elem = cdc_stack_top(s);
-  CU_ASSERT_EQUAL(cdc_stack_pop(s), CDC_STATUS_OK);
+  cdc_stack_pop(s);
   CU_ASSERT_EQUAL(cdc_stack_size(s), 2);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), c);
 
   elem = cdc_stack_top(s);
-  CU_ASSERT_EQUAL(cdc_stack_pop(s), CDC_STATUS_OK);
+  cdc_stack_pop(s);
   CU_ASSERT_EQUAL(cdc_stack_size(s), 1);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), b);
 
   elem = cdc_stack_top(s);
-  CU_ASSERT_EQUAL(cdc_stack_pop(s), CDC_STATUS_OK);
+  cdc_stack_pop(s);
   CU_ASSERT(cdc_stack_empty(s));
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), a);
   cdc_stack_dtor(s);

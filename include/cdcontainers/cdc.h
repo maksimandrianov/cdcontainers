@@ -21,16 +21,17 @@
 
 /*! @mainpage cdcontainers - data containers and data structures for C
  *
- * Library of data containers and data structures for C programming language. The cdcontainers
- * interface is similar to C ++ STL.
- * The library contains the following data containers:
+ * Library of data containers and data structures for C programming language.
+ * The cdcontainers interface is similar to C ++ STL. The library contains the
+ * following data containers:
  *   - cdc_array - dynamic array. See array.h.
  *   - cdc_list - doubly linked list. See list.h.
  *   - cdc_deque - double-ended queue. See deque.h.
  *   - cdc_heap - binary heap. See heap.h.
  *   - cdc_binomial_heap - binomial heap. See binomial-heap.h.
  *   - cdc_pairing_heap - pairing heap. See pairing-heap.h.
- *   - cdc_hash_table - hash table with collisions resolved by chaining. See hash-table.h.
+ *   - cdc_hash_table - hash table with collisions resolved by chaining. See
+ * hash-table.h.
  *   - cdc_avl_tree - avl tree. See avl-tree.h.
  *   - cdc_splay_tree - splay tree. See splay-tree.h.
  *   - cdc_treep - сartesian tree. See treap.h.
@@ -38,9 +39,10 @@
  * and following interfaces:
  *   - cdc_stack (Can work with: cdc_array, cdc_list, cdc_deque). See stack.h.
  *   - cdc_queue (Can work with: cdc_array, cdc_list, cdc_deque). See queue.h.
- *   - cdc_proirity_queue (Can work with: cdc_heap, cdc_binomial_heap, cdc_pairing_heap).
- * See priority-queue.h.
- *   - cdc_map (Can work with: cdc_avl_tree, cdc_splay_tree, cdc_treep). See map.h.
+ *   - cdc_proirity_queue (Can work with: cdc_heap, cdc_binomial_heap,
+ * cdc_pairing_heap). See priority-queue.h.
+ *   - cdc_map (Can work with: cdc_avl_tree, cdc_splay_tree, cdc_treep). See
+ * map.h.
  *
  *  Example usage array:
  *  @include array.c

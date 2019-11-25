@@ -201,6 +201,14 @@ static inline size_t cdc_array_capacity(struct cdc_array *v)
   return v->capacity;
 }
 
+/**
+ * @brief Requests the container to reduce its capacity to fit its size.
+ * @param v - cdc_array
+ * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * an error
+ */
+enum cdc_stat shrink_to_fit(struct cdc_array *v);
+
 // Modifiers
 /**
  * @brief Sets the array at index position to the value. The function is not
@@ -230,31 +238,12 @@ static inline void cdc_array_set(struct cdc_array *v, size_t index, void *value)
 enum cdc_stat cdc_array_insert(struct cdc_array *v, size_t index, void *value);
 
 /**
- * @brief Removes the element at index position.
- * The pointer will be written in elem. Index must be a valid index position
- * in the array. The function is not called to free memory.
- * @param v - cdc_array
- * @param index - index position where the item will be removed
- * @param elem - pointer where the removed item will be written
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_array_remove(struct cdc_array *v, size_t index, void **elem);
-
-/**
  * @brief Removes the element at index position. Index must be a valid index
  * position in the array.
  * @param v - cdc_array
  * @param index - index position where the item will be removed
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
  */
-static inline enum cdc_stat cdc_array_erase(struct cdc_array *v, size_t index)
-{
-  assert(v != NULL);
-
-  return cdc_array_remove(v, index, NULL);
-}
+void cdc_array_erase(struct cdc_array *v, size_t index);
 
 /**
  * @brief Removes all the elements from the array.
@@ -274,10 +263,14 @@ enum cdc_stat cdc_array_push_back(struct cdc_array *v, void *value);
 /**
  * @brief Removes the last item in the array.
  * @param v - cdc_array
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
  */
-enum cdc_stat cdc_array_pop_back(struct cdc_array *v);
+static inline void cdc_array_pop_back(struct cdc_array *v)
+{
+  assert(v != NULL);
+  assert(v->size > 0);
+
+  cdc_array_erase(v, v->size - 1);
+}
 
 /**
  * @brief Appends the data onto the end of cdc_array v.

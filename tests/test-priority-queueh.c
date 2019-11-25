@@ -61,11 +61,11 @@ void test_priority_queue_ctorl()
   CU_ASSERT_EQUAL(cdc_priority_queue_size(h), 2);
 
   CU_ASSERT(CDC_TO_INT(cdc_priority_queue_top(h)) == a);
-  CU_ASSERT_EQUAL(cdc_priority_queue_pop(h), CDC_STATUS_OK);
+  cdc_priority_queue_pop(h);
   CU_ASSERT_EQUAL(cdc_priority_queue_size(h), 1);
 
   CU_ASSERT(CDC_TO_INT(cdc_priority_queue_top(h)) == a);
-  CU_ASSERT_EQUAL(cdc_priority_queue_pop(h), CDC_STATUS_OK);
+  cdc_priority_queue_pop(h);
   CU_ASSERT(cdc_priority_queue_empty(h));
   cdc_priority_queue_dtor(h);
 }
@@ -105,19 +105,19 @@ void test_priority_queue_pop()
                   CDC_STATUS_OK);
 
   CU_ASSERT_EQUAL(CDC_TO_INT(cdc_priority_queue_top(h)), b);
-  CU_ASSERT_EQUAL(cdc_priority_queue_pop(h), CDC_STATUS_OK);
+  cdc_priority_queue_pop(h);
   CU_ASSERT_EQUAL(cdc_priority_queue_size(h), 3);
 
   CU_ASSERT_EQUAL(CDC_TO_INT(cdc_priority_queue_top(h)), c);
-  CU_ASSERT_EQUAL(cdc_priority_queue_pop(h), CDC_STATUS_OK);
+  cdc_priority_queue_pop(h);
   CU_ASSERT_EQUAL(cdc_priority_queue_size(h), 2);
 
   CU_ASSERT_EQUAL(CDC_TO_INT(cdc_priority_queue_top(h)), d);
-  CU_ASSERT_EQUAL(cdc_priority_queue_pop(h), CDC_STATUS_OK);
+  cdc_priority_queue_pop(h);
   CU_ASSERT_EQUAL(cdc_priority_queue_size(h), 1);
 
   CU_ASSERT_EQUAL(CDC_TO_INT(cdc_priority_queue_top(h)), a);
-  CU_ASSERT_EQUAL(cdc_priority_queue_pop(h), CDC_STATUS_OK);
+  cdc_priority_queue_pop(h);
   CU_ASSERT(cdc_priority_queue_empty(h));
   cdc_priority_queue_dtor(h);
 }

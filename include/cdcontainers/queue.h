@@ -159,14 +159,12 @@ static inline enum cdc_stat cdc_queue_push(struct cdc_queue *q, void *elem)
  * @brief Removes the head item in the queue. This function assumes that the
  * queue isn't empty.
  * @param q - cdc_queue
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
  */
-static inline enum cdc_stat cdc_queue_pop(struct cdc_queue *q)
+static void cdc_queue_pop(struct cdc_queue *q)
 {
   assert(q != NULL);
 
-  return q->table->pop_front(q->container);
+  q->table->pop_front(q->container);
 }
 
 /**

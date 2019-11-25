@@ -23,24 +23,25 @@ include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_INCLUDE_DIR}")
 
 set(SOURCE
-  test-common.h
-  test-common.c
-  test-vector.c
-  test-list.c
-  test-deque.c
-  test-heap.c
-  test-stackv.c
-  test-queued.c
-  test-priority-queueh.c
-  test-mapa.c
-  test-queued.c
-  test-treap.c
-  test-binomial-heap.c
-  test-pairing-heap.c
-  test-hash-table.c
-  test-splay-tree.c
+  test-array.c
   test-avl-tree.c
-  test-main.c)
+  test-binomial-heap.c
+  test-common.c
+  test-common.h
+  test-deque.c
+  test-hash-table.c
+  test-heap.c
+  test-list.c
+  test-main.c
+  test-mapa.c
+  test-pairing-heap.c
+  test-priority-queueh.c
+  test-queued.c
+  test-queued.c
+  test-splay-tree.c
+  test-stackv.c
+  test-treap.c
+)
 
 add_executable(${PROJECT_NAME} ${SOURCE})
 
