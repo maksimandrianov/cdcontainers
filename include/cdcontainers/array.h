@@ -19,9 +19,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 /**
- * @file
+ * @file array.h
+ * @brief The cdc_array is a struct and functions that provide a dynamic array.
+ *
+ * Example usage array:
+ * @include array.c
+ *
  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
- * @brief The cdc_array is a struct and functions that provide a dynamic array
  */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_VECTOR_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_VECTOR_H

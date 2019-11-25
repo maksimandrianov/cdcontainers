@@ -19,7 +19,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-/*! \mainpage cdcontainers - data containers and data structures for C
+/*! @mainpage cdcontainers - data containers and data structures for C
  *
  * Library of data containers and data structures for C programming language. The cdcontainers
  * interface is similar to C ++ STL.
@@ -43,7 +43,7 @@
  *   - cdc_map (Can work with: cdc_avl_tree, cdc_splay_tree, cdc_treep). See map.h.
  *
  *  Example usage array:
- *  \include array.c
+ *  @include array.c
  *
  */
 
