@@ -203,7 +203,6 @@ void test_avl_tree_iterators();
 void test_avl_tree_get();
 void test_avl_tree_count();
 void test_avl_tree_find();
-void test_avl_tree_equal_range();
 void test_avl_tree_clear();
 void test_avl_tree_insert_or_assign();
 void test_avl_tree_erase();

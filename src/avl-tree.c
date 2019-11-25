@@ -33,14 +33,29 @@ MAKE_MAX_NODE(struct cdc_avl_tree_node *)
 MAKE_SUCCESSOR(struct cdc_avl_tree_node *)
 MAKE_PREDECESSOR(struct cdc_avl_tree_node *)
 
+static struct cdc_avl_tree_node *new_node(void *key, void *val)
+{
+  struct cdc_avl_tree_node *node =
+      (struct cdc_avl_tree_node *)malloc(sizeof(struct cdc_avl_tree_node));
+  if (!node) {
+    return NULL;
+  }
+
+  node->key = key;
+  node->value = val;
+  node->height = 1;
+  node->parent = NULL;
+  node->left = NULL;
+  node->right = NULL;
+  return node;
+}
+
 static void free_node(struct cdc_avl_tree *t, struct cdc_avl_tree_node *node)
 {
   assert(t != NULL);
 
   if (CDC_HAS_DFREE(t->dinfo)) {
-    struct cdc_pair pair;
-    pair.first = node->key;
-    pair.second = node->value;
+    struct cdc_pair pair = {.first = node->key, .second = node->value};
     t->dinfo->dfree(&pair);
   }
 
@@ -59,21 +74,6 @@ static void free_avl_tree(struct cdc_avl_tree *t,
   free_avl_tree(t, root->left);
   free_avl_tree(t, root->right);
   free_node(t, root);
-}
-
-static struct cdc_avl_tree_node *new_node(void *key, void *val)
-{
-  struct cdc_avl_tree_node *node =
-      (struct cdc_avl_tree_node *)malloc(sizeof(struct cdc_avl_tree_node));
-  if (!node) {
-    return NULL;
-  }
-
-  node->key = key;
-  node->value = val;
-  node->height = 1;
-  node->parent = node->left = node->right = NULL;
-  return node;
 }
 
 static unsigned char height(struct cdc_avl_tree_node *node)
@@ -289,16 +289,16 @@ static struct cdc_avl_tree_node *erase_node(struct cdc_avl_tree *t,
 
 static enum cdc_stat init_varg(struct cdc_avl_tree *t, va_list args)
 {
-  enum cdc_stat stat = CDC_STATUS_OK;
   struct cdc_pair *pair = NULL;
   while ((pair = va_arg(args, struct cdc_pair *)) != CDC_END) {
-    stat = cdc_avl_tree_insert(t, pair->first, pair->second, NULL);
+    enum cdc_stat stat =
+        cdc_avl_tree_insert(t, pair->first, pair->second, NULL);
     if (stat != CDC_STATUS_OK) {
       return stat;
     }
   }
 
-  return stat;
+  return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_avl_tree_ctor(struct cdc_avl_tree **t,
@@ -365,9 +365,10 @@ enum cdc_stat cdc_avl_tree_get(struct cdc_avl_tree *t, void *key, void **value)
   struct cdc_avl_tree_node *node = find_node(t->root, key, t->dinfo->cmp);
   if (node) {
     *value = node->value;
+    return CDC_STATUS_OK;
   }
 
-  return node ? CDC_STATUS_OK : CDC_STATUS_NOT_FOUND;
+  return CDC_STATUS_NOT_FOUND;
 }
 
 size_t cdc_avl_tree_count(struct cdc_avl_tree *t, void *key)
@@ -394,33 +395,21 @@ void cdc_avl_tree_find(struct cdc_avl_tree *t, void *key,
   it->prev = predecessor(node);
 }
 
-void cdc_avl_tree_equal_range(struct cdc_avl_tree *t, void *key,
-                              struct cdc_pair_avl_tree_iter *pair)
-{
-  assert(t != NULL);
-  assert(pair != NULL);
-
-  cdc_avl_tree_find(t, key, &pair->first);
-  cdc_avl_tree_end(t, &pair->second);
-  if (cdc_avl_tree_iter_is_eq(&pair->first, &pair->second)) {
-    cdc_avl_tree_end(t, &pair->first);
-  } else {
-    pair->second = pair->first;
-    cdc_avl_tree_iter_next(&pair->second);
-  }
-}
-
 enum cdc_stat cdc_avl_tree_insert(struct cdc_avl_tree *t, void *key,
                                   void *value,
                                   struct cdc_pair_avl_tree_iter_bool *ret)
 {
   assert(t != NULL);
 
+  struct cdc_avl_tree_iter *it = NULL;
+  bool *inserted = NULL;
+
   if (ret) {
-    return cdc_avl_tree_insert1(t, key, value, &ret->first, &ret->second);
+    it = &ret->first;
+    inserted = &ret->second;
   }
 
-  return cdc_avl_tree_insert1(t, key, value, NULL, NULL);
+  return cdc_avl_tree_insert1(t, key, value, it, inserted);
 }
 
 enum cdc_stat cdc_avl_tree_insert1(struct cdc_avl_tree *t, void *key,
@@ -430,7 +419,7 @@ enum cdc_stat cdc_avl_tree_insert1(struct cdc_avl_tree *t, void *key,
   assert(t != NULL);
 
   struct cdc_avl_tree_node *node = find_hint(t->root, key, t->dinfo->cmp);
-  bool finded = node ? cdc_eq(t->dinfo->cmp, node->key, key) : false;
+  bool finded = node && cdc_eq(t->dinfo->cmp, node->key, key);
   if (!finded) {
     node = make_and_insert_unique(t, key, value, node);
     if (!node) {
@@ -457,12 +446,15 @@ enum cdc_stat cdc_avl_tree_insert_or_assign(
 {
   assert(t != NULL);
 
+  struct cdc_avl_tree_iter *it = NULL;
+  bool *inserted = NULL;
+
   if (ret) {
-    return cdc_avl_tree_insert_or_assign1(t, key, value, &ret->first,
-                                          &ret->second);
+    it = &ret->first;
+    inserted = &ret->second;
   }
 
-  return cdc_avl_tree_insert_or_assign1(t, key, value, NULL, NULL);
+  return cdc_avl_tree_insert_or_assign1(t, key, value, it, inserted);
 }
 
 enum cdc_stat cdc_avl_tree_insert_or_assign1(struct cdc_avl_tree *t, void *key,
@@ -473,7 +465,7 @@ enum cdc_stat cdc_avl_tree_insert_or_assign1(struct cdc_avl_tree *t, void *key,
   assert(t != NULL);
 
   struct cdc_avl_tree_node *node = find_hint(t->root, key, t->dinfo->cmp);
-  bool finded = node ? cdc_eq(t->dinfo->cmp, node->key, key) : false;
+  bool finded = node && cdc_eq(t->dinfo->cmp, node->key, key);
   if (!finded) {
     node = make_and_insert_unique(t, key, value, node);
     if (!node) {

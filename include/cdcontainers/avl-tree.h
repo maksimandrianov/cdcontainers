@@ -150,20 +150,6 @@ size_t cdc_avl_tree_count(struct cdc_avl_tree *t, void *key);
 void cdc_avl_tree_find(struct cdc_avl_tree *t, void *key,
                        struct cdc_avl_tree_iter *it);
 
-/**
- * @brief Returns a range containing all elements with key key in the container.
- * The range is defined by two iterators, the first pointing to the first
- * element of the wanted range and the second pointing past the last element of
- * the range.
- * @param t - cdc_avl_tree
- * @param key - key value to compare the elements to
- * @param pair - pointer will be recorded a pair of iterators defining the
- * wanted range. If there are no such elements, past-the-end iterators are
- * returned as both elements of the pair.
- */
-void cdc_avl_tree_equal_range(struct cdc_avl_tree *t, void *key,
-                              struct cdc_pair_avl_tree_iter *pair);
-
 // Capacity
 /**
  * @brief Returns the number of items in the avl_tree.
@@ -389,7 +375,6 @@ typedef struct cdc_pair_avl_tree_iter_bool pair_avl_tree_iter_bool_t;
 #define avl_tree_get(...) cdc_avl_tree_get(__VA_ARGS__)
 #define avl_tree_count(...) cdc_avl_tree_count(__VA_ARGS__)
 #define avl_tree_find(...) cdc_avl_tree_find(__VA_ARGS__)
-#define avl_tree_equal_range(...) cdc_avl_tree_equal_range(__VA_ARGS__)
 
 // Capacity
 #define avl_tree_size(...) cdc_avl_tree_size(__VA_ARGS__)

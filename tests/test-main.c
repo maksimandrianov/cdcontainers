@@ -329,8 +329,6 @@ int main(int argc, char** argv)
       CU_add_test(p_suite, "test_get", test_avl_tree_get) == NULL ||
       CU_add_test(p_suite, "test_count", test_avl_tree_count) == NULL ||
       CU_add_test(p_suite, "test_find", test_avl_tree_find) == NULL ||
-      CU_add_test(p_suite, "test_equal_range", test_avl_tree_equal_range) ==
-          NULL ||
       CU_add_test(p_suite, "test_clear", test_avl_tree_clear) == NULL ||
       CU_add_test(p_suite, "test_insert_or_assign",
                   test_avl_tree_insert_or_assign) == NULL ||
