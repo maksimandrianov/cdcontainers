@@ -55,6 +55,11 @@ static enum cdc_stat reallocate(struct cdc_array *v, size_t capacity)
   return CDC_STATUS_OK;
 }
 
+static enum cdc_stat grow(struct cdc_array *v)
+{
+  return reallocate(v, (size_t)(v->capacity * ARRAY_COPACITY_EXP));
+}
+
 static void free_data(struct cdc_array *v)
 {
   if (CDC_HAS_DFREE(v->dinfo)) {
@@ -69,11 +74,6 @@ static void free_buffer(struct cdc_array *v)
   free_data(v);
   free(v->buffer);
   v->buffer = NULL;
-}
-
-static enum cdc_stat grow(struct cdc_array *v)
-{
-  return reallocate(v, (size_t)(v->capacity * ARRAY_COPACITY_EXP));
 }
 
 static void move_left(struct cdc_array *v, size_t index)

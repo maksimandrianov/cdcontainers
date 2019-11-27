@@ -69,8 +69,8 @@ struct cdc_data_info {
   /**
    * @brief dfree - callback free data.
    *
-   * If this function is not NULL, then it will be automatically applied to free memory for
-   * cotainer items.
+   * If this function is not NULL, then it will be automatically applied to free
+   * memory for cotainer items.
    */
   cdc_free_fn_t dfree;
   /**
@@ -83,7 +83,8 @@ struct cdc_data_info {
   /**
    * @brief eq - callback equil.
    *
-   * Used for containers where equality check is required. For example, for a cdc_hash_table.
+   * Used for containers where equality check is required. For example, for a
+   * cdc_hash_table.
    */
   cdc_binary_pred_fn_t eq;
   cdc_copy_fn_t cp;
