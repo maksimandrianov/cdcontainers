@@ -59,12 +59,40 @@ struct cdc_pair {
   void *second;
 };
 
+/**
+ * @brief The cdc_data_info struct used to initialize contaners.
+ *
+ * This gives more data about the data stored in the container.
+ *
+ */
 struct cdc_data_info {
+  /**
+   * @brief dfree - callback free data.
+   *
+   * If this function is not NULL, then it will be automatically applied to free memory for
+   * cotainer items.
+   */
   cdc_free_fn_t dfree;
+  /**
+   * @brief cmp - callback less or greater.
+   *
+   * Used for containers where check for less or greater is required.
+   * For example, for a cdc_map.
+   */
   cdc_binary_pred_fn_t cmp;
+  /**
+   * @brief eq - callback equil.
+   *
+   * Used for containers where equality check is required. For example, for a cdc_hash_table.
+   */
   cdc_binary_pred_fn_t eq;
   cdc_copy_fn_t cp;
   size_t size;
+  /**
+   * @brief __cnt
+   *
+   * To avoid problems, do not change this field in the code.
+   */
   size_t __cnt;
 };
 
