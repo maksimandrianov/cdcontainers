@@ -344,6 +344,8 @@ void test_map_iterators()
     cdc_map_iter_prev(&it1);
   }
   CU_ASSERT_EQUAL(i, 0);
+  cdc_map_iter_free(&it1);
+  cdc_map_iter_free(&it2);
   cdc_map_dtor(m);
 }
 

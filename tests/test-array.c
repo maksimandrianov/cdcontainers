@@ -316,7 +316,8 @@ void test_array_shrink_to_fit()
   for (int i = 0; i < count; ++i) {
     CU_ASSERT_EQUAL(cdc_array_push_back(v, CDC_FROM_INT(i)), CDC_STATUS_OK);
   }
-  CU_ASSERT(cdc_array_capacity(v) > count);
+  CU_ASSERT(cdc_array_capacity(v) > (size_t)count);
   cdc_array_shrink_to_fit(v);
   CU_ASSERT_EQUAL(cdc_array_capacity(v), count);
+  cdc_array_dtor(v);
 }
