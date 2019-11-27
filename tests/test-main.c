@@ -66,7 +66,8 @@ int main(int argc, char** argv)
       CU_add_test(p_suite, "test_clear", test_array_clear) == NULL ||
       CU_add_test(p_suite, "test_push_back", test_array_push_back) == NULL ||
       CU_add_test(p_suite, "test_pop_back", test_array_pop_back) == NULL ||
-      CU_add_test(p_suite, "test_swap", test_array_swap) == NULL) {
+      CU_add_test(p_suite, "test_swap", test_array_swap) == NULL ||
+      CU_add_test(p_suite, "test_shrink_to_fit", test_array_shrink_to_fit) == NULL) {
     CU_cleanup_registry();
     return CU_get_error();
   }

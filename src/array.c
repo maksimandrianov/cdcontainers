@@ -215,7 +215,7 @@ enum cdc_stat cdc_array_reserve(struct cdc_array *v, size_t capacity)
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat shrink_to_fit(struct cdc_array *v)
+enum cdc_stat cdc_array_shrink_to_fit(struct cdc_array *v)
 {
   assert(v != NULL);
 

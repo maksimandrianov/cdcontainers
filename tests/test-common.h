@@ -45,6 +45,7 @@ void test_array_clear();
 void test_array_push_back();
 void test_array_pop_back();
 void test_array_swap();
+void test_array_shrink_to_fit();
 
 // List tests
 void test_list_ctor();

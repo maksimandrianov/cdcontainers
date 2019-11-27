@@ -207,7 +207,7 @@ static inline size_t cdc_array_capacity(struct cdc_array *v)
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat shrink_to_fit(struct cdc_array *v);
+enum cdc_stat cdc_array_shrink_to_fit(struct cdc_array *v);
 
 // Modifiers
 /**
@@ -321,6 +321,7 @@ typedef struct cdc_array array_t;
 #define array_size(...) cdc_array_size(__VA_ARGS__)
 #define array_capacity(...) cdc_array_capacity(__VA_ARGS__)
 #define array_cap_exp(...) cdc_array_cap_exp(__VA_ARGS__)
+#define array_shrink_to_fit(...) cdc_array_shrink_to_fit(__VA_ARGS__)
 
 // Modifiers
 #define array_set(...) cdc_array_set(__VA_ARGS__)
