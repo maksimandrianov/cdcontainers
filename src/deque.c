@@ -29,7 +29,6 @@
 
 #define CDC_DEQUE_MIN_CAPACITY 4  // must be pow 2
 #define CDC_DEQUE_COPACITY_SHIFT 1
-#define CDC_DEQUE_SHRINK_THRESHOLD 4.0f
 #define CDC_DEQUE_MAX_LEN SIZE_MAX
 
 static size_t mod(size_t index, size_t capacity)
@@ -42,21 +41,16 @@ static size_t real_idx(struct cdc_deque *d, size_t index)
   return mod(d->head + index, d->capacity);
 }
 
-static bool should_shrink(struct cdc_deque *d)
-{
-  return d->size * CDC_DEQUE_SHRINK_THRESHOLD <= d->capacity;
-}
-
 static bool should_grow(struct cdc_deque *d) { return d->size == d->capacity; }
 
 static enum cdc_stat reallocate(struct cdc_deque *d, size_t capacity)
 {
   if (capacity < CDC_DEQUE_MIN_CAPACITY) {
-    if (d->capacity > CDC_DEQUE_MIN_CAPACITY) {
-      capacity = CDC_DEQUE_MIN_CAPACITY;
-    } else {
-      return CDC_STATUS_OK;
-    }
+    capacity = CDC_DEQUE_MIN_CAPACITY;
+  }
+
+  if (capacity < d->size) {
+    return CDC_STATUS_OK;
   }
 
   void **tmp = (void **)malloc(capacity * sizeof(void *));
@@ -85,11 +79,6 @@ static enum cdc_stat grow(struct cdc_deque *d)
   return reallocate(d, d->capacity << CDC_DEQUE_COPACITY_SHIFT);
 }
 
-static enum cdc_stat shrink(struct cdc_deque *d)
-{
-  return reallocate(d, d->capacity >> CDC_DEQUE_COPACITY_SHIFT);
-}
-
 static enum cdc_stat pop_back_f(struct cdc_deque *d, bool must_free)
 {
   d->tail = mod(d->tail - 1 + d->capacity, d->capacity);
@@ -98,13 +87,6 @@ static enum cdc_stat pop_back_f(struct cdc_deque *d, bool must_free)
   }
 
   --d->size;
-  if (should_shrink(d)) {
-    enum cdc_stat stat = shrink(d);
-    if (stat != CDC_STATUS_OK) {
-      return stat;
-    }
-  }
-
   return CDC_STATUS_OK;
 }
 
@@ -116,13 +98,6 @@ static enum cdc_stat pop_front_f(struct cdc_deque *d, bool must_free)
 
   d->head = mod(d->head + 1, d->capacity);
   --d->size;
-  if (should_shrink(d)) {
-    enum cdc_stat stat = shrink(d);
-    if (stat != CDC_STATUS_OK) {
-      return stat;
-    }
-  }
-
   return CDC_STATUS_OK;
 }
 
@@ -457,13 +432,6 @@ enum cdc_stat cdc_deque_remove(struct cdc_deque *d, size_t index, void **elem)
   }
 
   --d->size;
-  if (should_shrink(d)) {
-    enum cdc_stat stat = shrink(d);
-    if (stat != CDC_STATUS_OK) {
-      return stat;
-    }
-  }
-
   return CDC_STATUS_OK;
 }
 
