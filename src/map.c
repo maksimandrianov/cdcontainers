@@ -20,7 +20,7 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/map.h"
 
-#include "data-info.h"
+#include "cdcontainers/data-info.h"
 
 enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table,
                            struct cdc_map **m, struct cdc_data_info *info)

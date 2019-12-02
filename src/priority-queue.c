@@ -20,7 +20,7 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/priority-queue.h"
 
-#include "data-info.h"
+#include "cdcontainers/data-info.h"
 
 enum cdc_stat cdc_priority_queue_ctor(
     const struct cdc_priority_queue_table *table, struct cdc_priority_queue **q,

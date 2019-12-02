@@ -20,18 +20,18 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/avl-tree.h"
 
-#include "data-info.h"
-#include "tree.h"
+#include "cdcontainers/data-info.h"
+#include "cdcontainers/tree-utils.h"
 
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
-MAKE_FIND_NODE(struct cdc_avl_tree_node *)
-MAKE_MIN_NODE(struct cdc_avl_tree_node *)
-MAKE_MAX_NODE(struct cdc_avl_tree_node *)
-MAKE_SUCCESSOR(struct cdc_avl_tree_node *)
-MAKE_PREDECESSOR(struct cdc_avl_tree_node *)
+CDC_MAKE_FIND_NODE_FN(struct cdc_avl_tree_node *)
+CDC_MAKE_MIN_NODE_FN(struct cdc_avl_tree_node *)
+CDC_MAKE_MAX_NODE_FN(struct cdc_avl_tree_node *)
+CDC_MAKE_SUCCESSOR_FN(struct cdc_avl_tree_node *)
+CDC_MAKE_PREDECESSOR_FN(struct cdc_avl_tree_node *)
 
 static struct cdc_avl_tree_node *new_node(void *key, void *val)
 {
@@ -263,7 +263,7 @@ static struct cdc_avl_tree_node *erase_node(struct cdc_avl_tree *t,
       parent->right->parent = parent;
     }
   } else {
-    mnode = min_node(node->right);
+    mnode = cdc_min_tree_node(node->right);
     parent = mnode->parent;
     unlink_list(parent, mnode);
     if (parent == node) {
@@ -362,7 +362,8 @@ enum cdc_stat cdc_avl_tree_get(struct cdc_avl_tree *t, void *key, void **value)
 {
   assert(t != NULL);
 
-  struct cdc_avl_tree_node *node = find_node(t->root, key, t->dinfo->cmp);
+  struct cdc_avl_tree_node *node =
+      cdc_find_tree_node(t->root, key, t->dinfo->cmp);
   if (node) {
     *value = node->value;
     return CDC_STATUS_OK;
@@ -375,7 +376,7 @@ size_t cdc_avl_tree_count(struct cdc_avl_tree *t, void *key)
 {
   assert(t != NULL);
 
-  return (size_t)(find_node(t->root, key, t->dinfo->cmp) != NULL);
+  return (size_t)(cdc_find_tree_node(t->root, key, t->dinfo->cmp) != NULL);
 }
 
 void cdc_avl_tree_find(struct cdc_avl_tree *t, void *key,
@@ -384,7 +385,8 @@ void cdc_avl_tree_find(struct cdc_avl_tree *t, void *key,
   assert(t != NULL);
   assert(it != NULL);
 
-  struct cdc_avl_tree_node *node = find_node(t->root, key, t->dinfo->cmp);
+  struct cdc_avl_tree_node *node =
+      cdc_find_tree_node(t->root, key, t->dinfo->cmp);
   if (!node) {
     cdc_avl_tree_end(t, it);
     return;
@@ -392,7 +394,7 @@ void cdc_avl_tree_find(struct cdc_avl_tree *t, void *key,
 
   it->container = t;
   it->current = node;
-  it->prev = predecessor(node);
+  it->prev = cdc_tree_predecessor(node);
 }
 
 enum cdc_stat cdc_avl_tree_insert(struct cdc_avl_tree *t, void *key,
@@ -430,7 +432,7 @@ enum cdc_stat cdc_avl_tree_insert1(struct cdc_avl_tree *t, void *key,
   if (it) {
     it->container = t;
     it->current = node;
-    it->prev = predecessor(node);
+    it->prev = cdc_tree_predecessor(node);
   }
 
   if (inserted) {
@@ -478,7 +480,7 @@ enum cdc_stat cdc_avl_tree_insert_or_assign1(struct cdc_avl_tree *t, void *key,
   if (it) {
     it->container = t;
     it->current = node;
-    it->prev = predecessor(node);
+    it->prev = cdc_tree_predecessor(node);
   }
 
   if (inserted) {
@@ -492,7 +494,8 @@ size_t cdc_avl_tree_erase(struct cdc_avl_tree *t, void *key)
 {
   assert(t != NULL);
 
-  struct cdc_avl_tree_node *node = find_node(t->root, key, t->dinfo->cmp);
+  struct cdc_avl_tree_node *node =
+      cdc_find_tree_node(t->root, key, t->dinfo->cmp);
   if (!node) {
     return 0;
   }
@@ -527,7 +530,7 @@ void cdc_avl_tree_begin(struct cdc_avl_tree *t, struct cdc_avl_tree_iter *it)
   assert(it != NULL);
 
   it->container = t;
-  it->current = min_node(t->root);
+  it->current = cdc_min_tree_node(t->root);
   it->prev = NULL;
 }
 
@@ -538,7 +541,7 @@ void cdc_avl_tree_end(struct cdc_avl_tree *t, struct cdc_avl_tree_iter *it)
 
   it->container = t;
   it->current = NULL;
-  it->prev = max_node(t->root);
+  it->prev = cdc_max_tree_node(t->root);
 }
 
 void cdc_avl_tree_iter_next(struct cdc_avl_tree_iter *it)
@@ -546,7 +549,7 @@ void cdc_avl_tree_iter_next(struct cdc_avl_tree_iter *it)
   assert(it != NULL);
 
   it->prev = it->current;
-  it->current = successor(it->current);
+  it->current = cdc_tree_successor(it->current);
 }
 
 void cdc_avl_tree_iter_prev(struct cdc_avl_tree_iter *it)
@@ -554,5 +557,5 @@ void cdc_avl_tree_iter_prev(struct cdc_avl_tree_iter *it)
   assert(it != NULL);
 
   it->current = it->prev;
-  it->prev = predecessor(it->current);
+  it->prev = cdc_tree_predecessor(it->current);
 }

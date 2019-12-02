@@ -45,6 +45,6 @@ set(SOURCE
 
 add_executable(${PROJECT_NAME} ${SOURCE})
 
-target_link_libraries(${PROJECT_NAME} cunit ${LIBRARY_NAME})
+target_link_libraries(${PROJECT_NAME} cunit m ${LIBRARY_NAME})
 
 add_custom_target(check ${EXECUTABLE_OUTPUT_PATH}/${PROJECT_NAME} ${PROJECT_NAME})

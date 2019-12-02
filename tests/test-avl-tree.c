@@ -23,11 +23,15 @@
 #include "cdcontainers/avl-tree.h"
 #include "cdcontainers/casts.h"
 #include "cdcontainers/common.h"
+#include "cdcontainers/tree-utils.h"
 
 #include <float.h>
+#include <math.h>
 #include <stdarg.h>
 
 #include <CUnit/Basic.h>
+
+CDC_MAKE_TREE_HEIGTH_FN(struct cdc_avl_tree_node *)
 
 static struct cdc_pair a = {CDC_FROM_INT(0), CDC_FROM_INT(0)};
 static struct cdc_pair b = {CDC_FROM_INT(1), CDC_FROM_INT(1)};
@@ -346,3 +350,29 @@ void test_avl_tree_iterators()
 }
 
 void test_avl_tree_swap() {}
+
+void test_avl_tree_height()
+{
+  size_t count = 100000;
+  struct cdc_avl_tree *t = NULL;
+  struct cdc_data_info info = CDC_INIT_STRUCT;
+  info.cmp = lt;
+
+  cdc_avl_tree_ctor(&t, &info);
+  for (size_t i = 0; i < count; ++i) {
+    int val = rand();
+    if (cdc_avl_tree_insert(t, CDC_FROM_INT(val), NULL, NULL) !=
+        CDC_STATUS_OK) {
+      CU_ASSERT(true);
+    }
+  }
+
+  double experimental_height = cdc_tree_height(t->root);
+  double theoretical_max_height = 1.44 * log2((double)count);
+  printf(
+      "\nExperimental avl tree heigth: %f, theoretical max avl tree heigth: "
+      "%f, tree size: %zu\n",
+      experimental_height, theoretical_max_height, count);
+  CU_ASSERT(experimental_height <= theoretical_max_height);
+  cdc_avl_tree_dtor(t);
+}

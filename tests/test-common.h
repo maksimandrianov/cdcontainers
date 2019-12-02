@@ -163,6 +163,7 @@ void test_treap_equal_range();
 void test_treap_clear();
 void test_treap_insert_or_assign();
 void test_treap_erase();
+void test_treap_height();
 
 // Hash table tests
 void test_hash_table_ctor();
@@ -193,6 +194,7 @@ void test_splay_tree_equal_range();
 void test_splay_tree_clear();
 void test_splay_tree_insert_or_assign();
 void test_splay_tree_erase();
+void test_splay_tree_height();
 
 // Avl tree tests
 void test_avl_tree_ctor();
@@ -207,6 +209,7 @@ void test_avl_tree_find();
 void test_avl_tree_clear();
 void test_avl_tree_insert_or_assign();
 void test_avl_tree_erase();
+void test_avl_tree_height();
 
 // Map tests
 void test_map_ctor();

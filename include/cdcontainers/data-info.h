@@ -21,7 +21,7 @@
 #ifndef CDCONTAINERS_SRC_DATA_INFO_H
 #define CDCONTAINERS_SRC_DATA_INFO_H
 
-#include "cdcontainers/common.h"
+#include <cdcontainers/common.h>
 
 struct cdc_data_info *cdc_di_shared_ctorc(struct cdc_data_info *other);
 void cdc_di_shared_dtor(struct cdc_data_info *info);

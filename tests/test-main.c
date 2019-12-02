@@ -263,7 +263,8 @@ int main(int argc, char** argv)
       CU_add_test(p_suite, "test_insert_or_assign",
                   test_treap_insert_or_assign) == NULL ||
       CU_add_test(p_suite, "test_erase", test_treap_erase) == NULL ||
-      CU_add_test(p_suite, "test_iterators", test_treap_iterators) == NULL) {
+      CU_add_test(p_suite, "test_iterators", test_treap_iterators) == NULL ||
+      CU_add_test(p_suite, "test_height", test_treap_height) == NULL) {
     CU_cleanup_registry();
     return CU_get_error();
   }
@@ -313,7 +314,8 @@ int main(int argc, char** argv)
                   test_splay_tree_insert_or_assign) == NULL ||
       CU_add_test(p_suite, "test_erase", test_splay_tree_erase) == NULL ||
       CU_add_test(p_suite, "test_iterators", test_splay_tree_iterators) ==
-          NULL) {
+          NULL ||
+      CU_add_test(p_suite, "test_height", test_splay_tree_height) == NULL) {
     CU_cleanup_registry();
     return CU_get_error();
   }
@@ -335,7 +337,8 @@ int main(int argc, char** argv)
       CU_add_test(p_suite, "test_insert_or_assign",
                   test_avl_tree_insert_or_assign) == NULL ||
       CU_add_test(p_suite, "test_erase", test_avl_tree_erase) == NULL ||
-      CU_add_test(p_suite, "test_iterators", test_avl_tree_iterators) == NULL) {
+      CU_add_test(p_suite, "test_iterators", test_avl_tree_iterators) == NULL ||
+      CU_add_test(p_suite, "test_height", test_avl_tree_height) == NULL) {
     CU_cleanup_registry();
     return CU_get_error();
   }

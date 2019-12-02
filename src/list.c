@@ -20,7 +20,7 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/list.h"
 
-#include "data-info.h"
+#include "cdcontainers/data-info.h"
 
 #include <stdint.h>
 #include <string.h>

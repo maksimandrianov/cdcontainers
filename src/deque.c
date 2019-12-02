@@ -20,7 +20,7 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/deque.h"
 
-#include "data-info.h"
+#include "cdcontainers/data-info.h"
 
 #include <stddef.h>
 #include <stdint.h>

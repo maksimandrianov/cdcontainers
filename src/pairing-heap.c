@@ -20,7 +20,7 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/pairing-heap.h"
 
-#include "data-info.h"
+#include "cdcontainers/data-info.h"
 
 #include <assert.h>
 #include <stdint.h>

@@ -20,8 +20,8 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/splay-tree.h"
 
-#include "data-info.h"
-#include "tree.h"
+#include "cdcontainers/data-info.h"
+#include "cdcontainers/tree-utils.h"
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -31,11 +31,11 @@ struct node_pair {
   struct cdc_splay_tree_node *l, *r;
 };
 
-MAKE_FIND_NODE(struct cdc_splay_tree_node *)
-MAKE_MIN_NODE(struct cdc_splay_tree_node *)
-MAKE_MAX_NODE(struct cdc_splay_tree_node *)
-MAKE_SUCCESSOR(struct cdc_splay_tree_node *)
-MAKE_PREDECESSOR(struct cdc_splay_tree_node *)
+CDC_MAKE_FIND_NODE_FN(struct cdc_splay_tree_node *)
+CDC_MAKE_MIN_NODE_FN(struct cdc_splay_tree_node *)
+CDC_MAKE_MAX_NODE_FN(struct cdc_splay_tree_node *)
+CDC_MAKE_SUCCESSOR_FN(struct cdc_splay_tree_node *)
+CDC_MAKE_PREDECESSOR_FN(struct cdc_splay_tree_node *)
 
 static void free_node(struct cdc_splay_tree *t,
                       struct cdc_splay_tree_node *node)
@@ -206,7 +206,7 @@ static struct cdc_splay_tree_node *find_hint(struct cdc_splay_tree_node *node,
     }
   }
 
-  return node ? node : max_node(tmp);
+  return node ? node : cdc_max_tree_node(tmp);
 }
 
 static struct node_pair split(struct cdc_splay_tree_node *node, void *key,
@@ -244,7 +244,7 @@ static struct cdc_splay_tree_node *merge(struct cdc_splay_tree_node *a,
     return a;
   }
 
-  a = max_node(a);
+  a = cdc_max_tree_node(a);
   a = splay(a);
   a->right = b;
   b->parent = a;
@@ -253,7 +253,8 @@ static struct cdc_splay_tree_node *merge(struct cdc_splay_tree_node *a,
 
 static struct cdc_splay_tree_node *sfind(struct cdc_splay_tree *t, void *key)
 {
-  struct cdc_splay_tree_node *node = find_node(t->root, key, t->dinfo->cmp);
+  struct cdc_splay_tree_node *node =
+      cdc_find_tree_node(t->root, key, t->dinfo->cmp);
 
   if (!node) {
     return node;
@@ -408,7 +409,7 @@ void cdc_splay_tree_find(struct cdc_splay_tree *t, void *key,
 
   it->container = t;
   it->current = node;
-  it->prev = predecessor(node);
+  it->prev = cdc_tree_predecessor(node);
 }
 
 void cdc_splay_tree_equal_range(struct cdc_splay_tree *t, void *key,
@@ -459,7 +460,7 @@ enum cdc_stat cdc_splay_tree_insert1(struct cdc_splay_tree *t, void *key,
   if (it) {
     it->container = t;
     it->current = node;
-    it->prev = predecessor(node);
+    it->prev = cdc_tree_predecessor(node);
   }
 
   if (inserted) {
@@ -504,7 +505,7 @@ enum cdc_stat cdc_splay_tree_insert_or_assign1(struct cdc_splay_tree *t,
   if (it) {
     it->container = t;
     it->current = node;
-    it->prev = predecessor(node);
+    it->prev = cdc_tree_predecessor(node);
   }
 
   if (inserted) {
@@ -518,7 +519,8 @@ size_t cdc_splay_tree_erase(struct cdc_splay_tree *t, void *key)
 {
   assert(t != NULL);
 
-  struct cdc_splay_tree_node *node = find_node(t->root, key, t->dinfo->cmp);
+  struct cdc_splay_tree_node *node =
+      cdc_find_tree_node(t->root, key, t->dinfo->cmp);
   if (!node) {
     return 0;
   }
@@ -564,7 +566,7 @@ void cdc_splay_tree_begin(struct cdc_splay_tree *t,
   assert(it != NULL);
 
   it->container = t;
-  it->current = min_node(t->root);
+  it->current = cdc_min_tree_node(t->root);
   it->prev = NULL;
 }
 
@@ -576,7 +578,7 @@ void cdc_splay_tree_end(struct cdc_splay_tree *t,
 
   it->container = t;
   it->current = NULL;
-  it->prev = max_node(t->root);
+  it->prev = cdc_max_tree_node(t->root);
 }
 
 void cdc_splay_tree_iter_next(struct cdc_splay_tree_iter *it)
@@ -584,7 +586,7 @@ void cdc_splay_tree_iter_next(struct cdc_splay_tree_iter *it)
   assert(it != NULL);
 
   it->prev = it->current;
-  it->current = successor(it->current);
+  it->current = cdc_tree_successor(it->current);
 }
 
 void cdc_splay_tree_iter_prev(struct cdc_splay_tree_iter *it)
@@ -592,5 +594,5 @@ void cdc_splay_tree_iter_prev(struct cdc_splay_tree_iter *it)
   assert(it != NULL);
 
   it->current = it->prev;
-  it->prev = predecessor(it->current);
+  it->prev = cdc_tree_predecessor(it->current);
 }
