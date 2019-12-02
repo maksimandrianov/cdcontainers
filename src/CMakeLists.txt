@@ -25,6 +25,7 @@ set(SOURCE
   stack.c
   status.c
   tables/map-avl-tree.c
+  tables/map-hash-table.c
   tables/map-splay-tree.c
   tables/map-treap.c
   tables/pqueue-binomial-heap.c

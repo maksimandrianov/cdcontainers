@@ -90,8 +90,8 @@ static enum cdc_stat rehash(struct cdc_hash_table *t)
 
 static size_t cbacket(size_t hash, size_t count) { return hash & (count - 1); }
 
-static struct cdc_hash_table_entry *ffind_entry(struct cdc_hash_table *t,
-                                                void *key, size_t backet)
+static struct cdc_hash_table_entry *find_entry_by_backet(
+    struct cdc_hash_table *t, void *key, size_t backet)
 {
   struct cdc_hash_table_entry *entry = t->buckets[backet];
   if (entry == NULL) {
@@ -117,7 +117,7 @@ static struct cdc_hash_table_entry *find_entry(struct cdc_hash_table *t,
                                                void *key)
 {
   size_t backet = key ? cbacket(t->dinfo->hash(key), t->bcount) : 0;
-  return ffind_entry(t, key, backet);
+  return find_entry_by_backet(t, key, backet);
 }
 
 static struct cdc_hash_table_entry *add_entry(
@@ -125,7 +125,8 @@ static struct cdc_hash_table_entry *add_entry(
     struct cdc_hash_table_entry **backets, size_t count)
 {
   size_t new_backet = new_entry->key ? cbacket(new_entry->hash, count) : 0;
-  struct cdc_hash_table_entry *entry = backets[new_backet], *retval = NULL;
+  struct cdc_hash_table_entry *entry = backets[new_backet];
+  struct cdc_hash_table_entry *retval = NULL;
   if (entry == NULL) {
     backets[new_backet] = *tail;
     retval = *tail;
@@ -272,16 +273,16 @@ static enum cdc_stat reallocate(struct cdc_hash_table *t, size_t count)
 
 static enum cdc_stat init_varg(struct cdc_hash_table *t, va_list args)
 {
-  enum cdc_stat stat = CDC_STATUS_OK;
-  struct cdc_pair *pair;
+  struct cdc_pair *pair = NULL;
   while ((pair = va_arg(args, struct cdc_pair *)) != CDC_END) {
-    stat = cdc_hash_table_insert(t, pair->first, pair->second, NULL, NULL);
+    enum cdc_stat stat =
+        cdc_hash_table_insert(t, pair->first, pair->second, NULL, NULL);
     if (stat != CDC_STATUS_OK) {
       return stat;
     }
   }
 
-  return stat;
+  return CDC_STATUS_OK;
 }
 
 enum cdc_stat cdc_hash_table_ctor1(struct cdc_hash_table **t,
@@ -426,7 +427,7 @@ void cdc_hash_table_find(struct cdc_hash_table *t, void *key,
 
   struct cdc_hash_table_entry *entry = find_entry(t, key);
   it->container = t;
-  it->current = (entry ? entry->next : NULL);
+  it->current = entry ? entry->next : NULL;
 }
 
 void cdc_hash_table_equal_range(struct cdc_hash_table *t, void *key,
@@ -517,7 +518,7 @@ size_t cdc_hash_table_erase(struct cdc_hash_table *t, void *key)
   assert(t != NULL);
 
   size_t backet = key ? cbacket(t->dinfo->hash(key), t->bcount) : 0;
-  struct cdc_hash_table_entry *entry = ffind_entry(t, key, backet);
+  struct cdc_hash_table_entry *entry = find_entry_by_backet(t, key, backet);
   if (!entry) {
     return 0;
   }
