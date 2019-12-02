@@ -360,7 +360,8 @@ int main(int argc, char** argv)
       CU_add_test(p_suite, "test_insert_or_assign",
                   test_map_insert_or_assign) == NULL ||
       CU_add_test(p_suite, "test_erase", test_map_erase) == NULL ||
-      CU_add_test(p_suite, "test_iterators", test_map_iterators) == NULL) {
+      CU_add_test(p_suite, "test_iterators", test_map_iterators) == NULL ||
+      CU_add_test(p_suite, "test_iter_type", test_map_iter_type) == NULL) {
     CU_cleanup_registry();
     return CU_get_error();
   }

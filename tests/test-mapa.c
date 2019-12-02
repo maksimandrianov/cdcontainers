@@ -42,6 +42,13 @@ static int lt(const void *l, const void *r)
   return CDC_TO_INT(l) < CDC_TO_INT(r);
 }
 
+static int eq(const void *l, const void *r)
+{
+  return CDC_TO_INT(l) == CDC_TO_INT(r);
+}
+
+static size_t hash(const void *val) { return cdc_hash_int(CDC_TO_INT(val)); }
+
 static bool map_key_int_eq(struct cdc_map *t, size_t count, ...)
 {
   va_list args;
@@ -350,3 +357,27 @@ void test_map_iterators()
 }
 
 void test_map_swap() {}
+
+void test_map_iter_type()
+{
+  const void *tables[] = {cdc_map_avl, cdc_map_splay, cdc_map_treap,
+                          cdc_map_htable};
+  const enum cdc_iterator_type answers[] = {
+      CDC_BIDIR_ITERATOR, CDC_BIDIR_ITERATOR, CDC_BIDIR_ITERATOR,
+      CDC_FWD_ITERATOR};
+  CU_ASSERT_EQUAL(CDC_ARRAY_SIZE(tables), CDC_ARRAY_SIZE(answers));
+  for (size_t i = 0; i < CDC_ARRAY_SIZE(tables); ++i) {
+    struct cdc_map *m = NULL;
+    struct cdc_map_iter it = CDC_INIT_STRUCT;
+    struct cdc_data_info info = CDC_INIT_STRUCT;
+    info.cmp = lt;
+    info.eq = eq;
+    info.hash = hash;
+
+    cdc_map_ctor(tables[i], &m, &info);
+    cdc_map_iter_init(m, &it);
+    CU_ASSERT_EQUAL(cdc_map_iter_type(&it), answers[i]);
+    cdc_map_iter_free(&it);
+    cdc_map_dtor(m);
+  }
+}

@@ -224,5 +224,6 @@ void test_map_find();
 void test_map_clear();
 void test_map_insert_or_assign();
 void test_map_erase();
+void test_map_iter_type();
 
 #endif  // CDSTRUCTURES_TESTS_TESTS_COMMON_H

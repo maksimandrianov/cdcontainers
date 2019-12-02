@@ -35,6 +35,8 @@
 
 #define CDC_ABS(x) ((x < 0) ? -(x) : x)
 
+#define CDC_ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))
+
 #define CDC_SWAP(T, x, y) \
   do {                    \
     T tmp = x;            \
@@ -109,6 +111,16 @@ static inline size_t cdc_up_to_pow2(size_t x)
   x |= x >> 16;
   return x + 1;
 }
+
+enum cdc_iterator_type
+{
+  // Forward iterator category.
+  CDC_FWD_ITERATOR,
+  // Bidirectional iterator category.
+  CDC_BIDIR_ITERATOR,
+  // Random-access iterator category.
+  CDC_RA_ITERATOR
+};
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES

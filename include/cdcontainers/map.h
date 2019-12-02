@@ -272,6 +272,17 @@ enum cdc_stat cdc_map_iter_init(struct cdc_map *m, struct cdc_map_iter *it);
 void cdc_map_iter_free(struct cdc_map_iter *it);
 
 /**
+ * @brief Returns a type of iterator.
+ * @param it - cdc_map_iter
+ */
+static inline enum cdc_iterator_type cdc_map_iter_type(struct cdc_map_iter *it)
+{
+  assert(it != NULL);
+
+  return it->table->type();
+}
+
+/**
  * @brief Initializes the iterator to the beginning
  * @param t - cdc_map
  * @param it - cdc_map_iter

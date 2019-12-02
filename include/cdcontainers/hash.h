@@ -35,7 +35,7 @@
 #include <stddef.h>
 #include <string.h>
 
-typedef size_t (*cdc_hash_fn_t)(void *);
+typedef size_t (*cdc_hash_fn_t)(void const *);
 
 #define CDC_DIGITS_CHAR (CHAR_BIT - (CHAR_MIN < 0))
 #define CDC_DIGITS_SCHAR (CHAR_BIT - 1)

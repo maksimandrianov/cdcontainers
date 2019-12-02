@@ -41,6 +41,7 @@
 struct cdc_map_iter_table {
   void *(*alloc)();
   void (*free)(void *it);
+  enum cdc_iterator_type (*type)();
   void (*next)(void *it);
   void (*prev)(void *it);
   bool (*has_next)(void *it);
