@@ -33,7 +33,7 @@ set(SOURCE
   test-heap.c
   test-list.c
   test-main.c
-  test-mapa.c
+  test-map.c
   test-pairing-heap.c
   test-priority-queueh.c
   test-queued.c
