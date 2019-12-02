@@ -49,6 +49,16 @@ static int eq_plus_1(const void *l, const void *r)
   return CDC_TO_INT(l) + 1 == CDC_TO_INT(r) + 1;
 }
 
+static size_t hash(const void *val)
+{
+  return cdc_hash_int(CDC_TO_INT(val));
+}
+
+static size_t hash1(const void *val)
+{
+  return cdc_hash_uint(CDC_TO_UINT(val));
+}
+
 static bool hash_table_key_int_eq(struct cdc_hash_table *t, size_t count, ...)
 {
   va_list args;
@@ -72,7 +82,7 @@ void test_hash_table_ctor()
   struct cdc_hash_table *t = NULL;
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.eq = eq;
-  info.hash = cdc_pdhash_int;
+  info.hash = hash;
 
   CU_ASSERT_EQUAL(cdc_hash_table_ctor1(&t, &info, 1.0), CDC_STATUS_OK);
   CU_ASSERT(cdc_hash_table_empty(t));
@@ -84,7 +94,7 @@ void test_hash_table_ctorl()
   struct cdc_hash_table *t = NULL;
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.eq = eq;
-  info.hash = cdc_pdhash_int;
+  info.hash = hash;
 
   CU_ASSERT_EQUAL(
       cdc_hash_table_ctorl1(&t, &info, 1.0, &a, &b, &c, &d, CDC_END),
@@ -99,7 +109,7 @@ void test_hash_table_get()
   struct cdc_hash_table *t = NULL;
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.eq = eq;
-  info.hash = cdc_pdhash_int;
+  info.hash = hash;
 
   CU_ASSERT_EQUAL(cdc_hash_table_ctorl1(&t, &info, 1.0, &a, &b, &c, &d, &g, &h,
                                         &e, &f, CDC_END),
@@ -117,7 +127,7 @@ void test_hash_table_count()
   struct cdc_hash_table *t = NULL;
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.eq = eq;
-  info.hash = cdc_pdhash_int;
+  info.hash = hash;
 
   CU_ASSERT_EQUAL(cdc_hash_table_ctorl1(&t, &info, 1.0, &a, &b, CDC_END),
                   CDC_STATUS_OK);
@@ -135,7 +145,7 @@ void test_hash_table_find()
   struct cdc_hash_table_iter it_end = CDC_INIT_STRUCT;
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.eq = eq;
-  info.hash = cdc_pdhash_int;
+  info.hash = hash;
 
   CU_ASSERT_EQUAL(
       cdc_hash_table_ctorl1(&t, &info, 1.0, &a, &b, &c, &d, &g, CDC_END),
@@ -158,7 +168,7 @@ void test_hash_table_equal_range()
   struct cdc_pair_hash_table_iter res = CDC_INIT_STRUCT;
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.eq = eq;
-  info.hash = cdc_pdhash_int;
+  info.hash = hash;
 
   CU_ASSERT_EQUAL(
       cdc_hash_table_ctorl1(&t, &info, 1.0, &a, &b, &c, &d, &g, CDC_END),
@@ -191,7 +201,7 @@ void test_hash_table_clear()
   struct cdc_hash_table *t = NULL;
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.eq = eq;
-  info.hash = cdc_pdhash_int;
+  info.hash = hash;
 
   CU_ASSERT_EQUAL(cdc_hash_table_ctorl1(&t, &info, 1.0, &a, &b, CDC_END),
                   CDC_STATUS_OK);
@@ -208,7 +218,7 @@ void test_hash_table_insert()
   struct cdc_hash_table *t = NULL;
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.eq = eq;
-  info.hash = cdc_pdhash_int;
+  info.hash = hash;
 
   CU_ASSERT_EQUAL(cdc_hash_table_ctor1(&t, &info, 1.0), CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_hash_table_insert(t, a.first, a.second, NULL, NULL),
@@ -254,7 +264,7 @@ void test_hash_table_insert_or_assign()
   bool inserted = false;
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.eq = eq;
-  info.hash = cdc_pdhash_int;
+  info.hash = hash;
 
   CU_ASSERT_EQUAL(cdc_hash_table_ctor1(&t, &info, 1.0), CDC_STATUS_OK);
 
@@ -299,7 +309,7 @@ void test_hash_table_erase()
   struct cdc_hash_table *t = NULL;
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.eq = eq;
-  info.hash = cdc_pdhash_int;
+  info.hash = hash;
   void *value = NULL;
 
   CU_ASSERT_EQUAL(cdc_hash_table_ctorl1(&t, &info, 1.0, &a, &b, &c, &d, &g, &h,
@@ -361,11 +371,11 @@ void test_hash_table_swap()
 
   struct cdc_data_info infoa = CDC_INIT_STRUCT;
   infoa.eq = eq;
-  infoa.hash = cdc_pdhash_int;
+  infoa.hash = hash;
 
   struct cdc_data_info infob = CDC_INIT_STRUCT;
   infob.eq = eq_plus_1;
-  infob.hash = cdc_pdhash_uint;
+  infob.hash = hash1;
 
   CU_ASSERT_EQUAL(cdc_hash_table_ctorl1(&ta, &infoa, lf_ta, &a, &b, CDC_END),
                   CDC_STATUS_OK);
@@ -375,12 +385,12 @@ void test_hash_table_swap()
   cdc_hash_table_swap(ta, tb);
 
   CU_ASSERT_EQUAL(ta->dinfo->eq, eq_plus_1);
-  CU_ASSERT_EQUAL(ta->dinfo->hash, cdc_pdhash_uint);
+  CU_ASSERT_EQUAL(ta->dinfo->hash, hash1);
   CU_ASSERT_EQUAL(cdc_hash_table_max_load_factor(ta), lf_tb);
   CU_ASSERT(hash_table_key_int_eq(ta, 2, &c, &d));
 
   CU_ASSERT_EQUAL(tb->dinfo->eq, eq);
-  CU_ASSERT_EQUAL(tb->dinfo->hash, cdc_pdhash_int);
+  CU_ASSERT_EQUAL(tb->dinfo->hash, hash);
   CU_ASSERT_EQUAL(cdc_hash_table_max_load_factor(tb), lf_ta);
   CU_ASSERT(hash_table_key_int_eq(tb, 2, &a, &b));
   cdc_hash_table_dtor(ta);
@@ -392,7 +402,7 @@ void test_hash_table_rehash()
   struct cdc_hash_table *t = NULL;
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.eq = eq;
-  info.hash = cdc_pdhash_int;
+  info.hash = hash;
 
   CU_ASSERT_EQUAL(cdc_hash_table_ctorl(&t, &info, 0.5, &a, &b, &c, &d, &g, &h,
                                        &e, &f, CDC_END),
@@ -415,7 +425,7 @@ void test_hash_table_reserve()
   size_t count = 100;
   struct cdc_data_info info = CDC_INIT_STRUCT;
   info.eq = eq;
-  info.hash = cdc_pdhash_int;
+  info.hash = hash;
 
   CU_ASSERT_EQUAL(cdc_hash_table_ctor1(&t, &info, 1.0), CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_hash_table_reserve(t, count), CDC_STATUS_OK);
