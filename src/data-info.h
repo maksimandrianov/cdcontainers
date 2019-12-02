@@ -29,6 +29,7 @@ void cdc_di_shared_dtor(struct cdc_data_info *info);
 #define CDC_HAS_DFREE(dinfo) (dinfo && dinfo->dfree)
 #define CDC_HAS_CMP(dinfo) (dinfo && dinfo->cmp)
 #define CDC_HAS_EQ(dinfo) (dinfo && dinfo->eq)
+#define CDC_HAS_HASH(dinfo) (dinfo && dinfo->hash)
 #define CDC_HAS_CP(dinfo) (dinfo && dinfo->cp)
 #define CDC_HAS_SIZE(dinfo) (dinfo && dinfo->size)
 

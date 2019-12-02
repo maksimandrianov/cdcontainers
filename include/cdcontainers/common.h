@@ -22,6 +22,7 @@
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_COMMON_H
 
 #include <cdcontainers/casts.h>
+#include <cdcontainers/hash.h>
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -87,6 +88,7 @@ struct cdc_data_info {
    * cdc_hash_table.
    */
   cdc_binary_pred_fn_t eq;
+  cdc_hash_fn_t hash;
   cdc_copy_fn_t cp;
   size_t size;
   /**

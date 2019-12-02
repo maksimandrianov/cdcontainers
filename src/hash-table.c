@@ -32,6 +32,22 @@
 #define HASH_TABLE_COPACITY_SHIFT 1
 #define HASH_TABLE_LOAD_FACTOR 1.0f
 
+static struct cdc_hash_table_entry *new_node(void *key, void *value,
+                                             size_t hash)
+{
+  struct cdc_hash_table_entry *new_entry =
+      (struct cdc_hash_table_entry *)malloc(
+          sizeof(struct cdc_hash_table_entry));
+  if (!new_entry) {
+    return NULL;
+  }
+
+  new_entry->value = value;
+  new_entry->key = key;
+  new_entry->hash = hash;
+  return new_entry;
+}
+
 static void free_entry(struct cdc_hash_table *t,
                        struct cdc_hash_table_entry *entry)
 {
@@ -83,7 +99,7 @@ static struct cdc_hash_table_entry *ffind_entry(struct cdc_hash_table *t,
   }
 
   while (entry->next) {
-    if (t->eq(key, entry->next->key)) {
+    if (t->dinfo->eq(key, entry->next->key)) {
       return entry;
     }
 
@@ -100,7 +116,7 @@ static struct cdc_hash_table_entry *ffind_entry(struct cdc_hash_table *t,
 static struct cdc_hash_table_entry *find_entry(struct cdc_hash_table *t,
                                                void *key)
 {
-  size_t backet = key ? cbacket(t->hash(key), t->bcount) : 0;
+  size_t backet = key ? cbacket(t->dinfo->hash(key), t->bcount) : 0;
   return ffind_entry(t, key, backet);
 }
 
@@ -149,17 +165,13 @@ static enum cdc_stat make_and_insert_unique(struct cdc_hash_table *t, void *key,
     }
   }
 
-  struct cdc_hash_table_entry *new_entry =
-      (struct cdc_hash_table_entry *)malloc(
-          sizeof(struct cdc_hash_table_entry));
-  if (!new_entry) {
+  struct cdc_hash_table_entry *entry =
+      new_node(key, value, t->dinfo->hash(key));
+  if (!entry) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
-  new_entry->hash = t->hash(key);
-  new_entry->value = value;
-  new_entry->key = key;
-  *ret = add_entry(new_entry, &t->tail, t->buckets, t->bcount);
+  *ret = add_entry(entry, &t->tail, t->buckets, t->bcount);
   ++t->size;
   return CDC_STATUS_OK;
 }
@@ -263,7 +275,7 @@ static enum cdc_stat init_varg(struct cdc_hash_table *t, va_list args)
   enum cdc_stat stat = CDC_STATUS_OK;
   struct cdc_pair *pair;
   while ((pair = va_arg(args, struct cdc_pair *)) != CDC_END) {
-    stat = cdc_hash_table_insert(t, pair->first, pair->second, NULL);
+    stat = cdc_hash_table_insert(t, pair->first, pair->second, NULL, NULL);
     if (stat != CDC_STATUS_OK) {
       return stat;
     }
@@ -272,15 +284,13 @@ static enum cdc_stat init_varg(struct cdc_hash_table *t, va_list args)
   return stat;
 }
 
-enum cdc_stat cdc_hash_table_ctor2(struct cdc_hash_table **t,
+enum cdc_stat cdc_hash_table_ctor1(struct cdc_hash_table **t,
                                    struct cdc_data_info *info,
-                                   cdc_hash_fn_t hash,
-                                   cdc_binary_pred_fn_t equal,
                                    float load_factor)
 {
   assert(t != NULL);
-  assert(hash != NULL);
-  assert(CDC_HAS_EQ(info) || equal != NULL);
+  assert(CDC_HAS_HASH(info));
+  assert(CDC_HAS_EQ(info));
   assert(load_factor > 0);
 
   struct cdc_hash_table *tmp =
@@ -289,61 +299,53 @@ enum cdc_stat cdc_hash_table_ctor2(struct cdc_hash_table **t,
     return CDC_STATUS_BAD_ALLOC;
   }
 
-  tmp->hash = hash;
-  tmp->eq = equal ? equal : info->eq;
   tmp->load_factor = load_factor;
   enum cdc_stat stat = CDC_STATUS_OK;
   if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
     stat = CDC_STATUS_BAD_ALLOC;
-    goto error1;
+    goto free_hash_table;
   }
 
   stat = reallocate(tmp, HASH_TABLE_MIN_CAPACITY);
   if (stat != CDC_STATUS_OK) {
-    goto error2;
+    goto free_di;
   }
 
   *t = tmp;
   return stat;
-error2:
+free_di:
   cdc_di_shared_dtor(tmp->dinfo);
-error1:
+free_hash_table:
   free(tmp);
   return stat;
 }
 
-enum cdc_stat cdc_hash_table_ctorl2(struct cdc_hash_table **t,
+enum cdc_stat cdc_hash_table_ctorl1(struct cdc_hash_table **t,
                                     struct cdc_data_info *info,
-                                    cdc_hash_fn_t hash,
-                                    cdc_binary_pred_fn_t equal,
                                     float load_factor, ...)
 {
   assert(t != NULL);
-  assert(hash != NULL);
-  assert(CDC_HAS_EQ(info) || equal != NULL);
+  assert(CDC_HAS_HASH(info));
+  assert(CDC_HAS_EQ(info));
   assert(load_factor > 0);
 
   va_list args;
   va_start(args, load_factor);
-  enum cdc_stat stat =
-      cdc_hash_table_ctorv2(t, info, hash, equal, load_factor, args);
+  enum cdc_stat stat = cdc_hash_table_ctorv1(t, info, load_factor, args);
   va_end(args);
   return stat;
 }
 
-enum cdc_stat cdc_hash_table_ctorv2(struct cdc_hash_table **t,
+enum cdc_stat cdc_hash_table_ctorv1(struct cdc_hash_table **t,
                                     struct cdc_data_info *info,
-                                    cdc_hash_fn_t hash,
-                                    cdc_binary_pred_fn_t equal,
                                     float load_factor, va_list args)
 {
   assert(t != NULL);
-  assert(hash != NULL);
-  assert(CDC_HAS_EQ(info) || equal != NULL);
+  assert(CDC_HAS_HASH(info));
+  assert(CDC_HAS_EQ(info));
   assert(load_factor > 0);
 
-  enum cdc_stat stat;
-  stat = cdc_hash_table_ctor2(t, info, hash, equal, load_factor);
+  enum cdc_stat stat = cdc_hash_table_ctor1(t, info, load_factor);
   if (stat != CDC_STATUS_OK) {
     return stat;
   }
@@ -351,82 +353,38 @@ enum cdc_stat cdc_hash_table_ctorv2(struct cdc_hash_table **t,
   return init_varg(*t, args);
 }
 
-enum cdc_stat cdc_hash_table_ctor1(struct cdc_hash_table **t,
-                                   struct cdc_data_info *info,
-                                   cdc_hash_fn_t hash,
-                                   cdc_binary_pred_fn_t equal)
-{
-  assert(t != NULL);
-  assert(hash != NULL);
-  assert(CDC_HAS_EQ(info) || equal != NULL);
-
-  return cdc_hash_table_ctor2(t, info, hash, equal, HASH_TABLE_LOAD_FACTOR);
-}
-
-enum cdc_stat cdc_hash_table_ctorl1(struct cdc_hash_table **t,
-                                    struct cdc_data_info *info,
-                                    cdc_hash_fn_t hash,
-                                    cdc_binary_pred_fn_t equal, ...)
-{
-  assert(t != NULL);
-  assert(hash != NULL);
-  assert(CDC_HAS_EQ(info) || equal != NULL);
-
-  va_list args;
-  va_start(args, equal);
-  enum cdc_stat stat = cdc_hash_table_ctorv1(t, info, hash, equal, args);
-  va_end(args);
-  return stat;
-}
-
-enum cdc_stat cdc_hash_table_ctorv1(struct cdc_hash_table **t,
-                                    struct cdc_data_info *info,
-                                    cdc_hash_fn_t hash,
-                                    cdc_binary_pred_fn_t equal, va_list args)
-{
-  assert(t != NULL);
-  assert(hash != NULL);
-  assert(CDC_HAS_EQ(info) || equal != NULL);
-
-  return cdc_hash_table_ctorv2(t, info, hash, equal, HASH_TABLE_LOAD_FACTOR,
-                               args);
-}
-
 enum cdc_stat cdc_hash_table_ctor(struct cdc_hash_table **t,
-                                  struct cdc_data_info *info,
-                                  cdc_hash_fn_t hash)
+                                  struct cdc_data_info *info)
 {
   assert(t != NULL);
-  assert(hash != NULL);
+  assert(CDC_HAS_HASH(info));
   assert(CDC_HAS_EQ(info));
 
-  return cdc_hash_table_ctor1(t, info, hash, NULL);
+  return cdc_hash_table_ctor1(t, info, HASH_TABLE_LOAD_FACTOR);
 }
 
 enum cdc_stat cdc_hash_table_ctorl(struct cdc_hash_table **t,
-                                   struct cdc_data_info *info,
-                                   cdc_hash_fn_t hash, ...)
+                                   struct cdc_data_info *info, ...)
 {
   assert(t != NULL);
-  assert(hash != NULL);
+  assert(CDC_HAS_HASH(info));
   assert(CDC_HAS_EQ(info));
 
   va_list args;
-  va_start(args, hash);
-  enum cdc_stat stat = cdc_hash_table_ctorv(t, info, hash, args);
+  va_start(args, info);
+  enum cdc_stat stat = cdc_hash_table_ctorv(t, info, args);
   va_end(args);
   return stat;
 }
 
 enum cdc_stat cdc_hash_table_ctorv(struct cdc_hash_table **t,
-                                   struct cdc_data_info *info,
-                                   cdc_hash_fn_t hash, va_list args)
+                                   struct cdc_data_info *info, va_list args)
 {
   assert(t != NULL);
-  assert(hash != NULL);
+  assert(CDC_HAS_HASH(info));
   assert(CDC_HAS_EQ(info));
 
-  return cdc_hash_table_ctorv1(t, info, hash, NULL, args);
+  return cdc_hash_table_ctorv1(t, info, HASH_TABLE_LOAD_FACTOR, args);
 }
 
 void cdc_hash_table_dtor(struct cdc_hash_table *t)
@@ -498,39 +456,43 @@ void cdc_hash_table_clear(struct cdc_hash_table *t)
 }
 
 enum cdc_stat cdc_hash_table_insert(struct cdc_hash_table *t, void *key,
-                                    void *value,
-                                    struct cdc_pair_hash_table_iter_bool *ret)
+                                    void *value, struct cdc_hash_table_iter *it,
+                                    bool *inserted)
 {
   assert(t != NULL);
 
-  struct cdc_hash_table_entry *entry = find_entry(t, key), *new_entry;
-  enum cdc_stat stat;
+  struct cdc_hash_table_entry *entry = find_entry(t, key);
+  struct cdc_hash_table_entry *new_entry = NULL;
   if (!entry) {
-    stat = make_and_insert_unique(t, key, value, &new_entry);
+    enum cdc_stat stat = make_and_insert_unique(t, key, value, &new_entry);
     if (stat != CDC_STATUS_OK) {
       return stat;
     }
   }
 
-  if (ret) {
-    ret->first.container = t;
-    ret->first.current = (entry ? entry->next : new_entry->next);
-    ret->second = !entry;
+  if (it) {
+    it->container = t;
+    it->current = (entry ? entry->next : new_entry->next);
+  }
+
+  if (inserted) {
+    *inserted = !entry;
   }
 
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_hash_table_insert_or_assign(
-    struct cdc_hash_table *t, void *key, void *value,
-    struct cdc_pair_hash_table_iter_bool *ret)
+enum cdc_stat cdc_hash_table_insert_or_assign(struct cdc_hash_table *t,
+                                              void *key, void *value,
+                                              struct cdc_hash_table_iter *it,
+                                              bool *inserted)
 {
   assert(t != NULL);
 
-  struct cdc_hash_table_entry *entry = find_entry(t, key), *new_entry;
-  enum cdc_stat stat;
+  struct cdc_hash_table_entry *entry = find_entry(t, key);
+  struct cdc_hash_table_entry *new_entry = NULL;
   if (!entry) {
-    stat = make_and_insert_unique(t, key, value, &new_entry);
+    enum cdc_stat stat = make_and_insert_unique(t, key, value, &new_entry);
     if (stat != CDC_STATUS_OK) {
       return stat;
     }
@@ -538,10 +500,13 @@ enum cdc_stat cdc_hash_table_insert_or_assign(
     entry->next->value = value;
   }
 
-  if (ret) {
-    ret->first.container = t;
-    ret->first.current = (entry ? entry->next : new_entry->next);
-    ret->second = !entry;
+  if (it) {
+    it->container = t;
+    it->current = (entry ? entry->next : new_entry->next);
+  }
+
+  if (inserted) {
+    *inserted = !entry;
   }
 
   return CDC_STATUS_OK;
@@ -551,7 +516,7 @@ size_t cdc_hash_table_erase(struct cdc_hash_table *t, void *key)
 {
   assert(t != NULL);
 
-  size_t backet = key ? cbacket(t->hash(key), t->bcount) : 0;
+  size_t backet = key ? cbacket(t->dinfo->hash(key), t->bcount) : 0;
   struct cdc_hash_table_entry *entry = ffind_entry(t, key, backet);
   if (!entry) {
     return 0;
@@ -570,8 +535,6 @@ void cdc_hash_table_swap(struct cdc_hash_table *a, struct cdc_hash_table *b)
   CDC_SWAP(struct cdc_hash_table_entry **, a->buckets, b->buckets);
   CDC_SWAP(size_t, a->bcount, b->bcount);
   CDC_SWAP(float, a->load_factor, b->load_factor);
-  CDC_SWAP(cdc_hash_fn_t, a->hash, b->hash);
-  CDC_SWAP(cdc_binary_pred_fn_t, a->eq, b->eq);
   CDC_SWAP(size_t, a->size, b->size);
   CDC_SWAP(struct cdc_data_info *, a->dinfo, b->dinfo);
 }

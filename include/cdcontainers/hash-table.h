@@ -57,8 +57,6 @@ struct cdc_hash_table {
   struct cdc_hash_table_entry **buckets;
   size_t bcount;
   float load_factor;
-  cdc_hash_fn_t hash;
-  cdc_binary_pred_fn_t eq;
   size_t size;
   struct cdc_data_info *dinfo;
 };
@@ -78,22 +76,15 @@ struct cdc_pair_hash_table_iter {
   struct cdc_hash_table_iter second;
 };
 
-struct cdc_pair_hash_table_iter_bool {
-  struct cdc_hash_table_iter first;
-  bool second;
-};
-
 /**
  * @brief Constructs an empty hash table
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
- * @param hash - hash function to use
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
 enum cdc_stat cdc_hash_table_ctor(struct cdc_hash_table **t,
-                                  struct cdc_data_info *info,
-                                  cdc_hash_fn_t hash);
+                                  struct cdc_data_info *info);
 
 /**
  * @brief Constructs a hash table, initialized by an arbitrary number of
@@ -101,90 +92,33 @@ enum cdc_stat cdc_hash_table_ctor(struct cdc_hash_table **t,
  * must be NULL.
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
- * @param hash - hash function to use
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
 enum cdc_stat cdc_hash_table_ctorl(struct cdc_hash_table **t,
-                                   struct cdc_data_info *info,
-                                   cdc_hash_fn_t hash, ...);
+                                   struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs a hash table, initialized by args. The last item
  * must be NULL.
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
- * @param hash - hash function to use
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
 enum cdc_stat cdc_hash_table_ctorv(struct cdc_hash_table **t,
-                                   struct cdc_data_info *info,
-                                   cdc_hash_fn_t hash, va_list args);
+                                   struct cdc_data_info *info, va_list args);
 
 /**
  * @brief Constructs an empty hash table
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
- * @param hash - hash function to use
- * @param equal - comparison function to use for all key comparisons of this
- * container
+ * @param load_factor - maximum load factor setting
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
 enum cdc_stat cdc_hash_table_ctor1(struct cdc_hash_table **t,
                                    struct cdc_data_info *info,
-                                   cdc_hash_fn_t hash,
-                                   cdc_binary_pred_fn_t equal);
-
-/**
- * @brief Constructs a hash table, initialized by an arbitrary number of
- * pointers on cdc_pair's(first - key, and the second - value).  The last item
- * must be NULL.
- * @param t - cdc_hash_table
- * @param info - cdc_data_info
- * @param hash - hash function to use
- * @param equal - comparison function to use for all key comparisons of this
- * container
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_hash_table_ctorl1(struct cdc_hash_table **t,
-                                    struct cdc_data_info *info,
-                                    cdc_hash_fn_t hash,
-                                    cdc_binary_pred_fn_t equal, ...);
-
-/**
- * @brief Constructs a hash table, initialized by args. The last item
- * must be NULL.
- * @param t - cdc_hash_table
- * @param info - cdc_data_info
- * @param hash - hash function to use
- * @param equal - comparison function to use for all key comparisons of this
- * container
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_hash_table_ctorv1(struct cdc_hash_table **t,
-                                    struct cdc_data_info *info,
-                                    cdc_hash_fn_t hash,
-                                    cdc_binary_pred_fn_t equal, va_list args);
-
-/**
- * @brief Constructs an empty hash table
- * @param t - cdc_hash_table
- * @param info - cdc_data_info
- * @param hash - hash function to use
- * @param equal - comparison function to use for all key comparisons of this
- * container
- * @param load_factor - maximum load factor setting
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_hash_table_ctor2(struct cdc_hash_table **t,
-                                   struct cdc_data_info *info,
-                                   cdc_hash_fn_t hash,
-                                   cdc_binary_pred_fn_t equal,
                                    float load_factor);
 
 /**
@@ -193,17 +127,12 @@ enum cdc_stat cdc_hash_table_ctor2(struct cdc_hash_table **t,
  * must be NULL.
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
- * @param hash - hash function to use
- * @param equal - comparison function to use for all key comparisons of this
- * container
  * @param load_factor - maximum load factor setting
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_hash_table_ctorl2(struct cdc_hash_table **t,
+enum cdc_stat cdc_hash_table_ctorl1(struct cdc_hash_table **t,
                                     struct cdc_data_info *info,
-                                    cdc_hash_fn_t hash,
-                                    cdc_binary_pred_fn_t equal,
                                     float load_factor, ...);
 
 /**
@@ -211,17 +140,12 @@ enum cdc_stat cdc_hash_table_ctorl2(struct cdc_hash_table **t,
  * must be NULL.
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
- * @param hash - hash function to use
- * @param equal - comparison function to use for all key comparisons of this
- * container
  * @param load_factor - maximum load factor setting
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_hash_table_ctorv2(struct cdc_hash_table **t,
+enum cdc_stat cdc_hash_table_ctorv1(struct cdc_hash_table **t,
                                     struct cdc_data_info *info,
-                                    cdc_hash_fn_t hash,
-                                    cdc_binary_pred_fn_t equal,
                                     float load_factor, va_list args);
 
 /**
@@ -314,15 +238,15 @@ void cdc_hash_table_clear(struct cdc_hash_table *t);
  * @param t - cdc_hash_table
  * @param key - key of the element
  * @param value - value of the element
- * @param ret - pair consisting of an iterator to the inserted element (or to
- * the element that prevented the insertion) and a bool denoting whether the
- * insertion took place. The pointer can be equal to NULL
+ * @param it - iterator to the inserted element (or to the element that
+ * prevented the insertion). The pointer can be equal to NULL
+ * @param inserted - bool denoting whether the insertion
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
 enum cdc_stat cdc_hash_table_insert(struct cdc_hash_table *t, void *key,
-                                    void *value,
-                                    struct cdc_pair_hash_table_iter_bool *ret);
+                                    void *value, struct cdc_hash_table_iter *it,
+                                    bool *inserted);
 
 /**
  * @brief Inserts an element or assigns to the current element if the key
@@ -330,15 +254,16 @@ enum cdc_stat cdc_hash_table_insert(struct cdc_hash_table *t, void *key,
  * @param t - cdc_hash_table
  * @param key - key of the element
  * @param value - value of the element
- * @param ret - pair. The bool component is true if the insertion took place and
- * false if the assignment took place. The iterator component is pointing at the
- * element that was inserted or updated
+ * @param it - iterator to the inserted element (or to the element that
+ * prevented the insertion). The pointer can be equal to NULL
+ * @param inserted - bool denoting whether the insertion
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-enum cdc_stat cdc_hash_table_insert_or_assign(
-    struct cdc_hash_table *t, void *key, void *value,
-    struct cdc_pair_hash_table_iter_bool *ret);
+enum cdc_stat cdc_hash_table_insert_or_assign(struct cdc_hash_table *t,
+                                              void *key, void *value,
+                                              struct cdc_hash_table_iter *it,
+                                              bool *inserted);
 
 /**
  * @brief Removes the element (if one exists) with the key equivalent to key.
@@ -509,7 +434,6 @@ static inline struct cdc_pair cdc_hash_table_iter_key_value(
   assert(it != NULL);
 
   struct cdc_pair pair = {it->current->key, it->current->value};
-
   return pair;
 }
 
@@ -539,9 +463,6 @@ typedef struct cdc_pair_hash_table_iter_bool pair_hash_table_iter_bool_t;
 #define hash_table_ctor1(...) cdc_hash_table_ctor1(__VA_ARGS__)
 #define hash_table_ctorl1(...) cdc_hash_table_ctorl1(__VA_ARGS__)
 #define hash_table_ctorv1(...) cdc_hash_table_ctorv1(__VA_ARGS__)
-#define hash_table_ctor2(...) cdc_hash_table_ctor2(__VA_ARGS__)
-#define hash_table_ctorl2(...) cdc_hash_table_ctorl2(__VA_ARGS__)
-#define hash_table_ctorv2(...) cdc_hash_table_ctorv2(__VA_ARGS__)
 #define hash_table_dtor(...) cdc_hash_table_dtor(__VA_ARGS__)
 
 // Lookup
