@@ -402,7 +402,7 @@ static inline bool cdc_hash_table_iter_has_next(struct cdc_hash_table_iter *it)
 {
   assert(it != NULL);
 
-  return it->current->next != NULL;
+  return it->current != NULL;
 }
 
 /**
