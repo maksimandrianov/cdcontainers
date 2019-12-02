@@ -22,11 +22,11 @@ and following interfaces:
 * cdc_stack (Can work with: cdc_array, cdc_list, cdc_deque)
 * cdc_queue (Can work with: cdc_array, cdc_list, cdc_deque)
 * cdc_proirity_queue (Can work with: cdc_heap, cdc_binomial_heap, cdc_pairing_heap)
-* cdc_map (Can work with: cdc_avl_tree, cdc_splay_tree, cdc_treep)
+* cdc_map (Can work with: cdc_avl_tree, cdc_splay_tree, cdc_treep, cdc_hash_table)
 
 ### Usage
 
-Example of using a array from a library cdcontainers:
+Example of using a map from a library cdcontainers:
 
 ```c
 // Program to emulates the phone book.
