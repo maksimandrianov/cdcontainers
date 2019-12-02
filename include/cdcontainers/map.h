@@ -262,14 +262,14 @@ static inline void cdc_map_swap(struct cdc_map *a, struct cdc_map *b)
  * @param t - cdc_map
  * @param it - cdc_map_iter
  */
-enum cdc_stat cdc_map_iter_init(struct cdc_map *m, struct cdc_map_iter *it);
+enum cdc_stat cdc_map_iter_ctor(struct cdc_map *m, struct cdc_map_iter *it);
 
 /**
  * @brief Clears the iterator. It should be called after the iterator is no
  * longer needed. Releases resources.
  * @param it - cdc_map_iter
  */
-void cdc_map_iter_free(struct cdc_map_iter *it);
+void cdc_map_iter_dtor(struct cdc_map_iter *it);
 
 /**
  * @brief Returns a type of iterator.
@@ -422,8 +422,8 @@ typedef struct cdc_map_iter map_iter_t;
 #define map_swap(...) cdc_map_swap(__VA_ARGS__)
 
 // Iterators
-#define map_iter_init(...) cdc_map_iter_init(__VA_ARGS__)
-#define map_iter_free(...) cdc_map_iter_free(__VA_ARGS__)
+#define map_iter_ctor(...) cdc_map_iter_ctor(__VA_ARGS__)
+#define map_iter_dtor(...) cdc_map_iter_dtor(__VA_ARGS__)
 #define map_begin(...) cdc_map_begin(__VA_ARGS__)
 #define map_end(...) cdc_map_end(__VA_ARGS__)
 

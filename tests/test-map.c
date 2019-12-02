@@ -164,8 +164,8 @@ void test_map_find()
     CU_ASSERT_EQUAL(
         cdc_map_ctorl(tables[t], &m, &info, &a, &b, &c, &d, &g, CDC_END),
         CDC_STATUS_OK);
-    CU_ASSERT_EQUAL(cdc_map_iter_init(m, &it), CDC_STATUS_OK);
-    CU_ASSERT_EQUAL(cdc_map_iter_init(m, &it_end), CDC_STATUS_OK);
+    CU_ASSERT_EQUAL(cdc_map_iter_ctor(m, &it), CDC_STATUS_OK);
+    CU_ASSERT_EQUAL(cdc_map_iter_ctor(m, &it_end), CDC_STATUS_OK);
 
     cdc_map_find(m, a.first, &it);
     CU_ASSERT_EQUAL(cdc_map_iter_value(&it), a.second);
@@ -176,8 +176,8 @@ void test_map_find()
     cdc_map_find(m, h.first, &it);
     cdc_map_end(m, &it_end);
     CU_ASSERT(cdc_map_iter_is_eq(&it, &it_end));
-    cdc_map_iter_free(&it);
-    cdc_map_iter_free(&it_end);
+    cdc_map_iter_dtor(&it);
+    cdc_map_iter_dtor(&it_end);
     cdc_map_dtor(m);
   }
 }
@@ -248,7 +248,7 @@ void test_map_insert_or_assign()
     info.hash = hash;
 
     CU_ASSERT_EQUAL(cdc_map_ctor(tables[t], &m, &info), CDC_STATUS_OK);
-    CU_ASSERT_EQUAL(cdc_map_iter_init(m, &it), CDC_STATUS_OK);
+    CU_ASSERT_EQUAL(cdc_map_iter_ctor(m, &it), CDC_STATUS_OK);
 
     CU_ASSERT_EQUAL(
         cdc_map_insert_or_assign(m, a.first, a.second, &it, &inserted),
@@ -281,7 +281,7 @@ void test_map_insert_or_assign()
     CU_ASSERT_EQUAL(value, d.second);
     CU_ASSERT_EQUAL(cdc_map_iter_value(&it), d.second);
     CU_ASSERT(!inserted);
-    cdc_map_iter_free(&it);
+    cdc_map_iter_dtor(&it);
     cdc_map_dtor(m);
   }
 }
@@ -370,8 +370,8 @@ void test_map_iterators()
     struct cdc_map_iter it1 = CDC_INIT_STRUCT;
     struct cdc_map_iter it2 = CDC_INIT_STRUCT;
 
-    CU_ASSERT_EQUAL(cdc_map_iter_init(m, &it1), CDC_STATUS_OK);
-    CU_ASSERT_EQUAL(cdc_map_iter_init(m, &it2), CDC_STATUS_OK);
+    CU_ASSERT_EQUAL(cdc_map_iter_ctor(m, &it1), CDC_STATUS_OK);
+    CU_ASSERT_EQUAL(cdc_map_iter_ctor(m, &it2), CDC_STATUS_OK);
 
     struct cdc_pair *arr[] = {&a, &b, &c, &d, &e, &f, &g, &h};
 
@@ -418,8 +418,8 @@ void test_map_iterators()
       CU_ASSERT_EQUAL(i, 0);
     }
 
-    cdc_map_iter_free(&it1);
-    cdc_map_iter_free(&it2);
+    cdc_map_iter_dtor(&it1);
+    cdc_map_iter_dtor(&it2);
     cdc_map_dtor(m);
   }
 }
@@ -441,9 +441,9 @@ void test_map_iter_type()
     info.hash = hash;
 
     cdc_map_ctor(tables[t], &m, &info);
-    cdc_map_iter_init(m, &it);
+    cdc_map_iter_ctor(m, &it);
     CU_ASSERT_EQUAL(cdc_map_iter_type(&it), answers[t]);
-    cdc_map_iter_free(&it);
+    cdc_map_iter_dtor(&it);
     cdc_map_dtor(m);
   }
 }

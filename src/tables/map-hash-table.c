@@ -155,9 +155,9 @@ static void end(void *cntr, void *it)
   cdc_hash_table_end(tree, iter);
 }
 
-static void *iter_alloc() { return malloc(sizeof(struct cdc_hash_table_iter)); }
+static void *iter_ctor() { return malloc(sizeof(struct cdc_hash_table_iter)); }
 
-static void iter_free(void *it) { free(it); }
+static void iter_dtor(void *it) { free(it); }
 
 static enum cdc_iterator_type type() { return CDC_FWD_ITERATOR; }
 
@@ -226,8 +226,8 @@ static bool iter_eq(void *it1, void *it2)
 }
 
 static const struct cdc_map_iter_table _iter_table = {
-    .alloc = iter_alloc,
-    .free = iter_free,
+    .ctor = iter_ctor,
+    .dtor = iter_dtor,
     .type = type,
     .next = iter_next,
     .prev = iter_prev,

@@ -39,8 +39,8 @@
  * Use only special functions to access and change structure fields.
  */
 struct cdc_map_iter_table {
-  void *(*alloc)();
-  void (*free)(void *it);
+  void *(*ctor)();
+  void (*dtor)(void *it);
   enum cdc_iterator_type (*type)();
   void (*next)(void *it);
   void (*prev)(void *it);

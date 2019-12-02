@@ -95,13 +95,13 @@ void cdc_map_dtor(struct cdc_map *m)
   free(m);
 }
 
-enum cdc_stat cdc_map_iter_init(struct cdc_map *m, struct cdc_map_iter *it)
+enum cdc_stat cdc_map_iter_ctor(struct cdc_map *m, struct cdc_map_iter *it)
 {
   assert(m != NULL);
   assert(it != NULL);
 
   it->table = m->table->iter_table;
-  it->iter = it->table->alloc();
+  it->iter = it->table->ctor();
   if (!it->iter) {
     return CDC_STATUS_BAD_ALLOC;
   }
@@ -109,9 +109,9 @@ enum cdc_stat cdc_map_iter_init(struct cdc_map *m, struct cdc_map_iter *it)
   return CDC_STATUS_OK;
 }
 
-void cdc_map_iter_free(struct cdc_map_iter *it)
+void cdc_map_iter_dtor(struct cdc_map_iter *it)
 {
   assert(it != NULL);
 
-  it->table->free(it->iter);
+  it->table->dtor(it->iter);
 }

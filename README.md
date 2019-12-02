@@ -50,7 +50,7 @@ int handle_error(map_t *phone_book)
 void print_phone_book(map_t *phone_book)
 {
   map_iter_t iter = CDC_INIT_STRUCT;
-  if (map_iter_init(phone_book, &iter) != CDC_STATUS_OK)
+  if (map_iter_ctor(phone_book, &iter) != CDC_STATUS_OK)
   {
     printf("Error map_iter_init.\n");
     return;
