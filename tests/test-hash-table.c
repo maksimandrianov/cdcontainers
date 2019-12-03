@@ -49,15 +49,9 @@ static int eq_plus_1(const void *l, const void *r)
   return CDC_TO_INT(l) + 1 == CDC_TO_INT(r) + 1;
 }
 
-static size_t hash(const void *val)
-{
-  return cdc_hash_int(CDC_TO_INT(val));
-}
+static size_t hash(const void *val) { return cdc_hash_int(CDC_TO_INT(val)); }
 
-static size_t hash1(const void *val)
-{
-  return cdc_hash_uint(CDC_TO_UINT(val));
-}
+static size_t hash1(const void *val) { return cdc_hash_uint(CDC_TO_UINT(val)); }
 
 static bool hash_table_key_int_eq(struct cdc_hash_table *t, size_t count, ...)
 {

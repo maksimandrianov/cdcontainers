@@ -112,8 +112,7 @@ static inline size_t cdc_up_to_pow2(size_t x)
   return x + 1;
 }
 
-enum cdc_iterator_type
-{
+enum cdc_iterator_type {
   // Forward iterator category.
   CDC_FWD_ITERATOR,
   // Bidirectional iterator category.

@@ -49,8 +49,8 @@ struct cdc_priority_queue_table {
   void (*pop)(void *cntr);
 };
 
-extern const void *cdc_pq_heap;
-extern const void *cdc_pq_binheap;
-extern const void *cdc_pq_pheap;
+extern const struct cdc_priority_queue_table *cdc_pq_heap;
+extern const struct cdc_priority_queue_table *cdc_pq_binheap;
+extern const struct cdc_priority_queue_table *cdc_pq_pheap;
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_IPQUEUE_H

@@ -256,4 +256,4 @@ static const struct cdc_map_table _table = {
     .end = end,
     .iter_table = &_iter_table};
 
-const void *cdc_map_htable = &_table;
+const struct cdc_map_table *cdc_map_htable = &_table;

@@ -78,9 +78,9 @@ struct cdc_map_table {
   const struct cdc_map_iter_table *iter_table;
 };
 
-extern const void *cdc_map_avl;
-extern const void *cdc_map_splay;
-extern const void *cdc_map_treap;
-extern const void *cdc_map_htable;
+extern const struct cdc_map_table *cdc_map_avl;
+extern const struct cdc_map_table *cdc_map_splay;
+extern const struct cdc_map_table *cdc_map_treap;
+extern const struct cdc_map_table *cdc_map_htable;
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_IMAP_H

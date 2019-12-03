@@ -97,4 +97,4 @@ static const struct cdc_priority_queue_table _table = {.ctor = ctor,
                                                        .push = push,
                                                        .pop = pop};
 
-const void *cdc_pq_pheap = &_table;
+const struct cdc_priority_queue_table *cdc_pq_pheap = &_table;

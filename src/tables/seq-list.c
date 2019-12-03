@@ -169,4 +169,4 @@ static const struct cdc_sequence_table _table = {.ctor = ctor,
                                                  .get = get,
                                                  .set = set};
 
-const void *cdc_seq_list = &_table;
+const struct cdc_sequence_table *cdc_seq_list = &_table;

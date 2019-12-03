@@ -32,7 +32,7 @@ void test_stackv_ctor()
 {
   struct cdc_stack *s = NULL;
 
-  CU_ASSERT_EQUAL(cdc_stackv_ctor(&s, NULL), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_stack_ctor(cdc_seq_array, &s, NULL), CDC_STATUS_OK);
   CU_ASSERT(cdc_stack_empty(s));
   cdc_stack_dtor(s);
 }
@@ -42,9 +42,9 @@ void test_stackv_ctorl()
   struct cdc_stack *s = NULL;
   int a = 2, b = 3;
 
-  CU_ASSERT_EQUAL(
-      cdc_stackv_ctorl(&s, NULL, CDC_FROM_INT(a), CDC_FROM_INT(b), CDC_END),
-      CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_stack_ctorl(cdc_seq_array, &s, NULL, CDC_FROM_INT(a),
+                                  CDC_FROM_INT(b), CDC_END),
+                  CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_stack_size(s), 2);
 
   void *elem = cdc_stack_top(s);
@@ -64,7 +64,7 @@ void test_stackv_push()
   struct cdc_stack *s = NULL;
   int a = 0, b = 1, c = 2;
 
-  CU_ASSERT_EQUAL(cdc_stackv_ctor(&s, NULL), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_stack_ctor(cdc_seq_array, &s, NULL), CDC_STATUS_OK);
 
   cdc_stack_push(s, CDC_FROM_INT(a));
   CU_ASSERT_EQUAL(cdc_stack_size(s), 1);
@@ -88,9 +88,10 @@ void test_stackv_pop()
   struct cdc_stack *s = NULL;
   int a = 0, b = 1, c = 2, d = 3;
 
-  CU_ASSERT_EQUAL(cdc_stackv_ctorl(&s, NULL, CDC_FROM_INT(a), CDC_FROM_INT(b),
-                                   CDC_FROM_INT(c), CDC_FROM_INT(d), CDC_END),
-                  CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(
+      cdc_stack_ctorl(cdc_seq_array, &s, NULL, CDC_FROM_INT(a), CDC_FROM_INT(b),
+                      CDC_FROM_INT(c), CDC_FROM_INT(d), CDC_END),
+      CDC_STATUS_OK);
 
   void *elem = cdc_stack_top(s);
   cdc_stack_pop(s);
@@ -120,11 +121,12 @@ void test_stackv_swap()
   struct cdc_stack *w = NULL;
   int a = 2, b = 3, c = 4;
 
-  CU_ASSERT_EQUAL(cdc_stackv_ctorl(&v, NULL, CDC_FROM_INT(b), CDC_END),
-                  CDC_STATUS_OK);
   CU_ASSERT_EQUAL(
-      cdc_stackv_ctorl(&w, NULL, CDC_FROM_INT(a), CDC_FROM_INT(c), CDC_END),
+      cdc_stack_ctorl(cdc_seq_array, &v, NULL, CDC_FROM_INT(b), CDC_END),
       CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_stack_ctorl(cdc_seq_array, &w, NULL, CDC_FROM_INT(a),
+                                  CDC_FROM_INT(c), CDC_END),
+                  CDC_STATUS_OK);
 
   cdc_stack_swap(v, w);
 

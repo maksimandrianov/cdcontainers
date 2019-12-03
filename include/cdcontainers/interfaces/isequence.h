@@ -57,8 +57,8 @@ struct cdc_sequence_table {
   void (*set)(void *cntr, size_t index, void *value);
 };
 
-extern const void *cdc_seq_deque;
-extern const void *cdc_seq_array;
-extern const void *cdc_seq_list;
+extern const struct cdc_sequence_table *cdc_seq_deque;
+extern const struct cdc_sequence_table *cdc_seq_array;
+extern const struct cdc_sequence_table *cdc_seq_list;
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_ISEQUENCE_H

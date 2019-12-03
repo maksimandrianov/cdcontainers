@@ -69,8 +69,8 @@ static bool map_key_int_eq(struct cdc_map *t, size_t count, ...)
 
 void test_map_ctor()
 {
-  const void *tables[] = {cdc_map_avl, cdc_map_splay, cdc_map_treap,
-                          cdc_map_htable};
+  const struct cdc_map_table *tables[] = {cdc_map_avl, cdc_map_splay,
+                                          cdc_map_treap, cdc_map_htable};
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
     struct cdc_map *m = NULL;
     struct cdc_data_info info = CDC_INIT_STRUCT;
@@ -86,8 +86,8 @@ void test_map_ctor()
 
 void test_map_ctorl()
 {
-  const void *tables[] = {cdc_map_avl, cdc_map_splay, cdc_map_treap,
-                          cdc_map_htable};
+  const struct cdc_map_table *tables[] = {cdc_map_avl, cdc_map_splay,
+                                          cdc_map_treap, cdc_map_htable};
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
     struct cdc_map *m = NULL;
     struct cdc_data_info info = CDC_INIT_STRUCT;
@@ -106,8 +106,8 @@ void test_map_ctorl()
 
 void test_map_get()
 {
-  const void *tables[] = {cdc_map_avl, cdc_map_splay, cdc_map_treap,
-                          cdc_map_htable};
+  const struct cdc_map_table *tables[] = {cdc_map_avl, cdc_map_splay,
+                                          cdc_map_treap, cdc_map_htable};
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
     struct cdc_map *m = NULL;
     void *value = NULL;
@@ -129,8 +129,8 @@ void test_map_get()
 
 void test_map_count()
 {
-  const void *tables[] = {cdc_map_avl, cdc_map_splay, cdc_map_treap,
-                          cdc_map_htable};
+  const struct cdc_map_table *tables[] = {cdc_map_avl, cdc_map_splay,
+                                          cdc_map_treap, cdc_map_htable};
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
     struct cdc_map *m = NULL;
     struct cdc_data_info info = CDC_INIT_STRUCT;
@@ -150,8 +150,8 @@ void test_map_count()
 
 void test_map_find()
 {
-  const void *tables[] = {cdc_map_avl, cdc_map_splay, cdc_map_treap,
-                          cdc_map_htable};
+  const struct cdc_map_table *tables[] = {cdc_map_avl, cdc_map_splay,
+                                          cdc_map_treap, cdc_map_htable};
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
     struct cdc_map *m = NULL;
     struct cdc_map_iter it = CDC_INIT_STRUCT;
@@ -184,8 +184,8 @@ void test_map_find()
 
 void test_map_clear()
 {
-  const void *tables[] = {cdc_map_avl, cdc_map_splay, cdc_map_treap,
-                          cdc_map_htable};
+  const struct cdc_map_table *tables[] = {cdc_map_avl, cdc_map_splay,
+                                          cdc_map_treap, cdc_map_htable};
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
     struct cdc_map *m = NULL;
     struct cdc_data_info info = CDC_INIT_STRUCT;
@@ -206,8 +206,8 @@ void test_map_clear()
 
 void test_map_insert()
 {
-  const void *tables[] = {cdc_map_avl, cdc_map_splay, cdc_map_treap,
-                          cdc_map_htable};
+  const struct cdc_map_table *tables[] = {cdc_map_avl, cdc_map_splay,
+                                          cdc_map_treap, cdc_map_htable};
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
     struct cdc_map *m = NULL;
     const int count = 100;
@@ -235,8 +235,8 @@ void test_map_insert()
 
 void test_map_insert_or_assign()
 {
-  const void *tables[] = {cdc_map_avl, cdc_map_splay, cdc_map_treap,
-                          cdc_map_htable};
+  const struct cdc_map_table *tables[] = {cdc_map_avl, cdc_map_splay,
+                                          cdc_map_treap, cdc_map_htable};
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
     struct cdc_map *m = NULL;
     struct cdc_map_iter it = CDC_INIT_STRUCT;
@@ -288,8 +288,8 @@ void test_map_insert_or_assign()
 
 void test_map_erase()
 {
-  const void *tables[] = {cdc_map_avl, cdc_map_splay, cdc_map_treap,
-                          cdc_map_htable};
+  const struct cdc_map_table *tables[] = {cdc_map_avl, cdc_map_splay,
+                                          cdc_map_treap, cdc_map_htable};
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
     struct cdc_map *m = NULL;
     void *value = NULL;
@@ -353,8 +353,8 @@ void test_map_swap() {}
 
 void test_map_iterators()
 {
-  const void *tables[] = {cdc_map_avl, cdc_map_splay, cdc_map_treap,
-                          cdc_map_htable};
+  const struct cdc_map_table *tables[] = {cdc_map_avl, cdc_map_splay,
+                                          cdc_map_treap, cdc_map_htable};
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
     struct cdc_map *m = NULL;
     struct cdc_data_info info = CDC_INIT_STRUCT;
@@ -426,8 +426,8 @@ void test_map_iterators()
 
 void test_map_iter_type()
 {
-  const void *tables[] = {cdc_map_avl, cdc_map_splay, cdc_map_treap,
-                          cdc_map_htable};
+  const struct cdc_map_table *tables[] = {cdc_map_avl, cdc_map_splay,
+                                          cdc_map_treap, cdc_map_htable};
   const enum cdc_iterator_type answers[] = {
       CDC_BIDIR_ITERATOR, CDC_BIDIR_ITERATOR, CDC_BIDIR_ITERATOR,
       CDC_FWD_ITERATOR};
