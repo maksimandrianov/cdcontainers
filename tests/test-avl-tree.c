@@ -47,8 +47,24 @@ static int lt(const void *l, const void *r)
   return CDC_TO_INT(l) < CDC_TO_INT(r);
 }
 
+static inline void test_tree_links(struct cdc_avl_tree_node *node)
+{
+  if (!node) return;
+
+  if (node->left) {
+    CU_ASSERT_EQUAL(node->left->parent, node);
+    test_tree_links(node->left);
+  }
+
+  if (node->right) {
+    CU_ASSERT_EQUAL(node->right->parent, node);
+    test_tree_links(node->right);
+  }
+}
+
 static bool avl_tree_key_int_eq(struct cdc_avl_tree *t, size_t count, ...)
 {
+  test_tree_links(t->root);
   va_list args;
   va_start(args, count);
   for (size_t i = 0; i < count; ++i) {
@@ -60,8 +76,8 @@ static bool avl_tree_key_int_eq(struct cdc_avl_tree *t, size_t count, ...)
       return false;
     }
   }
-
   va_end(args);
+  CU_ASSERT_EQUAL(cdc_avl_tree_size(t), count);
   return true;
 }
 
@@ -195,6 +211,7 @@ void test_avl_tree_insert()
     CU_ASSERT_EQUAL(cdc_avl_tree_get(t, CDC_FROM_INT(i), &val), CDC_STATUS_OK);
     CU_ASSERT_EQUAL(CDC_TO_INT(val), i);
   }
+
   cdc_avl_tree_dtor(t);
 }
 
@@ -249,9 +266,10 @@ void test_avl_tree_erase()
       cdc_avl_tree_ctorl(&t, &info, &a, &b, &c, &d, &g, &h, &e, &f, CDC_END),
       CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_avl_tree_size(t), 8);
+  avl_tree_inorder_print_int(t->root);
   CU_ASSERT(avl_tree_key_int_eq(t, 8, &a, &b, &c, &d, &g, &h, &e, &f));
   CU_ASSERT_EQUAL(cdc_avl_tree_erase(t, a.first), 1);
-
+  avl_tree_inorder_print_int(t->root);
   CU_ASSERT_EQUAL(cdc_avl_tree_get(t, a.first, &value), CDC_STATUS_NOT_FOUND);
   CU_ASSERT(avl_tree_key_int_eq(t, 7, &b, &c, &d, &g, &h, &e, &f));
 
@@ -279,18 +297,18 @@ void test_avl_tree_erase()
   CU_ASSERT_EQUAL(cdc_avl_tree_size(t), 3);
   CU_ASSERT(avl_tree_key_int_eq(t, 3, &g, &e, &f));
 
+  CU_ASSERT_EQUAL(cdc_avl_tree_erase(t, g.first), 1);
+  CU_ASSERT_EQUAL(cdc_avl_tree_get(t, g.first, &value), CDC_STATUS_NOT_FOUND);
+  CU_ASSERT_EQUAL(cdc_avl_tree_size(t), 2);
+  CU_ASSERT(avl_tree_key_int_eq(t, 2, &e, &f));
+
   CU_ASSERT_EQUAL(cdc_avl_tree_erase(t, f.first), 1);
   CU_ASSERT_EQUAL(cdc_avl_tree_get(t, f.first, &value), CDC_STATUS_NOT_FOUND);
-  CU_ASSERT_EQUAL(cdc_avl_tree_size(t), 2);
-  CU_ASSERT(avl_tree_key_int_eq(t, 2, &g, &e));
+  CU_ASSERT_EQUAL(cdc_avl_tree_size(t), 1);
+  CU_ASSERT(avl_tree_key_int_eq(t, 1, &e));
 
   CU_ASSERT_EQUAL(cdc_avl_tree_erase(t, e.first), 1);
   CU_ASSERT_EQUAL(cdc_avl_tree_get(t, e.first, &value), CDC_STATUS_NOT_FOUND);
-  CU_ASSERT_EQUAL(cdc_avl_tree_size(t), 1);
-  CU_ASSERT(avl_tree_key_int_eq(t, 1, &g));
-
-  CU_ASSERT_EQUAL(cdc_avl_tree_erase(t, g.first), 1);
-  CU_ASSERT_EQUAL(cdc_avl_tree_get(t, g.first, &value), CDC_STATUS_NOT_FOUND);
   CU_ASSERT(cdc_avl_tree_empty(t));
   cdc_avl_tree_dtor(t);
 }
