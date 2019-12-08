@@ -77,17 +77,6 @@ static inline void treap_inorder_print_int(struct cdc_treap_node *node)
   }
 }
 
-static inline size_t treap_height(struct cdc_treap_node *node)
-{
-  if (node == NULL) {
-    return 0;
-  }
-
-  size_t lh = treap_height(node->left);
-  size_t rh = treap_height(node->right);
-  return CDC_MAX(lh, rh) + 1;
-}
-
 void test_treap_ctor()
 {
   struct cdc_treap *t = NULL;

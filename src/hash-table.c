@@ -220,10 +220,10 @@ static void transfer(struct cdc_hash_table *t,
                      struct cdc_hash_table_entry **tail,
                      struct cdc_hash_table_entry **backets, size_t count)
 {
-  struct cdc_hash_table_entry *curr = t->buckets[0]->next, *next;
+  struct cdc_hash_table_entry *curr = t->buckets[0]->next;
   backets[0]->next = NULL;
   while (curr) {
-    next = curr->next;
+    struct cdc_hash_table_entry *next = curr->next;
     add_entry(curr, tail, backets, count);
     curr = next;
   }

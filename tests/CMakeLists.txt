@@ -39,7 +39,7 @@ set(SOURCE
   test-queued.c
   test-queued.c
   test-splay-tree.c
-  test-stackv.c
+  test-stack.c
   test-treap.c
 )
 

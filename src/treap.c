@@ -29,7 +29,8 @@
 #include <string.h>
 
 struct node_pair {
-  struct cdc_treap_node *l, *r;
+  struct cdc_treap_node *left;
+  struct cdc_treap_node *right;
 };
 
 CDC_MAKE_FIND_NODE_FN(struct cdc_treap_node *)
@@ -45,12 +46,25 @@ static int default_prior(void *value)
   return rand();
 }
 
+static struct cdc_treap_node *make_new_node(void *key, int prior, void *val)
+{
+  struct cdc_treap_node *node =
+      (struct cdc_treap_node *)malloc(sizeof(struct cdc_treap_node));
+  if (!node) return NULL;
+
+  node->priority = prior;
+  node->key = key;
+  node->value = val;
+  node->parent = NULL;
+  node->left = NULL;
+  node->right = NULL;
+  return node;
+}
+
 static void free_node(struct cdc_treap *t, struct cdc_treap_node *node)
 {
   if (CDC_HAS_DFREE(t->dinfo)) {
-    struct cdc_pair pair;
-    pair.first = node->key;
-    pair.second = node->value;
+    struct cdc_pair pair = {.first = node->key, .second = node->value};
     t->dinfo->dfree(&pair);
   }
 
@@ -68,56 +82,43 @@ static void free_treap(struct cdc_treap *t, struct cdc_treap_node *root)
   free_node(t, root);
 }
 
-static struct cdc_treap_node *new_node(void *key, int prior, void *val)
-{
-  struct cdc_treap_node *node =
-      (struct cdc_treap_node *)malloc(sizeof(struct cdc_treap_node));
-  if (node) {
-    node->priority = prior;
-    node->key = key;
-    node->value = val;
-    node->parent = node->left = node->right = NULL;
-  }
-
-  return node;
-}
-
 static struct node_pair split(struct cdc_treap_node *root, void *key,
                               cdc_binary_pred_fn_t compar)
 {
   struct node_pair pair;
   if (root == NULL) {
-    pair.l = pair.r = NULL;
+    pair.left = NULL;
+    pair.right = NULL;
     return pair;
   }
 
   if (compar(root->key, key)) {
     pair = split(root->right, key, compar);
-    root->right = pair.l;
-    if (pair.l) {
-      pair.l->parent = root;
+    root->right = pair.left;
+    if (pair.left) {
+      pair.left->parent = root;
     }
 
-    if (pair.r) {
-      pair.r->parent = NULL;
+    if (pair.right) {
+      pair.right->parent = NULL;
     }
 
-    pair.l = root;
-    pair.r = pair.r;
+    pair.left = root;
+    pair.right = pair.right;
     return pair;
   } else {
     pair = split(root->left, key, compar);
-    root->left = pair.r;
-    if (pair.l) {
-      pair.l->parent = NULL;
+    root->left = pair.right;
+    if (pair.left) {
+      pair.left->parent = NULL;
     }
 
-    if (pair.r) {
-      pair.r->parent = root;
+    if (pair.right) {
+      pair.right->parent = root;
     }
 
-    pair.l = pair.l;
-    pair.r = root;
+    pair.left = pair.left;
+    pair.right = root;
     return pair;
   }
 }
@@ -205,9 +206,7 @@ static struct cdc_treap_node *insert_unique(struct cdc_treap *t,
                                             struct cdc_treap_node *node,
                                             struct cdc_treap_node *nearest)
 {
-  if (t->root == NULL) {
-    t->root = node;
-  } else {
+  if (t->root) {
     if (nearest->priority > node->priority) {
       if (t->dinfo->cmp(node->key, nearest->key)) {
         nearest->left = node;
@@ -219,14 +218,14 @@ static struct cdc_treap_node *insert_unique(struct cdc_treap *t,
     } else {
       struct cdc_treap_node *pnode = nearest->parent;
       struct node_pair pair = split(nearest, node->key, t->dinfo->cmp);
-      node->left = pair.l;
-      if (pair.l) {
-        pair.l->parent = node;
+      node->left = pair.left;
+      if (pair.left) {
+        pair.left->parent = node;
       }
 
-      node->right = pair.r;
-      if (pair.r) {
-        pair.r->parent = node;
+      node->right = pair.right;
+      if (pair.right) {
+        pair.right->parent = node;
       }
 
       if (pnode == NULL) {
@@ -240,22 +239,12 @@ static struct cdc_treap_node *insert_unique(struct cdc_treap *t,
         pnode->right = node;
       }
     }
+  } else {
+    t->root = node;
   }
 
   ++t->size;
   return node;
-}
-
-static struct cdc_treap_node *make_and_insert_unique(struct cdc_treap *t,
-                                                     void *key, void *value)
-{
-  struct cdc_treap_node *node = new_node(key, t->prior(value), value);
-  if (!node) {
-    return node;
-  }
-
-  struct cdc_treap_node *nearest = find_nearest(t, node->key, node->priority);
-  return insert_unique(t, node, nearest);
 }
 
 static enum cdc_stat init_varg(struct cdc_treap *t, va_list args)
@@ -366,9 +355,10 @@ enum cdc_stat cdc_treap_get(struct cdc_treap *t, void *key, void **value)
   struct cdc_treap_node *node = cdc_find_tree_node(t->root, key, t->dinfo->cmp);
   if (node) {
     *value = node->value;
+    return CDC_STATUS_OK;
   }
 
-  return node ? CDC_STATUS_OK : CDC_STATUS_NOT_FOUND;
+  return CDC_STATUS_NOT_FOUND;
 }
 
 size_t cdc_treap_count(struct cdc_treap *t, void *key)
@@ -415,11 +405,14 @@ enum cdc_stat cdc_treap_insert(struct cdc_treap *t, void *key, void *value,
 {
   assert(t != NULL);
 
+  struct cdc_treap_iter *it = NULL;
+  bool *inserted = NULL;
   if (ret) {
-    return cdc_treap_insert1(t, key, value, &ret->first, &ret->second);
+    it = &ret->first;
+    inserted = &ret->second;
   }
 
-  return cdc_treap_insert1(t, key, value, NULL, NULL);
+  return cdc_treap_insert1(t, key, value, it, inserted);
 }
 
 enum cdc_stat cdc_treap_insert1(struct cdc_treap *t, void *key, void *value,
@@ -430,10 +423,13 @@ enum cdc_stat cdc_treap_insert1(struct cdc_treap *t, void *key, void *value,
   struct cdc_treap_node *node = cdc_find_tree_node(t->root, key, t->dinfo->cmp);
   bool finded = node;
   if (!node) {
-    node = make_and_insert_unique(t, key, value);
+    node = make_new_node(key, t->prior(value), value);
     if (!node) {
       return CDC_STATUS_BAD_ALLOC;
     }
+
+    struct cdc_treap_node *nearest = find_nearest(t, node->key, node->priority);
+    node = insert_unique(t, node, nearest);
   }
 
   if (it) {
@@ -455,12 +451,14 @@ enum cdc_stat cdc_treap_insert_or_assign(struct cdc_treap *t, void *key,
 {
   assert(t != NULL);
 
+  struct cdc_treap_iter *it = NULL;
+  bool *inserted = NULL;
   if (ret) {
-    return cdc_treap_insert_or_assign1(t, key, value, &ret->first,
-                                       &ret->second);
+    it = &ret->first;
+    inserted = &ret->second;
   }
 
-  return cdc_treap_insert_or_assign1(t, key, value, NULL, NULL);
+  return cdc_treap_insert_or_assign1(t, key, value, it, inserted);
 }
 
 enum cdc_stat cdc_treap_insert_or_assign1(struct cdc_treap *t, void *key,
@@ -473,10 +471,13 @@ enum cdc_stat cdc_treap_insert_or_assign1(struct cdc_treap *t, void *key,
   struct cdc_treap_node *node = cdc_find_tree_node(t->root, key, t->dinfo->cmp);
   bool finded = node;
   if (!node) {
-    node = make_and_insert_unique(t, key, value);
+    node = make_new_node(key, t->prior(value), value);
     if (!node) {
       return CDC_STATUS_BAD_ALLOC;
     }
+
+    struct cdc_treap_node *nearest = find_nearest(t, node->key, node->priority);
+    node = insert_unique(t, node, nearest);
   } else {
     node->value = value;
   }
