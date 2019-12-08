@@ -36,8 +36,7 @@ set(SOURCE
   test-map.c
   test-pairing-heap.c
   test-priority-queueh.c
-  test-queued.c
-  test-queued.c
+  test-queue.c
   test-splay-tree.c
   test-stack.c
   test-treap.c
