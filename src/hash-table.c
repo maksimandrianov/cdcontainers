@@ -28,9 +28,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define HASH_TABLE_MIN_CAPACITY 4  // must be pow 2
+#define HASH_TABLE_MIN_CAPACITY 8  // must be pow 2
 #define HASH_TABLE_COPACITY_SHIFT 1
-#define HASH_TABLE_LOAD_FACTOR 1.0f
+#define HASH_TABLE_LOAD_FACTOR 0.8f
 
 static struct cdc_hash_table_entry *new_node(void *key, void *value,
                                              size_t hash)
@@ -52,9 +52,7 @@ static void free_entry(struct cdc_hash_table *t,
                        struct cdc_hash_table_entry *entry)
 {
   if (CDC_HAS_DFREE(t->dinfo)) {
-    struct cdc_pair pair;
-    pair.first = entry->key;
-    pair.second = entry->value;
+    struct cdc_pair pair = {.first = entry->key, .second = entry->value};;
     t->dinfo->dfree(&pair);
   }
 
@@ -63,9 +61,9 @@ static void free_entry(struct cdc_hash_table *t,
 
 static void free_entries(struct cdc_hash_table *t)
 {
-  struct cdc_hash_table_entry *curr = t->buckets[0]->next, *next;
+  struct cdc_hash_table_entry *curr = t->buckets[0]->next;
   while (curr) {
-    next = curr->next;
+    struct cdc_hash_table_entry *next = curr->next;
     free_entry(t, curr);
     curr = next;
   }
