@@ -274,10 +274,8 @@ enum cdc_stat cdc_list_push_back(struct cdc_list *l, void *value);
 /**
  * @brief Removes the last item in the list.
  * @param l - cdc_list
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
  */
-enum cdc_stat cdc_list_pop_back(struct cdc_list *l);
+void cdc_list_pop_back(struct cdc_list *l);
 
 /**
  * @brief Inserts value at the beginning of the list.
@@ -291,10 +289,8 @@ enum cdc_stat cdc_list_push_front(struct cdc_list *l, void *value);
 /**
  * @brief Removes the first item in the list.
  * @param l - cdc_list
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
  */
-enum cdc_stat cdc_list_pop_front(struct cdc_list *l);
+void cdc_list_pop_front(struct cdc_list *l);
 
 /**
  * @brief Inserts value at index position in the list. If index is 0, the value
@@ -318,28 +314,6 @@ enum cdc_stat cdc_list_insert(struct cdc_list *l, size_t index, void *value);
 enum cdc_stat cdc_list_iinsert(struct cdc_list_iter *before, void *value);
 
 /**
- * @brief Removes the element at index position.
- * The pointer will be written in elem. Index must be a valid index position
- * in the list. The function is not called to free memory.
- * @param l - cdc_list
- * @param index - index position where the item will be removed
- * @param elem - pointer where the removed item will be written
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_list_remove(struct cdc_list *l, size_t index, void **elem);
-
-/**
- * @brief Removes the item associated with the iterator pos from the list.
- * The function is not called to free memory.
- * @param pos
- * @param elem - pointer where the removed item will be written
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
- */
-enum cdc_stat cdc_list_iremove(struct cdc_list_iter *pos, void **elem);
-
-/**
  * @brief Removes the element at index position. Index must be a valid index
  * position in the list.
  * @param l - cdc_list
@@ -347,23 +321,13 @@ enum cdc_stat cdc_list_iremove(struct cdc_list_iter *pos, void **elem);
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
-static inline enum cdc_stat cdc_list_erase(struct cdc_list *l, size_t index)
-{
-  return cdc_list_remove(l, index, NULL);
-}
+void cdc_list_erase(struct cdc_list *l, size_t index);
 
 /**
  * @brief Removes the item associated with the iterator pos from the list.
  * @param pos
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
  */
-static inline enum cdc_stat cdc_list_ierase(struct cdc_list_iter *pos)
-{
-  assert(pos != NULL);
-
-  return cdc_list_iremove(pos, NULL);
-}
+void cdc_list_ierase(struct cdc_list_iter *pos);
 
 /**
  * @brief Removes all the elements from the list.
@@ -662,8 +626,6 @@ typedef struct cdc_list_riter list_riter_t;
 #define list_iinsert(...) cdc_list_iinsert(__VA_ARGS__)
 #define list_erase(...) cdc_list_erase(__VA_ARGS__)
 #define list_ierase(...) cdc_list_ierase(__VA_ARGS__)
-#define list_remove(...) cdc_list_remove(__VA_ARGS__)
-#define list_iremove(...) cdc_list_iremove(__VA_ARGS__)
 #define list_clear(...) cdc_list_clear(__VA_ARGS__)
 #define list_push_back(...) cdc_list_push_back(__VA_ARGS__)
 #define list_pop_back(...) cdc_list_pop_back(__VA_ARGS__)

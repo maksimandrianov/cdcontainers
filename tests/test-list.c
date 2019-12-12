@@ -194,22 +194,22 @@ void test_list_pop_back()
                   CDC_STATUS_OK);
 
   void *elem = cdc_list_back(l);
-  CU_ASSERT_EQUAL(cdc_list_pop_back(l), CDC_STATUS_OK);
+  cdc_list_pop_back(l);
   CU_ASSERT_EQUAL(cdc_list_size(l), 3);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), d);
 
   elem = cdc_list_back(l);
-  CU_ASSERT_EQUAL(cdc_list_pop_back(l), CDC_STATUS_OK);
+  cdc_list_pop_back(l);
   CU_ASSERT_EQUAL(cdc_list_size(l), 2);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), c);
 
   elem = cdc_list_back(l);
-  CU_ASSERT_EQUAL(cdc_list_pop_back(l), CDC_STATUS_OK);
+  cdc_list_pop_back(l);
   CU_ASSERT_EQUAL(cdc_list_size(l), 1);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), b);
 
   elem = cdc_list_back(l);
-  CU_ASSERT_EQUAL(cdc_list_pop_back(l), CDC_STATUS_OK);
+  cdc_list_pop_back(l);
   CU_ASSERT(cdc_list_empty(l));
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), a);
   cdc_list_dtor(l);
@@ -225,22 +225,22 @@ void test_list_pop_front()
                   CDC_STATUS_OK);
 
   void *elem = cdc_list_front(l);
-  CU_ASSERT_EQUAL(cdc_list_pop_front(l), CDC_STATUS_OK);
+  cdc_list_pop_front(l);
   CU_ASSERT_EQUAL(cdc_list_size(l), 3);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), a);
 
   elem = cdc_list_front(l);
-  CU_ASSERT_EQUAL(cdc_list_pop_front(l), CDC_STATUS_OK);
+  cdc_list_pop_front(l);
   CU_ASSERT_EQUAL(cdc_list_size(l), 2);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), b);
 
   elem = cdc_list_front(l);
-  CU_ASSERT_EQUAL(cdc_list_pop_front(l), CDC_STATUS_OK);
+  cdc_list_pop_front(l);
   CU_ASSERT_EQUAL(cdc_list_size(l), 1);
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), c);
 
   elem = cdc_list_front(l);
-  CU_ASSERT_EQUAL(cdc_list_pop_front(l), CDC_STATUS_OK);
+  cdc_list_pop_front(l);
   CU_ASSERT(cdc_list_empty(l));
   CU_ASSERT_EQUAL(CDC_TO_INT(elem), d);
   cdc_list_dtor(l);
@@ -292,67 +292,6 @@ void test_list_insert()
   cdc_list_dtor(l);
 }
 
-void test_list_remove()
-{
-  struct cdc_list *l = NULL;
-  int a = 0, b = 1, c = 2, d = 3;
-  void *elem = NULL;
-
-  CU_ASSERT_EQUAL(cdc_list_ctorl(&l, NULL, CDC_FROM_INT(a), CDC_FROM_INT(b),
-                                 CDC_FROM_INT(c), CDC_FROM_INT(d), CDC_END),
-                  CDC_STATUS_OK);
-
-  CU_ASSERT_EQUAL(cdc_list_remove(l, 0, &elem), CDC_STATUS_OK);
-  CU_ASSERT_EQUAL(CDC_TO_INT(elem), a);
-  CU_ASSERT_EQUAL(cdc_list_size(l), 3);
-  CU_ASSERT(list_range_int_eq(l, 3, b, c, d));
-
-  CU_ASSERT_EQUAL(cdc_list_remove(l, 1, &elem), CDC_STATUS_OK);
-  CU_ASSERT_EQUAL(CDC_TO_INT(elem), c);
-  CU_ASSERT_EQUAL(cdc_list_size(l), 2);
-  CU_ASSERT(list_range_int_eq(l, 2, b, d));
-
-  CU_ASSERT_EQUAL(cdc_list_remove(l, cdc_list_size(l) - 1, &elem),
-                  CDC_STATUS_OK);
-  CU_ASSERT_EQUAL(CDC_TO_INT(elem), d);
-  CU_ASSERT_EQUAL(cdc_list_size(l), 1);
-  CU_ASSERT(list_range_int_eq(l, 1, b));
-  cdc_list_dtor(l);
-}
-
-void test_list_iremove()
-{
-  struct cdc_list *l = NULL;
-  int a = 0, b = 1, c = 2, d = 3;
-  struct cdc_list_iter it = CDC_INIT_STRUCT;
-  void *elem = NULL;
-
-  CU_ASSERT_EQUAL(cdc_list_ctorl(&l, NULL, CDC_FROM_INT(a), CDC_FROM_INT(b),
-                                 CDC_FROM_INT(c), CDC_FROM_INT(d), CDC_END),
-                  CDC_STATUS_OK);
-
-  cdc_list_begin(l, &it);
-  CU_ASSERT_EQUAL(cdc_list_iremove(&it, &elem), CDC_STATUS_OK);
-  CU_ASSERT_EQUAL(CDC_TO_INT(elem), a);
-  CU_ASSERT_EQUAL(cdc_list_size(l), 3);
-  CU_ASSERT(list_range_int_eq(l, 3, b, c, d));
-
-  cdc_list_begin(l, &it);
-  cdc_list_iter_next(&it);
-  CU_ASSERT_EQUAL(cdc_list_iremove(&it, &elem), CDC_STATUS_OK);
-  CU_ASSERT_EQUAL(CDC_TO_INT(elem), c);
-  CU_ASSERT_EQUAL(cdc_list_size(l), 2);
-  CU_ASSERT(list_range_int_eq(l, 2, b, d));
-
-  cdc_list_end(l, &it);
-  cdc_list_iter_prev(&it);
-  CU_ASSERT_EQUAL(cdc_list_iremove(&it, &elem), CDC_STATUS_OK);
-  CU_ASSERT_EQUAL(CDC_TO_INT(elem), d);
-  CU_ASSERT_EQUAL(cdc_list_size(l), 1);
-  CU_ASSERT(list_range_int_eq(l, 1, b));
-  cdc_list_dtor(l);
-}
-
 void test_list_erase()
 {
   struct cdc_list *l = NULL;
@@ -362,15 +301,15 @@ void test_list_erase()
                                  CDC_FROM_INT(c), CDC_FROM_INT(d), CDC_END),
                   CDC_STATUS_OK);
 
-  CU_ASSERT_EQUAL(cdc_list_erase(l, 0), CDC_STATUS_OK);
+  cdc_list_erase(l, 0);
   CU_ASSERT_EQUAL(cdc_list_size(l), 3);
   CU_ASSERT(list_range_int_eq(l, 3, b, c, d));
 
-  CU_ASSERT_EQUAL(cdc_list_erase(l, 1), CDC_STATUS_OK);
+  cdc_list_erase(l, 1);
   CU_ASSERT_EQUAL(cdc_list_size(l), 2);
   CU_ASSERT(list_range_int_eq(l, 2, b, d));
 
-  CU_ASSERT_EQUAL(cdc_list_erase(l, cdc_list_size(l) - 1), CDC_STATUS_OK);
+  cdc_list_erase(l, cdc_list_size(l) - 1);
   CU_ASSERT_EQUAL(cdc_list_size(l), 1);
   CU_ASSERT(list_range_int_eq(l, 1, b));
   cdc_list_dtor(l);
@@ -387,19 +326,19 @@ void test_list_ierase()
                   CDC_STATUS_OK);
 
   cdc_list_begin(l, &it);
-  CU_ASSERT_EQUAL(cdc_list_ierase(&it), CDC_STATUS_OK);
+  cdc_list_ierase(&it);
   CU_ASSERT_EQUAL(cdc_list_size(l), 3);
   CU_ASSERT(list_range_int_eq(l, 3, b, c, d));
 
   cdc_list_begin(l, &it);
   cdc_list_iter_next(&it);
-  CU_ASSERT_EQUAL(cdc_list_ierase(&it), CDC_STATUS_OK);
+  cdc_list_ierase(&it);
   CU_ASSERT_EQUAL(cdc_list_size(l), 2);
   CU_ASSERT(list_range_int_eq(l, 2, b, d));
 
   cdc_list_end(l, &it);
   cdc_list_iter_prev(&it);
-  CU_ASSERT_EQUAL(cdc_list_ierase(&it), CDC_STATUS_OK);
+  cdc_list_ierase(&it);
   CU_ASSERT_EQUAL(cdc_list_size(l), 1);
   CU_ASSERT(list_range_int_eq(l, 1, b));
   cdc_list_dtor(l);

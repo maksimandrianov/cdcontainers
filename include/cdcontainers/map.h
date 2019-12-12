@@ -269,7 +269,12 @@ enum cdc_stat cdc_map_iter_ctor(struct cdc_map *m, struct cdc_map_iter *it);
  * longer needed. Releases resources.
  * @param it - cdc_map_iter
  */
-void cdc_map_iter_dtor(struct cdc_map_iter *it);
+static inline void cdc_map_iter_dtor(struct cdc_map_iter *it)
+{
+  assert(it != NULL);
+
+  it->table->dtor(it->iter);
+}
 
 /**
  * @brief Returns a type of iterator.

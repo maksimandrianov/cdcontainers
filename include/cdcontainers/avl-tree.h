@@ -80,7 +80,7 @@ struct cdc_pair_avl_tree_iter_bool {
 };
 
 /**
- * @brief Constructs an empty avl tree
+ * @brief Constructs an empty avl tree.
  * @param t - cdc_avl_tree
  * @param info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating

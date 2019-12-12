@@ -67,10 +67,6 @@ enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table,
   assert(m != NULL);
   assert(CDC_HAS_CMP(info));
 
-  assert(table != NULL);
-  assert(m != NULL);
-  assert(CDC_HAS_CMP(info));
-
   struct cdc_map *tmp = (struct cdc_map *)malloc(sizeof(struct cdc_map));
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
@@ -107,11 +103,4 @@ enum cdc_stat cdc_map_iter_ctor(struct cdc_map *m, struct cdc_map_iter *it)
   }
 
   return CDC_STATUS_OK;
-}
-
-void cdc_map_iter_dtor(struct cdc_map_iter *it)
-{
-  assert(it != NULL);
-
-  it->table->dtor(it->iter);
 }

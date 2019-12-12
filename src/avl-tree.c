@@ -55,7 +55,7 @@ static void free_node(struct cdc_avl_tree *t, struct cdc_avl_tree_node *node)
   assert(t != NULL);
 
   if (CDC_HAS_DFREE(t->dinfo)) {
-    struct cdc_pair pair = {.first = node->key, .second = node->value};
+    struct cdc_pair pair = {node->key, node->value};
     t->dinfo->dfree(&pair);
   }
 

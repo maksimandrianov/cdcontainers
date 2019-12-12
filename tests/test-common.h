@@ -59,8 +59,6 @@ void test_list_pop_back();
 void test_list_pop_front();
 void test_list_swap();
 void test_list_insert();
-void test_list_remove();
-void test_list_iremove();
 void test_list_erase();
 void test_list_ierase();
 void test_list_clear();

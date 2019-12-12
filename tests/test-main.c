@@ -90,8 +90,6 @@ int main(int argc, char** argv)
       CU_add_test(p_suite, "test_pop_front", test_list_pop_front) == NULL ||
       CU_add_test(p_suite, "test_swap", test_list_swap) == NULL ||
       CU_add_test(p_suite, "test_insert", test_list_insert) == NULL ||
-      CU_add_test(p_suite, "test_remove", test_list_remove) == NULL ||
-      CU_add_test(p_suite, "test_iremove", test_list_iremove) == NULL ||
       CU_add_test(p_suite, "test_erase", test_list_erase) == NULL ||
       CU_add_test(p_suite, "test_ierase", test_list_ierase) == NULL ||
       CU_add_test(p_suite, "test_clear", test_list_clear) == NULL ||

@@ -179,7 +179,8 @@ static enum cdc_stat make_and_insert_unique(struct cdc_hash_table *t, void *key,
 static struct cdc_hash_table_entry *erase_entry(
     struct cdc_hash_table *t, struct cdc_hash_table_entry *entry, size_t bucket)
 {
-  assert(entry && entry->next);
+  assert(entry != NULL);
+  assert(entry->next != NULL);
 
   struct cdc_hash_table_entry *next = entry->next->next;
   size_t e_hash = get_bucket(entry->hash, t->bcount);

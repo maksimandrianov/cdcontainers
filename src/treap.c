@@ -64,7 +64,7 @@ static struct cdc_treap_node *make_new_node(void *key, int prior, void *val)
 static void free_node(struct cdc_treap *t, struct cdc_treap_node *node)
 {
   if (CDC_HAS_DFREE(t->dinfo)) {
-    struct cdc_pair pair = {.first = node->key, .second = node->value};
+    struct cdc_pair pair = {node->key, node->value};
     t->dinfo->dfree(&pair);
   }
 

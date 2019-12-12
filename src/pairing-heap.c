@@ -33,6 +33,7 @@ static void free_node(struct cdc_pairing_heap *h,
   if (CDC_HAS_DFREE(h->dinfo)) {
     h->dinfo->dfree(node->key);
   }
+
   free(node);
 }
 
@@ -76,9 +77,11 @@ static struct cdc_pairing_heap_node *meld(struct cdc_pairing_heap_node *a,
   if (a == NULL) {
     return b;
   }
+
   if (b == NULL) {
     return a;
   }
+
   if (compare(a->key, b->key)) {
     CDC_SWAP(struct cdc_pairing_heap_node *, a, b);
   }
@@ -126,15 +129,14 @@ static struct cdc_pairing_heap_node *decrease_key(
 static struct cdc_pairing_heap_node *increase_key(
     struct cdc_pairing_heap *h, struct cdc_pairing_heap_node *pos, void *key)
 {
-  struct cdc_pairing_heap_node *curr = pos;
   if (CDC_HAS_DFREE(h->dinfo)) {
-    h->dinfo->dfree(curr->key);
+    h->dinfo->dfree(pos->key);
   }
 
-  struct cdc_pairing_heap_node *ch = curr->child;
-  curr->key = key;
+  struct cdc_pairing_heap_node *ch = pos->child;
+  pos->key = key;
   while (ch != NULL) {
-    if (h->dinfo->cmp(ch->key, curr->key)) {
+    if (h->dinfo->cmp(ch->key, pos->key)) {
       struct cdc_pairing_heap_node *t = ch;
       while (ch->sibling != NULL) {
         if (h->dinfo->cmp(ch->sibling->key, t->key)) {
@@ -144,15 +146,15 @@ static struct cdc_pairing_heap_node *increase_key(
         ch = ch->sibling;
       }
 
-      CDC_SWAP(void *, t->key, curr->key);
-      curr = t;
-      ch = curr->child;
+      CDC_SWAP(void *, t->key, pos->key);
+      pos = t;
+      ch = pos->child;
     } else {
       ch = ch->sibling;
     }
   }
 
-  return curr;
+  return pos;
 }
 
 static enum cdc_stat init_varg(struct cdc_pairing_heap *h, va_list args)

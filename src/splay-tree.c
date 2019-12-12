@@ -28,7 +28,8 @@
 #include <string.h>
 
 struct node_pair {
-  struct cdc_splay_tree_node *l, *r;
+  struct cdc_splay_tree_node *left;
+  struct cdc_splay_tree_node *right;
 };
 
 CDC_MAKE_FIND_NODE_FN(struct cdc_splay_tree_node *)
@@ -37,15 +38,26 @@ CDC_MAKE_MAX_NODE_FN(struct cdc_splay_tree_node *)
 CDC_MAKE_SUCCESSOR_FN(struct cdc_splay_tree_node *)
 CDC_MAKE_PREDECESSOR_FN(struct cdc_splay_tree_node *)
 
+static struct cdc_splay_tree_node *make_new_node(void *key, void *val)
+{
+  struct cdc_splay_tree_node *node =
+      (struct cdc_splay_tree_node *)malloc(sizeof(struct cdc_splay_tree_node));
+  if (node) {
+    node->key = key;
+    node->value = val;
+    node->parent = node->left = node->right = NULL;
+  }
+
+  return node;
+}
+
 static void free_node(struct cdc_splay_tree *t,
                       struct cdc_splay_tree_node *node)
 {
   assert(t != NULL);
 
   if (CDC_HAS_DFREE(t->dinfo)) {
-    struct cdc_pair pair;
-    pair.first = node->key;
-    pair.second = node->value;
+    struct cdc_pair pair = {node->key, node->value};
     t->dinfo->dfree(&pair);
   }
 
@@ -64,19 +76,6 @@ static void free_splay_tree(struct cdc_splay_tree *t,
   free_splay_tree(t, root->left);
   free_splay_tree(t, root->right);
   free_node(t, root);
-}
-
-static struct cdc_splay_tree_node *new_node(void *key, void *val)
-{
-  struct cdc_splay_tree_node *node =
-      (struct cdc_splay_tree_node *)malloc(sizeof(struct cdc_splay_tree_node));
-  if (node) {
-    node->key = key;
-    node->value = val;
-    node->parent = node->left = node->right = NULL;
-  }
-
-  return node;
 }
 
 static void update_link(struct cdc_splay_tree_node *parent,
@@ -215,18 +214,18 @@ static struct node_pair split(struct cdc_splay_tree_node *node, void *key,
   struct node_pair ret;
   node = splay(node);
   if (compar(key, node->key)) {
-    ret.l = node->left;
-    ret.r = node;
+    ret.left = node->left;
+    ret.right = node;
     node->left = NULL;
-    if (ret.l) {
-      ret.l->parent = NULL;
+    if (ret.left) {
+      ret.left->parent = NULL;
     }
   } else {
-    ret.l = node;
-    ret.r = node->right;
+    ret.left = node;
+    ret.right = node->right;
     node->right = NULL;
-    if (ret.r) {
-      ret.r->parent = NULL;
+    if (ret.right) {
+      ret.right->parent = NULL;
     }
   }
 
@@ -270,17 +269,16 @@ static struct cdc_splay_tree_node *insert_unique(
     struct cdc_splay_tree_node *nearest)
 {
   struct node_pair pair;
-
   if (t->root == NULL) {
     t->root = node;
   } else {
     pair = split(nearest, node->key, t->dinfo->cmp);
-    node->left = pair.l;
+    node->left = pair.left;
     if (node->left) {
       node->left->parent = node;
     }
 
-    node->right = pair.r;
+    node->right = pair.right;
     if (node->right) {
       node->right->parent = node;
     }
@@ -289,19 +287,6 @@ static struct cdc_splay_tree_node *insert_unique(
 
   ++t->size;
   return node;
-}
-
-static struct cdc_splay_tree_node *make_and_insert_unique(
-    struct cdc_splay_tree *t, void *key, void *value,
-    struct cdc_splay_tree_node *nearest)
-{
-  struct cdc_splay_tree_node *node = new_node(key, value);
-
-  if (!node) {
-    return node;
-  }
-
-  return insert_unique(t, node, nearest);
 }
 
 static enum cdc_stat init_varg(struct cdc_splay_tree *t, va_list args)
@@ -434,11 +419,14 @@ enum cdc_stat cdc_splay_tree_insert(struct cdc_splay_tree *t, void *key,
 {
   assert(t != NULL);
 
+  struct cdc_splay_tree_iter *it = NULL;
+  bool *inserted = NULL;
   if (ret) {
-    return cdc_splay_tree_insert1(t, key, value, &ret->first, &ret->second);
+    it = &ret->first;
+    inserted = &ret->second;
   }
 
-  return cdc_splay_tree_insert1(t, key, value, NULL, NULL);
+  return cdc_splay_tree_insert1(t, key, value, it, inserted);
 }
 
 enum cdc_stat cdc_splay_tree_insert1(struct cdc_splay_tree *t, void *key,
@@ -449,12 +437,14 @@ enum cdc_stat cdc_splay_tree_insert1(struct cdc_splay_tree *t, void *key,
   assert(t != NULL);
 
   struct cdc_splay_tree_node *node = find_hint(t->root, key, t->dinfo->cmp);
-  bool finded = node ? cdc_eq(t->dinfo->cmp, node->key, key) : false;
+  bool finded = node && cdc_eq(t->dinfo->cmp, node->key, key);
   if (!finded) {
-    node = make_and_insert_unique(t, key, value, node);
-    if (!node) {
+    struct cdc_splay_tree_node *new_node = make_new_node(key, value);
+    if (!new_node) {
       return CDC_STATUS_BAD_ALLOC;
     }
+
+    node = insert_unique(t, new_node, node);
   }
 
   if (it) {
@@ -476,12 +466,14 @@ enum cdc_stat cdc_splay_tree_insert_or_assign(
 {
   assert(t != NULL);
 
+  struct cdc_splay_tree_iter *it = NULL;
+  bool *inserted = NULL;
   if (ret) {
-    return cdc_splay_tree_insert_or_assign1(t, key, value, &ret->first,
-                                            &ret->second);
+    it = &ret->first;
+    inserted = &ret->second;
   }
 
-  return cdc_splay_tree_insert_or_assign1(t, key, value, NULL, NULL);
+  return cdc_splay_tree_insert_or_assign1(t, key, value, it, inserted);
 }
 
 enum cdc_stat cdc_splay_tree_insert_or_assign1(struct cdc_splay_tree *t,
@@ -492,12 +484,14 @@ enum cdc_stat cdc_splay_tree_insert_or_assign1(struct cdc_splay_tree *t,
   assert(t != NULL);
 
   struct cdc_splay_tree_node *node = find_hint(t->root, key, t->dinfo->cmp);
-  bool finded = node ? cdc_eq(t->dinfo->cmp, node->key, key) : false;
+  bool finded = node && cdc_eq(t->dinfo->cmp, node->key, key);
   if (!finded) {
-    node = make_and_insert_unique(t, key, value, node);
-    if (!node) {
+    struct cdc_splay_tree_node *new_node = make_new_node(key, value);
+    if (!new_node) {
       return CDC_STATUS_BAD_ALLOC;
     }
+
+    node = insert_unique(t, new_node, node);
   } else {
     node->value = value;
   }
