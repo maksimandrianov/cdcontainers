@@ -19,7 +19,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 #include "cdcontainers/heap.h"
-#include "cdcontainers/interfaces/ipqueue.h"
+#include "cdcontainers/tables/ipqueue.h"
 
 #include <assert.h>
 

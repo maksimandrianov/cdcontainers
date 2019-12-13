@@ -28,8 +28,8 @@
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_PRIORITY_QUEUE_H
 
 #include <cdcontainers/common.h>
-#include <cdcontainers/interfaces/ipqueue.h>
 #include <cdcontainers/status.h>
+#include <cdcontainers/tables/ipqueue.h>
 
 #include <assert.h>
 #include <stdarg.h>

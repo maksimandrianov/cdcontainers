@@ -19,7 +19,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 #include "cdcontainers/array.h"
-#include "cdcontainers/interfaces/isequence.h"
+#include "cdcontainers/tables/isequence.h"
 
 #include <assert.h>
 

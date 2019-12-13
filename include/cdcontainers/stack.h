@@ -27,8 +27,8 @@
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_STACK_H
 
 #include <cdcontainers/common.h>
-#include <cdcontainers/interfaces/isequence.h>
 #include <cdcontainers/status.h>
+#include <cdcontainers/tables/isequence.h>
 
 #include <assert.h>
 #include <stdarg.h>

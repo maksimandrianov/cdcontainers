@@ -31,8 +31,8 @@
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_MAP_H
 
 #include <cdcontainers/common.h>
-#include <cdcontainers/interfaces/imap.h>
 #include <cdcontainers/status.h>
+#include <cdcontainers/tables/imap.h>
 
 #include <assert.h>
 #include <stdarg.h>

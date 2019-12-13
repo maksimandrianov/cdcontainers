@@ -20,7 +20,7 @@
 // IN THE SOFTWARE.
 #include "cdcontainers/global.h"
 #include "cdcontainers/hash-table.h"
-#include "cdcontainers/interfaces/imap.h"
+#include "cdcontainers/tables/imap.h"
 
 #include <assert.h>
 #include <stdlib.h>
