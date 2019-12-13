@@ -89,23 +89,23 @@ void test_queued_front();
 void test_queued_back();
 void test_queued_swap();
 
-// Deque tests
-void test_deque_ctor();
-void test_deque_ctorl();
-void test_deque_push_back();
-void test_deque_push_front();
-void test_deque_get();
-void test_deque_at();
-void test_deque_set();
-void test_deque_front();
-void test_deque_back();
-void test_deque_pop_back();
-void test_deque_pop_front();
-void test_deque_swap();
-void test_deque_insert();
-void test_deque_erase();
-void test_deque_clear();
-void test_deque_pop_push();
+// Circular array tests
+void test_circular_array_ctor();
+void test_circular_array_ctorl();
+void test_circular_array_push_back();
+void test_circular_array_push_front();
+void test_circular_array_get();
+void test_circular_array_at();
+void test_circular_array_set();
+void test_circular_array_front();
+void test_circular_array_back();
+void test_circular_array_pop_back();
+void test_circular_array_pop_front();
+void test_circular_array_swap();
+void test_circular_array_insert();
+void test_circular_array_erase();
+void test_circular_array_clear();
+void test_circular_array_pop_push();
 
 // Heap tests
 void test_heap_ctor();

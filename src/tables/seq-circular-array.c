@@ -18,7 +18,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
-#include "cdcontainers/deque.h"
+#include "cdcontainers/circular-array.h"
 #include "cdcontainers/interfaces/isequence.h"
 
 #include <assert.h>
@@ -27,8 +27,9 @@ static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info)
 {
   assert(cntr != NULL);
 
-  struct cdc_deque **deque = (struct cdc_deque **)cntr;
-  return cdc_deque_ctor(deque, info);
+  struct cdc_circular_array **circular_array =
+      (struct cdc_circular_array **)cntr;
+  return cdc_circular_array_ctor(circular_array, info);
 }
 
 static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
@@ -36,120 +37,121 @@ static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
 {
   assert(cntr != NULL);
 
-  struct cdc_deque **deque = (struct cdc_deque **)cntr;
-  return cdc_deque_ctorv(deque, info, args);
+  struct cdc_circular_array **circular_array =
+      (struct cdc_circular_array **)cntr;
+  return cdc_circular_array_ctorv(circular_array, info, args);
 }
 
 static void dtor(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  cdc_deque_dtor(deque);
+  struct cdc_circular_array *circular_array = (struct cdc_circular_array *)cntr;
+  cdc_circular_array_dtor(circular_array);
 }
 
 static void *front(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  return cdc_deque_front(deque);
+  struct cdc_circular_array *circular_array = (struct cdc_circular_array *)cntr;
+  return cdc_circular_array_front(circular_array);
 }
 
 static void *back(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  return cdc_deque_back(deque);
+  struct cdc_circular_array *circular_array = (struct cdc_circular_array *)cntr;
+  return cdc_circular_array_back(circular_array);
 }
 
 static bool empty(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  return cdc_deque_empty(deque);
+  struct cdc_circular_array *circular_array = (struct cdc_circular_array *)cntr;
+  return cdc_circular_array_empty(circular_array);
 }
 
 static size_t size(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  return cdc_deque_size(deque);
+  struct cdc_circular_array *circular_array = (struct cdc_circular_array *)cntr;
+  return cdc_circular_array_size(circular_array);
 }
 
 static enum cdc_stat push_back(void *cntr, void *elem)
 {
   assert(cntr != NULL);
 
-  struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  return cdc_deque_push_back(deque, elem);
+  struct cdc_circular_array *circular_array = (struct cdc_circular_array *)cntr;
+  return cdc_circular_array_push_back(circular_array, elem);
 }
 
 static void pop_back(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  cdc_deque_pop_back(deque);
+  struct cdc_circular_array *circular_array = (struct cdc_circular_array *)cntr;
+  cdc_circular_array_pop_back(circular_array);
 }
 
 static enum cdc_stat push_front(void *cntr, void *elem)
 {
   assert(cntr != NULL);
 
-  struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  return cdc_deque_push_front(deque, elem);
+  struct cdc_circular_array *circular_array = (struct cdc_circular_array *)cntr;
+  return cdc_circular_array_push_front(circular_array, elem);
 }
 
 static void pop_front(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  cdc_deque_pop_front(deque);
+  struct cdc_circular_array *circular_array = (struct cdc_circular_array *)cntr;
+  cdc_circular_array_pop_front(circular_array);
 }
 
 static enum cdc_stat insert(void *cntr, size_t index, void *value)
 {
   assert(cntr != NULL);
 
-  struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  return cdc_deque_insert(deque, index, value);
+  struct cdc_circular_array *circular_array = (struct cdc_circular_array *)cntr;
+  return cdc_circular_array_insert(circular_array, index, value);
 }
 
 static void erase(void *cntr, size_t index)
 {
   assert(cntr != NULL);
 
-  struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  cdc_deque_erase(deque, index);
+  struct cdc_circular_array *circular_array = (struct cdc_circular_array *)cntr;
+  cdc_circular_array_erase(circular_array, index);
 }
 
 static void clear(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  cdc_deque_clear(deque);
+  struct cdc_circular_array *circular_array = (struct cdc_circular_array *)cntr;
+  cdc_circular_array_clear(circular_array);
 }
 
 static void *get(void *cntr, size_t index)
 {
   assert(cntr != NULL);
 
-  struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  return cdc_deque_get(deque, index);
+  struct cdc_circular_array *circular_array = (struct cdc_circular_array *)cntr;
+  return cdc_circular_array_get(circular_array, index);
 }
 
 static void set(void *cntr, size_t index, void *value)
 {
   assert(cntr != NULL);
 
-  struct cdc_deque *deque = (struct cdc_deque *)cntr;
-  cdc_deque_set(deque, index, value);
+  struct cdc_circular_array *circular_array = (struct cdc_circular_array *)cntr;
+  cdc_circular_array_set(circular_array, index, value);
 }
 
 static const struct cdc_sequence_table _table = {.ctor = ctor,
@@ -169,4 +171,4 @@ static const struct cdc_sequence_table _table = {.ctor = ctor,
                                                  .get = get,
                                                  .set = set};
 
-const struct cdc_sequence_table *cdc_seq_deque = &_table;
+const struct cdc_sequence_table *cdc_seq_carray = &_table;

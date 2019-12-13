@@ -28,7 +28,7 @@ set(SOURCE
   test-binomial-heap.c
   test-common.c
   test-common.h
-  test-deque.c
+  test-circular-array.c
   test-hash-table.c
   test-heap.c
   test-list.c

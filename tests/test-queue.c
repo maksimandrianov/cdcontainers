@@ -30,7 +30,7 @@
 
 void test_queued_ctor()
 {
-  const struct cdc_sequence_table *tables[] = {cdc_seq_deque, cdc_seq_array,
+  const struct cdc_sequence_table *tables[] = {cdc_seq_carray, cdc_seq_array,
                                                cdc_seq_list};
 
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
@@ -44,7 +44,7 @@ void test_queued_ctor()
 
 void test_queued_ctorl()
 {
-  const struct cdc_sequence_table *tables[] = {cdc_seq_deque, cdc_seq_array,
+  const struct cdc_sequence_table *tables[] = {cdc_seq_carray, cdc_seq_array,
                                                cdc_seq_list};
   int a = 2, b = 3;
 
@@ -71,7 +71,7 @@ void test_queued_ctorl()
 
 void test_queued_push()
 {
-  const struct cdc_sequence_table *tables[] = {cdc_seq_deque, cdc_seq_array,
+  const struct cdc_sequence_table *tables[] = {cdc_seq_carray, cdc_seq_array,
                                                cdc_seq_list};
   int a = 0, b = 1, c = 2;
 
@@ -101,7 +101,7 @@ void test_queued_push()
 
 void test_queued_pop()
 {
-  const struct cdc_sequence_table *tables[] = {cdc_seq_deque, cdc_seq_array,
+  const struct cdc_sequence_table *tables[] = {cdc_seq_carray, cdc_seq_array,
                                                cdc_seq_list};
   int a = 0, b = 1, c = 2, d = 3;
 
@@ -138,7 +138,7 @@ void test_queued_pop()
 
 void test_queued_front()
 {
-  const struct cdc_sequence_table *tables[] = {cdc_seq_deque, cdc_seq_array,
+  const struct cdc_sequence_table *tables[] = {cdc_seq_carray, cdc_seq_array,
                                                cdc_seq_list};
   int a = 1, b = 2;
 
@@ -155,7 +155,7 @@ void test_queued_front()
 
 void test_queued_back()
 {
-  const struct cdc_sequence_table *tables[] = {cdc_seq_deque, cdc_seq_array,
+  const struct cdc_sequence_table *tables[] = {cdc_seq_carray, cdc_seq_array,
                                                cdc_seq_list};
   int a = 1, b = 2;
 
@@ -172,7 +172,7 @@ void test_queued_back()
 
 void test_queued_swap()
 {
-  const struct cdc_sequence_table *tables[] = {cdc_seq_deque, cdc_seq_array,
+  const struct cdc_sequence_table *tables[] = {cdc_seq_carray, cdc_seq_array,
                                                cdc_seq_list};
   int a = 2, b = 3, c = 4;
 

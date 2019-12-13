@@ -26,7 +26,7 @@
  * following data containers:
  *   - cdc_array - dynamic array. See array.h.
  *   - cdc_list - doubly linked list. See list.h.
- *   - cdc_deque - double-ended queue. See deque.h.
+ *   - cdc_circular_array - circular array. See circular_array.h.
  *   - cdc_heap - binary heap. See heap.h.
  *   - cdc_binomial_heap - binomial heap. See binomial-heap.h.
  *   - cdc_pairing_heap - pairing heap. See pairing-heap.h.
@@ -37,8 +37,8 @@
  *   - cdc_treep - сartesian tree. See treap.h.
  *
  * and following interfaces:
- *   - cdc_stack (Can work with: cdc_array, cdc_list, cdc_deque). See stack.h.
- *   - cdc_queue (Can work with: cdc_array, cdc_list, cdc_deque). See queue.h.
+ *   - cdc_stack (Can work with: cdc_array, cdc_list, cdc_circular_array). See stack.h.
+ *   - cdc_queue (Can work with: cdc_array, cdc_list, cdc_circular_array). See queue.h.
  *   - cdc_proirity_queue (Can work with: cdc_heap, cdc_binomial_heap,
  * cdc_pairing_heap). See priority-queue.h.
  *   - cdc_map (Can work with: cdc_avl_tree, cdc_splay_tree, cdc_treep). See
@@ -56,8 +56,8 @@
 #include <cdcontainers/avl-tree.h>
 #include <cdcontainers/binomial-heap.h>
 #include <cdcontainers/casts.h>
+#include <cdcontainers/circular-array.h>
 #include <cdcontainers/common.h>
-#include <cdcontainers/deque.h>
 #include <cdcontainers/global.h>
 #include <cdcontainers/hash-table.h>
 #include <cdcontainers/hash.h>

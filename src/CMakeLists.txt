@@ -11,9 +11,9 @@ set(SOURCE
   array.c
   avl-tree.c
   binomial-heap.c
+  circular-array.c
   common.c
   data-info.c
-  deque.c
   hash-table.c
   heap.c
   list.c
@@ -31,7 +31,7 @@ set(SOURCE
   tables/pqueue-binomial-heap.c
   tables/pqueue-heap.c
   tables/pqueue-pairing-heap.c
-  tables/seq-deque.c
+  tables/seq-circular-array.c
   tables/seq-list.c
   tables/seq-vector.c
   treap.c

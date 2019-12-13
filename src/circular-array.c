@@ -18,7 +18,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
-#include "cdcontainers/deque.h"
+#include "cdcontainers/circular-array.h"
 
 #include "cdcontainers/data-info.h"
 
@@ -27,24 +27,24 @@
 #include <stdio.h>
 #include <string.h>
 
-#define CDC_DEQUE_MIN_CAPACITY 4  // must be pow 2
-#define CDC_DEQUE_COPACITY_SHIFT 1
-#define CDC_DEQUE_MAX_LEN SIZE_MAX
+#define CDC_CIRCULAR_ARRAY_MIN_CAPACITY 4  // must be pow 2
+#define CDC_CIRCULAR_ARRAY_COPACITY_SHIFT 1
+#define CDC_CIRCULAR_ARRAY_MAX_LEN SIZE_MAX
 
-static size_t get_real_index(struct cdc_deque *d, size_t index)
+static size_t get_real_index(struct cdc_circular_array *d, size_t index)
 {
   return (d->head + index) & (d->capacity - 1);
 }
 
-static bool should_grow(struct cdc_deque *d)
+static bool should_grow(struct cdc_circular_array *d)
 {
   return d->size == d->capacity - 1;
 }
 
-static enum cdc_stat reallocate(struct cdc_deque *d, size_t capacity)
+static enum cdc_stat reallocate(struct cdc_circular_array *d, size_t capacity)
 {
-  if (capacity < CDC_DEQUE_MIN_CAPACITY) {
-    capacity = CDC_DEQUE_MIN_CAPACITY;
+  if (capacity < CDC_CIRCULAR_ARRAY_MIN_CAPACITY) {
+    capacity = CDC_CIRCULAR_ARRAY_MIN_CAPACITY;
   }
 
   if (capacity < d->size) {
@@ -78,12 +78,12 @@ static enum cdc_stat reallocate(struct cdc_deque *d, size_t capacity)
   return CDC_STATUS_OK;
 }
 
-static enum cdc_stat grow(struct cdc_deque *d)
+static enum cdc_stat grow(struct cdc_circular_array *d)
 {
-  return reallocate(d, d->capacity << CDC_DEQUE_COPACITY_SHIFT);
+  return reallocate(d, d->capacity << CDC_CIRCULAR_ARRAY_COPACITY_SHIFT);
 }
 
-static void free_data(struct cdc_deque *d)
+static void free_data(struct cdc_circular_array *d)
 {
   if (!CDC_HAS_DFREE(d->dinfo)) {
     return;
@@ -95,11 +95,11 @@ static void free_data(struct cdc_deque *d)
   }
 }
 
-static enum cdc_stat init_varg(struct cdc_deque *d, va_list args)
+static enum cdc_stat init_varg(struct cdc_circular_array *d, va_list args)
 {
   void *elem = NULL;
   while ((elem = va_arg(args, void *)) != CDC_END) {
-    enum cdc_stat stat = cdc_deque_push_back(d, elem);
+    enum cdc_stat stat = cdc_circular_array_push_back(d, elem);
     if (stat != CDC_STATUS_OK) {
       return stat;
     }
@@ -108,12 +108,13 @@ static enum cdc_stat init_varg(struct cdc_deque *d, va_list args)
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_deque_ctor(struct cdc_deque **d, struct cdc_data_info *info)
+enum cdc_stat cdc_circular_array_ctor(struct cdc_circular_array **d,
+                                      struct cdc_data_info *info)
 {
   assert(d != NULL);
 
-  struct cdc_deque *tmp =
-      (struct cdc_deque *)calloc(sizeof(struct cdc_deque), 1);
+  struct cdc_circular_array *tmp =
+      (struct cdc_circular_array *)calloc(sizeof(struct cdc_circular_array), 1);
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
@@ -124,9 +125,9 @@ enum cdc_stat cdc_deque_ctor(struct cdc_deque **d, struct cdc_data_info *info)
     goto free_di;
   }
 
-  ret = reallocate(tmp, CDC_DEQUE_MIN_CAPACITY);
+  ret = reallocate(tmp, CDC_CIRCULAR_ARRAY_MIN_CAPACITY);
   if (ret != CDC_STATUS_OK) {
-    goto free_deque;
+    goto free_circular_array;
   }
 
   *d = tmp;
@@ -134,29 +135,29 @@ enum cdc_stat cdc_deque_ctor(struct cdc_deque **d, struct cdc_data_info *info)
 
 free_di:
   cdc_di_shared_dtor(tmp->dinfo);
-free_deque:
+free_circular_array:
   free(tmp);
   return ret;
 }
 
-enum cdc_stat cdc_deque_ctorl(struct cdc_deque **d, struct cdc_data_info *info,
-                              ...)
+enum cdc_stat cdc_circular_array_ctorl(struct cdc_circular_array **d,
+                                       struct cdc_data_info *info, ...)
 {
   assert(d != NULL);
 
   va_list args;
   va_start(args, info);
-  enum cdc_stat stat = cdc_deque_ctorv(d, info, args);
+  enum cdc_stat stat = cdc_circular_array_ctorv(d, info, args);
   va_end(args);
   return stat;
 }
 
-enum cdc_stat cdc_deque_ctorv(struct cdc_deque **d, struct cdc_data_info *info,
-                              va_list args)
+enum cdc_stat cdc_circular_array_ctorv(struct cdc_circular_array **d,
+                                       struct cdc_data_info *info, va_list args)
 {
   assert(d != NULL);
 
-  enum cdc_stat stat = cdc_deque_ctor(d, info);
+  enum cdc_stat stat = cdc_circular_array_ctor(d, info);
   if (stat != CDC_STATUS_OK) {
     return stat;
   }
@@ -164,7 +165,7 @@ enum cdc_stat cdc_deque_ctorv(struct cdc_deque **d, struct cdc_data_info *info,
   return init_varg(*d, args);
 }
 
-void cdc_deque_dtor(struct cdc_deque *d)
+void cdc_circular_array_dtor(struct cdc_circular_array *d)
 {
   assert(d != NULL);
 
@@ -174,7 +175,8 @@ void cdc_deque_dtor(struct cdc_deque *d)
   free(d);
 }
 
-enum cdc_stat cdc_deque_at(struct cdc_deque *d, size_t index, void **elem)
+enum cdc_stat cdc_circular_array_at(struct cdc_circular_array *d, size_t index,
+                                    void **elem)
 {
   assert(d != NULL);
   assert(elem != NULL);
@@ -188,17 +190,18 @@ enum cdc_stat cdc_deque_at(struct cdc_deque *d, size_t index, void **elem)
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_deque_insert(struct cdc_deque *d, size_t index, void *value)
+enum cdc_stat cdc_circular_array_insert(struct cdc_circular_array *d,
+                                        size_t index, void *value)
 {
   assert(d != NULL);
   assert(index <= d->size);
 
   if (index == 0) {
-    return cdc_deque_push_front(d, value);
+    return cdc_circular_array_push_front(d, value);
   }
 
   if (index == d->size) {
-    return cdc_deque_push_back(d, value);
+    return cdc_circular_array_push_back(d, value);
   }
 
   if (should_grow(d)) {
@@ -296,18 +299,18 @@ enum cdc_stat cdc_deque_insert(struct cdc_deque *d, size_t index, void *value)
   return CDC_STATUS_OK;
 }
 
-void cdc_deque_erase(struct cdc_deque *d, size_t index)
+void cdc_circular_array_erase(struct cdc_circular_array *d, size_t index)
 {
   assert(d != NULL);
   assert(index < d->size);
 
   if (index == 0) {
-    cdc_deque_pop_front(d);
+    cdc_circular_array_pop_front(d);
     return;
   }
 
   if (index + 1 == d->size) {
-    cdc_deque_pop_back(d);
+    cdc_circular_array_pop_back(d);
     return;
   }
 
@@ -382,7 +385,7 @@ void cdc_deque_erase(struct cdc_deque *d, size_t index)
   --d->size;
 }
 
-void cdc_deque_clear(struct cdc_deque *d)
+void cdc_circular_array_clear(struct cdc_circular_array *d)
 {
   assert(d != NULL);
 
@@ -392,7 +395,8 @@ void cdc_deque_clear(struct cdc_deque *d)
   d->size = 0;
 }
 
-enum cdc_stat cdc_deque_push_back(struct cdc_deque *d, void *value)
+enum cdc_stat cdc_circular_array_push_back(struct cdc_circular_array *d,
+                                           void *value)
 {
   assert(d != NULL);
 
@@ -409,7 +413,7 @@ enum cdc_stat cdc_deque_push_back(struct cdc_deque *d, void *value)
   return CDC_STATUS_OK;
 }
 
-void cdc_deque_pop_back(struct cdc_deque *d)
+void cdc_circular_array_pop_back(struct cdc_circular_array *d)
 {
   assert(d != NULL);
   assert(d->size > 0);
@@ -422,7 +426,8 @@ void cdc_deque_pop_back(struct cdc_deque *d)
   --d->size;
 }
 
-enum cdc_stat cdc_deque_push_front(struct cdc_deque *d, void *value)
+enum cdc_stat cdc_circular_array_push_front(struct cdc_circular_array *d,
+                                            void *value)
 {
   assert(d != NULL);
 
@@ -440,7 +445,7 @@ enum cdc_stat cdc_deque_push_front(struct cdc_deque *d, void *value)
   return CDC_STATUS_OK;
 }
 
-void cdc_deque_pop_front(struct cdc_deque *d)
+void cdc_circular_array_pop_front(struct cdc_circular_array *d)
 {
   assert(d != NULL);
   assert(d->size > 0);
@@ -453,7 +458,8 @@ void cdc_deque_pop_front(struct cdc_deque *d)
   --d->size;
 }
 
-void cdc_deque_swap(struct cdc_deque *a, struct cdc_deque *b)
+void cdc_circular_array_swap(struct cdc_circular_array *a,
+                             struct cdc_circular_array *b)
 {
   assert(a != NULL);
   assert(b != NULL);
