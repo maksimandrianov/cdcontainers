@@ -20,8 +20,8 @@
 // IN THE SOFTWARE.
 #include "test-common.h"
 
+#include "cdcontainers/adapters/map.h"
 #include "cdcontainers/casts.h"
-#include "cdcontainers/map.h"
 
 #include <float.h>
 #include <stdarg.h>

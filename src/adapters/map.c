@@ -1,5 +1,5 @@
 // The MIT License (MIT)
-// Copyright (c) 2017 Maksim Andrianov
+// Copyright (c) 2018 Maksim Andrianov
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -18,89 +18,89 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
-#include "cdcontainers/priority-queue.h"
+#include "cdcontainers/adapters/map.h"
 
 #include "cdcontainers/data-info.h"
 
-enum cdc_stat cdc_priority_queue_ctor(
-    const struct cdc_priority_queue_table *table, struct cdc_priority_queue **q,
-    struct cdc_data_info *info)
+enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table,
+                           struct cdc_map **m, struct cdc_data_info *info)
 {
   assert(table != NULL);
-  assert(q != NULL);
+  assert(m != NULL);
   assert(CDC_HAS_CMP(info));
 
-  struct cdc_priority_queue *tmp =
-      (struct cdc_priority_queue *)malloc(sizeof(struct cdc_priority_queue));
+  struct cdc_map *tmp = (struct cdc_map *)malloc(sizeof(struct cdc_map));
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
   tmp->table = table;
-  enum cdc_stat ret = tmp->table->ctor(&tmp->container, info);
-  if (ret != CDC_STATUS_OK) {
+  enum cdc_stat stat = tmp->table->ctor(&tmp->container, info);
+  if (stat != CDC_STATUS_OK) {
     free(tmp);
-    return ret;
+    return stat;
   }
 
-  *q = tmp;
+  *m = tmp;
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_priority_queue_ctorl(
-    const struct cdc_priority_queue_table *table, struct cdc_priority_queue **q,
-    struct cdc_data_info *info, ...)
+enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table,
+                            struct cdc_map **m, struct cdc_data_info *info, ...)
 {
   assert(table != NULL);
-  assert(q != NULL);
+  assert(m != NULL);
   assert(CDC_HAS_CMP(info));
 
   va_list args;
   va_start(args, info);
-  enum cdc_stat ret = cdc_priority_queue_ctorv(table, q, info, args);
+  enum cdc_stat stat = cdc_map_ctorv(table, m, info, args);
   va_end(args);
-  return ret;
+  return stat;
 }
 
-enum cdc_stat cdc_priority_queue_ctorv(
-    const struct cdc_priority_queue_table *table, struct cdc_priority_queue **q,
-    struct cdc_data_info *info, va_list args)
+enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table,
+                            struct cdc_map **m, struct cdc_data_info *info,
+                            va_list args)
 {
   assert(table != NULL);
-  assert(q != NULL);
+  assert(m != NULL);
   assert(CDC_HAS_CMP(info));
 
-  struct cdc_priority_queue *tmp =
-      (struct cdc_priority_queue *)malloc(sizeof(struct cdc_priority_queue));
+  struct cdc_map *tmp = (struct cdc_map *)malloc(sizeof(struct cdc_map));
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
   tmp->table = table;
-  enum cdc_stat ret = tmp->table->ctorv(&tmp->container, info, args);
-  if (ret != CDC_STATUS_OK) {
+  enum cdc_stat stat = tmp->table->ctorv(&tmp->container, info, args);
+  if (stat != CDC_STATUS_OK) {
     free(tmp);
-    return ret;
+    return stat;
   }
 
-  *q = tmp;
-  return ret;
+  *m = tmp;
+  return stat;
 }
 
-void cdc_priority_queue_dtor(struct cdc_priority_queue *q)
+void cdc_map_dtor(struct cdc_map *m)
 {
-  assert(q != NULL);
+  assert(m != NULL);
 
-  q->table->dtor(q->container);
-  free(q);
+  m->table->dtor(m->container);
+  free(m);
 }
 
-void cdc_priority_queue_swap(struct cdc_priority_queue *a,
-                             struct cdc_priority_queue *b)
+enum cdc_stat cdc_map_iter_ctor(struct cdc_map *m, struct cdc_map_iter *it)
 {
-  assert(a != NULL);
-  assert(b != NULL);
-  assert(a->table == b->table);
+  assert(m != NULL);
+  assert(it != NULL);
 
-  CDC_SWAP(void *, a->container, b->container);
+  it->table = m->table->iter_table;
+  it->iter = it->table->ctor();
+  if (!it->iter) {
+    return CDC_STATUS_BAD_ALLOC;
+  }
+
+  return CDC_STATUS_OK;
 }

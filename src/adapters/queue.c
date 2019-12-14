@@ -18,7 +18,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
-#include "cdcontainers/queue.h"
+#include "cdcontainers/adapters/queue.h"
 
 enum cdc_stat cdc_queue_ctor(const struct cdc_sequence_table *table,
                              struct cdc_queue **q, struct cdc_data_info *info)

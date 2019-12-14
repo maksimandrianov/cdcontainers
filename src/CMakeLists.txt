@@ -8,6 +8,10 @@ set(LIB_VERSION_PATCH 0)
 set(LIB_FULL_VERSION ${LIB_VERSION_MAJOR}.${LIB_VERSION_MINOR}.${LIB_VERSION_PATCH})
 
 set(SOURCE
+  adapters/map.c
+  adapters/priority-queue.c
+  adapters/queue.c
+  adapters/stack.c
   array.c
   avl-tree.c
   binomial-heap.c
@@ -17,12 +21,8 @@ set(SOURCE
   hash-table.c
   heap.c
   list.c
-  map.c
   pairing-heap.c
-  priority-queue.c
-  queue.c
   splay-tree.c
-  stack.c
   status.c
   tables/map-avl-tree.c
   tables/map-hash-table.c

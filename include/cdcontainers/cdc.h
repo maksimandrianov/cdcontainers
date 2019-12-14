@@ -36,9 +36,11 @@
  *   - cdc_splay_tree - splay tree. See splay-tree.h.
  *   - cdc_treep - сartesian tree. See treap.h.
  *
- * and following interfaces:
- *   - cdc_stack (Can work with: cdc_array, cdc_list, cdc_circular_array). See stack.h.
- *   - cdc_queue (Can work with: cdc_array, cdc_list, cdc_circular_array). See queue.h.
+ * and following adapters:
+ *   - cdc_stack (Can work with: cdc_array, cdc_list, cdc_circular_array). See
+ * stack.h.
+ *   - cdc_queue (Can work with: cdc_array, cdc_list, cdc_circular_array). See
+ * queue.h.
  *   - cdc_proirity_queue (Can work with: cdc_heap, cdc_binomial_heap,
  * cdc_pairing_heap). See priority-queue.h.
  *   - cdc_map (Can work with: cdc_avl_tree, cdc_splay_tree, cdc_treep). See
@@ -52,6 +54,10 @@
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_CDC_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_CDC_H
 
+#include <cdcontainers/adapters/map.h>
+#include <cdcontainers/adapters/priority-queue.h>
+#include <cdcontainers/adapters/queue.h>
+#include <cdcontainers/adapters/stack.h>
 #include <cdcontainers/array.h>
 #include <cdcontainers/avl-tree.h>
 #include <cdcontainers/binomial-heap.h>
@@ -63,12 +69,8 @@
 #include <cdcontainers/hash.h>
 #include <cdcontainers/heap.h>
 #include <cdcontainers/list.h>
-#include <cdcontainers/map.h>
 #include <cdcontainers/pairing-heap.h>
-#include <cdcontainers/priority-queue.h>
-#include <cdcontainers/queue.h>
 #include <cdcontainers/splay-tree.h>
-#include <cdcontainers/stack.h>
 #include <cdcontainers/status.h>
 #include <cdcontainers/treap.h>
 

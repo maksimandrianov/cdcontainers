@@ -20,8 +20,8 @@
 // IN THE SOFTWARE.
 #include "test-common.h"
 
+#include "cdcontainers/adapters/stack.h"
 #include "cdcontainers/casts.h"
-#include "cdcontainers/stack.h"
 
 #include <float.h>
 #include <stdarg.h>

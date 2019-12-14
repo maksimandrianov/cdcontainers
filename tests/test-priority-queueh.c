@@ -20,9 +20,9 @@
 // IN THE SOFTWARE.
 #include "test-common.h"
 
+#include "cdcontainers/adapters/priority-queue.h"
 #include "cdcontainers/casts.h"
 #include "cdcontainers/common.h"
-#include "cdcontainers/priority-queue.h"
 
 #include <assert.h>
 #include <float.h>

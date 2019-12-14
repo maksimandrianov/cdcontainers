@@ -20,8 +20,8 @@
 // IN THE SOFTWARE.
 #include "test-common.h"
 
+#include "cdcontainers/adapters/queue.h"
 #include "cdcontainers/casts.h"
-#include "cdcontainers/queue.h"
 
 #include <float.h>
 #include <stdarg.h>
