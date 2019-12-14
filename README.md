@@ -9,7 +9,7 @@ Library of data containers and data structures for C programming language. The c
 The library contains the following data containers:
 * cdc_array - dynamic array
 * cdc_list - doubly linked list
-* cdc_deque - double-ended queue
+* cdc_circular_array - circular array
 * cdc_heap - binary heap
 * cdc_binomial_heap - binomial heap 
 * cdc_pairing_heap - pairing heap 
@@ -18,9 +18,10 @@ The library contains the following data containers:
 * cdc_splay_tree - splay tree
 * cdc_treep - сartesian tree
 
-and following interfaces:
-* cdc_stack (Can work with: cdc_array, cdc_list, cdc_deque)
-* cdc_queue (Can work with: cdc_array, cdc_list, cdc_deque)
+and following adapters:
+* cdc_deque (Can work with: cdc_array, cdc_list, cdc_circular_array)
+* cdc_stack (Can work with: cdc_array, cdc_list, cdc_circular_array)
+* cdc_queue (Can work with: cdc_array, cdc_list, cdc_circular_array)
 * cdc_proirity_queue (Can work with: cdc_heap, cdc_binomial_heap, cdc_pairing_heap)
 * cdc_map (Can work with: cdc_avl_tree, cdc_splay_tree, cdc_treep, cdc_hash_table)
 
