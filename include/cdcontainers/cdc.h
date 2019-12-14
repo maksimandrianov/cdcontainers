@@ -37,6 +37,8 @@
  *   - cdc_treep - сartesian tree. See treap.h.
  *
  * and following adapters:
+ *   - cdc_deque (Can work with: cdc_array, cdc_list, cdc_circular_array). See
+ * deque.h.
  *   - cdc_stack (Can work with: cdc_array, cdc_list, cdc_circular_array). See
  * stack.h.
  *   - cdc_queue (Can work with: cdc_array, cdc_list, cdc_circular_array). See
@@ -54,6 +56,7 @@
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_CDC_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_CDC_H
 
+#include <cdcontainers/adapters/deque.h>
 #include <cdcontainers/adapters/map.h>
 #include <cdcontainers/adapters/priority-queue.h>
 #include <cdcontainers/adapters/queue.h>
