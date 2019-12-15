@@ -29,6 +29,7 @@ set(SOURCE
   test-common.c
   test-common.h
   test-circular-array.c
+  test-deque.c
   test-hash-table.c
   test-heap.c
   test-list.c

@@ -168,7 +168,7 @@ static inline void cdc_deque_set(struct cdc_deque *d, size_t index, void *value)
 {
   assert(d != NULL);
 
-  return d->table->set(d->container, index, value);
+  d->table->set(d->container, index, value);
 }
 
 /**
@@ -199,7 +199,7 @@ static inline void cdc_deque_erase(struct cdc_deque *d, size_t index)
 {
   assert(d != NULL);
 
-  return d->table->erase(d->container, index);
+  d->table->erase(d->container, index);
 }
 
 /**
@@ -210,7 +210,7 @@ static inline void cdc_deque_clear(struct cdc_deque *d)
 {
   assert(d != NULL);
 
-  return d->table->clear(d->container);
+  d->table->clear(d->container);
 }
 
 /**

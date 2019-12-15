@@ -289,6 +289,10 @@ void test_list_insert()
   CU_ASSERT_EQUAL(cdc_list_insert(l, 1, CDC_FROM_INT(b)), CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_list_size(l), 3);
   CU_ASSERT(list_range_int_eq(l, 3, a, b, c));
+
+  CU_ASSERT_EQUAL(cdc_list_insert(l, 1, CDC_FROM_INT(c)), CDC_STATUS_OK);
+  CU_ASSERT_EQUAL(cdc_list_size(l), 4);
+  CU_ASSERT(list_range_int_eq(l, 4, a, c, b, c));
   cdc_list_dtor(l);
 }
 

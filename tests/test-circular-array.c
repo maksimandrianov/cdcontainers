@@ -137,11 +137,9 @@ void test_circular_array_push_front()
   CU_ASSERT_EQUAL(cdc_circular_array_size(arr), 3);
   CU_ASSERT(circular_array_range_int_eq(arr, 3, c, b, a));
 
-  circular_array_range_int_print(arr);
   CU_ASSERT_EQUAL(cdc_circular_array_push_front(arr, CDC_FROM_INT(a)),
                   CDC_STATUS_OK);
   CU_ASSERT_EQUAL(cdc_circular_array_size(arr), 4);
-  circular_array_range_int_print(arr);
   CU_ASSERT(circular_array_range_int_eq(arr, 4, a, c, b, a));
 
   CU_ASSERT_EQUAL(cdc_circular_array_push_front(arr, CDC_FROM_INT(b)),
