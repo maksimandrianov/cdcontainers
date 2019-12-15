@@ -66,9 +66,9 @@ static enum cdc_stat insert_mid(struct cdc_list *l, struct cdc_list_node *n,
     return CDC_STATUS_BAD_ALLOC;
   }
 
-  node->prev = n->prev->next;
-  n->prev->next = node;
   node->next = n;
+  node->prev = n->prev;
+  n->prev->next = node;
   n->prev = node;
   ++l->size;
   return CDC_STATUS_OK;
