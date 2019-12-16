@@ -90,10 +90,18 @@ static enum cdc_stat insert(struct cdc_list *l, struct cdc_list_node *n,
 
 static struct cdc_list_node *get_node(struct cdc_list *l, size_t index)
 {
-  struct cdc_list_node *node;
-  size_t i = 0;
-  for (node = l->head; node != NULL && i != index; node = node->next, ++i) {
-    /* empty */;
+  struct cdc_list_node *node = NULL;
+  size_t i;
+  if (index < l->size / 2) {
+    i = 0;
+    for (node = l->head; node != NULL && i < index; node = node->next, ++i) {
+      /* empty */;
+    }
+  } else {
+    i = l->size - 1;
+    for (node = l->tail; node != NULL && i > index; node = node->prev, --i) {
+      /* empty */;
+    }
   }
 
   return i != index ? NULL : node;
