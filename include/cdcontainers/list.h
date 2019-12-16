@@ -89,7 +89,7 @@ struct cdc_list_riter {
  * @brief Constructs an empty list.
  * @param l - cdc_list
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_list_ctor(struct cdc_list **l, struct cdc_data_info *info);
@@ -99,7 +99,7 @@ enum cdc_stat cdc_list_ctor(struct cdc_list **l, struct cdc_data_info *info);
  * The last item must be NULL.
  * @param l - cdc_list
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_list_ctorl(struct cdc_list **l, struct cdc_data_info *info,
@@ -109,7 +109,7 @@ enum cdc_stat cdc_list_ctorl(struct cdc_list **l, struct cdc_data_info *info,
  * @brief Constructs a list, initialized by args. The last item must be NULL.
  * @param l - cdc_list
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_list_ctorv(struct cdc_list **l, struct cdc_data_info *info,
@@ -266,7 +266,7 @@ void cdc_list_set(struct cdc_list *l, size_t index, void *value);
  * @brief Inserts value at the end of the list.
  * @param l - cdc_list
  * @param value
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_list_push_back(struct cdc_list *l, void *value);
@@ -281,7 +281,7 @@ void cdc_list_pop_back(struct cdc_list *l);
  * @brief Inserts value at the beginning of the list.
  * @param l - cdc_list
  * @param value
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_list_push_front(struct cdc_list *l, void *value);
@@ -299,7 +299,7 @@ void cdc_list_pop_front(struct cdc_list *l);
  * @param l - cdc_list
  * @param index - index position where the value will be inserted
  * @param value
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_list_insert(struct cdc_list *l, size_t index, void *value);
@@ -308,7 +308,7 @@ enum cdc_stat cdc_list_insert(struct cdc_list *l, size_t index, void *value);
  * @brief Inserts value in front of the item pointed to by the iterator before.
  * @param before - iterator position before which the value will be inserted
  * @param value
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_list_iinsert(struct cdc_list_iter *before, void *value);
@@ -318,7 +318,7 @@ enum cdc_stat cdc_list_iinsert(struct cdc_list_iter *before, void *value);
  * position in the list.
  * @param l - cdc_list
  * @param index - index position where the item will be removed
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 void cdc_list_erase(struct cdc_list *l, size_t index);

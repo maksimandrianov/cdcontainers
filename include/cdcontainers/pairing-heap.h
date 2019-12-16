@@ -72,7 +72,7 @@ struct cdc_pairing_heap_iter {
  * @brief Constructs an empty pairing heap.
  * @param h - cdc_pairing_heap
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_pairing_heap_ctor(struct cdc_pairing_heap **h,
@@ -83,7 +83,7 @@ enum cdc_stat cdc_pairing_heap_ctor(struct cdc_pairing_heap **h,
  * pointers. The last item must be NULL.
  * @param h - cdc_pairing_heap
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_pairing_heap_ctorl(struct cdc_pairing_heap **h,
@@ -94,7 +94,7 @@ enum cdc_stat cdc_pairing_heap_ctorl(struct cdc_pairing_heap **h,
  * NULL.
  * @param h - cdc_pairing_heap
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_pairing_heap_ctorv(struct cdc_pairing_heap **h,
@@ -150,7 +150,7 @@ static inline bool cdc_pairing_heap_empty(struct cdc_pairing_heap *h)
  * @brief Extracts the top item from the pairing heap. This function assumes
  * that the pairing heap isn't empty.
  * @param h - cdc_pairing_heap
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_pairing_heap_extract_top(struct cdc_pairing_heap *h);
@@ -162,7 +162,7 @@ enum cdc_stat cdc_pairing_heap_extract_top(struct cdc_pairing_heap *h);
  * @param key
  * @param ret - pointer to iterator where an iterator will be written indicating
  * the inserted element
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_pairing_heap_riinsert(struct cdc_pairing_heap *h, void *key,
@@ -172,7 +172,7 @@ enum cdc_stat cdc_pairing_heap_riinsert(struct cdc_pairing_heap *h, void *key,
  * @brief Inserts element key to the pairing heap.
  * @param h - cdc_pairing_heap
  * @param key
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 static inline enum cdc_stat cdc_pairing_heap_insert(struct cdc_pairing_heap *h,

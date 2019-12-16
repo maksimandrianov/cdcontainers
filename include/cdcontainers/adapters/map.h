@@ -62,7 +62,7 @@ struct cdc_map_iter {
  * @brief Constructs an empty map
  * @param t - cdc_map
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table,
@@ -74,7 +74,7 @@ enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table,
  * must be NULL.
  * @param t - cdc_map
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table,
@@ -85,7 +85,7 @@ enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table,
  * @brief Constructs a map, initialized by args. The last item must be NULL.
  * @param t - cdc_map
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table,
@@ -192,7 +192,7 @@ static inline void cdc_map_clear(struct cdc_map *m)
  * prevented the insertion). The pointer can be equal to NULL
  * @param inserted - bool denoting whether the insertion
  * took place. The pointer can be equal to NULL
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 static inline enum cdc_stat cdc_map_insert(struct cdc_map *m, void *key,
@@ -215,7 +215,7 @@ static inline enum cdc_stat cdc_map_insert(struct cdc_map *m, void *key,
  * The pointer can be equal to NULL
  * @param inserted - bool is true if the insertion took place and false if the
  * assignment took place. The pointer can be equal to NULL
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 static inline enum cdc_stat cdc_map_insert_or_assign(struct cdc_map *m,

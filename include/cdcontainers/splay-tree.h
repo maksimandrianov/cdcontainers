@@ -82,7 +82,7 @@ struct cdc_pair_splay_tree_iter_bool {
  * @brief Constructs an empty splay tree
  * @param t - cdc_splay_tree
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_splay_tree_ctor(struct cdc_splay_tree **t,
@@ -94,7 +94,7 @@ enum cdc_stat cdc_splay_tree_ctor(struct cdc_splay_tree **t,
  * must be NULL.
  * @param t - cdc_splay_tree
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_splay_tree_ctorl(struct cdc_splay_tree **t,
@@ -105,7 +105,7 @@ enum cdc_stat cdc_splay_tree_ctorl(struct cdc_splay_tree **t,
  * NULL.
  * @param t - cdc_splay_tree
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_splay_tree_ctorv(struct cdc_splay_tree **t,
@@ -205,7 +205,7 @@ void cdc_splay_tree_clear(struct cdc_splay_tree *t);
  * @param ret - pair consisting of an iterator to the inserted element (or to
  * the element that prevented the insertion) and a bool denoting whether the
  * insertion took place. The pointer can be equal to NULL
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_splay_tree_insert(struct cdc_splay_tree *t, void *key,
@@ -222,7 +222,7 @@ enum cdc_stat cdc_splay_tree_insert(struct cdc_splay_tree *t, void *key,
  * prevented the insertion). The pointer can be equal to NULL
  * @param inserted - bool denoting whether the insertion
  * took place. The pointer can be equal to NULL
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_splay_tree_insert1(struct cdc_splay_tree *t, void *key,
@@ -239,7 +239,7 @@ enum cdc_stat cdc_splay_tree_insert1(struct cdc_splay_tree *t, void *key,
  * @param ret - pair. The bool component is true if the insertion took place and
  * false if the assignment took place. The iterator component is pointing at the
  * element that was inserted or updated
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_splay_tree_insert_or_assign(
@@ -256,7 +256,7 @@ enum cdc_stat cdc_splay_tree_insert_or_assign(
  * The pointer can be equal to NULL
  * @param inserted - bool is true if the insertion took place and false if the
  * assignment took place. The pointer can be equal to NULL
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_splay_tree_insert_or_assign1(struct cdc_splay_tree *t,

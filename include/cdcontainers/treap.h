@@ -86,7 +86,7 @@ struct cdc_pair_treap_iter_bool {
  * @brief Constructs an empty treap
  * @param t - cdc_treap
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_treap_ctor(struct cdc_treap **t, struct cdc_data_info *info);
@@ -97,7 +97,7 @@ enum cdc_stat cdc_treap_ctor(struct cdc_treap **t, struct cdc_data_info *info);
  * must be NULL.
  * @param t - cdc_treap
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_treap_ctorl(struct cdc_treap **t, struct cdc_data_info *info,
@@ -107,7 +107,7 @@ enum cdc_stat cdc_treap_ctorl(struct cdc_treap **t, struct cdc_data_info *info,
  * @brief Constructs a treap, initialized by args. The last item must be NULL.
  * @param t - cdc_treap
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_treap_ctorv(struct cdc_treap **t, struct cdc_data_info *info,
@@ -119,7 +119,7 @@ enum cdc_stat cdc_treap_ctorv(struct cdc_treap **t, struct cdc_data_info *info,
  * @param info - cdc_data_info
  * @param compar - function that specifies a strict ordering
  * @param prior - function that generates a priority
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_treap_ctor1(struct cdc_treap **t, struct cdc_data_info *info,
@@ -133,7 +133,7 @@ enum cdc_stat cdc_treap_ctor1(struct cdc_treap **t, struct cdc_data_info *info,
  * @param info - cdc_data_info
  * @param compar - function that specifies a strict ordering
  * @param prior - function that generates a priority
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_treap_ctorl1(struct cdc_treap **t, struct cdc_data_info *info,
@@ -145,7 +145,7 @@ enum cdc_stat cdc_treap_ctorl1(struct cdc_treap **t, struct cdc_data_info *info,
  * @param info - cdc_data_info
  * @param compar - function that specifies a strict ordering
  * @param prior - function that generates a priority
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_treap_ctorv1(struct cdc_treap **t, struct cdc_data_info *info,
@@ -243,7 +243,7 @@ void cdc_treap_clear(struct cdc_treap *t);
  * @param ret - pair consisting of an iterator to the inserted element (or to
  * the element that prevented the insertion) and a bool denoting whether the
  * insertion took place. The pointer can be equal to NULL
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_treap_insert(struct cdc_treap *t, void *key, void *value,
@@ -259,7 +259,7 @@ enum cdc_stat cdc_treap_insert(struct cdc_treap *t, void *key, void *value,
  * prevented the insertion). The pointer can be equal to NULL
  * @param inserted - bool denoting whether the insertion
  * took place. The pointer can be equal to NULL
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_treap_insert1(struct cdc_treap *t, void *key, void *value,
@@ -274,7 +274,7 @@ enum cdc_stat cdc_treap_insert1(struct cdc_treap *t, void *key, void *value,
  * @param ret - pair. The bool component is true if the insertion took place and
  * false if the assignment took place. The iterator component is pointing at the
  * element that was inserted or updated
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_treap_insert_or_assign(struct cdc_treap *t, void *key,
@@ -291,7 +291,7 @@ enum cdc_stat cdc_treap_insert_or_assign(struct cdc_treap *t, void *key,
  * The pointer can be equal to NULL
  * @param inserted - bool is true if the insertion took place and false if the
  * assignment took place. The pointer can be equal to NULL
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_treap_insert_or_assign1(struct cdc_treap *t, void *key,

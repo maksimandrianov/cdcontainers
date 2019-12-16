@@ -51,7 +51,7 @@ struct cdc_priority_queue {
  * @param table - method table for a particular implementation
  * @param q - cdc_priority_queue
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_priority_queue_ctor(
@@ -64,7 +64,7 @@ enum cdc_stat cdc_priority_queue_ctor(
  * @param table - method table for a particular implementation
  * @param q - cdc_priority_queue
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_priority_queue_ctorl(
@@ -77,7 +77,7 @@ enum cdc_stat cdc_priority_queue_ctorl(
  * @param table - method table for a particular implementation
  * @param q - cdc_priority_queue
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_priority_queue_ctorv(
@@ -135,7 +135,7 @@ static inline size_t cdc_priority_queue_size(struct cdc_priority_queue *q)
  * @brief Adds element elem to the priority queue.
  * @param q - cdc_priority_queue
  * @param elem
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 static inline enum cdc_stat cdc_priority_queue_push(

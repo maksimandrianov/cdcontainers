@@ -80,7 +80,7 @@ struct cdc_pair_hash_table_iter {
  * @brief Constructs an empty hash table
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_hash_table_ctor(struct cdc_hash_table **t,
@@ -92,7 +92,7 @@ enum cdc_stat cdc_hash_table_ctor(struct cdc_hash_table **t,
  * must be NULL.
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_hash_table_ctorl(struct cdc_hash_table **t,
@@ -103,7 +103,7 @@ enum cdc_stat cdc_hash_table_ctorl(struct cdc_hash_table **t,
  * must be NULL.
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_hash_table_ctorv(struct cdc_hash_table **t,
@@ -114,7 +114,7 @@ enum cdc_stat cdc_hash_table_ctorv(struct cdc_hash_table **t,
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
  * @param load_factor - maximum load factor setting
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_hash_table_ctor1(struct cdc_hash_table **t,
@@ -128,7 +128,7 @@ enum cdc_stat cdc_hash_table_ctor1(struct cdc_hash_table **t,
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
  * @param load_factor - maximum load factor setting
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_hash_table_ctorl1(struct cdc_hash_table **t,
@@ -141,7 +141,7 @@ enum cdc_stat cdc_hash_table_ctorl1(struct cdc_hash_table **t,
  * @param t - cdc_hash_table
  * @param info - cdc_data_info
  * @param load_factor - maximum load factor setting
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_hash_table_ctorv1(struct cdc_hash_table **t,
@@ -241,7 +241,7 @@ void cdc_hash_table_clear(struct cdc_hash_table *t);
  * @param it - iterator to the inserted element (or to the element that
  * prevented the insertion). The pointer can be equal to NULL
  * @param inserted - bool denoting whether the insertion
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_hash_table_insert(struct cdc_hash_table *t, void *key,
@@ -257,7 +257,7 @@ enum cdc_stat cdc_hash_table_insert(struct cdc_hash_table *t, void *key,
  * @param it - iterator to the inserted element (or to the element that
  * prevented the insertion). The pointer can be equal to NULL
  * @param inserted - bool denoting whether the insertion
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_hash_table_insert_or_assign(struct cdc_hash_table *t,

@@ -51,7 +51,7 @@ struct cdc_deque {
  * @param table - method table for a particular implementation
  * @param d - cdc_deque
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_deque_ctor(const struct cdc_sequence_table *table,
@@ -63,7 +63,7 @@ enum cdc_stat cdc_deque_ctor(const struct cdc_sequence_table *table,
  * @param table - method table for a particular implementation
  * @param d - cdc_deque
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_deque_ctorl(const struct cdc_sequence_table *table,
@@ -76,7 +76,7 @@ enum cdc_stat cdc_deque_ctorl(const struct cdc_sequence_table *table,
  * @param table - method table for a particular implementation
  * @param d - cdc_deque
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_deque_ctorv(const struct cdc_sequence_table *table,
@@ -178,7 +178,7 @@ static inline void cdc_deque_set(struct cdc_deque *d, size_t index, void *value)
  * @param d - cdc_deque
  * @param index - index position where the value will be inserted
  * @param value
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 static inline enum cdc_stat cdc_deque_insert(struct cdc_deque *d, size_t index,
@@ -217,7 +217,7 @@ static inline void cdc_deque_clear(struct cdc_deque *d)
  * @brief Inserts value at the end of the deque.
  * @param d - cdc_deque
  * @param value
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 static inline enum cdc_stat cdc_deque_push_back(struct cdc_deque *d,
@@ -243,7 +243,7 @@ static inline void cdc_deque_pop_back(struct cdc_deque *d)
  * @brief Inserts value at the beginning of the deque.
  * @param d - cdc_deque
  * @param value
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 static inline enum cdc_stat cdc_deque_push_front(struct cdc_deque *d,

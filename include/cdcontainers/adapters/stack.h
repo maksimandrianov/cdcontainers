@@ -50,7 +50,7 @@ struct cdc_stack {
  * @param table - method table for a particular implementation
  * @param s - cdc_stack
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_stack_ctor(const struct cdc_sequence_table *table,
@@ -62,7 +62,7 @@ enum cdc_stat cdc_stack_ctor(const struct cdc_sequence_table *table,
  * @param table - method table for a particular implementation
  * @param s - cdc_stack
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_stack_ctorl(const struct cdc_sequence_table *table,
@@ -74,7 +74,7 @@ enum cdc_stat cdc_stack_ctorl(const struct cdc_sequence_table *table,
  * @param table - method table for a particular implementation
  * @param s - cdc_stack
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_stack_ctorv(const struct cdc_sequence_table *table,
@@ -131,7 +131,7 @@ static inline size_t cdc_stack_size(struct cdc_stack *s)
  * @brief Adds element elem to the top of the stack.
  * @param s - cdc_stack
  * @param elem
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 static inline enum cdc_stat cdc_stack_push(struct cdc_stack *s, void *elem)

@@ -53,7 +53,7 @@ struct cdc_circular_array {
  * @brief Constructs an empty circular array.
  * @param d - cdc_circular_array
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_circular_array_ctor(struct cdc_circular_array **d,
@@ -64,7 +64,7 @@ enum cdc_stat cdc_circular_array_ctor(struct cdc_circular_array **d,
  * pointers. The last item must be NULL.
  * @param d - cdc_circular_array
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_circular_array_ctorl(struct cdc_circular_array **d,
@@ -75,7 +75,7 @@ enum cdc_stat cdc_circular_array_ctorl(struct cdc_circular_array **d,
  * be NULL.
  * @param d - cdc_circular_array
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_circular_array_ctorv(struct cdc_circular_array **d,
@@ -197,7 +197,7 @@ static inline void cdc_circular_array_set(struct cdc_circular_array *d,
  * @param d - cdc_circular_array
  * @param index - index position where the value will be inserted
  * @param value
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_circular_array_insert(struct cdc_circular_array *d,
@@ -221,7 +221,7 @@ void cdc_circular_array_clear(struct cdc_circular_array *d);
  * @brief Inserts value at the end of the circular array.
  * @param d - cdc_circular_array
  * @param value
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_circular_array_push_back(struct cdc_circular_array *d,
@@ -237,7 +237,7 @@ void cdc_circular_array_pop_back(struct cdc_circular_array *d);
  * @brief Inserts value at the beginning of the circular array.
  * @param d - cdc_circular_array
  * @param value
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_circular_array_push_front(struct cdc_circular_array *d,

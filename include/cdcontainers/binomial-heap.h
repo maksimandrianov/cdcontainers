@@ -74,7 +74,7 @@ struct cdc_binomial_heap_iter {
  * @brief Constructs an empty binomial heap.
  * @param h - cdc_binomial_heap
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_binomial_heap_ctor(struct cdc_binomial_heap **h,
@@ -85,7 +85,7 @@ enum cdc_stat cdc_binomial_heap_ctor(struct cdc_binomial_heap **h,
  * pointers. The last item must be NULL.
  * @param h - cdc_binomial_heap
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_binomial_heap_ctorl(struct cdc_binomial_heap **h,
@@ -96,7 +96,7 @@ enum cdc_stat cdc_binomial_heap_ctorl(struct cdc_binomial_heap **h,
  * NULL.
  * @param h - cdc_binomial_heap
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_binomial_heap_ctorv(struct cdc_binomial_heap **h,
@@ -152,7 +152,7 @@ static inline bool cdc_binomial_heap_empty(struct cdc_binomial_heap *h)
  * @brief Extracts the top item from the binomial heap. This function assumes
  * that the binomial heap isn't empty.
  * @param h - cdc_binomial_heap
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_binomial_heap_extract_top(struct cdc_binomial_heap *h);
@@ -164,7 +164,7 @@ enum cdc_stat cdc_binomial_heap_extract_top(struct cdc_binomial_heap *h);
  * @param key
  * @param ret - pointer to iterator where an iterator will be written indicating
  * the inserted element
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_binomial_heap_riinsert(struct cdc_binomial_heap *h, void *key,
@@ -174,7 +174,7 @@ enum cdc_stat cdc_binomial_heap_riinsert(struct cdc_binomial_heap *h, void *key,
  * @brief Inserts element key to the binomial heap.
  * @param h - cdc_binomial_heap
  * @param key
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 static inline enum cdc_stat cdc_binomial_heap_insert(

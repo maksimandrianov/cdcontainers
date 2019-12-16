@@ -53,7 +53,7 @@ struct cdc_array {
  * @brief Constructs an empty array.
  * @param[out] v - cdc_array
  * @param[in] info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
 enum cdc_stat cdc_array_ctor(struct cdc_array **v, struct cdc_data_info *info);
@@ -63,7 +63,7 @@ enum cdc_stat cdc_array_ctor(struct cdc_array **v, struct cdc_data_info *info);
  * The last pointer must be CDC_END.
  * @param[out] v - cdc_array
  * @param[in] info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  *
  * Example:
@@ -82,7 +82,7 @@ enum cdc_stat cdc_array_ctorl(struct cdc_array **v, struct cdc_data_info *info,
  * @brief Constructs an array, initialized by args. The last pointer must be CDC_END.
  * @param[out] v - cdc_array
  * @param[in] info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
 enum cdc_stat cdc_array_ctorv(struct cdc_array **v, struct cdc_data_info *info,
@@ -165,7 +165,7 @@ static inline void **cdc_array_data(struct cdc_array *v)
  * function to prevent reallocations and memory fragmentation.
  * @param[in] v - cdc_array
  * @param[in] capacity - new capacity
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
 enum cdc_stat cdc_array_reserve(struct cdc_array *v, size_t capacity);
@@ -209,7 +209,7 @@ static inline size_t cdc_array_capacity(struct cdc_array *v)
 /**
  * @brief Requests the container to reduce its capacity to fit its size.
  * @param[in] v - cdc_array
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_array_shrink_to_fit(struct cdc_array *v);
@@ -237,7 +237,7 @@ static inline void cdc_array_set(struct cdc_array *v, size_t index, void *value)
  * @param[in] v - cdc_array
  * @param[in] index - index position where an element will be inserted
  * @param[in] value - value
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
 enum cdc_stat cdc_array_insert(struct cdc_array *v, size_t index, void *value);
@@ -259,7 +259,7 @@ void cdc_array_clear(struct cdc_array *v);
  * @brief Inserts an element at the end of the array.
  * @param[in] v - cdc_array
  * @param[in] value - value
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
 enum cdc_stat cdc_array_push_back(struct cdc_array *v, void *value);
@@ -281,7 +281,7 @@ static inline void cdc_array_pop_back(struct cdc_array *v)
  * @param[in] v - cdc_array
  * @param[in] data - pointer on data
  * @param[in] len - the number of data elements
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
 enum cdc_stat cdc_array_append(struct cdc_array *v, void **data, size_t len);
@@ -290,7 +290,7 @@ enum cdc_stat cdc_array_append(struct cdc_array *v, void **data, size_t len);
  * @brief Appends one array to the end of other array.
  * @param[in] v - cdc_array
  * @param[in] other - cdc_array
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
 enum cdc_stat cdc_array_append_move(struct cdc_array *v,

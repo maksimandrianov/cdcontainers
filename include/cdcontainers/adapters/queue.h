@@ -50,7 +50,7 @@ struct cdc_queue {
  * @param table - method table for a particular implementation
  * @param q - cdc_queue
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_queue_ctor(const struct cdc_sequence_table *table,
@@ -62,7 +62,7 @@ enum cdc_stat cdc_queue_ctor(const struct cdc_sequence_table *table,
  * @param table - method table for a particular implementation
  * @param q - cdc_queue
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_queue_ctorl(const struct cdc_sequence_table *table,
@@ -75,7 +75,7 @@ enum cdc_stat cdc_queue_ctorl(const struct cdc_sequence_table *table,
  * @param table - method table for a particular implementation
  * @param q - cdc_queue
  * @param info - cdc_data_info
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 enum cdc_stat cdc_queue_ctorv(const struct cdc_sequence_table *table,
@@ -145,7 +145,7 @@ static inline size_t cdc_queue_size(struct cdc_queue *q)
  * @brief Adds value elem to the tail of the queue.
  * @param q - cdc_queue
  * @param elem
- * @return CDC_STATUS_OK in a successful case or an excellent value indicating
+ * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
 static inline enum cdc_stat cdc_queue_push(struct cdc_queue *q, void *elem)

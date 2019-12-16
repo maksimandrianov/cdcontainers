@@ -16,14 +16,14 @@ The library contains the following data containers:
 * cdc_hash_table - hash table with collisions resolved by chaining
 * cdc_avl_tree - avl tree
 * cdc_splay_tree - splay tree
-* cdc_treep - сartesian tree
+* cdc_treap - сartesian tree
 
 and following adapters:
 * cdc_deque (Can work with: cdc_array, cdc_list, cdc_circular_array)
 * cdc_stack (Can work with: cdc_array, cdc_list, cdc_circular_array)
 * cdc_queue (Can work with: cdc_array, cdc_list, cdc_circular_array)
-* cdc_proirity_queue (Can work with: cdc_heap, cdc_binomial_heap, cdc_pairing_heap)
-* cdc_map (Can work with: cdc_avl_tree, cdc_splay_tree, cdc_treep, cdc_hash_table)
+* cdc_priority_queue (Can work with: cdc_heap, cdc_binomial_heap, cdc_pairing_heap)
+* cdc_map (Can work with: cdc_avl_tree, cdc_splay_tree, cdc_treap, cdc_hash_table)
 
 Example:
 ```c
