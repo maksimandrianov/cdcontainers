@@ -29,7 +29,6 @@
 
 #define CDC_CIRCULAR_ARRAY_MIN_CAPACITY 4  // must be pow 2
 #define CDC_CIRCULAR_ARRAY_COPACITY_SHIFT 1
-#define CDC_CIRCULAR_ARRAY_MAX_LEN SIZE_MAX
 
 static size_t get_real_index(struct cdc_circular_array *d, size_t index)
 {
