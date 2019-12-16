@@ -38,7 +38,7 @@
 #include <stdbool.h>
 
 /**
- * @brief The cdc_array struct
+ * @brief The cdc_array is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
@@ -51,47 +51,55 @@ struct cdc_array {
 
 /**
  * @brief Constructs an empty array.
- * @param v - cdc_array
- * @param info - cdc_data_info
+ * @param[out] v - cdc_array
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_array_ctor(struct cdc_array **v, struct cdc_data_info *info);
 
 /**
- * @brief Constructs a array, initialized by an arbitrary number of pointers.
- * The last item must be NULL.
- * @param v - cdc_array
- * @param info - cdc_data_info
+ * @brief Constructs an array, initialized by an variable number of pointers.
+ * The last pointer must be CDC_END.
+ * @param[out] v - cdc_array
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
+ * an error.
+ *
+ * Example:
+ * @code{.c}
+ * struct cdc_array *vec = NULL;
+ * if (cdc_array_ctorl(&vec, NULL, CDC_FROM_INT(1),
+ *                     CDC_FROM_INT(2), CDC_END) != CDC_STATUS_OK) {
+ *   // handle error
+ * }
+ * @endcode
  */
 enum cdc_stat cdc_array_ctorl(struct cdc_array **v, struct cdc_data_info *info,
                               ...);
 
 /**
- * @brief Constructs a array, initialized by args. The last item must be NULL.
- * @param v - cdc_array
- * @param info - cdc_data_info
+ * @brief Constructs an array, initialized by args. The last pointer must be CDC_END.
+ * @param[out] v - cdc_array
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_array_ctorv(struct cdc_array **v, struct cdc_data_info *info,
                               va_list args);
 
 /**
  * @brief Destroys the array.
- * @param v - cdc_array
+ * @param[in] v - cdc_array
  */
 void cdc_array_dtor(struct cdc_array *v);
 
 // Element access
 /**
- * @brief Returns the item at index position index in the array. Index must be
- * a valid index position in the array.
- * @param v - cdc_array
- * @param index - index of the item to return
- * @return item at the index position
+ * @brief Returns an element at index position in the array
+ * @param[in] v - cdc_array
+ * @param[in] index - index of an element to return
+ * @return element from |index| position.
  */
 static inline void *cdc_array_get(struct cdc_array *v, size_t index)
 {
@@ -102,20 +110,20 @@ static inline void *cdc_array_get(struct cdc_array *v, size_t index)
 }
 
 /**
- * @brief Writes to a elem the item at index position in the array.
- * @param v - cdc_array
- * @param index - index of the item to write at elem
- * @param elem - pointer where the item will be written
+ * @brief Writes to pointer an element from specified position in the array.
+ * Bounds checking is performed.
+ * @param[in] v - cdc_array
+ * @param[in] index - index of an element to write at elem
+ * @param[out] elem - pointer where an element will be written
  * @return DC_STATUS_OK in a successful case or CDC_STATUS_OUT_OF_RANGE if the
- * index is incorrect
+ * index is incorrect.
  */
 enum cdc_stat cdc_array_at(struct cdc_array *v, size_t index, void **elem);
 
 /**
- * @brief Returns a pointer to the first item in the array.
- * This function assumes that the array isn't empty.
- * @param v - cdc_array
- * @return pointer to the first item in the array
+ * @brief Returns a first element in the array.
+ * @param[in] v - cdc_array
+ * @return first element in the array.
  */
 static inline void *cdc_array_front(struct cdc_array *v)
 {
@@ -126,10 +134,9 @@ static inline void *cdc_array_front(struct cdc_array *v)
 }
 
 /**
- * @brief Returns a pointer to the last item in the array.
- * This function assumes that the array isn't empty.
- * @param v - cdc_array
- * @return pointer to the last item in the array
+ * @brief Returns a last element in the array.
+ * @param[in] v - cdc_array
+ * @return last element in the array.
  */
 static inline void *cdc_array_back(struct cdc_array *v)
 {
@@ -141,9 +148,8 @@ static inline void *cdc_array_back(struct cdc_array *v)
 
 /**
  * @brief Returns a pointer to the data stored in the array.
- * This function assumes that the array isn't empty.
- * @param v - cdc_array
- * @return pointer to the data stored in the arraye
+ * @param[in] v - cdc_array
+ * @return pointer to the data stored in the array.
  */
 static inline void **cdc_array_data(struct cdc_array *v)
 {
@@ -157,17 +163,17 @@ static inline void **cdc_array_data(struct cdc_array *v)
  * @brief Attempts to allocate memory for at least size elements.
  * If you know in advance how large the array will be, you should call this
  * function to prevent reallocations and memory fragmentation.
- * @param v - cdc_array
- * @param capacity
+ * @param[in] v - cdc_array
+ * @param[in] capacity - new capacity
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_array_reserve(struct cdc_array *v, size_t capacity);
 
 /**
- * @brief Returns true if the array has size 0; otherwise returns false.
- * @param v - cdc_array
- * @return true if the array has size 0; otherwise returns false
+ * @brief Checks if the array has no elements.
+ * @param[in] v - cdc_array
+ * @return true if the array is empty, false otherwise.
  */
 static inline bool cdc_array_empty(struct cdc_array *v)
 {
@@ -177,9 +183,9 @@ static inline bool cdc_array_empty(struct cdc_array *v)
 }
 
 /**
- * @brief Returns the number of items in the array.
- * @param v - cdc_array
- * @return size
+ * @brief Returns the number of elements in the array.
+ * @param[in] v - cdc_array
+ * @return the number of elements in the array.
  */
 static inline size_t cdc_array_size(struct cdc_array *v)
 {
@@ -189,10 +195,9 @@ static inline size_t cdc_array_size(struct cdc_array *v)
 }
 
 /**
- * @brief Returns the maximum number of items that can be stored in the array
- * without forcing a reallocation.
- * @param v - cdc_array
- * @return capacity
+ * @brief Returns the number of elements that the container has currently allocated space for.
+ * @param[in] v - cdc_array
+ * @return capacity of the currently allocated storage.
  */
 static inline size_t cdc_array_capacity(struct cdc_array *v)
 {
@@ -203,7 +208,7 @@ static inline size_t cdc_array_capacity(struct cdc_array *v)
 
 /**
  * @brief Requests the container to reduce its capacity to fit its size.
- * @param v - cdc_array
+ * @param[in] v - cdc_array
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
  * an error
  */
@@ -211,11 +216,11 @@ enum cdc_stat cdc_array_shrink_to_fit(struct cdc_array *v);
 
 // Modifiers
 /**
- * @brief Sets the array at index position to the value. The function is not
+ * @brief Sets an element at index position to the value. The function is not
  * called to free memory.
- * @param v - cdc_array
- * @param index - index position where the value will be written
- * @param value
+ * @param[in] v - cdc_array
+ * @param[in] index - index position where the value will be written
+ * @param[in] value - value
  */
 static inline void cdc_array_set(struct cdc_array *v, size_t index, void *value)
 {
@@ -226,43 +231,42 @@ static inline void cdc_array_set(struct cdc_array *v, size_t index, void *value)
 }
 
 /**
- * @brief Inserts value at index position in the array. If index is 0, the
+ * @brief Inserts value at |index| position in the array. If index is 0, the
  * value is prepended to the array. If index is cdc_array_size(), the value is
  * appended to the array.
- * @param v - cdc_array
- * @param index - index position where the value will be inserted
- * @param value
+ * @param[in] v - cdc_array
+ * @param[in] index - index position where an element will be inserted
+ * @param[in] value - value
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_array_insert(struct cdc_array *v, size_t index, void *value);
 
 /**
- * @brief Removes the element at index position. Index must be a valid index
- * position in the array.
- * @param v - cdc_array
- * @param index - index position where the item will be removed
+ * @brief Removes an element at index position in the arrray.
+ * @param[in] v - cdc_array
+ * @param[in] index - index position where an element will be removed
  */
 void cdc_array_erase(struct cdc_array *v, size_t index);
 
 /**
  * @brief Removes all the elements from the array.
- * @param v - cdc_array
+ * @param[in] v - cdc_array
  */
 void cdc_array_clear(struct cdc_array *v);
 
 /**
- * @brief Inserts value at the end of the array.
- * @param v - cdc_array
- * @param value
+ * @brief Inserts an element at the end of the array.
+ * @param[in] v - cdc_array
+ * @param[in] value - value
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_array_push_back(struct cdc_array *v, void *value);
 
 /**
- * @brief Removes the last item in the array.
- * @param v - cdc_array
+ * @brief Removes a last element in the array.
+ * @param[in] v - cdc_array
  */
 static inline void cdc_array_pop_back(struct cdc_array *v)
 {
@@ -273,29 +277,29 @@ static inline void cdc_array_pop_back(struct cdc_array *v)
 }
 
 /**
- * @brief Appends the data onto the end of cdc_array v.
- * @param v - cdc_array
- * @param data - pointer on data
- * @param len - count of data elements
+ * @brief Appends elements at the end of array.
+ * @param[in] v - cdc_array
+ * @param[in] data - pointer on data
+ * @param[in] len - the number of data elements
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_array_append(struct cdc_array *v, void **data, size_t len);
 
 /**
- * @brief Appends the cdc_array other onto the end of cdc_array v.
- * @param v - cdc_array
- * @param other - cdc_array
+ * @brief Appends one array to the end of other array.
+ * @param[in] v - cdc_array
+ * @param[in] other - cdc_array
  * @return CDC_STATUS_OK in a successful case or an excellent value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_array_append_move(struct cdc_array *v,
                                     struct cdc_array *other);
 
 /**
- * @brief Swaps arrays a and b. This operation is very fast and never fails.
- * @param a - cdc_array
- * @param b - cdc_array
+ * @brief Swaps arrays. This operation is very fast and never fails.
+ * @param[in, out] a - cdc_array
+ * @param[in, out] b - cdc_array
  */
 void cdc_array_swap(struct cdc_array *a, struct cdc_array *b);
 
