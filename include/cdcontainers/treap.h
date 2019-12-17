@@ -21,7 +21,7 @@
 /**
  * @file
  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
- * @brief The cdc_treap is a struct and functions that provide a cartesion tree
+ * @brief The cdc_treap is a struct and functions that provide a cartesion tree.
  */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_TREAP_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_TREAP_H
@@ -36,7 +36,7 @@
 typedef int (*cdc_priority_fn_t)(void *);
 
 /**
- * @brief The cdc_treap_node struct
+ * @brief The cdc_treap_node is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
@@ -50,7 +50,7 @@ struct cdc_treap_node {
 };
 
 /**
- * @brief The cdc_treap struct
+ * @brief The cdc_treap is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
@@ -62,7 +62,7 @@ struct cdc_treap {
 };
 
 /**
- * @brief The cdc_treap_iter struct
+ * @brief The cdc_treap_iter is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
@@ -83,88 +83,98 @@ struct cdc_pair_treap_iter_bool {
 };
 
 /**
- * @brief Constructs an empty treap
- * @param t - cdc_treap
- * @param info - cdc_data_info
+ * @brief Constructs an empty treap.
+ * @param[out] t - cdc_treap
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_treap_ctor(struct cdc_treap **t, struct cdc_data_info *info);
 
 /**
- * @brief Constructs a treap, initialized by an arbitrary number of
+ * @brief Constructs a treap, initialized by an variable number of
  * pointers on cdc_pair's(first - key, and the second - value).  The last item
- * must be NULL.
- * @param t - cdc_treap
- * @param info - cdc_data_info
+ * must be CDC_END.
+ * @param[out] t - cdc_treap
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
+ *
+ * Example:
+ * @code{.c}
+ * struct cdc_treap *tree = NULL;
+ * cdc_pair value1 = {CDC_FROM_INT(1), CDC_FROM_INT(2)};
+ * cdc_pair value2 = {CDC_FROM_INT(3), CDC_FROM_INT(4)};
+ * ...
+ * if (cdc_treap_ctorl(&tree, info, &value1, &value2, CDC_END) != CDC_STATUS_OK) {
+ *   // handle error
+ * }
+ * @endcode
  */
 enum cdc_stat cdc_treap_ctorl(struct cdc_treap **t, struct cdc_data_info *info,
                               ...);
 
 /**
- * @brief Constructs a treap, initialized by args. The last item must be NULL.
- * @param t - cdc_treap
- * @param info - cdc_data_info
+ * @brief Constructs a treap, initialized by args. The last item must be
+ * CDC_END.
+ * @param[out] t - cdc_treap
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_treap_ctorv(struct cdc_treap **t, struct cdc_data_info *info,
                               va_list args);
 
 /**
- * @brief Constructs an empty treap
- * @param t - cdc_treap
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @param prior - function that generates a priority
+ * @brief Constructs an empty treap.
+ * @param[out] t - cdc_treap
+ * @param[in] info - cdc_data_info
+ * @param[in] prior - function that generates a priority
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_treap_ctor1(struct cdc_treap **t, struct cdc_data_info *info,
                               cdc_priority_fn_t prior);
 
 /**
- * @brief Constructs a treap, initialized by an arbitrary number of
+ * @brief Constructs a treap, initialized by an variable number of
  * pointers on cdc_pair's(first - key, and the second - value).  The last item
- * must be NULL.
- * @param t - cdc_treap
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @param prior - function that generates a priority
+ * must be CDC_END.
+ * @param[out] t - cdc_treap
+ * @param[in] info - cdc_data_info
+ * @param[in] prior - function that generates a priority
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_treap_ctorl1(struct cdc_treap **t, struct cdc_data_info *info,
                                cdc_priority_fn_t prior, ...);
 
 /**
- * @brief Constructs a treap, initialized by args. The last item must be NULL.
- * @param t - cdc_treap
- * @param info - cdc_data_info
- * @param compar - function that specifies a strict ordering
- * @param prior - function that generates a priority
+ * @brief Constructs a treap, initialized by args. The last item must be
+ * CDC_END.
+ * @param[out] t - cdc_treap
+ * @param[in] info - cdc_data_info
+ * @param[in] prior - function that generates a priority
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_treap_ctorv1(struct cdc_treap **t, struct cdc_data_info *info,
                                cdc_priority_fn_t prior, va_list args);
 
 /**
  * @brief Destroys the treap.
- * @param t - cdc_treap
+ * @param[in] t - cdc_treap
  */
 void cdc_treap_dtor(struct cdc_treap *t);
 
 // Lookup
 /**
- * @brief Returns a pinter to the value that is mapped to a key. If the key does
+ * @brief Returns a value that is mapped to a key. If the key does
  * not exist, then NULL will return.
- * @param t - cdc_treap
- * @param key - key of the element to find
- * @param value - pinter to the value that is mapped to a key.
- * @return if the key is found - CDC_STATUS_OK, otherwise - CDC_STATUS_NOT_FOUND
+ * @param[in] t - cdc_treap
+ * @param[in] key - key of the element to find
+ * @param[out] value - pinter to the value that is mapped to a key.
+ * @return CDC_STATUS_OK if the key is found, CDC_STATUS_NOT_FOUND otherwise.
  */
 enum cdc_stat cdc_treap_get(struct cdc_treap *t, void *key, void **value);
 
@@ -172,17 +182,17 @@ enum cdc_stat cdc_treap_get(struct cdc_treap *t, void *key, void **value);
  * @brief Returns the number of elements with key that compares equal to the
  * specified argument key, which is either 1 or 0 since this container does not
  * allow duplicates.
- * @param t - cdc_treap
- * @param key - key value of the elements to count
+ * @param[in] t - cdc_treap
+ * @param[in] key - key value of the elements to count
  * @return number of elements with key key, that is either 1 or 0.
  */
 size_t cdc_treap_count(struct cdc_treap *t, void *key);
 
 /**
  * @brief Finds an element with key equivalent to key.
- * @param t - cdc_treap
- * @param key - key value of the element to search for
- * @param it - pointer will be recorded iterator to an element with key
+ * @param[in] t - cdc_treap
+ * @param[in] key - key value of the element to search for
+ * @param[out] it - pointer will be recorded iterator to an element with key
  * equivalent to key. If no such element is found, past-the-end iterator is
  * returned.
  */
@@ -193,9 +203,9 @@ void cdc_treap_find(struct cdc_treap *t, void *key, struct cdc_treap_iter *it);
  * The range is defined by two iterators, the first pointing to the first
  * element of the wanted range and the second pointing past the last element of
  * the range.
- * @param t - cdc_treap
- * @param key - key value to compare the elements to
- * @param pair - pointer will be recorded a pair of iterators defining the
+ * @param[in] t - cdc_treap
+ * @param[in] key - key value to compare the elements to
+ * @param[out] pair - pointer will be recorded a pair of iterators defining the
  * wanted range. If there are no such elements, past-the-end iterators are
  * returned as both elements of the pair.
  */
@@ -205,8 +215,8 @@ void cdc_treap_equal_range(struct cdc_treap *t, void *key,
 // Capacity
 /**
  * @brief Returns the number of items in the treap.
- * @param t - cdc_treap
- * @return size
+ * @param[in] t - cdc_treap
+ * @return the number of items in the treap.
  */
 static inline size_t cdc_treap_size(struct cdc_treap *t)
 {
@@ -216,9 +226,9 @@ static inline size_t cdc_treap_size(struct cdc_treap *t)
 }
 
 /**
- * @brief Returns true if the treap has size 0; otherwise returns false.
- * @param t - cdc_treap
- * @return true if the hash treap has size 0; otherwise returns false
+ * @brief Checks if the treap has no elements.
+ * @param[in] t - cdc_treap
+ * @return true if the treap is empty, false otherwise.
  */
 static inline bool cdc_treap_empty(struct cdc_treap *t)
 {
@@ -230,52 +240,52 @@ static inline bool cdc_treap_empty(struct cdc_treap *t)
 // Modifiers
 /**
  * @brief Removes all the elements from the treap.
- * @param t - cdc_treap
+ * @param[in] t - cdc_treap
  */
 void cdc_treap_clear(struct cdc_treap *t);
 
 /**
- * @brief Inserts element into the container, if the container doesn't already
+ * @brief Inserts an element into the container, if the container doesn't already
  * contain an element with an equivalent key.
- * @param t - cdc_treap
- * @param key - key of the element
- * @param value - value of the element
- * @param ret - pair consisting of an iterator to the inserted element (or to
+ * @param[in] t - cdc_treap
+ * @param[in] key - key of the element
+ * @param[in] value - value of the element
+ * @param[out] ret - pair consisting of an iterator to the inserted element (or to
  * the element that prevented the insertion) and a bool denoting whether the
- * insertion took place. The pointer can be equal to NULL
+ * insertion took place. The pointer can be equal to NULL.
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_treap_insert(struct cdc_treap *t, void *key, void *value,
                                struct cdc_pair_treap_iter_bool *ret);
 
 /**
- * @brief Inserts element into the container, if the container doesn't already
+ * @brief Inserts an element into the container, if the container doesn't already
  * contain an element with an equivalent key.
- * @param t - cdc_map
- * @param key - key of the element
- * @param value - value of the element
- * @param it - iterator to the inserted element (or to the element that
- * prevented the insertion). The pointer can be equal to NULL
- * @param inserted - bool denoting whether the insertion
- * took place. The pointer can be equal to NULL
+ * @param[in] t - cdc_treap
+ * @param[in] key - key of the element
+ * @param[in] value - value of the element
+ * @param[out] it - iterator to the inserted element (or to the element that
+ * prevented the insertion). The pointer can be equal to NULL.
+ * @param[out] inserted - bool denoting whether the insertion
+ * took place. The pointer can be equal to NULL.
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_treap_insert1(struct cdc_treap *t, void *key, void *value,
                                 struct cdc_treap_iter *it, bool *inserted);
 
 /**
  * @brief Inserts an element or assigns to the current element if the key
- * already exists
- * @param t - cdc_treap
- * @param key - key of the element
- * @param value - value of the element
- * @param ret - pair. The bool component is true if the insertion took place and
+ * already exists.
+ * @param[in] t - cdc_treap
+ * @param[in] key - key of the element
+ * @param[in] value - value of the element
+ * @param[out] ret - pair. The bool component is true if the insertion took place and
  * false if the assignment took place. The iterator component is pointing at the
- * element that was inserted or updated
+ * element that was inserted or updated.
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_treap_insert_or_assign(struct cdc_treap *t, void *key,
                                          void *value,
@@ -283,16 +293,16 @@ enum cdc_stat cdc_treap_insert_or_assign(struct cdc_treap *t, void *key,
 
 /**
  * @brief Inserts an element or assigns to the current element if the key
- * already exists
- * @param t - cdc_map
- * @param key - key of the element
- * @param value - value of the element
- * @param it - iterator is pointing at the element that was inserted or updated.
+ * already exists.
+ * @param[in] t - cdc_treap
+ * @param[in] key - key of the element
+ * @param[in] value - value of the element
+ * @param[out] it - iterator is pointing at the element that was inserted or updated.
  * The pointer can be equal to NULL
- * @param inserted - bool is true if the insertion took place and false if the
+ * @param[out] inserted - bool is true if the insertion took place and false if the
  * assignment took place. The pointer can be equal to NULL
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_treap_insert_or_assign1(struct cdc_treap *t, void *key,
                                           void *value,
@@ -301,47 +311,52 @@ enum cdc_stat cdc_treap_insert_or_assign1(struct cdc_treap *t, void *key,
 
 /**
  * @brief Removes the element (if one exists) with the key equivalent to key.
- * @param t - cdc_treap
- * @param key - key value of the elements to remove
- * @return number of elements removed
+ * @param[in] t - cdc_treap
+ * @param[in] key - key value of the elements to remove
+ * @return number of elements removed.
  */
 size_t cdc_treap_erase(struct cdc_treap *t, void *key);
 
 /**
  * @brief Swaps treaps a and b. This operation is very fast and never fails.
- * @param a - cdc_treap
- * @param b - cdc_treap
+ * @param[in, out] a - cdc_treap
+ * @param[in, out] b - cdc_treap
  */
 void cdc_treap_swap(struct cdc_treap *a, struct cdc_treap *b);
 
 // Iterators
 /**
- * @brief Initializes the iterator to the beginning
- * @param t - cdc_treap
- * @param it - cdc_treap_iter
+ * @brief Initializes the iterator to the beginning.
+ * @param t[in] - cdc_treap
+ * @param it[out] - cdc_treap_iter
  */
 void cdc_treap_begin(struct cdc_treap *t, struct cdc_treap_iter *it);
 
 /**
- * @brief Initializes the iterator to the end
- * @param t - cdc_treap
- * @param it - cdc_treap_iter
+ * @brief Initializes the iterator to the end.
+ * @param[in] t - cdc_treap
+ * @param[out] it - cdc_treap_iter
  */
 void cdc_treap_end(struct cdc_treap *t, struct cdc_treap_iter *it);
 
 // Iterators
 /**
- * @brief Advances the iterator to the next item in the treap
+ * @brief Advances the iterator to the next element in the treap.
+ * @param[in] it - iterator
  */
 void cdc_treap_iter_next(struct cdc_treap_iter *it);
 
 /**
- * @brief Advances the iterator to the previous item in the treap.
+ * @brief Advances the iterator to the previous element in the treap.
+ * @param[in] it - iterator
  */
 void cdc_treap_iter_prev(struct cdc_treap_iter *it);
 
 /**
- * @brief Returns true if there is at least one item ahead of the iterator, i.e.
+ * @brief Returns true if there is at least one element ahead of the iterator, i.e.
+ * the iterator is not at the back of the container; otherwise returns false.
+ * @param[in] it - iterator
+ * @return true if there is at least one element ahead of the iterator, i.e.
  * the iterator is not at the back of the container; otherwise returns false.
  */
 static inline bool cdc_treap_iter_has_next(struct cdc_treap_iter *it)
@@ -352,7 +367,10 @@ static inline bool cdc_treap_iter_has_next(struct cdc_treap_iter *it)
 }
 
 /**
- * @brief Returns true if there is at least one item behind the iterator, i.e.
+ * @brief Returns true if there is at least one element behind the iterator, i.e.
+ * the iterator is not at the front of the container; otherwise returns false.
+ * @param[in] it - iterator
+ * @return true if there is at least one element behind the iterator, i.e.
  * the iterator is not at the front of the container; otherwise returns false.
  */
 static inline bool cdc_treap_iter_has_prev(struct cdc_treap_iter *it)
@@ -363,7 +381,9 @@ static inline bool cdc_treap_iter_has_prev(struct cdc_treap_iter *it)
 }
 
 /**
- * @brief Returns a pointer to the item's key.
+ * @brief Returns an item's key.
+ * @param[in] it - iterator
+ * @return the item's key.
  */
 static inline void *cdc_treap_iter_key(struct cdc_treap_iter *it)
 {
@@ -373,7 +393,9 @@ static inline void *cdc_treap_iter_key(struct cdc_treap_iter *it)
 }
 
 /**
- * @brief Returns a pointer to the item's value.
+ * @brief Returns an item's value.
+ * @param[in] it - iterator
+ * @return the item's value.
  */
 static inline void *cdc_treap_iter_value(struct cdc_treap_iter *it)
 {
@@ -384,6 +406,8 @@ static inline void *cdc_treap_iter_value(struct cdc_treap_iter *it)
 
 /**
  * @brief Returns a pair, where first - key, second - value.
+ * @param[in] it - iterator
+ * @return pair, where first - key, second - value.
  */
 static inline struct cdc_pair cdc_treap_iter_key_value(
     struct cdc_treap_iter *it)
@@ -395,7 +419,11 @@ static inline struct cdc_pair cdc_treap_iter_key_value(
 }
 
 /**
- * @brief Returns false if the iterator it1 equal to the iterator it2,
+ * @brief Returns false if the iterator |it1| equal to the iterator |it2|,
+ * otherwise returns false.
+ * @param[in] it1 - iterator
+ * @param[in] it2 - iterator
+ * @return false if the iterator |it1| equal to the iterator |it2|,
  * otherwise returns false.
  */
 static inline bool cdc_treap_iter_is_eq(struct cdc_treap_iter *it1,
