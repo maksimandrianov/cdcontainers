@@ -21,7 +21,7 @@
 /**
  * @file
  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
- * @brief The cdc_avl_tree is a struct and functions that provide a avl tree
+ * @brief The cdc_avl_tree is a struct and functions that provide a avl tree.
  */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_avl_tree_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_avl_tree_H
@@ -34,7 +34,7 @@
 #include <stdbool.h>
 
 /**
- * @brief The cdc_avl_tree_node struct
+ * @brief The cdc_avl_tree_node is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
@@ -48,7 +48,7 @@ struct cdc_avl_tree_node {
 };
 
 /**
- * @brief The cdc_avl_tree struct
+ * @brief The cdc_avl_tree is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
@@ -59,7 +59,7 @@ struct cdc_avl_tree {
 };
 
 /**
- * @brief The cdc_avl_tree_iter struct
+ * @brief The cdc_avl_tree_iter is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
@@ -81,51 +81,62 @@ struct cdc_pair_avl_tree_iter_bool {
 
 /**
  * @brief Constructs an empty avl tree.
- * @param t - cdc_avl_tree
- * @param info - cdc_data_info
+ * @param[out] t - cdc_avl_tree
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_avl_tree_ctor(struct cdc_avl_tree **t,
                                 struct cdc_data_info *info);
 
 /**
- * @brief Constructs a avl tree, initialized by an arbitrary number of
+ * @brief Constructs a avl tree, initialized by an variable number of
  * pointers on cdc_pair's(first - key, and the second - value).  The last item
- * must be NULL.
- * @param t - cdc_avl_tree
- * @param info - cdc_data_info
+ * must be CDC_END.
+ * @param[out] t - cdc_avl_tree
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
+ *
+ * Example:
+ * @code{.c}
+ * struct cdc_avl_tree *tree = NULL;
+ * cdc_pair value1 = {CDC_FROM_INT(1), CDC_FROM_INT(2)};
+ * cdc_pair value2 = {CDC_FROM_INT(3), CDC_FROM_INT(4)};
+ * ...
+ * if (cdc_avl_tree_ctorl(&tree, info, &value1, &value2, CDC_END) != CDC_STATUS_OK) {
+ *   // handle error
+ * }
+ * @endcode
  */
 enum cdc_stat cdc_avl_tree_ctorl(struct cdc_avl_tree **t,
                                  struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs a avl tree, initialized by args. The last item must be
- * NULL.
- * @param t - cdc_avl_tree
- * @param info - cdc_data_info
+ * CDC_END.
+ * @param[out] t - cdc_avl_tree
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_avl_tree_ctorv(struct cdc_avl_tree **t,
                                  struct cdc_data_info *info, va_list args);
 
 /**
  * @brief Destroys the avl tree.
- * @param t - cdc_avl_tree
+ * @param[in] t - cdc_avl_tree
  */
 void cdc_avl_tree_dtor(struct cdc_avl_tree *t);
 
 // Lookup
 /**
- * @brief Returns a pinter to the value that is mapped to a key. If the key does
+ * @brief Returns a value that is mapped to a key. If the key does
  * not exist, then NULL will return.
- * @param t - cdc_avl_tree
- * @param key - key of the element to find
- * @param value - pinter to the value that is mapped to a key.
- * @return if the key is found - CDC_STATUS_OK, otherwise - CDC_STATUS_NOT_FOUND
+ * @param[in] t - cdc_avl_tree
+ * @param[in] key - key of the element to find
+ * @param[out] value - pinter to the value that is mapped to a key.
+ * @return CDC_STATUS_OK if the key is found, CDC_STATUS_NOT_FOUND otherwise.
  */
 enum cdc_stat cdc_avl_tree_get(struct cdc_avl_tree *t, void *key, void **value);
 
@@ -133,17 +144,17 @@ enum cdc_stat cdc_avl_tree_get(struct cdc_avl_tree *t, void *key, void **value);
  * @brief Returns the number of elements with key that compares equal to the
  * specified argument key, which is either 1 or 0 since this container does not
  * allow duplicates.
- * @param t - cdc_avl_tree
- * @param key - key value of the elements to count
+ * @param[in] t - cdc_avl_tree
+ * @param[in] key - key value of the elements to count
  * @return number of elements with key key, that is either 1 or 0.
  */
 size_t cdc_avl_tree_count(struct cdc_avl_tree *t, void *key);
 
 /**
  * @brief Finds an element with key equivalent to key.
- * @param t - cdc_avl_tree
- * @param key - key value of the element to search for
- * @param it - pointer will be recorded iterator to an element with key
+ * @param[in] t - cdc_avl_tree
+ * @param[in] key - key value of the element to search for
+ * @param[out] it - pointer will be recorded iterator to an element with key
  * equivalent to key. If no such element is found, past-the-end iterator is
  * returned.
  */
@@ -153,8 +164,8 @@ void cdc_avl_tree_find(struct cdc_avl_tree *t, void *key,
 // Capacity
 /**
  * @brief Returns the number of items in the avl_tree.
- * @param t - cdc_avl_tree
- * @return size
+ * @param[in] t - cdc_avl_tree
+ * @return the number of items in the avl_tree.
  */
 static inline size_t cdc_avl_tree_size(struct cdc_avl_tree *t)
 {
@@ -164,9 +175,9 @@ static inline size_t cdc_avl_tree_size(struct cdc_avl_tree *t)
 }
 
 /**
- * @brief Returns true if the avl_tree has size 0; otherwise returns false.
- * @param t - cdc_avl_tree
- * @return true if the hash avl_tree has size 0; otherwise returns false
+ * @brief Checks if the avl tree has no elements.
+ * @param[in] t - cdc_avl_tree
+ * @return true if the avl tree is empty, false otherwise.
  */
 static inline bool cdc_avl_tree_empty(struct cdc_avl_tree *t)
 {
@@ -178,38 +189,38 @@ static inline bool cdc_avl_tree_empty(struct cdc_avl_tree *t)
 // Modifiers
 /**
  * @brief Removes all the elements from the avl_tree.
- * @param t - cdc_avl_tree
+ * @param[in] t - cdc_avl_tree
  */
 void cdc_avl_tree_clear(struct cdc_avl_tree *t);
 
 /**
- * @brief Inserts element into the container, if the container doesn't already
+ * @brief Inserts an element into the container, if the container doesn't already
  * contain an element with an equivalent key.
- * @param t - cdc_avl_tree
- * @param key - key of the element
- * @param value - value of the element
- * @param ret - pair consisting of an iterator to the inserted element (or to
+ * @param[in] t - cdc_avl_tree
+ * @param[in] key - key of the element
+ * @param[in] value - value of the element
+ * @param[out] ret - pair consisting of an iterator to the inserted element (or to
  * the element that prevented the insertion) and a bool denoting whether the
- * insertion took place. The pointer can be equal to NULL
+ * insertion took place. The pointer can be equal to NULL.
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_avl_tree_insert(struct cdc_avl_tree *t, void *key,
                                   void *value,
                                   struct cdc_pair_avl_tree_iter_bool *ret);
 
 /**
- * @brief Inserts element into the container, if the container doesn't already
+ * @brief Inserts an element into the container, if the container doesn't already
  * contain an element with an equivalent key.
- * @param t - cdc_map
- * @param key - key of the element
- * @param value - value of the element
- * @param it - iterator to the inserted element (or to the element that
- * prevented the insertion). The pointer can be equal to NULL
- * @param inserted - bool denoting whether the insertion
- * took place. The pointer can be equal to NULL
+ * @param[in] t - cdc_avl_tree
+ * @param[in] key - key of the element
+ * @param[in] value - value of the element
+ * @param[out] it - iterator to the inserted element (or to the element that
+ * prevented the insertion). The pointer can be equal to NULL.
+ * @param[out] inserted - bool denoting whether the insertion
+ * took place. The pointer can be equal to NULL.
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_avl_tree_insert1(struct cdc_avl_tree *t, void *key,
                                    void *value, struct cdc_avl_tree_iter *it,
@@ -217,15 +228,15 @@ enum cdc_stat cdc_avl_tree_insert1(struct cdc_avl_tree *t, void *key,
 
 /**
  * @brief Inserts an element or assigns to the current element if the key
- * already exists
- * @param t - cdc_avl_tree
- * @param key - key of the element
- * @param value - value of the element
- * @param ret - pair. The bool component is true if the insertion took place and
+ * already exists.
+ * @param[in] t - cdc_avl_tree
+ * @param[in] key - key of the element
+ * @param[in] value - value of the element
+ * @param[out] ret - pair. The bool component is true if the insertion took place and
  * false if the assignment took place. The iterator component is pointing at the
- * element that was inserted or updated
+ * element that was inserted or updated.
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_avl_tree_insert_or_assign(
     struct cdc_avl_tree *t, void *key, void *value,
@@ -233,16 +244,16 @@ enum cdc_stat cdc_avl_tree_insert_or_assign(
 
 /**
  * @brief Inserts an element or assigns to the current element if the key
- * already exists
- * @param t - cdc_map
- * @param key - key of the element
- * @param value - value of the element
- * @param it - iterator is pointing at the element that was inserted or updated.
+ * already exists.
+ * @param[in] t - cdc_avl_tree
+ * @param[in] key - key of the element
+ * @param[in] value - value of the element
+ * @param[out] it - iterator is pointing at the element that was inserted or updated.
  * The pointer can be equal to NULL
- * @param inserted - bool is true if the insertion took place and false if the
+ * @param[out] inserted - bool is true if the insertion took place and false if the
  * assignment took place. The pointer can be equal to NULL
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_avl_tree_insert_or_assign1(struct cdc_avl_tree *t, void *key,
                                              void *value,
@@ -251,47 +262,52 @@ enum cdc_stat cdc_avl_tree_insert_or_assign1(struct cdc_avl_tree *t, void *key,
 
 /**
  * @brief Removes the element (if one exists) with the key equivalent to key.
- * @param t - cdc_avl_tree
- * @param key - key value of the elements to remove
- * @return number of elements removed
+ * @param[in] t - cdc_avl_tree
+ * @param[in] key - key value of the elements to remove
+ * @return number of elements removed.
  */
 size_t cdc_avl_tree_erase(struct cdc_avl_tree *t, void *key);
 
 /**
  * @brief Swaps avl_trees a and b. This operation is very fast and never fails.
- * @param a - cdc_avl_tree
- * @param b - cdc_avl_tree
+ * @param[in, out] a - cdc_avl_tree
+ * @param[in, out] b - cdc_avl_tree
  */
 void cdc_avl_tree_swap(struct cdc_avl_tree *a, struct cdc_avl_tree *b);
 
 // Iterators
 /**
- * @brief Initializes the iterator to the beginning
- * @param t - cdc_avl_tree
- * @param it - cdc_avl_tree_iter
+ * @brief Initializes the iterator to the beginning.
+ * @param[in] t - cdc_avl_tree
+ * @param[out] it - cdc_avl_tree_iter
  */
 void cdc_avl_tree_begin(struct cdc_avl_tree *t, struct cdc_avl_tree_iter *it);
 
 /**
- * @brief Initializes the iterator to the end
- * @param t - cdc_avl_tree
- * @param it - cdc_avl_tree_iter
+ * @brief Initializes the iterator to the end.
+ * @param[in] t - cdc_avl_tree
+ * @param[out] it - cdc_avl_tree_iter
  */
 void cdc_avl_tree_end(struct cdc_avl_tree *t, struct cdc_avl_tree_iter *it);
 
 // Iterators
 /**
- * @brief Advances the iterator to the next item in the avl tree
+ * @brief Advances the iterator to the next element in the avl tree.
+ * @param[in] it - iterator
  */
 void cdc_avl_tree_iter_next(struct cdc_avl_tree_iter *it);
 
 /**
- * @brief Advances the iterator to the previous item in the avl tree.
+ * @brief Advances the iterator to the previous element in the avl tree.
+ * @param[in] it - iterator
  */
 void cdc_avl_tree_iter_prev(struct cdc_avl_tree_iter *it);
 
 /**
- * @brief Returns true if there is at least one item ahead of the iterator, i.e.
+ * @brief Returns true if there is at least one element ahead of the iterator, i.e.
+ * the iterator is not at the back of the container; otherwise returns false.
+ * @param[in] it - iterator
+ * @return true if there is at least one element ahead of the iterator, i.e.
  * the iterator is not at the back of the container; otherwise returns false.
  */
 static inline bool cdc_avl_tree_iter_has_next(struct cdc_avl_tree_iter *it)
@@ -302,7 +318,10 @@ static inline bool cdc_avl_tree_iter_has_next(struct cdc_avl_tree_iter *it)
 }
 
 /**
- * @brief Returns true if there is at least one item behind the iterator, i.e.
+ * @brief Returns true if there is at least one element behind the iterator, i.e.
+ * the iterator is not at the front of the container; otherwise returns false.
+ * @param[in] it - iterator
+ * @return true if there is at least one element behind the iterator, i.e.
  * the iterator is not at the front of the container; otherwise returns false.
  */
 static inline bool cdc_avl_tree_iter_has_prev(struct cdc_avl_tree_iter *it)
@@ -313,7 +332,9 @@ static inline bool cdc_avl_tree_iter_has_prev(struct cdc_avl_tree_iter *it)
 }
 
 /**
- * @brief Returns a pointer to the item's key.
+ * @brief Returns an item's key.
+ * @param[in] it - iterator
+ * @return the item's key.
  */
 static inline void *cdc_avl_tree_iter_key(struct cdc_avl_tree_iter *it)
 {
@@ -323,7 +344,9 @@ static inline void *cdc_avl_tree_iter_key(struct cdc_avl_tree_iter *it)
 }
 
 /**
- * @brief Returns a pointer to the item's value.
+ * @brief Returns an item's value.
+ * @param[in] it - iterator
+ * @return the item's value.
  */
 static inline void *cdc_avl_tree_iter_value(struct cdc_avl_tree_iter *it)
 {
@@ -334,6 +357,8 @@ static inline void *cdc_avl_tree_iter_value(struct cdc_avl_tree_iter *it)
 
 /**
  * @brief Returns a pair, where first - key, second - value.
+ * @param[in] it - iterator
+ * @return pair, where first - key, second - value.
  */
 static inline struct cdc_pair cdc_avl_tree_iter_key_value(
     struct cdc_avl_tree_iter *it)
@@ -341,12 +366,15 @@ static inline struct cdc_pair cdc_avl_tree_iter_key_value(
   assert(it != NULL);
 
   struct cdc_pair pair = {it->prev->key, it->prev->value};
-
   return pair;
 }
 
 /**
- * @brief Returns false if the iterator it1 equal to the iterator it2,
+ * @brief Returns false if the iterator |it1| equal to the iterator |it2|,
+ * otherwise returns false.
+ * @param[in] it1 - iterator
+ * @param[in] it2 - iterator
+ * @return false if the iterator |it1| equal to the iterator |it2|,
  * otherwise returns false.
  */
 static inline bool cdc_avl_tree_iter_is_eq(struct cdc_avl_tree_iter *it1,
