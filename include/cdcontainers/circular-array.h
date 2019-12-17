@@ -22,7 +22,7 @@
  * @file
  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
  * @brief The cdc_circular_array is a struct and functions that provide a
- * double-ended queue
+ * circular array.
  */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_CIRCULAR_ARRAY_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_CIRCULAR_ARRAY_H
@@ -36,7 +36,7 @@
 #include <stdlib.h>
 
 /**
- * @brief The cdc_circular_array struct
+ * @brief The cdc_circular_array is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
@@ -51,32 +51,40 @@ struct cdc_circular_array {
 
 /**
  * @brief Constructs an empty circular array.
- * @param d - cdc_circular_array
- * @param info - cdc_data_info
+ * @param[out] d - cdc_circular_array
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_circular_array_ctor(struct cdc_circular_array **d,
                                       struct cdc_data_info *info);
 
 /**
- * @brief Constructs a circular array, initialized by an arbitrary number of
- * pointers. The last item must be NULL.
- * @param d - cdc_circular_array
- * @param info - cdc_data_info
+ * @brief Constructs a circular array, initialized by an variable number of pointers.
+ * The last pointer must be CDC_END.
+ * @param[out] d - cdc_circular_array
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
+ *
+ * Example:
+ * @code{.c}
+ * struct cdc_circular_array *carr = NULL;
+ * if (cdc_circular_array_ctorl(&carr, NULL, CDC_FROM_INT(1),
+ *                              CDC_FROM_INT(2), CDC_END) != CDC_STATUS_OK) {
+ *   // handle error
+ * }
+ * @endcode
  */
 enum cdc_stat cdc_circular_array_ctorl(struct cdc_circular_array **d,
                                        struct cdc_data_info *info, ...);
 
 /**
- * @brief Constructs a circular array, initialized by args. The last item must
- * be NULL.
- * @param d - cdc_circular_array
- * @param info - cdc_data_info
+ * @brief Constructs a circular array, initialized by args. The last pointer must be CDC_END.
+ * @param[out] d - cdc_circular_array
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_circular_array_ctorv(struct cdc_circular_array **d,
                                        struct cdc_data_info *info,
@@ -84,17 +92,16 @@ enum cdc_stat cdc_circular_array_ctorv(struct cdc_circular_array **d,
 
 /**
  * @brief Destroys the circular array.
- * @param d - cdc_circular_array
+ * @param[in] d - cdc_circular_array
  */
 void cdc_circular_array_dtor(struct cdc_circular_array *d);
 
 // Element access
 /**
- * @brief Returns the item at index position index in the circular array. Index
- * must be a valid index position in the circular array.
- * @param d - cdc_circular_array
- * @param index - index of the item to return
- * @return item at the index position
+ * @brief Returns an element at index position in the circular array.
+ * @param[in] d - cdc_circular_array
+ * @param[in] index - index of an element to return
+ * @return element from |index| position.
  */
 static inline void *cdc_circular_array_get(struct cdc_circular_array *d,
                                            size_t index)
@@ -107,21 +114,21 @@ static inline void *cdc_circular_array_get(struct cdc_circular_array *d,
 }
 
 /**
- * @brief Writes to a elem the item at index position in the circular array.
- * @param d - cdc_circular_array
- * @param index - index of the item to write at elem
- * @param elem - pointer where the item will be written
+ * @brief Writes to pointer an element from specified position in the circular array.
+ * Bounds checking is performed.
+ * @param[in] d - cdc_circular_array
+ * @param[in] index - index of an element to write at elem
+ * @param[out] elem - pointer where an element will be written
  * @return DC_STATUS_OK in a successful case or CDC_STATUS_OUT_OF_RANGE if the
- * index is incorrect
+ * index is incorrect.
  */
 enum cdc_stat cdc_circular_array_at(struct cdc_circular_array *d, size_t index,
                                     void **elem);
 
 /**
- * @brief Returns a pointer to the first item in the circular array.
- * This function assumes that the circular array isn't empty.
- * @param d - cdc_circular_array
- * @return pointer to the first item in the circular array
+ * @brief Returns a first element in the circular array.
+ * @param[in] d - cdc_circular_array
+ * @return first element in the circular array.
  */
 static inline void *cdc_circular_array_front(struct cdc_circular_array *d)
 {
@@ -132,10 +139,9 @@ static inline void *cdc_circular_array_front(struct cdc_circular_array *d)
 }
 
 /**
- * @brief Returns a pointer to the last item in the circular array.
- * This function assumes that the circular array isn't empty.
- * @param d - cdc_circular_array
- * @return pointer to the last item in the circular array
+ * @brief Returns a last element in the circular array.
+ * @param[in] d - cdc_circular_array
+ * @return last element in the circular array.
  */
 static inline void *cdc_circular_array_back(struct cdc_circular_array *d)
 {
@@ -148,10 +154,9 @@ static inline void *cdc_circular_array_back(struct cdc_circular_array *d)
 
 // Capacity
 /**
- * @brief Returns true if the circular array has size 0; otherwise returns
- * false.
- * @param d - cdc_circular_array
- * @return true if the circular array has size 0; otherwise returns false
+ * @brief Checks if the circular array has no elements.
+ * @param[in] d - cdc_circular_array
+ * @return true if the circular array is empty, false otherwise.
  */
 static inline bool cdc_circular_array_empty(struct cdc_circular_array *d)
 {
@@ -161,9 +166,9 @@ static inline bool cdc_circular_array_empty(struct cdc_circular_array *d)
 }
 
 /**
- * @brief Returns the number of items in the circular array.
- * @param d - cdc_circular_array
- * @return size
+ * @brief Returns the number of elements in the circular array.
+ * @param[in] d - cdc_circular_array
+ * @return the number of elements in the circular array.
  */
 static inline size_t cdc_circular_array_size(struct cdc_circular_array *d)
 {
@@ -174,11 +179,11 @@ static inline size_t cdc_circular_array_size(struct cdc_circular_array *d)
 
 // Modifiers
 /**
- * @brief Sets the circular array at index position to the value. The function
- * is not called to free memory.
- * @param d - cdc_circular_array
- * @param index - index position where the value will be written
- * @param value
+ * @brief Sets an element at index position to the value. The function is not
+ * called to free memory.
+ * @param[in] d - cdc_circular_array
+ * @param[in] index - index position where the value will be written
+ * @param[in] value - value
  */
 static inline void cdc_circular_array_set(struct cdc_circular_array *d,
                                           size_t index, void *value)
@@ -191,61 +196,60 @@ static inline void cdc_circular_array_set(struct cdc_circular_array *d,
 }
 
 /**
- * @brief Inserts value at index position in the circular array. If index is 0,
- * the value is prepended to the circular array. If index is
- * cdc_circular_array_size(), the value is appended to the circular array.
- * @param d - cdc_circular_array
- * @param index - index position where the value will be inserted
- * @param value
+ * @brief Inserts value at |index| position in the circular array. If index is 0, the
+ * value is prepended to the circular array. If index is cdc_circular_array_size(), the value is
+ * appended to the circular array.
+ * @param[in] d - cdc_circular_array
+ * @param[in] index - index position where an element will be inserted
+ * @param[in] value - value
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_circular_array_insert(struct cdc_circular_array *d,
                                         size_t index, void *value);
 
 /**
- * @brief Removes the element at index position. Index must be a valid index
- * position in the circular array.
- * @param d - cdc_circular_array
- * @param index - index position where the item will be removed
+ * @brief Removes an element at index position in the circular arrray.
+ * @param[in] d - cdc_circular_array
+ * @param[in] index - index position where an element will be removed
  */
 void cdc_circular_array_erase(struct cdc_circular_array *d, size_t index);
 
 /**
  * @brief Removes all the elements from the circular array.
- * @param d - cdc_circular_array
+ * @param[in] d - cdc_circular_array
  */
 void cdc_circular_array_clear(struct cdc_circular_array *d);
 
 /**
- * @brief Inserts value at the end of the circular array.
- * @param d - cdc_circular_array
- * @param value
+ * @brief Inserts an element at the end of the circular array.
+ * @param[in] d - cdc_circular_array
+ * @param[in] value - value
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_circular_array_push_back(struct cdc_circular_array *d,
                                            void *value);
 
 /**
- * @brief Removes the last item in the circular array.
- * @param d - cdc_circular_array
+ * @brief Removes a last element in the circular array.
+ * @param[in] d - cdc_circular_array
  */
 void cdc_circular_array_pop_back(struct cdc_circular_array *d);
 
 /**
- * @brief Inserts value at the beginning of the circular array.
- * @param d - cdc_circular_array
- * @param value
+ * @brief Inserts an element at the beginning of the circular array.
+ * @param[in] d - cdc_circular_array
+ * @param[in] value - value
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_circular_array_push_front(struct cdc_circular_array *d,
                                             void *value);
 
 /**
- * @brief Removes the first item in the circular array.
- * @param d - cdc_circular_array
+ * @brief Removes a first element in the circular array.
+ * @param[in] d - cdc_circular_array
  */
 void cdc_circular_array_pop_front(struct cdc_circular_array *d);
 
