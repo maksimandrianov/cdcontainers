@@ -40,15 +40,13 @@ int handle_error(map_t *phone_book)
 void print_phone_book(map_t *phone_book)
 {
   map_iter_t iter = CDC_INIT_STRUCT;
-  if (map_iter_ctor(phone_book, &iter) != CDC_STATUS_OK)
-  {
+  if (map_iter_ctor(phone_book, &iter) != CDC_STATUS_OK) {
     printf("Error map_iter_init.\n");
     return;
   }
 
   map_begin(phone_book, &iter);
-  while (map_iter_has_next(&iter))
-  {
+  while (map_iter_has_next(&iter)) {
     printf("%s - %s\n",(char *)map_iter_key(&iter), (char *)map_iter_value(&iter));
     map_iter_next(&iter);
   }
