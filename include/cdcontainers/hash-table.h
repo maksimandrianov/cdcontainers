@@ -21,7 +21,7 @@
 /**
  * @file
  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
- * @brief The cdc_hash_table is a struct and functions that provide a hash table
+ * @brief The cdc_hash_table is a struct and functions that provide a hash table.
  */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_HASH_TABLE_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_HASH_TABLE_H
@@ -48,7 +48,7 @@ struct cdc_hash_table_entry {
 };
 
 /**
- * @brief The cdc_hash_table struct
+ * @brief The cdc_hash_table is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
@@ -62,7 +62,7 @@ struct cdc_hash_table {
 };
 
 /**
- * @brief The cdc_hash_table_iter struct
+ * @brief The cdc_hash_table_iter is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
@@ -72,72 +72,83 @@ struct cdc_hash_table_iter {
 };
 
 /**
- * @brief Constructs an empty hash table
- * @param t - cdc_hash_table
- * @param info - cdc_data_info
+ * @brief Constructs an empty hash table.
+ * @param[out] t - cdc_hash_table
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_hash_table_ctor(struct cdc_hash_table **t,
                                   struct cdc_data_info *info);
 
 /**
- * @brief Constructs a hash table, initialized by an arbitrary number of
+ * @brief Constructs a hash table, initialized by an variable number of
  * pointers on cdc_pair's(first - key, and the second - value).  The last item
- * must be NULL.
- * @param t - cdc_hash_table
- * @param info - cdc_data_info
+ * must be CDC_END.
+ * @param[out] t - cdc_hash_table
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
+ *
+ * Example:
+ * @code{.c}
+ * struct cdc_hash_table *table = NULL;
+ * cdc_pair value1 = {CDC_FROM_INT(1), CDC_FROM_INT(2)};
+ * cdc_pair value2 = {CDC_FROM_INT(3), CDC_FROM_INT(4)};
+ * ...
+ * if (cdc_hash_table_ctorl(&table, info, &value1, &value2, CDC_END) != CDC_STATUS_OK) {
+ *   // handle error
+ * }
+ * @endcode
  */
 enum cdc_stat cdc_hash_table_ctorl(struct cdc_hash_table **t,
                                    struct cdc_data_info *info, ...);
 
 /**
- * @brief Constructs a hash table, initialized by args. The last item
- * must be NULL.
- * @param t - cdc_hash_table
- * @param info - cdc_data_info
+ * @brief Constructs a hash table, initialized by args. The last item must be
+ * CDC_END.
+ * @param[out] t - cdc_hash_table
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_hash_table_ctorv(struct cdc_hash_table **t,
                                    struct cdc_data_info *info, va_list args);
 
 /**
- * @brief Constructs an empty hash table
- * @param t - cdc_hash_table
- * @param info - cdc_data_info
- * @param load_factor - maximum load factor setting
+ * @brief Constructs an empty hash table.
+ * @param[out] t - cdc_hash_table
+ * @param[in] info - cdc_data_info
+ * @param[in] load_factor - maximum load factor
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_hash_table_ctor1(struct cdc_hash_table **t,
                                    struct cdc_data_info *info,
                                    float load_factor);
 
 /**
- * @brief Constructs a hash table, initialized by an arbitrary number of
+ * @brief Constructs a hash table, initialized by an variable number of
  * pointers on cdc_pair's(first - key, and the second - value).  The last item
- * must be NULL.
- * @param t - cdc_hash_table
- * @param info - cdc_data_info
- * @param load_factor - maximum load factor setting
+ * must be CDC_END.
+ * @param[out] t - cdc_hash_table
+ * @param[in] info - cdc_data_info
+ * @param[in] load_factor - maximum load factor
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_hash_table_ctorl1(struct cdc_hash_table **t,
                                     struct cdc_data_info *info,
                                     float load_factor, ...);
 
 /**
- * @brief Constructs a hash table, initialized by args. The last item
- * must be NULL.
- * @param t - cdc_hash_table
- * @param info - cdc_data_info
- * @param load_factor - maximum load factor setting
+ * @brief Constructs a hash table, initialized by args. The last item must be
+ * CDC_END.
+ * @param[out] t - cdc_hash_table
+ * @param[in] info - cdc_data_info
+ * @param[in] load_factor - maximum load factor
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_hash_table_ctorv1(struct cdc_hash_table **t,
                                     struct cdc_data_info *info,
@@ -145,18 +156,18 @@ enum cdc_stat cdc_hash_table_ctorv1(struct cdc_hash_table **t,
 
 /**
  * @brief Destroys the hash table.
- * @param t - cdc_hash_table
+ * @param[in] t - cdc_hash_table
  */
 void cdc_hash_table_dtor(struct cdc_hash_table *t);
 
 // Lookup
 /**
- * @brief Returns a pinter to the value that is mapped to a key. If the key does
+ * @brief Returns a value that is mapped to a key. If the key does
  * not exist, then NULL will return.
- * @param t - cdc_hash_table
- * @param key - key of the element to find
- * @param value - pinter to the value that is mapped to a key.
- * @return if the key is found - CDC_STATUS_OK, otherwise - CDC_STATUS_NOT_FOUND
+ * @param[in] t - cdc_hash_table
+ * @param[in] key - key of the element to find
+ * @param[out] value - pinter to the value that is mapped to a key.
+ * @return CDC_STATUS_OK if the key is found, CDC_STATUS_NOT_FOUND otherwise.
  */
 enum cdc_stat cdc_hash_table_get(struct cdc_hash_table *t, void *key,
                                  void **value);
@@ -165,17 +176,17 @@ enum cdc_stat cdc_hash_table_get(struct cdc_hash_table *t, void *key,
  * @brief Returns the number of elements with key that compares equal to the
  * specified argument key, which is either 1 or 0 since this container does not
  * allow duplicates.
- * @param t - cdc_hash_table
- * @param key - key value of the elements to count
+ * @param[in] t - cdc_hash_table
+ * @param[in] key - key value of the elements to count
  * @return number of elements with key key, that is either 1 or 0.
  */
 size_t cdc_hash_table_count(struct cdc_hash_table *t, void *key);
 
 /**
  * @brief Finds an element with key equivalent to key.
- * @param t - cdc_hash_table
- * @param key - key value of the element to search for
- * @param it - pointer will be recorded iterator to an element with key
+ * @param[in] t - cdc_hash_table
+ * @param[in] key - key value of the element to search for
+ * @param[out] it - pointer will be recorded iterator to an element with key
  * equivalent to key. If no such element is found, past-the-end iterator is
  * returned.
  */
@@ -184,9 +195,9 @@ void cdc_hash_table_find(struct cdc_hash_table *t, void *key,
 
 // Capacity
 /**
- * @brief Returns the number of items in the hash table.
- * @param t - cdc_hash_table
- * @return size
+ * @brief Returns the number of items in the hash_table.
+ * @param[in] t - cdc_hash_table
+ * @return the number of items in the hash_table.
  */
 static inline size_t cdc_hash_table_size(struct cdc_hash_table *t)
 {
@@ -196,9 +207,9 @@ static inline size_t cdc_hash_table_size(struct cdc_hash_table *t)
 }
 
 /**
- * @brief Returns true if the hash table has size 0; otherwise returns false.
- * @param t - cdc_hash_table
- * @return true if the hash table has size 0; otherwise returns false
+ * @brief Checks if the hash table has no elements.
+ * @param[in] t - cdc_hash_table
+ * @return true if the hash table is empty, false otherwise.
  */
 static inline bool cdc_hash_table_empty(struct cdc_hash_table *t)
 {
@@ -209,22 +220,22 @@ static inline bool cdc_hash_table_empty(struct cdc_hash_table *t)
 
 // Modifiers
 /**
- * @brief Removes all the elements from the hash table.
- * @param t - cdc_hash_table
+ * @brief Removes all the elements from the hash_table.
+ * @param[in] t - cdc_hash_table
  */
 void cdc_hash_table_clear(struct cdc_hash_table *t);
 
 /**
- * @brief Inserts element into the container, if the container doesn't already
+ * @brief Inserts an element into the container, if the container doesn't already
  * contain an element with an equivalent key.
- * @param t - cdc_hash_table
- * @param key - key of the element
- * @param value - value of the element
- * @param it - iterator to the inserted element (or to the element that
- * prevented the insertion). The pointer can be equal to NULL
- * @param inserted - bool denoting whether the insertion
+ * @param[in] t - cdc_hash_table
+ * @param[in] key - key of the element
+ * @param[in] value - value of the element
+ * @param[out] ret - pair consisting of an iterator to the inserted element (or to
+ * the element that prevented the insertion) and a bool denoting whether the
+ * insertion took place. The pointer can be equal to NULL.
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_hash_table_insert(struct cdc_hash_table *t, void *key,
                                     void *value, struct cdc_hash_table_iter *it,
@@ -232,15 +243,15 @@ enum cdc_stat cdc_hash_table_insert(struct cdc_hash_table *t, void *key,
 
 /**
  * @brief Inserts an element or assigns to the current element if the key
- * already exists
- * @param t - cdc_hash_table
- * @param key - key of the element
- * @param value - value of the element
- * @param it - iterator to the inserted element (or to the element that
- * prevented the insertion). The pointer can be equal to NULL
- * @param inserted - bool denoting whether the insertion
+ * already exists.
+ * @param[in] t - cdc_hash_table
+ * @param[in] key - key of the element
+ * @param[in] value - value of the element
+ * @param[out] ret - pair. The bool component is true if the insertion took place and
+ * false if the assignment took place. The iterator component is pointing at the
+ * element that was inserted or updated.
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_hash_table_insert_or_assign(struct cdc_hash_table *t,
                                               void *key, void *value,
@@ -249,25 +260,24 @@ enum cdc_stat cdc_hash_table_insert_or_assign(struct cdc_hash_table *t,
 
 /**
  * @brief Removes the element (if one exists) with the key equivalent to key.
- * @param t - cdc_hash_table
- * @param key - key value of the elements to remove
- * @return number of elements removed
+ * @param[in] t - cdc_hash_table
+ * @param[in] key - key value of the elements to remove
+ * @return number of elements removed.
  */
 size_t cdc_hash_table_erase(struct cdc_hash_table *t, void *key);
 
 /**
- * @brief Swaps hash tables a and b. This operation is very fast and never
- * fails.
- * @param a - cdc_hash_table
- * @param b - cdc_hash_table
+ * @brief Swaps hash_tables a and b. This operation is very fast and never fails.
+ * @param[in, out] a - cdc_hash_table
+ * @param[in, out] b - cdc_hash_table
  */
 void cdc_hash_table_swap(struct cdc_hash_table *a, struct cdc_hash_table *b);
 
 // Iterators
 /**
- * @brief Initializes the iterator to the beginning
- * @param t - cdc_hash_table
- * @param it - cdc_hash_table_iter
+ * @brief Initializes the iterator to the beginning.
+ * @param t[in] - cdc_hash_table
+ * @param it[out] - cdc_hash_table_iter
  */
 static inline void cdc_hash_table_begin(struct cdc_hash_table *t,
                                         struct cdc_hash_table_iter *it)
@@ -280,9 +290,9 @@ static inline void cdc_hash_table_begin(struct cdc_hash_table *t,
 }
 
 /**
- * @brief Initializes the iterator to the end
- * @param t - cdc_hash_table
- * @param it - cdc_hash_table_iter
+ * @brief Initializes the iterator to the end.
+ * @param[in] t - cdc_hash_table
+ * @param[out] it - cdc_hash_table_iter
  */
 static inline void cdc_hash_table_end(struct cdc_hash_table *t,
                                       struct cdc_hash_table_iter *it)
@@ -297,8 +307,8 @@ static inline void cdc_hash_table_end(struct cdc_hash_table *t,
 // Hash policy
 /**
  * @brief Returns average number of elements per bucket.
- * @param t - cdc_hash_table
- * @return average number of elements per bucket
+ * @param[in] t - cdc_hash_table
+ * @return average number of elements per bucket.
  */
 static inline float cdc_hash_table_load_factor(struct cdc_hash_table *t)
 {
@@ -309,8 +319,8 @@ static inline float cdc_hash_table_load_factor(struct cdc_hash_table *t)
 
 /**
  * @brief Returns current maximum load factor.
- * @param t - cdc_hash_table
- * @return current maximum load factor
+ * @param[in] t - cdc_hash_table
+ * @return current maximum load factor.
  */
 static inline float cdc_hash_table_max_load_factor(struct cdc_hash_table *t)
 {
@@ -320,9 +330,9 @@ static inline float cdc_hash_table_max_load_factor(struct cdc_hash_table *t)
 }
 
 /**
- * @brief Sets the maximum load factor to load_factor.
- * @param t - cdc_hash_table
- * @param load_factor - new maximum load factor setting
+ * @brief Sets the maximum load factor.
+ * @param[in] t - cdc_hash_table
+ * @param[in] load_factor - new maximum load factor
  */
 static inline void cdc_hash_table_set_max_load_factor(struct cdc_hash_table *t,
                                                       float load_factor)
@@ -335,28 +345,28 @@ static inline void cdc_hash_table_set_max_load_factor(struct cdc_hash_table *t,
 /**
  * @brief Reserves at least the specified number of buckets. This regenerates
  * the hash table.
- * @param t - cdc_hash_table
- * @param count - new number of buckets
- * @return DC_STATUS_OK in a successful case or CDC_STATUS_OUT_OF_RANGE if the
- * index is incorrect
+ * @param[in] t - cdc_hash_table
+ * @param[in] count - new number of buckets
+ * @return CDC_STATUS_OK in a successful case or other value indicating
+ * an error.
  */
 enum cdc_stat cdc_hash_table_rehash(struct cdc_hash_table *t, size_t count);
 
 /**
  * @brief Reserves space for at least the specified number of elements. This
  * regenerates the hash table.
- * @param t - cdc_hash_table
- * @param count - new capacity of the container
- * @return DC_STATUS_OK in a successful case or CDC_STATUS_OUT_OF_RANGE if the
- * index is incorrect
+ * @param[in] t - cdc_hash_table
+ * @param[in] count - new capacity of the container
+ * @return CDC_STATUS_OK in a successful case or other value indicating
+ * an error.
  */
 enum cdc_stat cdc_hash_table_reserve(struct cdc_hash_table *t, size_t count);
 
 // Bucket interface
 /**
- * @brief Returns the number of buckets
- * @param t - cdc_hash_table
- * @return returns the number of buckets
+ * @brief Returns the number of buckets.
+ * @param[in] t - cdc_hash_table
+ * @return returns the number of buckets.
  */
 static inline size_t cdc_hash_table_bucket_count(struct cdc_hash_table *t)
 {
@@ -367,7 +377,8 @@ static inline size_t cdc_hash_table_bucket_count(struct cdc_hash_table *t)
 
 // Iterators
 /**
- * @brief Advances the iterator to the next item in the hash table
+ * @brief Advances the iterator to the next element in the hash table.
+ * @param[in] it - iterator
  */
 static inline void cdc_hash_table_iter_next(struct cdc_hash_table_iter *it)
 {
@@ -377,7 +388,10 @@ static inline void cdc_hash_table_iter_next(struct cdc_hash_table_iter *it)
 }
 
 /**
- * @brief Returns true if there is at least one item ahead of the iterator, i.e.
+ * @brief Returns true if there is at least one element ahead of the iterator, i.e.
+ * the iterator is not at the back of the container; otherwise returns false.
+ * @param[in] it - iterator
+ * @return true if there is at least one element ahead of the iterator, i.e.
  * the iterator is not at the back of the container; otherwise returns false.
  */
 static inline bool cdc_hash_table_iter_has_next(struct cdc_hash_table_iter *it)
@@ -388,7 +402,9 @@ static inline bool cdc_hash_table_iter_has_next(struct cdc_hash_table_iter *it)
 }
 
 /**
- * @brief Returns a pointer to the item's key.
+ * @brief Returns an item's key.
+ * @param[in] it - iterator
+ * @return the item's key.
  */
 static inline void *cdc_hash_table_iter_key(struct cdc_hash_table_iter *it)
 {
@@ -398,7 +414,9 @@ static inline void *cdc_hash_table_iter_key(struct cdc_hash_table_iter *it)
 }
 
 /**
- * @brief Returns a pointer to the item's value.
+ * @brief Returns an item's value.
+ * @param[in] it - iterator
+ * @return the item's value.
  */
 static inline void *cdc_hash_table_iter_value(struct cdc_hash_table_iter *it)
 {
@@ -409,6 +427,8 @@ static inline void *cdc_hash_table_iter_value(struct cdc_hash_table_iter *it)
 
 /**
  * @brief Returns a pair, where first - key, second - value.
+ * @param[in] it - iterator
+ * @return pair, where first - key, second - value.
  */
 static inline struct cdc_pair cdc_hash_table_iter_key_value(
     struct cdc_hash_table_iter *it)
@@ -420,7 +440,11 @@ static inline struct cdc_pair cdc_hash_table_iter_key_value(
 }
 
 /**
- * @brief Returns false if the iterator it1 equal to the iterator it2,
+ * @brief Returns false if the iterator |it1| equal to the iterator |it2|,
+ * otherwise returns false.
+ * @param[in] it1 - iterator
+ * @param[in] it2 - iterator
+ * @return false if the iterator |it1| equal to the iterator |it2|,
  * otherwise returns false.
  */
 static inline bool cdc_hash_table_iter_is_eq(struct cdc_hash_table_iter *it1,

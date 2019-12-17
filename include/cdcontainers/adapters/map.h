@@ -39,7 +39,7 @@
 #include <stdbool.h>
 
 /**
- * @brief The cdc_map struct
+ * @brief The cdc_map is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
@@ -49,7 +49,7 @@ struct cdc_map {
 };
 
 /**
- * @brief The cdc_map_iter struct
+ * @brief The cdc_map_iter is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
  */
@@ -59,52 +59,79 @@ struct cdc_map_iter {
 };
 
 /**
- * @brief Constructs an empty map
- * @param t - cdc_map
- * @param info - cdc_data_info
+ * @brief Constructs an empty map.
+ * @param[in] table - table of a map implementation. It can be cdc_map_avl,
+ * cdc_map_splay, cdc_map_treap, cdc_map_htable.
+ * @param[out] m - cdc_map
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
+ *
+ * Example of map constracting with hash table implementation:
+ * @code{.c}
+ * struct cdc_map *map = NULL;
+ * ...
+ * if (cdc_map_ctor(cdc_map_ctor, map, info) != CDC_STATUS_OK) {
+ *   // handle error
+ * }
+ * @endcode
  */
 enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table,
                            struct cdc_map **m, struct cdc_data_info *info);
 
 /**
- * @brief Constructs a map, initialized by an arbitrary number of
+ * @brief Constructs a map, initialized by an variable number of
  * pointers on cdc_pair's(first - key, and the second - value).  The last item
- * must be NULL.
- * @param t - cdc_map
- * @param info - cdc_data_info
+ * must be CDC_END.
+ * @param[in] table - table of a map implementation. It can be cdc_map_avl,
+ * cdc_map_splay, cdc_map_treap, cdc_map_htable.
+ * @param[out] m - cdc_map
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
+ *
+ * Example:
+ * @code{.c}
+ * struct cdc_map *map = NULL;
+ * cdc_pair value1 = {CDC_FROM_INT(1), CDC_FROM_INT(2)};
+ * cdc_pair value2 = {CDC_FROM_INT(3), CDC_FROM_INT(4)};
+ * ...
+ * if (cdc_map_ctorl(cdc_map_avl, &tree, info, &value1, &value2, CDC_END) != CDC_STATUS_OK) {
+ *   // handle error
+ * }
+ * @endcode
  */
 enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table,
                             struct cdc_map **m, struct cdc_data_info *info,
                             ...);
 
 /**
- * @brief Constructs a map, initialized by args. The last item must be NULL.
- * @param t - cdc_map
- * @param info - cdc_data_info
+ * @brief Constructs a map, initialized by args. The last item must be
+ * CDC_END.
+ * @param[in] table - table of a map implementation. It can be cdc_map_avl,
+ * cdc_map_splay, cdc_map_treap, cdc_map_htable.
+ * @param[out] m - cdc_map
+ * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table,
                             struct cdc_map **m, struct cdc_data_info *info,
                             va_list args);
 /**
  * @brief Destroys the map.
- * @param t - cdc_map
+ * @param[in] t - cdc_map
  */
 void cdc_map_dtor(struct cdc_map *m);
 
 // Lookup
 /**
- * @brief Returns a pinter to the value that is mapped to a key. If the key does
+ * @brief Returns a value that is mapped to a key. If the key does
  * not exist, then NULL will return.
- * @param t - cdc_map
- * @param key - key of the element to find
- * @param value - pinter to the value that is mapped to a key.
- * @return if the key is found - CDC_STATUS_OK, otherwise - CDC_STATUS_NOT_FOUND
+ * @param[in] m - cdc_map
+ * @param[in] key - key of the element to find
+ * @param[out] value - pinter to the value that is mapped to a key.
+ * @return CDC_STATUS_OK if the key is found, CDC_STATUS_NOT_FOUND otherwise.
  */
 static inline enum cdc_stat cdc_map_get(struct cdc_map *m, void *key,
                                         void **value)
@@ -118,8 +145,8 @@ static inline enum cdc_stat cdc_map_get(struct cdc_map *m, void *key,
  * @brief Returns the number of elements with key that compares equal to the
  * specified argument key, which is either 1 or 0 since this container does not
  * allow duplicates.
- * @param t - cdc_map
- * @param key - key value of the elements to count
+ * @param[in] m - cdc_map
+ * @param[in] key - key value of the elements to count
  * @return number of elements with key key, that is either 1 or 0.
  */
 static inline size_t cdc_map_count(struct cdc_map *m, void *key)
@@ -131,9 +158,9 @@ static inline size_t cdc_map_count(struct cdc_map *m, void *key)
 
 /**
  * @brief Finds an element with key equivalent to key.
- * @param t - cdc_map
- * @param key - key value of the element to search for
- * @param it - pointer will be recorded iterator to an element with key
+ * @param[in] m - cdc_map
+ * @param[in] key - key value of the element to search for
+ * @param[out] it - pointer will be recorded iterator to an element with key
  * equivalent to key. If no such element is found, past-the-end iterator is
  * returned.
  */
@@ -148,8 +175,8 @@ static inline void cdc_map_find(struct cdc_map *m, void *key,
 // Capacity
 /**
  * @brief Returns the number of items in the map.
- * @param t - cdc_map
- * @return size
+ * @param[in] m - cdc_map
+ * @return the number of items in the map.
  */
 static inline size_t cdc_map_size(struct cdc_map *m)
 {
@@ -159,9 +186,9 @@ static inline size_t cdc_map_size(struct cdc_map *m)
 }
 
 /**
- * @brief Returns true if the map has size 0; otherwise returns false.
- * @param t - cdc_map
- * @return true if the hash map has size 0; otherwise returns false
+ * @brief Checks if the map has no elements.
+ * @param[in] m - cdc_map
+ * @return true if the map is empty, false otherwise.
  */
 static inline bool cdc_map_empty(struct cdc_map *m)
 {
@@ -173,7 +200,7 @@ static inline bool cdc_map_empty(struct cdc_map *m)
 // Modifiers
 /**
  * @brief Removes all the elements from the map.
- * @param t - cdc_map
+ * @param[in] m - cdc_map
  */
 static inline void cdc_map_clear(struct cdc_map *m)
 {
@@ -183,17 +210,17 @@ static inline void cdc_map_clear(struct cdc_map *m)
 }
 
 /**
- * @brief Inserts element into the container, if the container doesn't already
+ * @brief Inserts an element into the container, if the container doesn't already
  * contain an element with an equivalent key.
- * @param t - cdc_map
- * @param key - key of the element
- * @param value - value of the element
- * @param it - iterator to the inserted element (or to the element that
- * prevented the insertion). The pointer can be equal to NULL
- * @param inserted - bool denoting whether the insertion
- * took place. The pointer can be equal to NULL
+ * @param[in] m - cdc_map
+ * @param[in] key - key of the element
+ * @param[in] value - value of the element
+ * @param[out] it - iterator to the inserted element (or to the element that
+ * prevented the insertion). The pointer can be equal to NULL.
+ * @param[out] inserted - bool denoting whether the insertion
+ * took place. The pointer can be equal to NULL.
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 static inline enum cdc_stat cdc_map_insert(struct cdc_map *m, void *key,
                                            void *value, struct cdc_map_iter *it,
@@ -207,16 +234,16 @@ static inline enum cdc_stat cdc_map_insert(struct cdc_map *m, void *key,
 
 /**
  * @brief Inserts an element or assigns to the current element if the key
- * already exists
- * @param t - cdc_map
- * @param key - key of the element
- * @param value - value of the element
- * @param it - iterator is pointing at the element that was inserted or updated.
+ * already exists.
+ * @param[in] m - cdc_map
+ * @param[in] key - key of the element
+ * @param[in] value - value of the element
+ * @param[out] it - iterator is pointing at the element that was inserted or updated.
  * The pointer can be equal to NULL
- * @param inserted - bool is true if the insertion took place and false if the
+ * @param[out] inserted - bool is true if the insertion took place and false if the
  * assignment took place. The pointer can be equal to NULL
  * @return CDC_STATUS_OK in a successful case or other value indicating
- * an error
+ * an error.
  */
 static inline enum cdc_stat cdc_map_insert_or_assign(struct cdc_map *m,
                                                      void *key, void *value,
@@ -231,9 +258,9 @@ static inline enum cdc_stat cdc_map_insert_or_assign(struct cdc_map *m,
 
 /**
  * @brief Removes the element (if one exists) with the key equivalent to key.
- * @param t - cdc_map
- * @param key - key value of the elements to remove
- * @return number of elements removed
+ * @param[in] m - cdc_map
+ * @param[in] key - key value of the elements to remove
+ * @return number of elements removed.
  */
 static inline size_t cdc_map_erase(struct cdc_map *m, void *key)
 {
@@ -244,8 +271,8 @@ static inline size_t cdc_map_erase(struct cdc_map *m, void *key)
 
 /**
  * @brief Swaps maps a and b. This operation is very fast and never fails.
- * @param a - cdc_map
- * @param b - cdc_map
+ * @param[in, out] a - cdc_map
+ * @param[in, out] b - cdc_map
  */
 static inline void cdc_map_swap(struct cdc_map *a, struct cdc_map *b)
 {
@@ -258,16 +285,34 @@ static inline void cdc_map_swap(struct cdc_map *a, struct cdc_map *b)
 
 // Iterators
 /**
- * @brief Initializes the iterator. Should be called for each new iterator.
- * @param t - cdc_map
- * @param it - cdc_map_iter
+ * @brief Constructs a map iterator. Should be called for each new iterator.
+ * @param[in] t - cdc_map
+ * @param[out] it - iterator
+ *
+ * Example:
+ * @code{.c}
+ * struct cdc_map *map = NULL;
+ * ...
+ * struct cdc_map_iter it = CDC_INIT_STRUCT;
+ * if (cdc_map_iter_ctor(map, &it) != CDC_STATUS_OK) {
+ *   // handle error
+ * }
+ *
+ * cdc_map_begin(map, &it);
+ * while (cdc_map_iter_has_next(&it)) {
+ *   void *value = cdc_map_iter_value(&it);
+ *   ...
+ *   cdc_map_iter_next(&it);
+ * }
+ *
+ * @endcode
  */
 enum cdc_stat cdc_map_iter_ctor(struct cdc_map *m, struct cdc_map_iter *it);
 
 /**
- * @brief Clears the iterator. It should be called after the iterator is no
+ * @brief Destroys the iterator. It should be called after the iterator is no
  * longer needed. Releases resources.
- * @param it - cdc_map_iter
+ * @param[in] it - iterator
  */
 static inline void cdc_map_iter_dtor(struct cdc_map_iter *it)
 {
@@ -278,7 +323,8 @@ static inline void cdc_map_iter_dtor(struct cdc_map_iter *it)
 
 /**
  * @brief Returns a type of iterator.
- * @param it - cdc_map_iter
+ * @param[in] it - iterator
+ * @return a type of iterator.
  */
 static inline enum cdc_iterator_type cdc_map_iter_type(struct cdc_map_iter *it)
 {
@@ -288,9 +334,9 @@ static inline enum cdc_iterator_type cdc_map_iter_type(struct cdc_map_iter *it)
 }
 
 /**
- * @brief Initializes the iterator to the beginning
- * @param t - cdc_map
- * @param it - cdc_map_iter
+ * @brief Initializes the iterator to the beginning.
+ * @param[in] m - cdc_map
+ * @param[out] out - cdc_map_iter
  */
 static inline void cdc_map_begin(struct cdc_map *m, struct cdc_map_iter *it)
 {
@@ -301,9 +347,9 @@ static inline void cdc_map_begin(struct cdc_map *m, struct cdc_map_iter *it)
 }
 
 /**
- * @brief Initializes the iterator to the end
- * @param t - cdc_map
- * @param it - cdc_map_iter
+ * @brief Initializes the iterator to the end.
+ * @param[in] m - cdc_map
+ * @param[out] it - iterator
  */
 static inline void cdc_map_end(struct cdc_map *m, struct cdc_map_iter *it)
 {
@@ -315,7 +361,8 @@ static inline void cdc_map_end(struct cdc_map *m, struct cdc_map_iter *it)
 
 // Iterators
 /**
- * @brief Advances the iterator to the next item in the map
+ * @brief Advances the iterator to the next element in the map.
+ * @param[in] it - iterator
  */
 static inline void cdc_map_iter_next(struct cdc_map_iter *it)
 {
@@ -325,7 +372,8 @@ static inline void cdc_map_iter_next(struct cdc_map_iter *it)
 }
 
 /**
- * @brief Advances the iterator to the previous item in the map.
+ * @brief Advances the iterator to the previous element in the map.
+ * @param[in] it - iterator
  */
 static inline void cdc_map_iter_prev(struct cdc_map_iter *it)
 {
@@ -335,7 +383,10 @@ static inline void cdc_map_iter_prev(struct cdc_map_iter *it)
 }
 
 /**
- * @brief Returns true if there is at least one item ahead of the iterator, i.e.
+ * @brief Returns true if there is at least one element ahead of the iterator, i.e.
+ * the iterator is not at the back of the container; otherwise returns false.
+ * @param[in] it - iterator
+ * @return true if there is at least one element ahead of the iterator, i.e.
  * the iterator is not at the back of the container; otherwise returns false.
  */
 static inline bool cdc_map_iter_has_next(struct cdc_map_iter *it)
@@ -346,7 +397,10 @@ static inline bool cdc_map_iter_has_next(struct cdc_map_iter *it)
 }
 
 /**
- * @brief Returns true if there is at least one item behind the iterator, i.e.
+ * @brief Returns true if there is at least one element behind the iterator, i.e.
+ * the iterator is not at the front of the container; otherwise returns false.
+ * @param[in] it - iterator
+ * @return true if there is at least one element behind the iterator, i.e.
  * the iterator is not at the front of the container; otherwise returns false.
  */
 static inline bool cdc_map_iter_has_prev(struct cdc_map_iter *it)
@@ -357,7 +411,9 @@ static inline bool cdc_map_iter_has_prev(struct cdc_map_iter *it)
 }
 
 /**
- * @brief Returns a pointer to the item's key.
+ * @brief Returns an item's key.
+ * @param[in] it - iterator
+ * @return the item's key.
  */
 static inline void *cdc_map_iter_key(struct cdc_map_iter *it)
 {
@@ -367,7 +423,9 @@ static inline void *cdc_map_iter_key(struct cdc_map_iter *it)
 }
 
 /**
- * @brief Returns a pointer to the item's value.
+ * @brief Returns an item's value.
+ * @param[in] it - iterator
+ * @return the item's value.
  */
 static inline void *cdc_map_iter_value(struct cdc_map_iter *it)
 {
@@ -378,6 +436,8 @@ static inline void *cdc_map_iter_value(struct cdc_map_iter *it)
 
 /**
  * @brief Returns a pair, where first - key, second - value.
+ * @param[in] it - iterator
+ * @return pair, where first - key, second - value.
  */
 static inline struct cdc_pair cdc_map_iter_key_value(struct cdc_map_iter *it)
 {
@@ -387,7 +447,11 @@ static inline struct cdc_pair cdc_map_iter_key_value(struct cdc_map_iter *it)
 }
 
 /**
- * @brief Returns false if the iterator it1 equal to the iterator it2,
+ * @brief Returns false if the iterator |it1| equal to the iterator |it2|,
+ * otherwise returns false.
+ * @param[in] it1 - iterator
+ * @param[in] it2 - iterator
+ * @return false if the iterator |it1| equal to the iterator |it2|,
  * otherwise returns false.
  */
 static inline bool cdc_map_iter_is_eq(struct cdc_map_iter *it1,
