@@ -385,7 +385,7 @@ enum cdc_stat cdc_list_at(struct cdc_list *l, size_t index, void **elem)
   assert(l != NULL);
   assert(elem != NULL);
 
-  if (index > l->size - 1) {
+  if (index + 1 > l->size) {
     return CDC_STATUS_OUT_OF_RANGE;
   }
 
