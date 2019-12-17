@@ -155,37 +155,6 @@ void test_treap_find()
   cdc_treap_dtor(t);
 }
 
-void test_treap_equal_range()
-{
-  struct cdc_treap *t = NULL;
-  struct cdc_pair_treap_iter res = CDC_INIT_STRUCT;
-  struct cdc_data_info info = CDC_INIT_STRUCT;
-  info.cmp = lt;
-
-  CU_ASSERT_EQUAL(cdc_treap_ctorl(&t, &info, &a, &b, &c, &d, &g, CDC_END),
-                  CDC_STATUS_OK);
-  cdc_treap_equal_range(t, a.first, &res);
-  CU_ASSERT_EQUAL(cdc_treap_iter_value(&res.first), a.second);
-  cdc_treap_iter_next(&res.first);
-  CU_ASSERT(cdc_treap_iter_is_eq(&res.second, &res.first));
-
-  cdc_treap_equal_range(t, b.first, &res);
-  CU_ASSERT_EQUAL(cdc_treap_iter_value(&res.first), b.second);
-  cdc_treap_iter_next(&res.first);
-  CU_ASSERT(cdc_treap_iter_is_eq(&res.second, &res.first));
-
-  cdc_treap_equal_range(t, d.first, &res);
-  CU_ASSERT_EQUAL(cdc_treap_iter_value(&res.first), d.second);
-  cdc_treap_iter_next(&res.first);
-  CU_ASSERT(cdc_treap_iter_is_eq(&res.second, &res.first));
-
-  cdc_treap_equal_range(t, g.first, &res);
-  CU_ASSERT_EQUAL(cdc_treap_iter_value(&res.first), g.second);
-  cdc_treap_iter_next(&res.first);
-  CU_ASSERT(cdc_treap_iter_is_eq(&res.second, &res.first));
-  cdc_treap_dtor(t);
-}
-
 void test_treap_clear()
 {
   struct cdc_treap *t = NULL;

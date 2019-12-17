@@ -384,22 +384,6 @@ void cdc_treap_find(struct cdc_treap *t, void *key, struct cdc_treap_iter *it)
   it->prev = cdc_tree_predecessor(node);
 }
 
-void cdc_treap_equal_range(struct cdc_treap *t, void *key,
-                           struct cdc_pair_treap_iter *pair)
-{
-  assert(t != NULL);
-  assert(pair != NULL);
-
-  cdc_treap_find(t, key, &pair->first);
-  cdc_treap_end(t, &pair->second);
-  if (cdc_treap_iter_is_eq(&pair->first, &pair->second)) {
-    cdc_treap_end(t, &pair->first);
-  } else {
-    pair->second = pair->first;
-    cdc_treap_iter_next(&pair->second);
-  }
-}
-
 enum cdc_stat cdc_treap_insert(struct cdc_treap *t, void *key, void *value,
                                struct cdc_pair_treap_iter_bool *ret)
 {

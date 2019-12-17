@@ -158,37 +158,6 @@ void test_splay_tree_find()
   cdc_splay_tree_dtor(t);
 }
 
-void test_splay_tree_equal_range()
-{
-  struct cdc_splay_tree *t = NULL;
-  struct cdc_pair_splay_tree_iter res = CDC_INIT_STRUCT;
-  struct cdc_data_info info = CDC_INIT_STRUCT;
-  info.cmp = lt;
-
-  CU_ASSERT_EQUAL(cdc_splay_tree_ctorl(&t, &info, &a, &b, &c, &d, &g, CDC_END),
-                  CDC_STATUS_OK);
-  cdc_splay_tree_equal_range(t, a.first, &res);
-  CU_ASSERT_EQUAL(cdc_splay_tree_iter_value(&res.first), a.second);
-  cdc_splay_tree_iter_next(&res.first);
-  CU_ASSERT(cdc_splay_tree_iter_is_eq(&res.second, &res.first));
-
-  cdc_splay_tree_equal_range(t, b.first, &res);
-  CU_ASSERT_EQUAL(cdc_splay_tree_iter_value(&res.first), b.second);
-  cdc_splay_tree_iter_next(&res.first);
-  CU_ASSERT(cdc_splay_tree_iter_is_eq(&res.second, &res.first));
-
-  cdc_splay_tree_equal_range(t, d.first, &res);
-  CU_ASSERT_EQUAL(cdc_splay_tree_iter_value(&res.first), d.second);
-  cdc_splay_tree_iter_next(&res.first);
-  CU_ASSERT(cdc_splay_tree_iter_is_eq(&res.second, &res.first));
-
-  cdc_splay_tree_equal_range(t, g.first, &res);
-  CU_ASSERT_EQUAL(cdc_splay_tree_iter_value(&res.first), g.second);
-  cdc_splay_tree_iter_next(&res.first);
-  CU_ASSERT(cdc_splay_tree_iter_is_eq(&res.second, &res.first));
-  cdc_splay_tree_dtor(t);
-}
-
 void test_splay_tree_clear()
 {
   struct cdc_splay_tree *t = NULL;

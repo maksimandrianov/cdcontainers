@@ -156,40 +156,6 @@ void test_hash_table_find()
   cdc_hash_table_dtor(t);
 }
 
-void test_hash_table_equal_range()
-{
-  struct cdc_hash_table *t = NULL;
-  struct cdc_pair_hash_table_iter res = CDC_INIT_STRUCT;
-  struct cdc_data_info info = CDC_INIT_STRUCT;
-  info.eq = eq;
-  info.hash = hash;
-
-  CU_ASSERT_EQUAL(
-      cdc_hash_table_ctorl1(&t, &info, 1.0, &a, &b, &c, &d, &g, CDC_END),
-      CDC_STATUS_OK);
-
-  cdc_hash_table_equal_range(t, a.first, &res);
-  CU_ASSERT_EQUAL(cdc_hash_table_iter_value(&res.first), a.second);
-  cdc_hash_table_iter_next(&res.first);
-  CU_ASSERT(cdc_hash_table_iter_is_eq(&res.second, &res.first));
-
-  cdc_hash_table_equal_range(t, b.first, &res);
-  CU_ASSERT_EQUAL(cdc_hash_table_iter_value(&res.first), b.second);
-  cdc_hash_table_iter_next(&res.first);
-  CU_ASSERT(cdc_hash_table_iter_is_eq(&res.second, &res.first));
-
-  cdc_hash_table_equal_range(t, d.first, &res);
-  CU_ASSERT_EQUAL(cdc_hash_table_iter_value(&res.first), d.second);
-  cdc_hash_table_iter_next(&res.first);
-  CU_ASSERT(cdc_hash_table_iter_is_eq(&res.second, &res.first));
-
-  cdc_hash_table_equal_range(t, g.first, &res);
-  CU_ASSERT_EQUAL(cdc_hash_table_iter_value(&res.first), g.second);
-  cdc_hash_table_iter_next(&res.first);
-  CU_ASSERT(cdc_hash_table_iter_is_eq(&res.second, &res.first));
-  cdc_hash_table_dtor(t);
-}
-
 void test_hash_table_clear()
 {
   struct cdc_hash_table *t = NULL;

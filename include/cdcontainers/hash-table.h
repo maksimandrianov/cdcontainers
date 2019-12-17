@@ -71,11 +71,6 @@ struct cdc_hash_table_iter {
   struct cdc_hash_table_entry *current;
 };
 
-struct cdc_pair_hash_table_iter {
-  struct cdc_hash_table_iter first;
-  struct cdc_hash_table_iter second;
-};
-
 /**
  * @brief Constructs an empty hash table
  * @param t - cdc_hash_table
@@ -187,19 +182,6 @@ size_t cdc_hash_table_count(struct cdc_hash_table *t, void *key);
 void cdc_hash_table_find(struct cdc_hash_table *t, void *key,
                          struct cdc_hash_table_iter *it);
 
-/**
- * @brief Returns a range containing all elements with key key in the container.
- * The range is defined by two iterators, the first pointing to the first
- * element of the wanted range and the second pointing past the last element of
- * the range.
- * @param t - cdc_hash_table
- * @param key - key value to compare the elements to
- * @param pair - pointer will be recorded a pair of iterators defining the
- * wanted range. If there are no such elements, past-the-end iterators are
- * returned as both elements of the pair.
- */
-void cdc_hash_table_equal_range(struct cdc_hash_table *t, void *key,
-                                struct cdc_pair_hash_table_iter *pair);
 // Capacity
 /**
  * @brief Returns the number of items in the hash table.
@@ -469,7 +451,6 @@ typedef struct cdc_pair_hash_table_iter_bool pair_hash_table_iter_bool_t;
 #define hash_table_get(...) cdc_hash_table_get(__VA_ARGS__)
 #define hash_table_count(...) cdc_hash_table_count(__VA_ARGS__)
 #define hash_table_find(...) cdc_hash_table_find(__VA_ARGS__)
-#define hash_table_equal_range(...) cdc_hash_table_equal_range(__VA_ARGS__)
 
 // Capacity
 #define hash_table_size(...) cdc_hash_table_size(__VA_ARGS__)

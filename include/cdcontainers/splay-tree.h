@@ -68,11 +68,6 @@ struct cdc_splay_tree_iter {
   struct cdc_splay_tree_node *current;
 };
 
-struct cdc_pair_splay_tree_iter {
-  struct cdc_splay_tree_iter first;
-  struct cdc_splay_tree_iter second;
-};
-
 struct cdc_pair_splay_tree_iter_bool {
   struct cdc_splay_tree_iter first;
   bool second;
@@ -160,20 +155,6 @@ size_t cdc_splay_tree_count(struct cdc_splay_tree *t, void *key);
  */
 void cdc_splay_tree_find(struct cdc_splay_tree *t, void *key,
                          struct cdc_splay_tree_iter *it);
-
-/**
- * @brief Returns a range containing all elements with key key in the container.
- * The range is defined by two iterators, the first pointing to the first
- * element of the wanted range and the second pointing past the last element of
- * the range.
- * @param[in] t - cdc_splay_tree
- * @param[in] key - key value to compare the elements to
- * @param[out] pair - pointer will be recorded a pair of iterators defining the
- * wanted range. If there are no such elements, past-the-end iterators are
- * returned as both elements of the pair.
- */
-void cdc_splay_tree_equal_range(struct cdc_splay_tree *t, void *key,
-                                struct cdc_pair_splay_tree_iter *pair);
 
 // Capacity
 /**
@@ -420,7 +401,6 @@ typedef struct cdc_pair_splay_tree_iter_bool pair_splay_tree_iter_bool_t;
 #define splay_tree_get(...) cdc_splay_tree_get(__VA_ARGS__)
 #define splay_tree_count(...) cdc_splay_tree_count(__VA_ARGS__)
 #define splay_tree_find(...) cdc_splay_tree_find(__VA_ARGS__)
-#define splay_tree_equal_range(...) cdc_splay_tree_equal_range(__VA_ARGS__)
 
 // Capacity
 #define splay_tree_size(...) cdc_splay_tree_size(__VA_ARGS__)

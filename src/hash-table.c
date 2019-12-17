@@ -437,22 +437,6 @@ void cdc_hash_table_find(struct cdc_hash_table *t, void *key,
   it->current = entry ? entry->next : NULL;
 }
 
-void cdc_hash_table_equal_range(struct cdc_hash_table *t, void *key,
-                                struct cdc_pair_hash_table_iter *pair)
-{
-  assert(t != NULL);
-  assert(pair != NULL);
-
-  struct cdc_hash_table_entry *entry = find_entry(t, key);
-  pair->first.container = pair->second.container = t;
-  if (entry) {
-    pair->first.current = entry->next;
-    pair->second.current = entry->next->next;
-  } else {
-    pair->first.current = pair->second.current = NULL;
-  }
-}
-
 void cdc_hash_table_clear(struct cdc_hash_table *t)
 {
   assert(t != NULL);

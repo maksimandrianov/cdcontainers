@@ -397,22 +397,6 @@ void cdc_splay_tree_find(struct cdc_splay_tree *t, void *key,
   it->prev = cdc_tree_predecessor(node);
 }
 
-void cdc_splay_tree_equal_range(struct cdc_splay_tree *t, void *key,
-                                struct cdc_pair_splay_tree_iter *pair)
-{
-  assert(t != NULL);
-  assert(pair != NULL);
-
-  cdc_splay_tree_find(t, key, &pair->first);
-  cdc_splay_tree_end(t, &pair->second);
-  if (cdc_splay_tree_iter_is_eq(&pair->first, &pair->second)) {
-    cdc_splay_tree_end(t, &pair->first);
-  } else {
-    pair->second = pair->first;
-    cdc_splay_tree_iter_next(&pair->second);
-  }
-}
-
 enum cdc_stat cdc_splay_tree_insert(struct cdc_splay_tree *t, void *key,
                                     void *value,
                                     struct cdc_pair_splay_tree_iter_bool *ret)

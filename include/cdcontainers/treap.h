@@ -72,11 +72,6 @@ struct cdc_treap_iter {
   struct cdc_treap_node *current;
 };
 
-struct cdc_pair_treap_iter {
-  struct cdc_treap_iter first;
-  struct cdc_treap_iter second;
-};
-
 struct cdc_pair_treap_iter_bool {
   struct cdc_treap_iter first;
   bool second;
@@ -197,20 +192,6 @@ size_t cdc_treap_count(struct cdc_treap *t, void *key);
  * returned.
  */
 void cdc_treap_find(struct cdc_treap *t, void *key, struct cdc_treap_iter *it);
-
-/**
- * @brief Returns a range containing all elements with key key in the container.
- * The range is defined by two iterators, the first pointing to the first
- * element of the wanted range and the second pointing past the last element of
- * the range.
- * @param[in] t - cdc_treap
- * @param[in] key - key value to compare the elements to
- * @param[out] pair - pointer will be recorded a pair of iterators defining the
- * wanted range. If there are no such elements, past-the-end iterators are
- * returned as both elements of the pair.
- */
-void cdc_treap_equal_range(struct cdc_treap *t, void *key,
-                           struct cdc_pair_treap_iter *pair);
 
 // Capacity
 /**
@@ -455,7 +436,6 @@ typedef struct cdc_pair_treap_iter_bool pair_treap_iter_bool_t;
 #define treap_get(...) cdc_treap_get(__VA_ARGS__)
 #define treap_count(...) cdc_treap_count(__VA_ARGS__)
 #define treap_find(...) cdc_treap_find(__VA_ARGS__)
-#define treap_equal_range(...) cdc_treap_equal_range(__VA_ARGS__)
 
 // Capacity
 #define treap_size(...) cdc_treap_size(__VA_ARGS__)
