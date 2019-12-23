@@ -34,6 +34,11 @@
 #include <stdbool.h>
 
 /**
+ * @defgroup cdc_splay_tree
+ * @brief The cdc_splay_tree is a struct and functions that provide a splay tree.
+ * @{
+ */
+/**
  * @brief The cdc_splay_tree_node is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
@@ -73,6 +78,11 @@ struct cdc_pair_splay_tree_iter_bool {
   bool second;
 };
 
+// Base
+/**
+ * @defgroup cdc_splay_tree_base Base
+ * @{
+ */
 /**
  * @brief Constructs an empty splay tree.
  * @param[out] t - cdc_splay_tree
@@ -122,8 +132,13 @@ enum cdc_stat cdc_splay_tree_ctorv(struct cdc_splay_tree **t,
  * @param[in] t - cdc_splay_tree
  */
 void cdc_splay_tree_dtor(struct cdc_splay_tree *t);
+/** @} */
 
 // Lookup
+/**
+ * @defgroup cdc_splay_tree_lookup Lookup
+ * @{
+ */
 /**
  * @brief Returns a value that is mapped to a key. If the key does
  * not exist, then NULL will return.
@@ -155,8 +170,13 @@ size_t cdc_splay_tree_count(struct cdc_splay_tree *t, void *key);
  */
 void cdc_splay_tree_find(struct cdc_splay_tree *t, void *key,
                          struct cdc_splay_tree_iter *it);
+/** @} */
 
 // Capacity
+/**
+ * @defgroup cdc_splay_tree_capacity Capacity
+ * @{
+ */
 /**
  * @brief Returns the number of items in the splay_tree.
  * @param[in] t - cdc_splay_tree
@@ -180,8 +200,13 @@ static inline bool cdc_splay_tree_empty(struct cdc_splay_tree *t)
 
   return t->size == 0;
 }
+/** @} */
 
 // Modifiers
+/**
+ * @defgroup cdc_splay_tree_modifiers Modifiers
+ * @{
+ */
 /**
  * @brief Removes all the elements from the splay_tree.
  * @param[in] t - cdc_splay_tree
@@ -270,8 +295,13 @@ size_t cdc_splay_tree_erase(struct cdc_splay_tree *t, void *key);
  * @param[in, out] b - cdc_splay_tree
  */
 void cdc_splay_tree_swap(struct cdc_splay_tree *a, struct cdc_splay_tree *b);
+/** @} */
 
 // Iterators
+/**
+ * @defgroup cdc_splay_tree_iterators Iterators
+ * @{
+ */
 /**
  * @brief Initializes the iterator to the beginning.
  * @param t[in] - cdc_splay_tree
@@ -287,8 +317,14 @@ void cdc_splay_tree_begin(struct cdc_splay_tree *t,
  */
 void cdc_splay_tree_end(struct cdc_splay_tree *t,
                         struct cdc_splay_tree_iter *it);
+/** @} */
 
 // Iterators
+/**
+ * @defgroup cdc_splay_tree_iter
+ * @brief The cdc_splay_tree_iter is a struct and functions that provide a splay tree iterator.
+ * @{
+ */
 /**
  * @brief Advances the iterator to the next element in the splay tree.
  * @param[in] it - iterator
@@ -384,6 +420,7 @@ static inline bool cdc_splay_tree_iter_is_eq(struct cdc_splay_tree_iter *it1,
   return it1->container == it2->container && it1->prev == it2->prev &&
          it1->current == it2->current;
 }
+/** @} */
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
@@ -392,6 +429,7 @@ typedef struct cdc_splay_tree_iter splay_tree_iter_t;
 typedef struct cdc_pair_splay_tree_iter pair_splay_tree_iter_t;
 typedef struct cdc_pair_splay_tree_iter_bool pair_splay_tree_iter_bool_t;
 
+// Base
 #define splay_tree_ctor(...) cdc_splay_tree_ctor(__VA_ARGS__)
 #define splay_tree_ctorv(...) cdc_splay_tree_ctorv(__VA_ARGS__)
 #define splay_tree_ctorl(...) cdc_splay_tree_ctorl(__VA_ARGS__)
@@ -430,5 +468,5 @@ typedef struct cdc_pair_splay_tree_iter_bool pair_splay_tree_iter_bool_t;
   cdc_splay_tree_iter_key_value(__VA_ARGS__)
 #define splay_tree_iter_is_eq(...) cdc_splay_tree_iter_is_eq(__VA_ARGS__)
 #endif
-
+/** @} */
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_SPLAY_TREE_H

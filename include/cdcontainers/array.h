@@ -38,6 +38,11 @@
 #include <stdbool.h>
 
 /**
+ * @defgroup cdc_array
+ * @brief The cdc_array is a struct and functions that provide a dynamic array.
+ * @{
+ */
+/**
  * @brief The cdc_array is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
@@ -48,7 +53,11 @@ struct cdc_array {
   void **buffer;
   struct cdc_data_info *dinfo;
 };
-
+// Base
+/**
+ * @defgroup cdc_array_base Base
+ * @{
+ */
 /**
  * @brief Constructs an empty array.
  * @param[out] v - cdc_array
@@ -93,8 +102,13 @@ enum cdc_stat cdc_array_ctorv(struct cdc_array **v, struct cdc_data_info *info,
  * @param[in] v - cdc_array
  */
 void cdc_array_dtor(struct cdc_array *v);
+/** @} */
 
 // Element access
+/**
+ * @defgroup cdc_array_element_access Element access
+ * @{
+ */
 /**
  * @brief Returns an element at index position in the array
  * @param[in] v - cdc_array
@@ -157,8 +171,13 @@ static inline void **cdc_array_data(struct cdc_array *v)
 
   return v->buffer;
 }
+/** @} */
 
 // Capacity
+/**
+ * @defgroup cdc_array_capacity Capacity
+ * @{
+ */
 /**
  * @brief Attempts to allocate memory for at least size elements.
  * If you know in advance how large the array will be, you should call this
@@ -213,8 +232,13 @@ static inline size_t cdc_array_capacity(struct cdc_array *v)
  * an error
  */
 enum cdc_stat cdc_array_shrink_to_fit(struct cdc_array *v);
+/** @} */
 
 // Modifiers
+/**
+ * @defgroup cdc_array_modifiers Modifiers
+ * @{
+ */
 /**
  * @brief Sets an element at index position to the value. The function is not
  * called to free memory.
@@ -302,11 +326,13 @@ enum cdc_stat cdc_array_append_move(struct cdc_array *v,
  * @param[in, out] b - cdc_array
  */
 void cdc_array_swap(struct cdc_array *a, struct cdc_array *b);
+/** @} */
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
 typedef struct cdc_array array_t;
 
+// Base
 #define array_ctor(...) cdc_array_ctor(__VA_ARGS__)
 #define array_ctorl(...) cdc_array_ctorl(__VA_ARGS__)
 #define array_ctorv(...) cdc_array_ctorv(__VA_ARGS__)
@@ -338,5 +364,5 @@ typedef struct cdc_array array_t;
 #define array_append_move(...) cdc_array_append_move(__VA_ARGS__)
 #define array_swap(...) cdc_array_swap(__VA_ARGS__)
 #endif
-
+/** @} */
 #endif  // CDSTRUCTURES_INCLUDE_CDCONTAINERS_VECTOR_H

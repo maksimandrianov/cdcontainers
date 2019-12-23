@@ -36,6 +36,11 @@
 #include <stdlib.h>
 
 /**
+ * @defgroup cdc_circular_array
+ * @brief The cdc_circular_array is a struct and functions that provide a circular array.
+ * @{
+ */
+/**
  * @brief The cdc_circular_array is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
@@ -49,6 +54,11 @@ struct cdc_circular_array {
   struct cdc_data_info *dinfo;
 };
 
+//Base
+/**
+ * @defgroup cdc_circular_array_base Base
+ * @{
+ */
 /**
  * @brief Constructs an empty circular array.
  * @param[out] d - cdc_circular_array
@@ -95,8 +105,13 @@ enum cdc_stat cdc_circular_array_ctorv(struct cdc_circular_array **d,
  * @param[in] d - cdc_circular_array
  */
 void cdc_circular_array_dtor(struct cdc_circular_array *d);
+/** @} */
 
 // Element access
+/**
+ * @defgroup cdc_circular_array_element_access Element access
+ * @{
+ */
 /**
  * @brief Returns an element at index position in the circular array.
  * @param[in] d - cdc_circular_array
@@ -151,8 +166,13 @@ static inline void *cdc_circular_array_back(struct cdc_circular_array *d)
   size_t real_index = (d->tail - 1 + d->capacity) & (d->capacity - 1);
   return d->buffer[real_index];
 }
+/** @} */
 
 // Capacity
+/**
+ * @defgroup cdc_circular_array_capacity Capacity
+ * @{
+ */
 /**
  * @brief Checks if the circular array has no elements.
  * @param[in] d - cdc_circular_array
@@ -176,8 +196,13 @@ static inline size_t cdc_circular_array_size(struct cdc_circular_array *d)
 
   return d->size;
 }
+/** @} */
 
 // Modifiers
+/**
+ * @defgroup cdc_circular_array_modifiers Modifiers
+ * @{
+ */
 /**
  * @brief Sets an element at index position to the value. The function is not
  * called to free memory.
@@ -261,11 +286,13 @@ void cdc_circular_array_pop_front(struct cdc_circular_array *d);
  */
 void cdc_circular_array_swap(struct cdc_circular_array *a,
                              struct cdc_circular_array *b);
+/** @} */
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
 typedef struct cdc_circular_array circular_array_t;
 
+// Base
 #define circular_array_ctor(...) cdc_circular_array_ctor(__VA_ARGS__)
 #define circular_array_ctorl(...) cdc_circular_array_ctorl(__VA_ARGS__)
 #define circular_array_ctorv(...) cdc_circular_array_ctorv(__VA_ARGS__)
@@ -293,5 +320,5 @@ typedef struct cdc_circular_array circular_array_t;
 #define circular_array_pop_front(...) cdc_circular_array_pop_back(__VA_ARGS__)
 #define circular_array_swap(...) cdc_circular_array_swap(__VA_ARGS__)
 #endif
-
+/** @} */
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_CIRCULAR_ARRAY_H

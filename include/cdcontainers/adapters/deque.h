@@ -22,7 +22,7 @@
  * @file
  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
  * @brief The cdc_deque is a struct and functions that provide a
- * double-ended queue
+ * double-ended queue.
  */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_DEQUE_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_DEQUE_H
@@ -37,6 +37,11 @@
 #include <stdlib.h>
 
 /**
+ * @defgroup cdc_deque
+ * @brief The cdc_deque is a struct and functions that provide a double-ended queue.
+ * @{
+ */
+/**
  * @brief The cdc_deque struct
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
@@ -46,6 +51,11 @@ struct cdc_deque {
   const struct cdc_sequence_table *table;
 };
 
+//Base
+/**
+ * @defgroup cdc_deque_base Base
+ * @{
+ */
 /**
  * @brief Constructs an empty deque.
  * @param table - method table for a particular implementation
@@ -88,8 +98,13 @@ enum cdc_stat cdc_deque_ctorv(const struct cdc_sequence_table *table,
  * @param d - cdc_deque
  */
 void cdc_deque_dtor(struct cdc_deque *d);
+/** @} */
 
 // Element access
+/**
+ * @defgroup cdc_deque_element_access Element access
+ * @{
+ */
 /**
  * @brief Returns the item at index position index in the deque. Index
  * must be a valid index position in the deque.
@@ -129,8 +144,13 @@ static inline void *cdc_deque_back(struct cdc_deque *d)
 
   return d->table->back(d->container);
 }
+/** @} */
 
 // Capacity
+/**
+ * @defgroup cdc_deque_capacity Capacity
+ * @{
+ */
 /**
  * @brief Returns true if the deque has size 0; otherwise returns
  * false.
@@ -155,8 +175,13 @@ static inline size_t cdc_deque_size(struct cdc_deque *d)
 
   return d->table->size(d->container);
 }
+/** @} */
 
 // Modifiers
+/**
+ * @defgroup cdc_deque_modifiers Modifiers
+ * @{
+ */
 /**
  * @brief Sets the deque at index position to the value. The function
  * is not called to free memory.
@@ -272,11 +297,13 @@ static inline void cdc_deque_pop_front(struct cdc_deque *d)
  * @param b - cdc_deque
  */
 void cdc_deque_swap(struct cdc_deque *a, struct cdc_deque *b);
+/** @} */
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
 typedef struct cdc_deque deque_t;
 
+// Base
 #define deque_ctor(...) cdc_deque_ctor(__VA_ARGS__)
 #define deque_ctorl(...) cdc_deque_ctorl(__VA_ARGS__)
 #define deque_ctorv(...) cdc_deque_ctorv(__VA_ARGS__)
@@ -302,5 +329,5 @@ typedef struct cdc_deque deque_t;
 #define deque_pop_front(...) cdc_deque_pop_back(__VA_ARGS__)
 #define deque_swap(...) cdc_deque_swap(__VA_ARGS__)
 #endif
-
+/** @} */
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_DEQUE_H

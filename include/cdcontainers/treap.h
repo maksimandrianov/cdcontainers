@@ -33,6 +33,12 @@
 #include <stdarg.h>
 #include <stdbool.h>
 
+/**
+ * @defgroup cdc_treap
+ * @brief The cdc_treap is a struct and functions that provide a treap.
+ * @{
+ */
+
 typedef int (*cdc_priority_fn_t)(void *);
 
 /**
@@ -77,6 +83,11 @@ struct cdc_pair_treap_iter_bool {
   bool second;
 };
 
+// Base
+/**
+ * @defgroup cdc_treap_base Base
+ * @{
+ */
 /**
  * @brief Constructs an empty treap.
  * @param[out] t - cdc_treap
@@ -161,8 +172,13 @@ enum cdc_stat cdc_treap_ctorv1(struct cdc_treap **t, struct cdc_data_info *info,
  * @param[in] t - cdc_treap
  */
 void cdc_treap_dtor(struct cdc_treap *t);
+/** @} */
 
 // Lookup
+/**
+ * @defgroup cdc_treap_lookup Lookup
+ * @{
+ */
 /**
  * @brief Returns a value that is mapped to a key. If the key does
  * not exist, then NULL will return.
@@ -192,8 +208,13 @@ size_t cdc_treap_count(struct cdc_treap *t, void *key);
  * returned.
  */
 void cdc_treap_find(struct cdc_treap *t, void *key, struct cdc_treap_iter *it);
+/** @} */
 
 // Capacity
+/**
+ * @defgroup cdc_treap_capacity Capacity
+ * @{
+ */
 /**
  * @brief Returns the number of items in the treap.
  * @param[in] t - cdc_treap
@@ -217,8 +238,13 @@ static inline bool cdc_treap_empty(struct cdc_treap *t)
 
   return t->size == 0;
 }
+/** @} */
 
 // Modifiers
+/**
+ * @defgroup cdc_treap_modifiers Modifiers
+ * @{
+ */
 /**
  * @brief Removes all the elements from the treap.
  * @param[in] t - cdc_treap
@@ -304,8 +330,13 @@ size_t cdc_treap_erase(struct cdc_treap *t, void *key);
  * @param[in, out] b - cdc_treap
  */
 void cdc_treap_swap(struct cdc_treap *a, struct cdc_treap *b);
+/** @} */
 
 // Iterators
+/**
+ * @defgroup cdc_treap_iterators Iterators
+ * @{
+ */
 /**
  * @brief Initializes the iterator to the beginning.
  * @param t[in] - cdc_treap
@@ -319,8 +350,14 @@ void cdc_treap_begin(struct cdc_treap *t, struct cdc_treap_iter *it);
  * @param[out] it - cdc_treap_iter
  */
 void cdc_treap_end(struct cdc_treap *t, struct cdc_treap_iter *it);
+/** @} */
 
 // Iterators
+/**
+ * @defgroup cdc_treap_iter
+ * @brief The cdc_treap_iter is a struct and functions that provide a treap iterator.
+ * @{
+ */
 /**
  * @brief Advances the iterator to the next element in the treap.
  * @param[in] it - iterator
@@ -416,6 +453,7 @@ static inline bool cdc_treap_iter_is_eq(struct cdc_treap_iter *it1,
   return it1->container == it2->container && it1->prev == it2->prev &&
          it1->current == it2->current;
 }
+/** @} */
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
@@ -424,6 +462,7 @@ typedef struct cdc_treap_iter treap_iter_t;
 typedef struct cdc_pair_treap_iter pair_treap_iter_t;
 typedef struct cdc_pair_treap_iter_bool pair_treap_iter_bool_t;
 
+// Base
 #define treap_ctor(...) cdc_treap_ctor(__VA_ARGS__)
 #define treap_ctorv(...) cdc_treap_ctorv(__VA_ARGS__)
 #define treap_ctorl(...) cdc_treap_ctorl(__VA_ARGS__)
@@ -462,5 +501,5 @@ typedef struct cdc_pair_treap_iter_bool pair_treap_iter_bool_t;
 #define treap_iter_key_value(...) cdc_treap_iter_key_value(__VA_ARGS__)
 #define treap_iter_is_eq(...) cdc_treap_iter_is_eq(__VA_ARGS__)
 #endif
-
+/** @} */
 #endif  // CDSTRUCTURES_INCLUDE_CDCONTAINERS_VECTOR_H

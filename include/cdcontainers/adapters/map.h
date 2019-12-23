@@ -39,6 +39,11 @@
 #include <stdbool.h>
 
 /**
+ * @defgroup cdc_map
+ * @brief The cdc_map is a struct and functions that provide a map.
+ * @{
+ */
+/**
  * @brief The cdc_map is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
@@ -58,10 +63,15 @@ struct cdc_map_iter {
   const struct cdc_map_iter_table *table;
 };
 
+// Base
+/**
+ * @defgroup cdc_map_base Base
+ * @{
+ */
 /**
  * @brief Constructs an empty map.
  * @param[in] table - table of a map implementation. It can be cdc_map_avl,
- * cdc_map_splay, cdc_map_treap, cdc_map_htable.
+ * cdc_map_splay, cdc_map_map, cdc_map_htable.
  * @param[out] m - cdc_map
  * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
@@ -84,7 +94,7 @@ enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table,
  * pointers on cdc_pair's(first - key, and the second - value).  The last item
  * must be CDC_END.
  * @param[in] table - table of a map implementation. It can be cdc_map_avl,
- * cdc_map_splay, cdc_map_treap, cdc_map_htable.
+ * cdc_map_splay, cdc_map_map, cdc_map_htable.
  * @param[out] m - cdc_map
  * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
@@ -109,7 +119,7 @@ enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table,
  * @brief Constructs a map, initialized by args. The last item must be
  * CDC_END.
  * @param[in] table - table of a map implementation. It can be cdc_map_avl,
- * cdc_map_splay, cdc_map_treap, cdc_map_htable.
+ * cdc_map_splay, cdc_map_map, cdc_map_htable.
  * @param[out] m - cdc_map
  * @param[in] info - cdc_data_info
  * @return CDC_STATUS_OK in a successful case or other value indicating
@@ -123,8 +133,13 @@ enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table,
  * @param[in] t - cdc_map
  */
 void cdc_map_dtor(struct cdc_map *m);
+/** @} */
 
 // Lookup
+/**
+ * @defgroup cdc_map_lookup Lookup
+ * @{
+ */
 /**
  * @brief Returns a value that is mapped to a key. If the key does
  * not exist, then NULL will return.
@@ -171,8 +186,13 @@ static inline void cdc_map_find(struct cdc_map *m, void *key,
 
   m->table->find(m->container, key, it->iter);
 }
+/** @} */
 
 // Capacity
+/**
+ * @defgroup cdc_map_capacity Capacity
+ * @{
+ */
 /**
  * @brief Returns the number of items in the map.
  * @param[in] m - cdc_map
@@ -196,8 +216,13 @@ static inline bool cdc_map_empty(struct cdc_map *m)
 
   return m->table->empty(m->container);
 }
+/** @} */
 
 // Modifiers
+/**
+ * @defgroup cdc_map_modifiers Modifiers
+ * @{
+ */
 /**
  * @brief Removes all the elements from the map.
  * @param[in] m - cdc_map
@@ -282,8 +307,46 @@ static inline void cdc_map_swap(struct cdc_map *a, struct cdc_map *b)
 
   CDC_SWAP(void *, a->container, b->container);
 }
+/** @} */
 
 // Iterators
+/**
+ * @defgroup cdc_map_iterators Iterators
+ * @{
+ */
+/**
+ * @brief Initializes the iterator to the beginning.
+ * @param[in] m - cdc_map
+ * @param[out] out - cdc_map_iter
+ */
+static inline void cdc_map_begin(struct cdc_map *m, struct cdc_map_iter *it)
+{
+  assert(m != NULL);
+  assert(it != NULL);
+
+  m->table->begin(m->container, it->iter);
+}
+
+/**
+ * @brief Initializes the iterator to the end.
+ * @param[in] m - cdc_map
+ * @param[out] it - iterator
+ */
+static inline void cdc_map_end(struct cdc_map *m, struct cdc_map_iter *it)
+{
+  assert(m != NULL);
+  assert(it != NULL);
+
+  m->table->end(m->container, it->iter);
+}
+/** @} */
+
+// Iterators
+/**
+ * @defgroup cdc_map_iter
+ * @brief The cdc_map_iter is a struct and functions that provide a map iterator.
+ * @{
+ */
 /**
  * @brief Constructs a map iterator. Should be called for each new iterator.
  * @param[in] t - cdc_map
@@ -333,33 +396,6 @@ static inline enum cdc_iterator_type cdc_map_iter_type(struct cdc_map_iter *it)
   return it->table->type();
 }
 
-/**
- * @brief Initializes the iterator to the beginning.
- * @param[in] m - cdc_map
- * @param[out] out - cdc_map_iter
- */
-static inline void cdc_map_begin(struct cdc_map *m, struct cdc_map_iter *it)
-{
-  assert(m != NULL);
-  assert(it != NULL);
-
-  m->table->begin(m->container, it->iter);
-}
-
-/**
- * @brief Initializes the iterator to the end.
- * @param[in] m - cdc_map
- * @param[out] it - iterator
- */
-static inline void cdc_map_end(struct cdc_map *m, struct cdc_map_iter *it)
-{
-  assert(m != NULL);
-  assert(it != NULL);
-
-  m->table->end(m->container, it->iter);
-}
-
-// Iterators
 /**
  * @brief Advances the iterator to the next element in the map.
  * @param[in] it - iterator
@@ -463,12 +499,14 @@ static inline bool cdc_map_iter_is_eq(struct cdc_map_iter *it1,
 
   return it1->table->eq(it1->iter, it2->iter);
 }
+/** @} */
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
 typedef struct cdc_map map_t;
 typedef struct cdc_map_iter map_iter_t;
 
+// Base
 #define map_ctor(...) cdc_map_ctor(__VA_ARGS__)
 #define map_ctorv(...) cdc_map_ctorv(__VA_ARGS__)
 #define map_ctorl(...) cdc_map_ctorl(__VA_ARGS__)
@@ -491,12 +529,12 @@ typedef struct cdc_map_iter map_iter_t;
 #define map_swap(...) cdc_map_swap(__VA_ARGS__)
 
 // Iterators
-#define map_iter_ctor(...) cdc_map_iter_ctor(__VA_ARGS__)
-#define map_iter_dtor(...) cdc_map_iter_dtor(__VA_ARGS__)
 #define map_begin(...) cdc_map_begin(__VA_ARGS__)
 #define map_end(...) cdc_map_end(__VA_ARGS__)
 
 // Iterators
+#define map_iter_ctor(...) cdc_map_iter_ctor(__VA_ARGS__)
+#define map_iter_dtor(...) cdc_map_iter_dtor(__VA_ARGS__)
 #define map_iter_next(...) cdc_map_iter_next(__VA_ARGS__)
 #define map_iter_has_next(...) cdc_map_iter_has_next(__VA_ARGS__)
 #define map_iter_key(...) cdc_map_iter_key(__VA_ARGS__)
@@ -504,5 +542,5 @@ typedef struct cdc_map_iter map_iter_t;
 #define map_iter_key_value(...) cdc_map_iter_key_value(__VA_ARGS__)
 #define map_iter_is_eq(...) cdc_map_iter_is_eq(__VA_ARGS__)
 #endif
-
+/** @} */
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_MAP_H

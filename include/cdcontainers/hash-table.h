@@ -36,6 +36,11 @@
 #include <stdlib.h>
 
 /**
+ * @defgroup cdc_hash_table
+ * @brief The cdc_hash_table is a struct and functions that provide a hash table.
+ * @{
+ */
+/**
  * @brief The cdc_hash_table_entry struct
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
@@ -70,7 +75,11 @@ struct cdc_hash_table_iter {
   struct cdc_hash_table *container;
   struct cdc_hash_table_entry *current;
 };
-
+// Base
+/**
+ * @defgroup cdc_hash_table_base Base
+ * @{
+ */
 /**
  * @brief Constructs an empty hash table.
  * @param[out] t - cdc_hash_table
@@ -159,8 +168,13 @@ enum cdc_stat cdc_hash_table_ctorv1(struct cdc_hash_table **t,
  * @param[in] t - cdc_hash_table
  */
 void cdc_hash_table_dtor(struct cdc_hash_table *t);
+/** @} */
 
 // Lookup
+/**
+ * @defgroup cdc_hash_table_lookup Lookup
+ * @{
+ */
 /**
  * @brief Returns a value that is mapped to a key. If the key does
  * not exist, then NULL will return.
@@ -192,8 +206,13 @@ size_t cdc_hash_table_count(struct cdc_hash_table *t, void *key);
  */
 void cdc_hash_table_find(struct cdc_hash_table *t, void *key,
                          struct cdc_hash_table_iter *it);
+/** @} */
 
 // Capacity
+/**
+ * @defgroup cdc_hash_table_capacity Capacity
+ * @{
+ */
 /**
  * @brief Returns the number of items in the hash_table.
  * @param[in] t - cdc_hash_table
@@ -217,8 +236,13 @@ static inline bool cdc_hash_table_empty(struct cdc_hash_table *t)
 
   return t->size == 0;
 }
+/** @} */
 
 // Modifiers
+/**
+ * @defgroup cdc_hash_table_modifiers Modifiers
+ * @{
+ */
 /**
  * @brief Removes all the elements from the hash_table.
  * @param[in] t - cdc_hash_table
@@ -272,8 +296,13 @@ size_t cdc_hash_table_erase(struct cdc_hash_table *t, void *key);
  * @param[in, out] b - cdc_hash_table
  */
 void cdc_hash_table_swap(struct cdc_hash_table *a, struct cdc_hash_table *b);
+/** @} */
 
 // Iterators
+/**
+ * @defgroup cdc_hash_table_iterators Iterators
+ * @{
+ */
 /**
  * @brief Initializes the iterator to the beginning.
  * @param t[in] - cdc_hash_table
@@ -303,8 +332,13 @@ static inline void cdc_hash_table_end(struct cdc_hash_table *t,
   it->container = t;
   it->current = NULL;
 }
+/** @} */
 
 // Hash policy
+/**
+ * @defgroup cdc_hash_table_hash_policy Hash policy
+ * @{
+ */
 /**
  * @brief Returns average number of elements per bucket.
  * @param[in] t - cdc_hash_table
@@ -361,8 +395,13 @@ enum cdc_stat cdc_hash_table_rehash(struct cdc_hash_table *t, size_t count);
  * an error.
  */
 enum cdc_stat cdc_hash_table_reserve(struct cdc_hash_table *t, size_t count);
+/** @} */
 
 // Bucket interface
+/**
+ * @defgroup cdc_hash_table_bucket_interface Bucket interface
+ * @{
+ */
 /**
  * @brief Returns the number of buckets.
  * @param[in] t - cdc_hash_table
@@ -374,8 +413,14 @@ static inline size_t cdc_hash_table_bucket_count(struct cdc_hash_table *t)
 
   return t->bcount;
 }
+/** @} */
 
 // Iterators
+/**
+ * @defgroup cdc_hash_table_iter
+ * @brief The cdc_hash_table_iter is a struct and functions that provide a hash table iterator.
+ * @{
+ */
 /**
  * @brief Advances the iterator to the next element in the hash table.
  * @param[in] it - iterator
@@ -455,6 +500,7 @@ static inline bool cdc_hash_table_iter_is_eq(struct cdc_hash_table_iter *it1,
 
   return it1->container == it2->container && it1->current == it2->current;
 }
+/** @} */
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
@@ -463,6 +509,7 @@ typedef struct cdc_hash_table_iter hash_table_iter_t;
 typedef struct cdc_pair_hash_table_iter pair_hash_table_iter_t;
 typedef struct cdc_pair_hash_table_iter_bool pair_hash_table_iter_bool_t;
 
+// Base
 #define hash_table_ctor(...) cdc_hash_table_ctor(__VA_ARGS__)
 #define hash_table_ctorl(...) cdc_hash_table_ctorl(__VA_ARGS__)
 #define hash_table_ctorv(...) cdc_hash_table_ctorv(__VA_ARGS__)
@@ -513,5 +560,5 @@ typedef struct cdc_pair_hash_table_iter_bool pair_hash_table_iter_bool_t;
   cdc_hash_table_iter_key_value(__VA_ARGS__)
 #define hash_table_iter_is_eq(...) cdc_hash_table_iter_is_eq(__VA_ARGS__)
 #endif
-
+/** @} */
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_HASH_TABLE_H

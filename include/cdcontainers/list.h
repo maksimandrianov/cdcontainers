@@ -36,6 +36,12 @@
 #include <stdlib.h>
 
 /**
+ * @defgroup cdc_list
+ * @brief The cdc_list is a struct and functions that provide a doubly
+ * linked list.
+ * @{
+ */
+/**
  * @brief The cdc_list_node is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
  * Use only special functions to access and change structure fields.
@@ -93,6 +99,11 @@ struct cdc_list_riter {
 #define CDC_LIST_FOR_EACH(item, list) \
   for (cdc_list_node * (item) = (list->head); (item); (item) = (item)->next)
 
+// Base
+/**
+ * @defgroup cdc_list_base Base
+ * @{
+ */
 /**
  * @brief Constructs an empty list.
  * @param[out] l - cdc_list
@@ -137,8 +148,13 @@ enum cdc_stat cdc_list_ctorv(struct cdc_list **l, struct cdc_data_info *info,
  * @param[in] l - cdc_list
  */
 void cdc_list_dtor(struct cdc_list *l);
+/** @} */
 
 // Element access
+/**
+ * @defgroup cdc_list_element_access Element access
+ * @{
+ */
 /**
  * @brief Returns an element at index position index in the list.
  * @param[in] l - cdc_list
@@ -183,66 +199,13 @@ static inline void *cdc_list_back(struct cdc_list *l)
 
   return l->tail->data;
 }
-
-// Iterators
-/**
- * @brief Initializes the iterator to the beginning.
- * @param[in] l - cdc_list
- * @param[out] it - cdc_list_iter
- */
-static inline void cdc_list_begin(struct cdc_list *l, struct cdc_list_iter *it)
-{
-  assert(l != NULL);
-  assert(it != NULL);
-
-  it->container = l;
-  it->current = l->head;
-}
-
-/**
- * @brief Initializes the iterator to the end.
- * @param[in] l - cdc_list
- * @param[out] it - cdc_list_iter
- */
-static inline void cdc_list_end(struct cdc_list *l, struct cdc_list_iter *it)
-{
-  assert(l != NULL);
-  assert(it != NULL);
-
-  it->container = l;
-  it->current = NULL;
-}
-
-/**
- * @brief Initializes the reverse iterator to the beginning.
- * @param[in] l - cdc_list
- * @param[out] it - cdc_list_riter
- */
-static inline void cdc_list_rbegin(struct cdc_list *l,
-                                   struct cdc_list_riter *it)
-{
-  assert(l != NULL);
-  assert(it != NULL);
-
-  it->container = l;
-  it->current = l->tail;
-}
-
-/**
- * @brief Initializes the reverse iterator to the end.
- * @param[in] l - cdc_list
- * @param[out] it - cdc_list_riter
- */
-static inline void cdc_list_rend(struct cdc_list *l, struct cdc_list_riter *it)
-{
-  assert(l != NULL);
-  assert(it != NULL);
-
-  it->container = l;
-  it->current = NULL;
-}
+/** @} */
 
 // Capacity
+/**
+ * @defgroup cdc_list_capacity Capacity
+ * @{
+ */
 /**
  * @brief Returns the number of elements in the list.
  * @param[in] l - cdc_list
@@ -266,8 +229,13 @@ static inline bool cdc_list_empty(struct cdc_list *l)
 
   return l->size == 0;
 }
+/** @} */
 
 // Modifiers
+/**
+ * @defgroup cdc_list_modifiers Modifiers
+ * @{
+ */
 /**
  * @brief Sets an element at index position to the value. The function is not
  * called to free memory.
@@ -354,8 +322,13 @@ void cdc_list_clear(struct cdc_list *l);
  * @param[in, out] b - cdc_list
  */
 void cdc_list_swap(struct cdc_list *a, struct cdc_list *b);
+/** @} */
 
 // Operations
+/**
+ * @defgroup cdc_list_operations Operations
+ * @{
+ */
 /**
  * @brief Transfers elements from one container, iterators (first, last] to
  * another container at position before iterator position.
@@ -447,8 +420,77 @@ void cdc_list_csort(struct cdc_list *l, cdc_binary_pred_fn_t compare);
  * @brief A function |cb| is applied to each item of the list.
  */
 void cdc_list_foreach(struct cdc_list *l, void (*cb)(void *));
+/** @} */
 
 // Iterators
+/**
+ * @defgroup cdc_avl_iterators Iterators
+ * @{
+ */
+/**
+ * @brief Initializes the iterator to the beginning.
+ * @param[in] l - cdc_list
+ * @param[out] it - cdc_list_iter
+ */
+static inline void cdc_list_begin(struct cdc_list *l, struct cdc_list_iter *it)
+{
+  assert(l != NULL);
+  assert(it != NULL);
+
+  it->container = l;
+  it->current = l->head;
+}
+
+/**
+ * @brief Initializes the iterator to the end.
+ * @param[in] l - cdc_list
+ * @param[out] it - cdc_list_iter
+ */
+static inline void cdc_list_end(struct cdc_list *l, struct cdc_list_iter *it)
+{
+  assert(l != NULL);
+  assert(it != NULL);
+
+  it->container = l;
+  it->current = NULL;
+}
+
+/**
+ * @brief Initializes the reverse iterator to the beginning.
+ * @param[in] l - cdc_list
+ * @param[out] it - cdc_list_riter
+ */
+static inline void cdc_list_rbegin(struct cdc_list *l,
+                                   struct cdc_list_riter *it)
+{
+  assert(l != NULL);
+  assert(it != NULL);
+
+  it->container = l;
+  it->current = l->tail;
+}
+
+/**
+ * @brief Initializes the reverse iterator to the end.
+ * @param[in] l - cdc_list
+ * @param[out] it - cdc_list_riter
+ */
+static inline void cdc_list_rend(struct cdc_list *l, struct cdc_list_riter *it)
+{
+  assert(l != NULL);
+  assert(it != NULL);
+
+  it->container = l;
+  it->current = NULL;
+}
+/** @} */
+
+// Iterators
+/**
+ * @defgroup cdc_list_iter
+ * @brief The cdc_list_iter is a struct and functions that provide a list iterator.
+ * @{
+ */
 /**
  * @brief Advances the iterator to the next element in the list.
  * @param[in] it - iterator
@@ -635,6 +677,7 @@ static inline bool cdc_list_riter_is_eq(struct cdc_list_riter *rit1,
 
   return rit1->container == rit2->container && rit1->current == rit2->current;
 }
+/** @} */
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
@@ -642,6 +685,7 @@ typedef struct cdc_list list_t;
 typedef struct cdc_list_iter list_iter_t;
 typedef struct cdc_list_riter list_riter_t;
 
+// Base
 #define list_ctor(...) cdc_list_ctor(__VA_ARGS__)
 #define list_ctorl(...) cdc_list_ctorl(__VA_ARGS__)
 #define list_ctorv(...) cdc_list_ctorv(__VA_ARGS__)
@@ -651,12 +695,6 @@ typedef struct cdc_list_riter list_riter_t;
 #define list_at(...) cdc_list_at(__VA_ARGS__)
 #define list_front(...) cdc_list_front(__VA_ARGS__)
 #define list_back(...) cdc_list_back(__VA_ARGS__)
-
-// Iterators
-#define list_begin(...) cdc_list_begin(__VA_ARGS__)
-#define list_end(...) cdc_list_end(__VA_ARGS__)
-#define list_rbegin(...) cdc_list_rbegin(__VA_ARGS__)
-#define list_rend(...) cdc_list_rend(__VA_ARGS__)
 
 // Capacity
 #define list_empty(...) cdc_list_empty(__VA_ARGS__)
@@ -688,6 +726,12 @@ typedef struct cdc_list_riter list_riter_t;
 #define list_csort(...) cdc_list_csort(__VA_ARGS__)
 
 #define list_foreach(...) cdc_list_foreach(__VA_ARGS__)
+
+// Iterators
+#define list_begin(...) cdc_list_begin(__VA_ARGS__)
+#define list_end(...) cdc_list_end(__VA_ARGS__)
+#define list_rbegin(...) cdc_list_rbegin(__VA_ARGS__)
+#define list_rend(...) cdc_list_rend(__VA_ARGS__)
 
 // Iterators
 #define list_iter_next(...) cdc_list_iter_next(__VA_ARGS__)

@@ -21,7 +21,7 @@
 /**
  * @file
  * @author Maksim Andrianov <maksimandrianov1@yandex.ru>
- * @brief The cdc_avl_tree is a struct and functions that provide a avl tree.
+ * @brief The cdc_avl_tree is a struct and functions that provide an avl tree.
  */
 #ifndef CDCONTAINERS_INCLUDE_CDCONTAINERS_avl_tree_H
 #define CDCONTAINERS_INCLUDE_CDCONTAINERS_avl_tree_H
@@ -33,6 +33,11 @@
 #include <stdarg.h>
 #include <stdbool.h>
 
+/**
+ * @defgroup cdc_avl_tree
+ * @brief The cdc_avl_tree is a struct and functions that provide an avl tree.
+ * @{
+ */
 /**
  * @brief The cdc_avl_tree_node is service struct.
  * @warning To avoid problems, do not change the structure fields in the code.
@@ -79,6 +84,11 @@ struct cdc_pair_avl_tree_iter_bool {
   bool second;
 };
 
+// Base
+/**
+ * @defgroup cdc_avl_tree_base Base
+ * @{
+ */
 /**
  * @brief Constructs an empty avl tree.
  * @param[out] t - cdc_avl_tree
@@ -90,7 +100,7 @@ enum cdc_stat cdc_avl_tree_ctor(struct cdc_avl_tree **t,
                                 struct cdc_data_info *info);
 
 /**
- * @brief Constructs a avl tree, initialized by an variable number of
+ * @brief Constructs an avl tree, initialized by an variable number of
  * pointers on cdc_pair's(first - key, and the second - value).  The last item
  * must be CDC_END.
  * @param[out] t - cdc_avl_tree
@@ -113,7 +123,7 @@ enum cdc_stat cdc_avl_tree_ctorl(struct cdc_avl_tree **t,
                                  struct cdc_data_info *info, ...);
 
 /**
- * @brief Constructs a avl tree, initialized by args. The last item must be
+ * @brief Constructs an avl tree, initialized by args. The last item must be
  * CDC_END.
  * @param[out] t - cdc_avl_tree
  * @param[in] info - cdc_data_info
@@ -128,8 +138,13 @@ enum cdc_stat cdc_avl_tree_ctorv(struct cdc_avl_tree **t,
  * @param[in] t - cdc_avl_tree
  */
 void cdc_avl_tree_dtor(struct cdc_avl_tree *t);
+/** @} */
 
 // Lookup
+/**
+ * @defgroup cdc_avl_tree_lookup Lookup
+ * @{
+ */
 /**
  * @brief Returns a value that is mapped to a key. If the key does
  * not exist, then NULL will return.
@@ -160,8 +175,13 @@ size_t cdc_avl_tree_count(struct cdc_avl_tree *t, void *key);
  */
 void cdc_avl_tree_find(struct cdc_avl_tree *t, void *key,
                        struct cdc_avl_tree_iter *it);
+/** @} */
 
 // Capacity
+/**
+ * @defgroup cdc_avl_tree_capacity Capacity
+ * @{
+ */
 /**
  * @brief Returns the number of items in the avl_tree.
  * @param[in] t - cdc_avl_tree
@@ -185,8 +205,13 @@ static inline bool cdc_avl_tree_empty(struct cdc_avl_tree *t)
 
   return t->size == 0;
 }
+/** @} */
 
 // Modifiers
+/**
+ * @defgroup cdc_avl_tree_modifiers Modifiers
+ * @{
+ */
 /**
  * @brief Removes all the elements from the avl_tree.
  * @param[in] t - cdc_avl_tree
@@ -274,8 +299,13 @@ size_t cdc_avl_tree_erase(struct cdc_avl_tree *t, void *key);
  * @param[in, out] b - cdc_avl_tree
  */
 void cdc_avl_tree_swap(struct cdc_avl_tree *a, struct cdc_avl_tree *b);
+/** @} */
 
 // Iterators
+/**
+ * @defgroup cdc_avl_tree_iterators Iterators
+ * @{
+ */
 /**
  * @brief Initializes the iterator to the beginning.
  * @param[in] t - cdc_avl_tree
@@ -289,8 +319,14 @@ void cdc_avl_tree_begin(struct cdc_avl_tree *t, struct cdc_avl_tree_iter *it);
  * @param[out] it - cdc_avl_tree_iter
  */
 void cdc_avl_tree_end(struct cdc_avl_tree *t, struct cdc_avl_tree_iter *it);
+/** @} */
 
 // Iterators
+/**
+ * @defgroup cdc_avl_tree_iter
+ * @brief The cdc_avl_tree_iter is a struct and functions that provide an avl tree iterator.
+ * @{
+ */
 /**
  * @brief Advances the iterator to the next element in the avl tree.
  * @param[in] it - iterator
@@ -386,6 +422,7 @@ static inline bool cdc_avl_tree_iter_is_eq(struct cdc_avl_tree_iter *it1,
   return it1->container == it2->container && it1->prev == it2->prev &&
          it1->current == it2->current;
 }
+/** @} */
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
@@ -394,6 +431,7 @@ typedef struct cdc_avl_tree_iter avl_tree_iter_t;
 typedef struct cdc_pair_avl_tree_iter pair_avl_tree_iter_t;
 typedef struct cdc_pair_avl_tree_iter_bool pair_avl_tree_iter_bool_t;
 
+// Base
 #define avl_tree_ctor(...) cdc_avl_tree_ctor(__VA_ARGS__)
 #define avl_tree_ctorv(...) cdc_avl_tree_ctorv(__VA_ARGS__)
 #define avl_tree_ctorl(...) cdc_avl_tree_ctorl(__VA_ARGS__)
@@ -431,5 +469,5 @@ typedef struct cdc_pair_avl_tree_iter_bool pair_avl_tree_iter_bool_t;
 #define avl_tree_iter_key_value(...) cdc_avl_tree_iter_key_value(__VA_ARGS__)
 #define avl_tree_iter_is_eq(...) cdc_avl_tree_iter_is_eq(__VA_ARGS__)
 #endif
-
+/** @} */
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_avl_tree_H
