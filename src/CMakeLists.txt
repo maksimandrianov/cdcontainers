@@ -1,6 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
-
-project(${LIBRARY_NAME})
+project(cdcontainers)
 
 set(LIB_VERSION_MAJOR 0)
 set(LIB_VERSION_MINOR 1)
@@ -42,7 +40,7 @@ include_directories("${PROJECT_INCLUDE_DIR}")
 
 add_library(${PROJECT_NAME} SHARED ${SOURCE})
 
-set_target_properties(${LIBRARY_NAME} PROPERTIES
+set_target_properties(${PROJECT_NAME} PROPERTIES
   VERSION ${LIB_FULL_VERSION}
   SOVERSION ${LIB_VERSION_MAJOR})
 

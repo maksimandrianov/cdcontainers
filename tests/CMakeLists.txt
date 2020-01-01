@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 2.8)
-
 project(tests)
 
 find_path(CUNIT_INCLUDE_DIR NAMES CUnit/CUnit.h)
@@ -45,6 +43,6 @@ set(SOURCE
 
 add_executable(${PROJECT_NAME} ${SOURCE})
 
-target_link_libraries(${PROJECT_NAME} cunit m ${LIBRARY_NAME})
+target_link_libraries(${PROJECT_NAME} cunit m cdcontainers)
 
 add_custom_target(check ${EXECUTABLE_OUTPUT_PATH}/${PROJECT_NAME} ${PROJECT_NAME})
