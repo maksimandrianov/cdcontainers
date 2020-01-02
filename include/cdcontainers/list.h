@@ -97,7 +97,7 @@ struct cdc_list_riter {
  * @endcode
  */
 #define CDC_LIST_FOR_EACH(item, list) \
-  for (cdc_list_node * (item) = (list->head); (item); (item) = (item)->next)
+  for (struct cdc_list_node * (item) = (list->head); (item); (item) = (item)->next)
 
 // Base
 /**
