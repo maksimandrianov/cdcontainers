@@ -310,17 +310,15 @@ enum cdc_stat cdc_list_push_back(struct cdc_list *l, void *value)
   }
 
   if (l->tail == NULL) {
-    node->next = NULL;
     node->prev = NULL;
     l->head = node;
-    l->tail = node;
   } else {
-    node->next = NULL;
     node->prev = l->tail;
     l->tail->next = node;
-    l->tail = node;
   }
 
+  node->next = NULL;
+  l->tail = node;
   ++l->size;
   return CDC_STATUS_OK;
 }
@@ -354,16 +352,14 @@ enum cdc_stat cdc_list_push_front(struct cdc_list *l, void *value)
 
   if (l->head == NULL) {
     node->next = NULL;
-    node->prev = NULL;
-    l->head = node;
     l->tail = node;
   } else {
     node->next = l->head;
-    node->prev = NULL;
     l->head->prev = node;
-    l->head = node;
   }
 
+  l->head = node;
+  node->prev = NULL;
   ++l->size;
   return CDC_STATUS_OK;
 }
@@ -415,6 +411,7 @@ void cdc_list_pop_front(struct cdc_list *l)
     l->tail = NULL;
     l->head = NULL;
   }
+
   --l->size;
 }
 
