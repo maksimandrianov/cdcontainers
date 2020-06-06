@@ -68,6 +68,17 @@ matrix:
       env:
         - CC=gcc-9
 
+    - os: linux
+      dist: bionic
+      compiler: gcc
+      addons:
+        apt:
+          sources: 
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: ['gcc-10', 'libcunit1-dev']
+      env:
+        - CC=gcc-9
+
       dist: xenail  
       compiler: clang
       addons:
@@ -172,30 +183,44 @@ matrix:
         - CC=clang-9
 
     - os: osx
-      osx_image: xcode6.4
+      osx_image: xcode6.5
       compiler: clang
-      before_install: brew update && brew install cunit
+      before_install: brew update-reset && brew install cunit
       env:
         - CC=clang
 
     - os: osx
       osx_image: xcode7.3
       compiler: clang
-      before_install: brew update && brew install cunit
+      before_install: brew update-reset && brew install cunit
       env:
         - CC=clang
 
     - os: osx
       osx_image: xcode8.3
       compiler: clang
-      before_install: brew update && brew install cunit
+      before_install: brew update-reset && brew install cunit
       env:
         - CC=clang
 
     - os: osx
       osx_image: xcode9.4
       compiler: clang
-      before_install: brew update && brew install cunit
+      before_install: brew update-reset && brew install cunit
+      env:
+        - CC=clang
+
+    - os: osx
+      osx_image: xcode10.3
+      compiler: clang
+      before_install: brew update-reset && brew install cunit
+      env:
+        - CC=clang
+
+    - os: osx
+      osx_image: xcode11.5
+      compiler: clang
+      before_install: brew update-reset && brew install cunit
       env:
         - CC=clang
 
