@@ -117,8 +117,7 @@ enum cdc_stat cdc_treap_ctor(struct cdc_treap **t, struct cdc_data_info *info);
  * }
  * @endcode
  */
-enum cdc_stat cdc_treap_ctorl(struct cdc_treap **t, struct cdc_data_info *info,
-                              ...);
+enum cdc_stat cdc_treap_ctorl(struct cdc_treap **t, struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs a treap, initialized by args. The last item must be
@@ -128,8 +127,7 @@ enum cdc_stat cdc_treap_ctorl(struct cdc_treap **t, struct cdc_data_info *info,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_treap_ctorv(struct cdc_treap **t, struct cdc_data_info *info,
-                              va_list args);
+enum cdc_stat cdc_treap_ctorv(struct cdc_treap **t, struct cdc_data_info *info, va_list args);
 
 /**
  * @brief Constructs an empty treap.
@@ -294,8 +292,7 @@ enum cdc_stat cdc_treap_insert1(struct cdc_treap *t, void *key, void *value,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_treap_insert_or_assign(struct cdc_treap *t, void *key,
-                                         void *value,
+enum cdc_stat cdc_treap_insert_or_assign(struct cdc_treap *t, void *key, void *value,
                                          struct cdc_pair_treap_iter_bool *ret);
 
 /**
@@ -311,10 +308,8 @@ enum cdc_stat cdc_treap_insert_or_assign(struct cdc_treap *t, void *key,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_treap_insert_or_assign1(struct cdc_treap *t, void *key,
-                                          void *value,
-                                          struct cdc_treap_iter *it,
-                                          bool *inserted);
+enum cdc_stat cdc_treap_insert_or_assign1(struct cdc_treap *t, void *key, void *value,
+                                          struct cdc_treap_iter *it, bool *inserted);
 
 /**
  * @brief Removes the element (if one exists) with the key equivalent to key.
@@ -427,8 +422,7 @@ static inline void *cdc_treap_iter_value(struct cdc_treap_iter *it)
  * @param[in] it - iterator
  * @return pair, where first - key, second - value.
  */
-static inline struct cdc_pair cdc_treap_iter_key_value(
-    struct cdc_treap_iter *it)
+static inline struct cdc_pair cdc_treap_iter_key_value(struct cdc_treap_iter *it)
 {
   assert(it != NULL);
 
@@ -444,19 +438,18 @@ static inline struct cdc_pair cdc_treap_iter_key_value(
  * @return false if the iterator |it1| equal to the iterator |it2|,
  * otherwise returns false.
  */
-static inline bool cdc_treap_iter_is_eq(struct cdc_treap_iter *it1,
-                                        struct cdc_treap_iter *it2)
+static inline bool cdc_treap_iter_is_eq(struct cdc_treap_iter *it1, struct cdc_treap_iter *it2)
 {
   assert(it1 != NULL);
   assert(it2 != NULL);
 
-  return it1->container == it2->container && it1->prev == it2->prev &&
-         it1->current == it2->current;
+  return it1->container == it2->container && it1->prev == it2->prev && it1->current == it2->current;
 }
 /** @} */
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
+typedef struct cdc_treap_node treap_node_t;
 typedef struct cdc_treap treap_t;
 typedef struct cdc_treap_iter treap_iter_t;
 typedef struct cdc_pair_treap_iter pair_treap_iter_t;
@@ -495,7 +488,9 @@ typedef struct cdc_pair_treap_iter_bool pair_treap_iter_bool_t;
 
 // Iterators
 #define treap_iter_next(...) cdc_treap_iter_next(__VA_ARGS__)
+#define treap_iter_prev(...) cdc_treap_iter_prev(__VA_ARGS__)
 #define treap_iter_has_next(...) cdc_treap_iter_has_next(__VA_ARGS__)
+#define treap_iter_has_prev(...) cdc_treap_iter_has_prev(__VA_ARGS__)
 #define treap_iter_key(...) cdc_treap_iter_key(__VA_ARGS__)
 #define treap_iter_value(...) cdc_treap_iter_value(__VA_ARGS__)
 #define treap_iter_key_value(...) cdc_treap_iter_key_value(__VA_ARGS__)

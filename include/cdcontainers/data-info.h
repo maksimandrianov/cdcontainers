@@ -33,34 +33,35 @@ void cdc_di_shared_dtor(struct cdc_data_info *info);
 #define CDC_HAS_CP(dinfo) (dinfo && dinfo->cp)
 #define CDC_HAS_SIZE(dinfo) (dinfo && dinfo->size)
 
-static inline int cdc_eq(int (*pred)(const void *, const void *), const void *l,
-                         const void *r)
+static inline int cdc_eq(int (*pred)(const void *, const void *), const void *l, const void *r)
 {
   return !(pred(l, r) || pred(r, l));
 }
 
-static inline int cdc_not_eq(int (*pred)(const void *, const void *),
-                             const void *l, const void *r)
+static inline int cdc_not_eq(int (*pred)(const void *, const void *), const void *l, const void *r)
 {
   return pred(l, r) || pred(r, l);
 }
 
-static inline int cdc_gt(int (*pred)(const void *, const void *), const void *l,
-                         const void *r)
+static inline int cdc_gt(int (*pred)(const void *, const void *), const void *l, const void *r)
 {
   return pred(r, l);
 }
 
-static inline int cdc_gte(int (*pred)(const void *, const void *),
-                          const void *l, const void *r)
+static inline int cdc_gte(int (*pred)(const void *, const void *), const void *l, const void *r)
 {
   return !pred(l, r);
 }
 
-static inline int cdc_lte(int (*pred)(const void *, const void *),
-                          const void *l, const void *r)
+static inline int cdc_lte(int (*pred)(const void *, const void *), const void *l, const void *r)
 {
   return !pred(r, l);
 }
+
+// Short names
+#ifdef CDC_USE_SHORT_NAMES
+#define di_shared_ctorc(...) cdc_di_shared_ctorc(__VA_ARGS__)
+#define di_shared_dtor(...) cdc_di_shared_dtor(__VA_ARGS__)
+#endif
 
 #endif  // CDCONTAINERS_SRC_DATA_INFO_Hs

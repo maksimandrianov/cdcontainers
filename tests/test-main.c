@@ -67,8 +67,7 @@ int main(int argc, char** argv)
       CU_add_test(p_suite, "test_push_back", test_array_push_back) == NULL ||
       CU_add_test(p_suite, "test_pop_back", test_array_pop_back) == NULL ||
       CU_add_test(p_suite, "test_swap", test_array_swap) == NULL ||
-      CU_add_test(p_suite, "test_shrink_to_fit", test_array_shrink_to_fit) ==
-          NULL) {
+      CU_add_test(p_suite, "test_shrink_to_fit", test_array_shrink_to_fit) == NULL) {
     CU_cleanup_registry();
     return CU_get_error();
   }
@@ -94,8 +93,7 @@ int main(int argc, char** argv)
       CU_add_test(p_suite, "test_ierase", test_list_ierase) == NULL ||
       CU_add_test(p_suite, "test_clear", test_list_clear) == NULL ||
       CU_add_test(p_suite, "test_iterators", test_list_iterators) == NULL ||
-      CU_add_test(p_suite, "test_reverse_iterators",
-                  test_list_reverse_iterators) == NULL ||
+      CU_add_test(p_suite, "test_reverse_iterators", test_list_reverse_iterators) == NULL ||
       CU_add_test(p_suite, "test_splice", test_list_splice) == NULL ||
       CU_add_test(p_suite, "test_ssplice", test_list_ssplice) == NULL ||
       CU_add_test(p_suite, "test_lsplice", test_list_lsplice) == NULL ||
@@ -148,25 +146,20 @@ int main(int argc, char** argv)
 
   if (CU_add_test(p_suite, "test_ctor", test_circular_array_ctor) == NULL ||
       CU_add_test(p_suite, "test_ctorl", test_circular_array_ctorl) == NULL ||
-      CU_add_test(p_suite, "test_push_back", test_circular_array_push_back) ==
-          NULL ||
-      CU_add_test(p_suite, "test_push_front", test_circular_array_push_front) ==
-          NULL ||
+      CU_add_test(p_suite, "test_push_back", test_circular_array_push_back) == NULL ||
+      CU_add_test(p_suite, "test_push_front", test_circular_array_push_front) == NULL ||
       CU_add_test(p_suite, "test_insert", test_circular_array_insert) == NULL ||
       CU_add_test(p_suite, "test_get", test_circular_array_get) == NULL ||
       CU_add_test(p_suite, "test_at", test_circular_array_at) == NULL ||
       CU_add_test(p_suite, "test_set", test_circular_array_set) == NULL ||
       CU_add_test(p_suite, "test_front", test_circular_array_front) == NULL ||
       CU_add_test(p_suite, "test_back", test_circular_array_back) == NULL ||
-      CU_add_test(p_suite, "test_pop_back", test_circular_array_pop_back) ==
-          NULL ||
-      CU_add_test(p_suite, "test_pop_front", test_circular_array_pop_front) ==
-          NULL ||
+      CU_add_test(p_suite, "test_pop_back", test_circular_array_pop_back) == NULL ||
+      CU_add_test(p_suite, "test_pop_front", test_circular_array_pop_front) == NULL ||
       CU_add_test(p_suite, "test_swap", test_circular_array_swap) == NULL ||
       CU_add_test(p_suite, "test_erase", test_circular_array_erase) == NULL ||
       CU_add_test(p_suite, "test_clear", test_circular_array_clear) == NULL ||
-      CU_add_test(p_suite, "test_pop_push", test_circular_array_pop_push) ==
-          NULL) {
+      CU_add_test(p_suite, "test_pop_push", test_circular_array_pop_push) == NULL) {
     CU_cleanup_registry();
     return CU_get_error();
   }
@@ -224,11 +217,9 @@ int main(int argc, char** argv)
       CU_add_test(p_suite, "test_ctorl", test_binomial_heap_ctorl) == NULL ||
       CU_add_test(p_suite, "test_dtor", test_binomial_heap_dtor) == NULL ||
       CU_add_test(p_suite, "test_top", test_binomial_heap_top) == NULL ||
-      CU_add_test(p_suite, "test_extract_top",
-                  test_binomial_heap_extract_top) == NULL ||
+      CU_add_test(p_suite, "test_extract_top", test_binomial_heap_extract_top) == NULL ||
       CU_add_test(p_suite, "test_insert", test_binomial_heap_insert) == NULL ||
-      CU_add_test(p_suite, "test_change_key", test_binomial_heap_change_key) ==
-          NULL ||
+      CU_add_test(p_suite, "test_change_key", test_binomial_heap_change_key) == NULL ||
       CU_add_test(p_suite, "test_merge", test_binomial_heap_merge) == NULL ||
       CU_add_test(p_suite, "test_swap", test_binomial_heap_swap) == NULL) {
     CU_cleanup_registry();
@@ -245,11 +236,9 @@ int main(int argc, char** argv)
       CU_add_test(p_suite, "test_ctorl", test_pairing_heap_ctorl) == NULL ||
       CU_add_test(p_suite, "test_dtor", test_pairing_heap_dtor) == NULL ||
       CU_add_test(p_suite, "test_top", test_pairing_heap_top) == NULL ||
-      CU_add_test(p_suite, "test_extract_top", test_pairing_heap_extract_top) ==
-          NULL ||
+      CU_add_test(p_suite, "test_extract_top", test_pairing_heap_extract_top) == NULL ||
       CU_add_test(p_suite, "test_insert", test_pairing_heap_insert) == NULL ||
-      CU_add_test(p_suite, "test_change_key", test_pairing_heap_change_key) ==
-          NULL ||
+      CU_add_test(p_suite, "test_change_key", test_pairing_heap_change_key) == NULL ||
       CU_add_test(p_suite, "test_merge", test_pairing_heap_merge) == NULL ||
       CU_add_test(p_suite, "test_swap", test_pairing_heap_swap) == NULL) {
     CU_cleanup_registry();
@@ -286,8 +275,7 @@ int main(int argc, char** argv)
       CU_add_test(p_suite, "test_count", test_treap_count) == NULL ||
       CU_add_test(p_suite, "test_find", test_treap_find) == NULL ||
       CU_add_test(p_suite, "test_clear", test_treap_clear) == NULL ||
-      CU_add_test(p_suite, "test_insert_or_assign",
-                  test_treap_insert_or_assign) == NULL ||
+      CU_add_test(p_suite, "test_insert_or_assign", test_treap_insert_or_assign) == NULL ||
       CU_add_test(p_suite, "test_erase", test_treap_erase) == NULL ||
       CU_add_test(p_suite, "test_iterators", test_treap_iterators) == NULL ||
       CU_add_test(p_suite, "test_height", test_treap_height) == NULL) {
@@ -308,8 +296,7 @@ int main(int argc, char** argv)
       CU_add_test(p_suite, "test_find", test_hash_table_find) == NULL ||
       CU_add_test(p_suite, "test_clear", test_hash_table_clear) == NULL ||
       CU_add_test(p_suite, "test_insert", test_hash_table_insert) == NULL ||
-      CU_add_test(p_suite, "test_insert_or_assign",
-                  test_hash_table_insert_or_assign) == NULL ||
+      CU_add_test(p_suite, "test_insert_or_assign", test_hash_table_insert_or_assign) == NULL ||
       CU_add_test(p_suite, "test_erase", test_hash_table_erase) == NULL ||
       CU_add_test(p_suite, "test_swap", test_hash_table_swap) == NULL ||
       CU_add_test(p_suite, "test_rehash", test_hash_table_rehash) == NULL ||
@@ -332,11 +319,9 @@ int main(int argc, char** argv)
       CU_add_test(p_suite, "test_count", test_splay_tree_count) == NULL ||
       CU_add_test(p_suite, "test_find", test_splay_tree_find) == NULL ||
       CU_add_test(p_suite, "test_clear", test_splay_tree_clear) == NULL ||
-      CU_add_test(p_suite, "test_insert_or_assign",
-                  test_splay_tree_insert_or_assign) == NULL ||
+      CU_add_test(p_suite, "test_insert_or_assign", test_splay_tree_insert_or_assign) == NULL ||
       CU_add_test(p_suite, "test_erase", test_splay_tree_erase) == NULL ||
-      CU_add_test(p_suite, "test_iterators", test_splay_tree_iterators) ==
-          NULL ||
+      CU_add_test(p_suite, "test_iterators", test_splay_tree_iterators) == NULL ||
       CU_add_test(p_suite, "test_height", test_splay_tree_height) == NULL) {
     CU_cleanup_registry();
     return CU_get_error();
@@ -356,8 +341,7 @@ int main(int argc, char** argv)
       CU_add_test(p_suite, "test_count", test_avl_tree_count) == NULL ||
       CU_add_test(p_suite, "test_find", test_avl_tree_find) == NULL ||
       CU_add_test(p_suite, "test_clear", test_avl_tree_clear) == NULL ||
-      CU_add_test(p_suite, "test_insert_or_assign",
-                  test_avl_tree_insert_or_assign) == NULL ||
+      CU_add_test(p_suite, "test_insert_or_assign", test_avl_tree_insert_or_assign) == NULL ||
       CU_add_test(p_suite, "test_erase", test_avl_tree_erase) == NULL ||
       CU_add_test(p_suite, "test_iterators", test_avl_tree_iterators) == NULL ||
       CU_add_test(p_suite, "test_height", test_avl_tree_height) == NULL) {
@@ -379,8 +363,7 @@ int main(int argc, char** argv)
       CU_add_test(p_suite, "test_count", test_map_count) == NULL ||
       CU_add_test(p_suite, "test_find", test_map_find) == NULL ||
       CU_add_test(p_suite, "test_clear", test_map_clear) == NULL ||
-      CU_add_test(p_suite, "test_insert_or_assign",
-                  test_map_insert_or_assign) == NULL ||
+      CU_add_test(p_suite, "test_insert_or_assign", test_map_insert_or_assign) == NULL ||
       CU_add_test(p_suite, "test_erase", test_map_erase) == NULL ||
       CU_add_test(p_suite, "test_iterators", test_map_iterators) == NULL ||
       CU_add_test(p_suite, "test_iter_type", test_map_iter_type) == NULL) {

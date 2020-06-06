@@ -18,6 +18,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+#define CDC_USE_SHORT_NAMES
 #include "cdcontainers/binomial-heap.h"
 
 #include "cdcontainers/data-info.h"
@@ -27,18 +28,16 @@
 #include <stdio.h>
 #include <string.h>
 
-static struct cdc_binomial_heap_node *new_node(void *key)
+static binomial_heap_node_t *new_node(void *key)
 {
-  struct cdc_binomial_heap_node *node = (struct cdc_binomial_heap_node *)calloc(
-      sizeof(struct cdc_binomial_heap_node), 1);
+  binomial_heap_node_t *node = (binomial_heap_node_t *)calloc(sizeof(binomial_heap_node_t), 1);
   if (!node) return NULL;
 
   node->key = key;
   return node;
 }
 
-static void free_node(struct cdc_binomial_heap *h,
-                      struct cdc_binomial_heap_node *node)
+static void free_node(binomial_heap_t *h, binomial_heap_node_t *node)
 {
   if (CDC_HAS_DFREE(h->dinfo)) {
     h->dinfo->dfree(node->key);
@@ -47,10 +46,9 @@ static void free_node(struct cdc_binomial_heap *h,
   free(node);
 }
 
-static void free_heap(struct cdc_binomial_heap *h,
-                      struct cdc_binomial_heap_node *root)
+static void free_heap(binomial_heap_t *h, binomial_heap_node_t *root)
 {
-  struct cdc_binomial_heap_node *tmp = NULL;
+  binomial_heap_node_t *tmp = NULL;
   while (root) {
     free_heap(h, root->child);
     tmp = root->sibling;
@@ -59,12 +57,10 @@ static void free_heap(struct cdc_binomial_heap *h,
   }
 }
 
-static bool is_heap(struct cdc_binomial_heap_node *root,
-                    cdc_binary_pred_fn_t compar)
+static bool is_heap(binomial_heap_node_t *root, cdc_binary_pred_fn_t compar)
 {
   while (root) {
-    if (!is_heap(root->child, compar) ||
-        (root->parent && compar(root->key, root->parent->key))) {
+    if (!is_heap(root->child, compar) || (root->parent && compar(root->key, root->parent->key))) {
       return false;
     }
 
@@ -74,15 +70,15 @@ static bool is_heap(struct cdc_binomial_heap_node *root,
   return true;
 }
 
-static struct cdc_binomial_heap_node *find_prev_top(struct cdc_binomial_heap *h)
+static binomial_heap_node_t *find_prev_top(binomial_heap_t *h)
 {
   if (h->root == NULL) {
     return NULL;
   }
 
-  struct cdc_binomial_heap_node *m = h->root;
-  struct cdc_binomial_heap_node *prev = NULL;
-  struct cdc_binomial_heap_node *next = h->root;
+  binomial_heap_node_t *m = h->root;
+  binomial_heap_node_t *prev = NULL;
+  binomial_heap_node_t *next = h->root;
   while (next->sibling) {
     prev = next;
     if (h->dinfo->cmp(m->key, next->key)) {
@@ -94,22 +90,20 @@ static struct cdc_binomial_heap_node *find_prev_top(struct cdc_binomial_heap *h)
   return prev;
 }
 
-static struct cdc_binomial_heap_node *find_top(struct cdc_binomial_heap *h)
+static binomial_heap_node_t *find_top(binomial_heap_t *h)
 {
-  struct cdc_binomial_heap_node *node = find_prev_top(h);
+  binomial_heap_node_t *node = find_prev_top(h);
   return node ? node->sibling : h->root;
 }
 
-static void update_top(struct cdc_binomial_heap *h,
-                       struct cdc_binomial_heap_node *v)
+static void update_top(binomial_heap_t *h, binomial_heap_node_t *v)
 {
   if (h->top == NULL || (v && h->dinfo->cmp(v->key, h->top->key))) {
     h->top = v;
   }
 }
 
-static void link(struct cdc_binomial_heap_node *a,
-                 struct cdc_binomial_heap_node *broot)
+static void link(binomial_heap_node_t *a, binomial_heap_node_t *broot)
 {
   a->parent = broot;
   a->sibling = broot->child;
@@ -117,8 +111,7 @@ static void link(struct cdc_binomial_heap_node *a,
   ++broot->degree;
 }
 
-static struct cdc_binomial_heap_node *merge(struct cdc_binomial_heap_node *a,
-                                            struct cdc_binomial_heap_node *b)
+static binomial_heap_node_t *merge(binomial_heap_node_t *a, binomial_heap_node_t *b)
 {
   if (a == NULL) {
     return b;
@@ -128,8 +121,8 @@ static struct cdc_binomial_heap_node *merge(struct cdc_binomial_heap_node *a,
     return a;
   }
 
-  struct cdc_binomial_heap_node *result = NULL;
-  struct cdc_binomial_heap_node *next = NULL;
+  binomial_heap_node_t *result = NULL;
+  binomial_heap_node_t *next = NULL;
   while (b != NULL && a != NULL) {
     if (a->degree < b->degree) {
       if (result == NULL) {
@@ -161,18 +154,17 @@ static struct cdc_binomial_heap_node *merge(struct cdc_binomial_heap_node *a,
   return result;
 }
 
-static struct cdc_binomial_heap_node *meld(struct cdc_binomial_heap_node *a,
-                                           struct cdc_binomial_heap_node *b,
-                                           cdc_binary_pred_fn_t compare)
+static binomial_heap_node_t *meld(binomial_heap_node_t *a, binomial_heap_node_t *b,
+                                  cdc_binary_pred_fn_t compare)
 {
-  struct cdc_binomial_heap_node *result = merge(a, b);
+  binomial_heap_node_t *result = merge(a, b);
   if (result == NULL) {
     return result;
   }
 
-  struct cdc_binomial_heap_node *prev = NULL;
-  struct cdc_binomial_heap_node *curr = result;
-  struct cdc_binomial_heap_node *next = result->sibling;
+  binomial_heap_node_t *prev = NULL;
+  binomial_heap_node_t *curr = result;
+  binomial_heap_node_t *next = result->sibling;
   while (next) {
     if (curr->degree != next->degree ||
         (next->sibling && (next->sibling->degree == curr->degree))) {
@@ -198,15 +190,14 @@ static struct cdc_binomial_heap_node *meld(struct cdc_binomial_heap_node *a,
   return result;
 }
 
-static struct cdc_binomial_heap_node *decrease_key(
-    struct cdc_binomial_heap *h, struct cdc_binomial_heap_node *node, void *key)
+static binomial_heap_node_t *decrease_key(binomial_heap_t *h, binomial_heap_node_t *node, void *key)
 {
   if (CDC_HAS_DFREE(h->dinfo)) {
     h->dinfo->dfree(node->key);
   }
 
   node->key = key;
-  struct cdc_binomial_heap_node *p = node->parent;
+  binomial_heap_node_t *p = node->parent;
   while (p != NULL && h->dinfo->cmp(node->key, p->key)) {
     CDC_SWAP(void *, node->key, p->key);
     node = p;
@@ -216,15 +207,14 @@ static struct cdc_binomial_heap_node *decrease_key(
   return node;
 }
 
-static struct cdc_binomial_heap_node *increase_key(
-    struct cdc_binomial_heap *h, struct cdc_binomial_heap_node *pos, void *key)
+static binomial_heap_node_t *increase_key(binomial_heap_t *h, binomial_heap_node_t *pos, void *key)
 {
   if (CDC_HAS_DFREE(h->dinfo)) {
     h->dinfo->dfree(pos->key);
   }
 
   pos->key = key;
-  struct cdc_binomial_heap_node *ch = pos->child, *t = NULL;
+  binomial_heap_node_t *ch = pos->child, *t = NULL;
   while (ch != NULL) {
     if (h->dinfo->cmp(ch->key, pos->key)) {
       t = ch;
@@ -247,11 +237,11 @@ static struct cdc_binomial_heap_node *increase_key(
   return pos;
 }
 
-static enum cdc_stat init_varg(struct cdc_binomial_heap *h, va_list args)
+static stat_t init_varg(binomial_heap_t *h, va_list args)
 {
   void *elem = NULL;
   while ((elem = va_arg(args, void *)) != CDC_END) {
-    enum cdc_stat ret = cdc_binomial_heap_insert(h, elem);
+    stat_t ret = binomial_heap_insert(h, elem);
     if (ret != CDC_STATUS_OK) {
       return ret;
     }
@@ -260,19 +250,17 @@ static enum cdc_stat init_varg(struct cdc_binomial_heap *h, va_list args)
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_binomial_heap_ctor(struct cdc_binomial_heap **h,
-                                     struct cdc_data_info *info)
+stat_t binomial_heap_ctor(binomial_heap_t **h, data_info_t *info)
 {
   assert(h != NULL);
   assert(CDC_HAS_CMP(info));
 
-  struct cdc_binomial_heap *tmp =
-      (struct cdc_binomial_heap *)calloc(sizeof(struct cdc_binomial_heap), 1);
+  binomial_heap_t *tmp = (binomial_heap_t *)calloc(sizeof(binomial_heap_t), 1);
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
-  if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
+  if (info && !(tmp->dinfo = di_shared_ctorc(info))) {
     free(tmp);
     return CDC_STATUS_BAD_ALLOC;
   }
@@ -281,26 +269,24 @@ enum cdc_stat cdc_binomial_heap_ctor(struct cdc_binomial_heap **h,
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_binomial_heap_ctorl(struct cdc_binomial_heap **h,
-                                      struct cdc_data_info *info, ...)
+stat_t binomial_heap_ctorl(binomial_heap_t **h, data_info_t *info, ...)
 {
   assert(h != NULL);
   assert(CDC_HAS_CMP(info));
 
   va_list args;
   va_start(args, info);
-  enum cdc_stat ret = cdc_binomial_heap_ctorv(h, info, args);
+  stat_t ret = binomial_heap_ctorv(h, info, args);
   va_end(args);
   return ret;
 }
 
-enum cdc_stat cdc_binomial_heap_ctorv(struct cdc_binomial_heap **h,
-                                      struct cdc_data_info *info, va_list args)
+stat_t binomial_heap_ctorv(binomial_heap_t **h, data_info_t *info, va_list args)
 {
   assert(h != NULL);
   assert(CDC_HAS_CMP(info));
 
-  enum cdc_stat ret = cdc_binomial_heap_ctor(h, info);
+  stat_t ret = binomial_heap_ctor(h, info);
   if (ret != CDC_STATUS_OK) {
     return ret;
   }
@@ -308,21 +294,21 @@ enum cdc_stat cdc_binomial_heap_ctorv(struct cdc_binomial_heap **h,
   return init_varg(*h, args);
 }
 
-void cdc_binomial_heap_dtor(struct cdc_binomial_heap *h)
+void binomial_heap_dtor(binomial_heap_t *h)
 {
   assert(h != NULL);
 
   free_heap(h, h->root);
-  cdc_di_shared_dtor(h->dinfo);
+  di_shared_dtor(h->dinfo);
   free(h);
 }
 
-enum cdc_stat cdc_binomial_heap_extract_top(struct cdc_binomial_heap *h)
+stat_t binomial_heap_extract_top(binomial_heap_t *h)
 {
   assert(h != NULL);
 
-  struct cdc_binomial_heap_node *tmp = NULL;
-  struct cdc_binomial_heap_node *prev_top = find_prev_top(h);
+  binomial_heap_node_t *tmp = NULL;
+  binomial_heap_node_t *prev_top = find_prev_top(h);
   if (prev_top) {
     tmp = prev_top->sibling;
     prev_top->sibling = tmp->sibling;
@@ -331,7 +317,7 @@ enum cdc_stat cdc_binomial_heap_extract_top(struct cdc_binomial_heap *h)
     h->root = tmp->sibling;
   }
 
-  struct cdc_binomial_heap_node *root = tmp->child;
+  binomial_heap_node_t *root = tmp->child;
   free_node(h, tmp);
   tmp = root;
   while (tmp) {
@@ -345,12 +331,11 @@ enum cdc_stat cdc_binomial_heap_extract_top(struct cdc_binomial_heap *h)
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_binomial_heap_riinsert(struct cdc_binomial_heap *h, void *key,
-                                         struct cdc_binomial_heap_iter *ret)
+stat_t binomial_heap_riinsert(binomial_heap_t *h, void *key, binomial_heap_iter_t *ret)
 {
   assert(h != NULL);
 
-  struct cdc_binomial_heap_node *node = new_node(key);
+  binomial_heap_node_t *node = new_node(key);
   if (!node) return CDC_STATUS_BAD_ALLOC;
 
   update_top(h, node);
@@ -364,15 +349,14 @@ enum cdc_stat cdc_binomial_heap_riinsert(struct cdc_binomial_heap *h, void *key,
   return CDC_STATUS_OK;
 }
 
-void cdc_binomial_heap_change_key(struct cdc_binomial_heap *h,
-                                  struct cdc_binomial_heap_iter *pos, void *key)
+void binomial_heap_change_key(binomial_heap_t *h, binomial_heap_iter_t *pos, void *key)
 {
   assert(h != NULL);
   assert(pos != NULL);
   assert(h == pos->container);
 
-  struct cdc_binomial_heap_node *node = NULL;
-  struct cdc_binomial_heap_node *curr = pos->current;
+  binomial_heap_node_t *node = NULL;
+  binomial_heap_node_t *curr = pos->current;
   if (h->dinfo->cmp(key, curr->key)) {
     node = decrease_key(h, curr, key);
     update_top(h, node);
@@ -387,7 +371,7 @@ void cdc_binomial_heap_change_key(struct cdc_binomial_heap *h,
   pos->current = node;
 }
 
-void cdc_binomial_heap_clear(struct cdc_binomial_heap *h)
+void binomial_heap_clear(binomial_heap_t *h)
 {
   assert(h != NULL);
 
@@ -397,20 +381,18 @@ void cdc_binomial_heap_clear(struct cdc_binomial_heap *h)
   h->top = NULL;
 }
 
-void cdc_binomial_heap_swap(struct cdc_binomial_heap *a,
-                            struct cdc_binomial_heap *b)
+void binomial_heap_swap(binomial_heap_t *a, binomial_heap_t *b)
 {
   assert(a != NULL);
   assert(b != NULL);
 
-  CDC_SWAP(struct cdc_binomial_heap_node *, a->root, b->root);
-  CDC_SWAP(struct cdc_binomial_heap_node *, a->top, b->top);
+  CDC_SWAP(binomial_heap_node_t *, a->root, b->root);
+  CDC_SWAP(binomial_heap_node_t *, a->top, b->top);
   CDC_SWAP(size_t, a->size, b->size);
-  CDC_SWAP(struct cdc_data_info *, a->dinfo, b->dinfo);
+  CDC_SWAP(data_info_t *, a->dinfo, b->dinfo);
 }
 
-void cdc_binomial_heap_merge(struct cdc_binomial_heap *h,
-                             struct cdc_binomial_heap *other)
+void binomial_heap_merge(binomial_heap_t *h, binomial_heap_t *other)
 {
   assert(h != NULL);
   assert(other != NULL);
@@ -423,7 +405,7 @@ void cdc_binomial_heap_merge(struct cdc_binomial_heap *h,
   other->top = NULL;
 }
 
-bool cdc_binomial_heap_is_heap(struct cdc_binomial_heap *h)
+bool binomial_heap_is_heap(binomial_heap_t *h)
 {
   assert(h != NULL);
 

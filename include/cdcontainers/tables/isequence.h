@@ -61,4 +61,9 @@ extern const struct cdc_sequence_table *cdc_seq_array;
 extern const struct cdc_sequence_table *cdc_seq_carray;
 extern const struct cdc_sequence_table *cdc_seq_list;
 
+// Short names
+#ifdef CDC_USE_SHORT_NAMES
+typedef struct cdc_sequence_table sequence_table_t;
+#endif
+
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_ISEQUENCE_H

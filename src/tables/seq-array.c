@@ -19,7 +19,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 #define CDC_USE_SHORT_NAMES
-#include "cdcontainers/list.h"
+#include "cdcontainers/array.h"
 #include "cdcontainers/tables/isequence.h"
 
 #include <assert.h>
@@ -28,128 +28,128 @@ static stat_t ctor(void **cntr, data_info_t *info)
 {
   assert(cntr != NULL);
 
-  list_t **list = (list_t **)cntr;
-  return list_ctor(list, info);
+  array_t **array = (array_t **)cntr;
+  return array_ctor(array, info);
 }
 
 static stat_t ctorv(void **cntr, data_info_t *info, va_list args)
 {
   assert(cntr != NULL);
 
-  list_t **list = (list_t **)cntr;
-  return list_ctorv(list, info, args);
+  array_t **array = (array_t **)cntr;
+  return array_ctorv(array, info, args);
 }
 
 static void dtor(void *cntr)
 {
   assert(cntr != NULL);
 
-  list_t *list = (list_t *)cntr;
-  list_dtor(list);
+  array_t *array = (array_t *)cntr;
+  array_dtor(array);
 }
 
 static void *front(void *cntr)
 {
   assert(cntr != NULL);
 
-  list_t *list = (list_t *)cntr;
-  return list_front(list);
+  array_t *array = (array_t *)cntr;
+  return array_front(array);
 }
 
 static void *back(void *cntr)
 {
   assert(cntr != NULL);
 
-  list_t *list = (list_t *)cntr;
-  return list_back(list);
+  array_t *array = (array_t *)cntr;
+  return array_back(array);
 }
 
 static bool empty(void *cntr)
 {
   assert(cntr != NULL);
 
-  list_t *list = (list_t *)cntr;
-  return list_empty(list);
+  array_t *array = (array_t *)cntr;
+  return array_empty(array);
 }
 
 static size_t size(void *cntr)
 {
   assert(cntr != NULL);
 
-  list_t *list = (list_t *)cntr;
-  return list_size(list);
+  array_t *array = (array_t *)cntr;
+  return array_size(array);
 }
 
 static stat_t push_back(void *cntr, void *elem)
 {
   assert(cntr != NULL);
 
-  list_t *list = (list_t *)cntr;
-  return list_push_back(list, elem);
+  array_t *array = (array_t *)cntr;
+  return array_push_back(array, elem);
 }
 
 static void pop_back(void *cntr)
 {
   assert(cntr != NULL);
 
-  list_t *list = (list_t *)cntr;
-  list_pop_back(list);
+  array_t *array = (array_t *)cntr;
+  array_pop_back(array);
 }
 
 static stat_t push_front(void *cntr, void *elem)
 {
   assert(cntr != NULL);
 
-  list_t *list = (list_t *)cntr;
-  return list_push_front(list, elem);
+  array_t *array = (array_t *)cntr;
+  return array_insert(array, 0, elem);
 }
 
 static void pop_front(void *cntr)
 {
   assert(cntr != NULL);
 
-  list_t *list = (list_t *)cntr;
-  list_pop_front(list);
+  array_t *array = (array_t *)cntr;
+  array_erase(array, 0);
 }
 
 static stat_t insert(void *cntr, size_t index, void *value)
 {
   assert(cntr != NULL);
 
-  list_t *list = (list_t *)cntr;
-  return list_insert(list, index, value);
+  array_t *array = (array_t *)cntr;
+  return array_insert(array, index, value);
 }
 
 static void erase(void *cntr, size_t index)
 {
   assert(cntr != NULL);
 
-  list_t *list = (list_t *)cntr;
-  list_erase(list, index);
+  array_t *array = (array_t *)cntr;
+  array_erase(array, index);
 }
 
 static void clear(void *cntr)
 {
   assert(cntr != NULL);
 
-  list_t *list = (list_t *)cntr;
-  list_clear(list);
+  array_t *array = (array_t *)cntr;
+  array_clear(array);
 }
 
 static void *get(void *cntr, size_t index)
 {
   assert(cntr != NULL);
 
-  list_t *list = (list_t *)cntr;
-  return list_get(list, index);
+  array_t *array = (array_t *)cntr;
+  return array_get(array, index);
 }
 
 static void set(void *cntr, size_t index, void *value)
 {
   assert(cntr != NULL);
 
-  list_t *list = (list_t *)cntr;
-  list_set(list, index, value);
+  array_t *array = (array_t *)cntr;
+  array_set(array, index, value);
 }
 
 static const sequence_table_t _table = {.ctor = ctor,
@@ -169,4 +169,4 @@ static const sequence_table_t _table = {.ctor = ctor,
                                         .get = get,
                                         .set = set};
 
-const sequence_table_t *cdc_seq_list = &_table;
+const sequence_table_t *cdc_seq_array = &_table;

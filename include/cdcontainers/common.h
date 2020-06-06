@@ -49,8 +49,7 @@
     0,                  \
   }
 
-#define CDC_STATIC_ASSERT(COND, MSG) \
-  typedef char cdc_static_assertion_##MSG[(COND) ? 1 : -1]
+#define CDC_STATIC_ASSERT(COND, MSG) typedef char cdc_static_assertion_##MSG[(COND) ? 1 : -1]
 
 typedef void (*cdc_free_fn_t)(void *);
 typedef int (*cdc_unary_pred_fn_t)(const void *);
@@ -123,6 +122,8 @@ enum cdc_iterator_type {
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
+typedef enum cdc_iterator_type iterator_type_t;
+
 typedef struct cdc_pair pair_t;
 typedef struct cdc_data_info data_info_t;
 #endif

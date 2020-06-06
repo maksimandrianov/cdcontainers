@@ -130,8 +130,7 @@ enum cdc_stat cdc_list_ctor(struct cdc_list **l, struct cdc_data_info *info);
  * }
  * @endcode
  */
-enum cdc_stat cdc_list_ctorl(struct cdc_list **l, struct cdc_data_info *info,
-                             ...);
+enum cdc_stat cdc_list_ctorl(struct cdc_list **l, struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs a list, initialized by args. The last pointer must be CDC_END.
@@ -140,8 +139,7 @@ enum cdc_stat cdc_list_ctorl(struct cdc_list **l, struct cdc_data_info *info,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_list_ctorv(struct cdc_list **l, struct cdc_data_info *info,
-                             va_list args);
+enum cdc_stat cdc_list_ctorv(struct cdc_list **l, struct cdc_data_info *info, va_list args);
 
 /**
  * @brief Destroys the list.
@@ -335,8 +333,8 @@ void cdc_list_swap(struct cdc_list *a, struct cdc_list *b);
  * @param[in] position - iterator before which the content will be inserted
  * @param[in] first, last - range of elements to transfer from other
  */
-void cdc_list_splice(struct cdc_list_iter *position,
-                     struct cdc_list_iter *first, struct cdc_list_iter *last);
+void cdc_list_splice(struct cdc_list_iter *position, struct cdc_list_iter *first,
+                     struct cdc_list_iter *last);
 
 /**
  * @brief Transfers elements from one container, iterators (first, end] to
@@ -344,8 +342,7 @@ void cdc_list_splice(struct cdc_list_iter *position,
  * @param[in] position - iterator before which the content will be inserted
  * @param[in] first - beginning of the range from which elements will be transferred
  */
-void cdc_list_ssplice(struct cdc_list_iter *position,
-                      struct cdc_list_iter *first);
+void cdc_list_ssplice(struct cdc_list_iter *position, struct cdc_list_iter *first);
 
 /**
  * @brief Transfers all elements from container other to another container at
@@ -369,8 +366,7 @@ void cdc_list_merge(struct cdc_list *l, struct cdc_list *other);
  * @param[in] other - another cdc_list to merge
  * @param[in] compare - comparison function
  */
-void cdc_list_cmerge(struct cdc_list *l, struct cdc_list *other,
-                     cdc_binary_pred_fn_t compare);
+void cdc_list_cmerge(struct cdc_list *l, struct cdc_list *other, cdc_binary_pred_fn_t compare);
 /**
  * @brief Removes from the container all elements for which predicate pred
  * returns true.
@@ -460,8 +456,7 @@ static inline void cdc_list_end(struct cdc_list *l, struct cdc_list_iter *it)
  * @param[in] l - cdc_list
  * @param[out] it - cdc_list_riter
  */
-static inline void cdc_list_rbegin(struct cdc_list *l,
-                                   struct cdc_list_riter *it)
+static inline void cdc_list_rbegin(struct cdc_list *l, struct cdc_list_riter *it)
 {
   assert(l != NULL);
   assert(it != NULL);
@@ -557,8 +552,7 @@ static inline void *cdc_list_iter_data(struct cdc_list_iter *it)
  * @param[in] rit - reverse iterator
  * @param[out] it - iterator
  */
-static inline void cdc_list_iter_from(struct cdc_list_riter *rit,
-                                      struct cdc_list_iter *it)
+static inline void cdc_list_iter_from(struct cdc_list_riter *rit, struct cdc_list_iter *it)
 {
   assert(rit != NULL);
   assert(it != NULL);
@@ -575,8 +569,7 @@ static inline void cdc_list_iter_from(struct cdc_list_riter *rit,
  * @return false if the iterator |it1| equal to the iterator |it2|,
  * otherwise returns false.
  */
-static inline bool cdc_list_iter_is_eq(struct cdc_list_iter *it1,
-                                       struct cdc_list_iter *it2)
+static inline bool cdc_list_iter_is_eq(struct cdc_list_iter *it1, struct cdc_list_iter *it2)
 {
   assert(it1 != NULL);
   assert(it2 != NULL);
@@ -653,8 +646,7 @@ static inline void *cdc_list_riter_data(struct cdc_list_riter *it)
  * @param[in] it - iterator
  * @param[out] rit - reverse iterator
  */
-static inline void cdc_list_riter_from(struct cdc_list_iter *it,
-                                       struct cdc_list_riter *rit)
+static inline void cdc_list_riter_from(struct cdc_list_iter *it, struct cdc_list_riter *rit)
 {
   assert(it != NULL);
   assert(rit != NULL);
@@ -669,8 +661,7 @@ static inline void cdc_list_riter_from(struct cdc_list_iter *it,
  * @param[in] rit1 - reverse iterator
  * @param[in] rit2 - reverse iterator
  */
-static inline bool cdc_list_riter_is_eq(struct cdc_list_riter *rit1,
-                                        struct cdc_list_riter *rit2)
+static inline bool cdc_list_riter_is_eq(struct cdc_list_riter *rit1, struct cdc_list_riter *rit2)
 {
   assert(rit1 != NULL);
   assert(rit2 != NULL);
@@ -681,6 +672,7 @@ static inline bool cdc_list_riter_is_eq(struct cdc_list_riter *rit1,
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
+typedef struct cdc_list_node list_node_t;
 typedef struct cdc_list list_t;
 typedef struct cdc_list_iter list_iter_t;
 typedef struct cdc_list_riter list_riter_t;
@@ -695,12 +687,14 @@ typedef struct cdc_list_riter list_riter_t;
 #define list_at(...) cdc_list_at(__VA_ARGS__)
 #define list_front(...) cdc_list_front(__VA_ARGS__)
 #define list_back(...) cdc_list_back(__VA_ARGS__)
+#define list_get(...) cdc_list_get(__VA_ARGS__)
 
 // Capacity
 #define list_empty(...) cdc_list_empty(__VA_ARGS__)
 #define list_size(...) cdc_list_size(__VA_ARGS__)
 
 // Modifiers
+#define list_set(...) cdc_list_set(__VA_ARGS__)
 #define list_insert(...) cdc_list_insert(__VA_ARGS__)
 #define list_iinsert(...) cdc_list_iinsert(__VA_ARGS__)
 #define list_erase(...) cdc_list_erase(__VA_ARGS__)
@@ -709,7 +703,7 @@ typedef struct cdc_list_riter list_riter_t;
 #define list_push_back(...) cdc_list_push_back(__VA_ARGS__)
 #define list_pop_back(...) cdc_list_pop_back(__VA_ARGS__)
 #define list_push_front(...) cdc_list_push_front(__VA_ARGS__)
-#define list_pop_front(...) cdc_list_pop_back(__VA_ARGS__)
+#define list_pop_front(...) cdc_list_pop_front(__VA_ARGS__)
 #define list_swap(...) cdc_list_swap(__VA_ARGS__)
 
 // Operations

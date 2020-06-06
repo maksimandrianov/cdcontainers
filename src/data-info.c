@@ -18,13 +18,14 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+#define CDC_USE_SHORT_NAMES
 #include "cdcontainers/data-info.h"
 
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
-struct cdc_data_info *cdc_di_shared_ctorc(struct cdc_data_info *other)
+data_info_t *di_shared_ctorc(data_info_t *other)
 {
   assert(other != NULL);
 
@@ -32,16 +33,15 @@ struct cdc_data_info *cdc_di_shared_ctorc(struct cdc_data_info *other)
     return other;
   }
 
-  struct cdc_data_info *result =
-      (struct cdc_data_info *)malloc(sizeof(struct cdc_data_info));
+  data_info_t *result = (data_info_t *)malloc(sizeof(data_info_t));
   if (result) {
-    memcpy(result, other, sizeof(struct cdc_data_info));
+    memcpy(result, other, sizeof(data_info_t));
   }
 
   return result;
 }
 
-void cdc_di_shared_dtor(struct cdc_data_info *info)
+void di_shared_dtor(data_info_t *info)
 {
   if (info && --info->__cnt == 0) {
     free(info);

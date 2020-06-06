@@ -18,21 +18,21 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+#define CDC_USE_SHORT_NAMES
 #include "cdcontainers/adapters/stack.h"
 
-enum cdc_stat cdc_stack_ctor(const struct cdc_sequence_table *table,
-                             struct cdc_stack **s, struct cdc_data_info *info)
+stat_t stack_ctor(const sequence_table_t *table, cstack_t **s, data_info_t *info)
 {
   assert(table != NULL);
   assert(s != NULL);
 
-  struct cdc_stack *tmp = (struct cdc_stack *)malloc(sizeof(struct cdc_stack));
+  cstack_t *tmp = (cstack_t *)malloc(sizeof(cstack_t));
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
   tmp->table = table;
-  enum cdc_stat ret = tmp->table->ctor(&tmp->container, info);
+  stat_t ret = tmp->table->ctor(&tmp->container, info);
   if (ret != CDC_STATUS_OK) {
     free(tmp);
     return ret;
@@ -42,34 +42,30 @@ enum cdc_stat cdc_stack_ctor(const struct cdc_sequence_table *table,
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_stack_ctorl(const struct cdc_sequence_table *table,
-                              struct cdc_stack **s, struct cdc_data_info *info,
-                              ...)
+stat_t stack_ctorl(const sequence_table_t *table, cstack_t **s, data_info_t *info, ...)
 {
   assert(table != NULL);
   assert(s != NULL);
 
   va_list args;
   va_start(args, info);
-  enum cdc_stat ret = cdc_stack_ctorv(table, s, info, args);
+  stat_t ret = stack_ctorv(table, s, info, args);
   va_end(args);
   return ret;
 }
 
-enum cdc_stat cdc_stack_ctorv(const struct cdc_sequence_table *table,
-                              struct cdc_stack **s, struct cdc_data_info *info,
-                              va_list args)
+stat_t stack_ctorv(const sequence_table_t *table, cstack_t **s, data_info_t *info, va_list args)
 {
   assert(table != NULL);
   assert(s != NULL);
 
-  struct cdc_stack *tmp = (struct cdc_stack *)malloc(sizeof(struct cdc_stack));
+  cstack_t *tmp = (cstack_t *)malloc(sizeof(cstack_t));
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
   tmp->table = table;
-  enum cdc_stat ret = tmp->table->ctorv(&tmp->container, info, args);
+  stat_t ret = tmp->table->ctorv(&tmp->container, info, args);
   if (ret != CDC_STATUS_OK) {
     free(tmp);
     return ret;
@@ -79,7 +75,7 @@ enum cdc_stat cdc_stack_ctorv(const struct cdc_sequence_table *table,
   return ret;
 }
 
-void cdc_stack_dtor(struct cdc_stack *s)
+void stack_dtor(cstack_t *s)
 {
   assert(s != NULL);
 
@@ -87,7 +83,7 @@ void cdc_stack_dtor(struct cdc_stack *s)
   free(s);
 }
 
-void cdc_stack_swap(struct cdc_stack *a, struct cdc_stack *b)
+void stack_swap(cstack_t *a, cstack_t *b)
 {
   assert(a != NULL);
   assert(b != NULL);

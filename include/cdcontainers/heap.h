@@ -70,8 +70,7 @@ enum cdc_stat cdc_heap_ctor(struct cdc_heap **h, struct cdc_data_info *info);
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_heap_ctorl(struct cdc_heap **h, struct cdc_data_info *info,
-                             ...);
+enum cdc_stat cdc_heap_ctorl(struct cdc_heap **h, struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs a heap, initialized by args. The last item must be NULL.
@@ -80,8 +79,7 @@ enum cdc_stat cdc_heap_ctorl(struct cdc_heap **h, struct cdc_data_info *info,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_heap_ctorv(struct cdc_heap **h, struct cdc_data_info *info,
-                             va_list args);
+enum cdc_stat cdc_heap_ctorv(struct cdc_heap **h, struct cdc_data_info *info, va_list args);
 
 /**
  * @brief Destroys the heap.
@@ -146,8 +144,7 @@ void cdc_heap_extract_top(struct cdc_heap *h);
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_heap_riinsert(struct cdc_heap *h, void *key,
-                                struct cdc_heap_iter *ret);
+enum cdc_stat cdc_heap_riinsert(struct cdc_heap *h, void *key, struct cdc_heap_iter *ret);
 
 /**
  * @brief Inserts element key to the heap.
@@ -170,8 +167,7 @@ static inline enum cdc_stat cdc_heap_insert(struct cdc_heap *h, void *key)
  * change
  * @param key
  */
-void cdc_heap_change_key(struct cdc_heap *h, struct cdc_heap_iter *pos,
-                         void *key);
+void cdc_heap_change_key(struct cdc_heap *h, struct cdc_heap_iter *pos, void *key);
 
 /**
  * @brief Removes all the elements from the heap.
@@ -217,8 +213,7 @@ static inline void *cdc_heap_iter_data(struct cdc_heap_iter *it)
  * @brief Returns false if the iterator it1 equal to the iterator it2,
  * otherwise returns false
  */
-static inline bool cdc_heap_iter_is_eq(struct cdc_heap_iter *it1,
-                                       struct cdc_heap_iter *it2)
+static inline bool cdc_heap_iter_is_eq(struct cdc_heap_iter *it1, struct cdc_heap_iter *it2)
 {
   assert(it1 != NULL);
   assert(it2 != NULL);

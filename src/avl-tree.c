@@ -18,6 +18,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+#define CDC_USE_SHORT_NAMES
 #include "cdcontainers/avl-tree.h"
 
 #include "cdcontainers/data-info.h"
@@ -27,16 +28,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-CDC_MAKE_FIND_NODE_FN(struct cdc_avl_tree_node *)
-CDC_MAKE_MIN_NODE_FN(struct cdc_avl_tree_node *)
-CDC_MAKE_MAX_NODE_FN(struct cdc_avl_tree_node *)
-CDC_MAKE_SUCCESSOR_FN(struct cdc_avl_tree_node *)
-CDC_MAKE_PREDECESSOR_FN(struct cdc_avl_tree_node *)
+CDC_MAKE_FIND_NODE_FN(avl_tree_node_t *)
+CDC_MAKE_MIN_NODE_FN(avl_tree_node_t *)
+CDC_MAKE_MAX_NODE_FN(avl_tree_node_t *)
+CDC_MAKE_SUCCESSOR_FN(avl_tree_node_t *)
+CDC_MAKE_PREDECESSOR_FN(avl_tree_node_t *)
 
-static struct cdc_avl_tree_node *make_new_node(void *key, void *val)
+static avl_tree_node_t *make_new_node(void *key, void *val)
 {
-  struct cdc_avl_tree_node *node =
-      (struct cdc_avl_tree_node *)malloc(sizeof(struct cdc_avl_tree_node));
+  avl_tree_node_t *node = (avl_tree_node_t *)malloc(sizeof(avl_tree_node_t));
   if (!node) {
     return NULL;
   }
@@ -50,20 +50,19 @@ static struct cdc_avl_tree_node *make_new_node(void *key, void *val)
   return node;
 }
 
-static void free_node(struct cdc_avl_tree *t, struct cdc_avl_tree_node *node)
+static void free_node(avl_tree_t *t, avl_tree_node_t *node)
 {
   assert(t != NULL);
 
   if (CDC_HAS_DFREE(t->dinfo)) {
-    struct cdc_pair pair = {node->key, node->value};
+    pair_t pair = {node->key, node->value};
     t->dinfo->dfree(&pair);
   }
 
   free(node);
 }
 
-static void free_avl_tree(struct cdc_avl_tree *t,
-                          struct cdc_avl_tree_node *root)
+static void free_avl_tree(avl_tree_t *t, avl_tree_node_t *root)
 {
   assert(t != NULL);
 
@@ -76,26 +75,25 @@ static void free_avl_tree(struct cdc_avl_tree *t,
   free_node(t, root);
 }
 
-static unsigned char height(struct cdc_avl_tree_node *node)
+static unsigned char height(avl_tree_node_t *node)
 {
   return node ? node->height : 0;
 }
 
-static int height_diff(struct cdc_avl_tree_node *node)
+static int height_diff(avl_tree_node_t *node)
 {
   return height(node->right) - height(node->left);
 }
 
-static void update_height(struct cdc_avl_tree_node *node)
+static void update_height(avl_tree_node_t *node)
 {
   unsigned char lhs = height(node->left);
   unsigned char rhs = height(node->right);
   node->height = CDC_MAX(lhs, rhs) + 1;
 }
 
-static void update_link(struct cdc_avl_tree_node *parent,
-                        struct cdc_avl_tree_node *old_child,
-                        struct cdc_avl_tree_node *new_child)
+static void update_link(avl_tree_node_t *parent, avl_tree_node_t *old_child,
+                        avl_tree_node_t *new_child)
 {
   new_child->parent = parent;
   if (!parent) {
@@ -109,8 +107,7 @@ static void update_link(struct cdc_avl_tree_node *parent,
   }
 }
 
-static void unlink_list(struct cdc_avl_tree_node *parent,
-                        struct cdc_avl_tree_node *child)
+static void unlink_list(avl_tree_node_t *parent, avl_tree_node_t *child)
 {
   if (!parent) {
     return;
@@ -123,9 +120,9 @@ static void unlink_list(struct cdc_avl_tree_node *parent,
   }
 }
 
-static struct cdc_avl_tree_node *rotate_right(struct cdc_avl_tree_node *node)
+static avl_tree_node_t *rotate_right(avl_tree_node_t *node)
 {
-  struct cdc_avl_tree_node *q = node->left;
+  avl_tree_node_t *q = node->left;
   update_link(node->parent, node, q);
   node->left = q->right;
   if (node->left) {
@@ -142,9 +139,9 @@ static struct cdc_avl_tree_node *rotate_right(struct cdc_avl_tree_node *node)
   return q;
 }
 
-static struct cdc_avl_tree_node *rotate_left(struct cdc_avl_tree_node *node)
+static avl_tree_node_t *rotate_left(avl_tree_node_t *node)
 {
-  struct cdc_avl_tree_node *q = node->right;
+  avl_tree_node_t *q = node->right;
   update_link(node->parent, node, q);
   node->right = q->left;
   if (node->right) {
@@ -161,7 +158,7 @@ static struct cdc_avl_tree_node *rotate_left(struct cdc_avl_tree_node *node)
   return q;
 }
 
-static struct cdc_avl_tree_node *balance(struct cdc_avl_tree_node *node)
+static avl_tree_node_t *balance(avl_tree_node_t *node)
 {
   while (node) {
     update_height(node);
@@ -188,9 +185,8 @@ static struct cdc_avl_tree_node *balance(struct cdc_avl_tree_node *node)
   return node;
 }
 
-static struct cdc_avl_tree_node *insert_unique(
-    struct cdc_avl_tree *t, struct cdc_avl_tree_node *node,
-    struct cdc_avl_tree_node *nearest)
+static avl_tree_node_t *insert_unique(avl_tree_t *t, avl_tree_node_t *node,
+                                      avl_tree_node_t *nearest)
 {
   if (t->root != NULL) {
     if (t->dinfo->cmp(node->key, nearest->key)) {
@@ -209,9 +205,7 @@ static struct cdc_avl_tree_node *insert_unique(
   return node;
 }
 
-static struct cdc_avl_tree_node *find_hint(struct cdc_avl_tree_node *node,
-                                           void *key,
-                                           cdc_binary_pred_fn_t compar)
+static avl_tree_node_t *find_hint(avl_tree_node_t *node, void *key, cdc_binary_pred_fn_t compar)
 {
   while (node) {
     if (compar(key, node->key)) {
@@ -234,10 +228,9 @@ static struct cdc_avl_tree_node *find_hint(struct cdc_avl_tree_node *node,
   return node;
 }
 
-static struct cdc_avl_tree_node *erase_node(struct cdc_avl_tree *t,
-                                            struct cdc_avl_tree_node *node)
+static avl_tree_node_t *erase_node(avl_tree_t *t, avl_tree_node_t *node)
 {
-  struct cdc_avl_tree_node *parent = NULL;
+  avl_tree_node_t *parent = NULL;
   if (node->left == NULL && node->right == NULL) {
     parent = node->parent;
     unlink_list(parent, node);
@@ -270,7 +263,7 @@ static struct cdc_avl_tree_node *erase_node(struct cdc_avl_tree *t,
       parent->parent = NULL;
     }
   } else {
-    struct cdc_avl_tree_node *mnode = cdc_min_tree_node(node->right);
+    avl_tree_node_t *mnode = cdc_min_tree_node(node->right);
     CDC_SWAP(void *, node->value, mnode->value);
     CDC_SWAP(void *, node->key, mnode->key);
     parent = mnode->parent;
@@ -290,12 +283,11 @@ static struct cdc_avl_tree_node *erase_node(struct cdc_avl_tree *t,
   return balance(parent);
 }
 
-static enum cdc_stat init_varg(struct cdc_avl_tree *t, va_list args)
+static stat_t init_varg(avl_tree_t *t, va_list args)
 {
-  struct cdc_pair *pair = NULL;
-  while ((pair = va_arg(args, struct cdc_pair *)) != CDC_END) {
-    enum cdc_stat stat =
-        cdc_avl_tree_insert(t, pair->first, pair->second, NULL);
+  pair_t *pair = NULL;
+  while ((pair = va_arg(args, pair_t *)) != CDC_END) {
+    stat_t stat = avl_tree_insert(t, pair->first, pair->second, NULL);
     if (stat != CDC_STATUS_OK) {
       return stat;
     }
@@ -304,19 +296,17 @@ static enum cdc_stat init_varg(struct cdc_avl_tree *t, va_list args)
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_avl_tree_ctor(struct cdc_avl_tree **t,
-                                struct cdc_data_info *info)
+stat_t avl_tree_ctor(avl_tree_t **t, data_info_t *info)
 {
   assert(t != NULL);
   assert(CDC_HAS_CMP(info));
 
-  struct cdc_avl_tree *tmp =
-      (struct cdc_avl_tree *)calloc(sizeof(struct cdc_avl_tree), 1);
+  avl_tree_t *tmp = (avl_tree_t *)calloc(sizeof(avl_tree_t), 1);
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
-  if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
+  if (info && !(tmp->dinfo = di_shared_ctorc(info))) {
     free(tmp);
     return CDC_STATUS_BAD_ALLOC;
   }
@@ -325,26 +315,24 @@ enum cdc_stat cdc_avl_tree_ctor(struct cdc_avl_tree **t,
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_avl_tree_ctorl(struct cdc_avl_tree **t,
-                                 struct cdc_data_info *info, ...)
+stat_t avl_tree_ctorl(avl_tree_t **t, data_info_t *info, ...)
 {
   assert(t != NULL);
   assert(CDC_HAS_CMP(info));
 
   va_list args;
   va_start(args, info);
-  enum cdc_stat stat = cdc_avl_tree_ctorv(t, info, args);
+  stat_t stat = avl_tree_ctorv(t, info, args);
   va_end(args);
   return stat;
 }
 
-enum cdc_stat cdc_avl_tree_ctorv(struct cdc_avl_tree **t,
-                                 struct cdc_data_info *info, va_list args)
+stat_t avl_tree_ctorv(avl_tree_t **t, data_info_t *info, va_list args)
 {
   assert(t != NULL);
   assert(CDC_HAS_CMP(info));
 
-  enum cdc_stat stat = cdc_avl_tree_ctor(t, info);
+  stat_t stat = avl_tree_ctor(t, info);
   if (stat != CDC_STATUS_OK) {
     return stat;
   }
@@ -352,21 +340,20 @@ enum cdc_stat cdc_avl_tree_ctorv(struct cdc_avl_tree **t,
   return init_varg(*t, args);
 }
 
-void cdc_avl_tree_dtor(struct cdc_avl_tree *t)
+void avl_tree_dtor(avl_tree_t *t)
 {
   assert(t != NULL);
 
   free_avl_tree(t, t->root);
-  cdc_di_shared_dtor(t->dinfo);
+  di_shared_dtor(t->dinfo);
   free(t);
 }
 
-enum cdc_stat cdc_avl_tree_get(struct cdc_avl_tree *t, void *key, void **value)
+stat_t avl_tree_get(avl_tree_t *t, void *key, void **value)
 {
   assert(t != NULL);
 
-  struct cdc_avl_tree_node *node =
-      cdc_find_tree_node(t->root, key, t->dinfo->cmp);
+  avl_tree_node_t *node = cdc_find_tree_node(t->root, key, t->dinfo->cmp);
   if (node) {
     *value = node->value;
     return CDC_STATUS_OK;
@@ -375,23 +362,21 @@ enum cdc_stat cdc_avl_tree_get(struct cdc_avl_tree *t, void *key, void **value)
   return CDC_STATUS_NOT_FOUND;
 }
 
-size_t cdc_avl_tree_count(struct cdc_avl_tree *t, void *key)
+size_t avl_tree_count(avl_tree_t *t, void *key)
 {
   assert(t != NULL);
 
   return (size_t)(cdc_find_tree_node(t->root, key, t->dinfo->cmp) != NULL);
 }
 
-void cdc_avl_tree_find(struct cdc_avl_tree *t, void *key,
-                       struct cdc_avl_tree_iter *it)
+void avl_tree_find(avl_tree_t *t, void *key, avl_tree_iter_t *it)
 {
   assert(t != NULL);
   assert(it != NULL);
 
-  struct cdc_avl_tree_node *node =
-      cdc_find_tree_node(t->root, key, t->dinfo->cmp);
+  avl_tree_node_t *node = cdc_find_tree_node(t->root, key, t->dinfo->cmp);
   if (!node) {
-    cdc_avl_tree_end(t, it);
+    avl_tree_end(t, it);
     return;
   }
 
@@ -400,32 +385,28 @@ void cdc_avl_tree_find(struct cdc_avl_tree *t, void *key,
   it->prev = cdc_tree_predecessor(node);
 }
 
-enum cdc_stat cdc_avl_tree_insert(struct cdc_avl_tree *t, void *key,
-                                  void *value,
-                                  struct cdc_pair_avl_tree_iter_bool *ret)
+stat_t avl_tree_insert(avl_tree_t *t, void *key, void *value, pair_avl_tree_iter_bool_t *ret)
 {
   assert(t != NULL);
 
-  struct cdc_avl_tree_iter *it = NULL;
+  avl_tree_iter_t *it = NULL;
   bool *inserted = NULL;
   if (ret) {
     it = &ret->first;
     inserted = &ret->second;
   }
 
-  return cdc_avl_tree_insert1(t, key, value, it, inserted);
+  return avl_tree_insert1(t, key, value, it, inserted);
 }
 
-enum cdc_stat cdc_avl_tree_insert1(struct cdc_avl_tree *t, void *key,
-                                   void *value, struct cdc_avl_tree_iter *it,
-                                   bool *inserted)
+stat_t avl_tree_insert1(avl_tree_t *t, void *key, void *value, avl_tree_iter_t *it, bool *inserted)
 {
   assert(t != NULL);
 
-  struct cdc_avl_tree_node *node = find_hint(t->root, key, t->dinfo->cmp);
+  avl_tree_node_t *node = find_hint(t->root, key, t->dinfo->cmp);
   bool finded = node && cdc_eq(t->dinfo->cmp, node->key, key);
   if (!finded) {
-    struct cdc_avl_tree_node *new_node = make_new_node(key, value);
+    avl_tree_node_t *new_node = make_new_node(key, value);
     if (!new_node) {
       return CDC_STATUS_BAD_ALLOC;
     }
@@ -446,33 +427,30 @@ enum cdc_stat cdc_avl_tree_insert1(struct cdc_avl_tree *t, void *key,
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_avl_tree_insert_or_assign(
-    struct cdc_avl_tree *t, void *key, void *value,
-    struct cdc_pair_avl_tree_iter_bool *ret)
+stat_t avl_tree_insert_or_assign(avl_tree_t *t, void *key, void *value,
+                                 pair_avl_tree_iter_bool_t *ret)
 {
   assert(t != NULL);
 
-  struct cdc_avl_tree_iter *it = NULL;
+  avl_tree_iter_t *it = NULL;
   bool *inserted = NULL;
   if (ret) {
     it = &ret->first;
     inserted = &ret->second;
   }
 
-  return cdc_avl_tree_insert_or_assign1(t, key, value, it, inserted);
+  return avl_tree_insert_or_assign1(t, key, value, it, inserted);
 }
 
-enum cdc_stat cdc_avl_tree_insert_or_assign1(struct cdc_avl_tree *t, void *key,
-                                             void *value,
-                                             struct cdc_avl_tree_iter *it,
-                                             bool *inserted)
+stat_t avl_tree_insert_or_assign1(avl_tree_t *t, void *key, void *value, avl_tree_iter_t *it,
+                                  bool *inserted)
 {
   assert(t != NULL);
 
-  struct cdc_avl_tree_node *node = find_hint(t->root, key, t->dinfo->cmp);
+  avl_tree_node_t *node = find_hint(t->root, key, t->dinfo->cmp);
   bool finded = node && cdc_eq(t->dinfo->cmp, node->key, key);
   if (!finded) {
-    struct cdc_avl_tree_node *new_node = make_new_node(key, value);
+    avl_tree_node_t *new_node = make_new_node(key, value);
     if (!new_node) {
       return CDC_STATUS_BAD_ALLOC;
     }
@@ -495,12 +473,11 @@ enum cdc_stat cdc_avl_tree_insert_or_assign1(struct cdc_avl_tree *t, void *key,
   return CDC_STATUS_OK;
 }
 
-size_t cdc_avl_tree_erase(struct cdc_avl_tree *t, void *key)
+size_t avl_tree_erase(avl_tree_t *t, void *key)
 {
   assert(t != NULL);
 
-  struct cdc_avl_tree_node *node =
-      cdc_find_tree_node(t->root, key, t->dinfo->cmp);
+  avl_tree_node_t *node = cdc_find_tree_node(t->root, key, t->dinfo->cmp);
   if (!node) {
     return 0;
   }
@@ -510,7 +487,7 @@ size_t cdc_avl_tree_erase(struct cdc_avl_tree *t, void *key)
   return 1;
 }
 
-void cdc_avl_tree_clear(struct cdc_avl_tree *t)
+void avl_tree_clear(avl_tree_t *t)
 {
   assert(t != NULL);
 
@@ -519,17 +496,17 @@ void cdc_avl_tree_clear(struct cdc_avl_tree *t)
   t->root = NULL;
 }
 
-void cdc_avl_tree_swap(struct cdc_avl_tree *a, struct cdc_avl_tree *b)
+void avl_tree_swap(avl_tree_t *a, avl_tree_t *b)
 {
   assert(a != NULL);
   assert(b != NULL);
 
-  CDC_SWAP(struct cdc_avl_tree_node *, a->root, b->root);
+  CDC_SWAP(avl_tree_node_t *, a->root, b->root);
   CDC_SWAP(size_t, a->size, b->size);
-  CDC_SWAP(struct cdc_data_info *, a->dinfo, b->dinfo);
+  CDC_SWAP(data_info_t *, a->dinfo, b->dinfo);
 }
 
-void cdc_avl_tree_begin(struct cdc_avl_tree *t, struct cdc_avl_tree_iter *it)
+void avl_tree_begin(avl_tree_t *t, avl_tree_iter_t *it)
 {
   assert(t != NULL);
   assert(it != NULL);
@@ -539,7 +516,7 @@ void cdc_avl_tree_begin(struct cdc_avl_tree *t, struct cdc_avl_tree_iter *it)
   it->prev = NULL;
 }
 
-void cdc_avl_tree_end(struct cdc_avl_tree *t, struct cdc_avl_tree_iter *it)
+void avl_tree_end(avl_tree_t *t, avl_tree_iter_t *it)
 {
   assert(t != NULL);
   assert(it != NULL);
@@ -549,7 +526,7 @@ void cdc_avl_tree_end(struct cdc_avl_tree *t, struct cdc_avl_tree_iter *it)
   it->prev = cdc_max_tree_node(t->root);
 }
 
-void cdc_avl_tree_iter_next(struct cdc_avl_tree_iter *it)
+void avl_tree_iter_next(avl_tree_iter_t *it)
 {
   assert(it != NULL);
 
@@ -557,7 +534,7 @@ void cdc_avl_tree_iter_next(struct cdc_avl_tree_iter *it)
   it->current = cdc_tree_successor(it->current);
 }
 
-void cdc_avl_tree_iter_prev(struct cdc_avl_tree_iter *it)
+void avl_tree_iter_prev(avl_tree_iter_t *it)
 {
   assert(it != NULL);
 

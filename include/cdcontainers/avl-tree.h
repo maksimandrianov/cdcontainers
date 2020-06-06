@@ -96,8 +96,7 @@ struct cdc_pair_avl_tree_iter_bool {
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_avl_tree_ctor(struct cdc_avl_tree **t,
-                                struct cdc_data_info *info);
+enum cdc_stat cdc_avl_tree_ctor(struct cdc_avl_tree **t, struct cdc_data_info *info);
 
 /**
  * @brief Constructs an avl tree, initialized by an variable number of
@@ -119,8 +118,7 @@ enum cdc_stat cdc_avl_tree_ctor(struct cdc_avl_tree **t,
  * }
  * @endcode
  */
-enum cdc_stat cdc_avl_tree_ctorl(struct cdc_avl_tree **t,
-                                 struct cdc_data_info *info, ...);
+enum cdc_stat cdc_avl_tree_ctorl(struct cdc_avl_tree **t, struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs an avl tree, initialized by args. The last item must be
@@ -130,8 +128,7 @@ enum cdc_stat cdc_avl_tree_ctorl(struct cdc_avl_tree **t,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_avl_tree_ctorv(struct cdc_avl_tree **t,
-                                 struct cdc_data_info *info, va_list args);
+enum cdc_stat cdc_avl_tree_ctorv(struct cdc_avl_tree **t, struct cdc_data_info *info, va_list args);
 
 /**
  * @brief Destroys the avl tree.
@@ -173,8 +170,7 @@ size_t cdc_avl_tree_count(struct cdc_avl_tree *t, void *key);
  * equivalent to key. If no such element is found, past-the-end iterator is
  * returned.
  */
-void cdc_avl_tree_find(struct cdc_avl_tree *t, void *key,
-                       struct cdc_avl_tree_iter *it);
+void cdc_avl_tree_find(struct cdc_avl_tree *t, void *key, struct cdc_avl_tree_iter *it);
 /** @} */
 
 // Capacity
@@ -230,8 +226,7 @@ void cdc_avl_tree_clear(struct cdc_avl_tree *t);
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_avl_tree_insert(struct cdc_avl_tree *t, void *key,
-                                  void *value,
+enum cdc_stat cdc_avl_tree_insert(struct cdc_avl_tree *t, void *key, void *value,
                                   struct cdc_pair_avl_tree_iter_bool *ret);
 
 /**
@@ -247,9 +242,8 @@ enum cdc_stat cdc_avl_tree_insert(struct cdc_avl_tree *t, void *key,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_avl_tree_insert1(struct cdc_avl_tree *t, void *key,
-                                   void *value, struct cdc_avl_tree_iter *it,
-                                   bool *inserted);
+enum cdc_stat cdc_avl_tree_insert1(struct cdc_avl_tree *t, void *key, void *value,
+                                   struct cdc_avl_tree_iter *it, bool *inserted);
 
 /**
  * @brief Inserts an element or assigns to the current element if the key
@@ -263,9 +257,8 @@ enum cdc_stat cdc_avl_tree_insert1(struct cdc_avl_tree *t, void *key,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_avl_tree_insert_or_assign(
-    struct cdc_avl_tree *t, void *key, void *value,
-    struct cdc_pair_avl_tree_iter_bool *ret);
+enum cdc_stat cdc_avl_tree_insert_or_assign(struct cdc_avl_tree *t, void *key, void *value,
+                                            struct cdc_pair_avl_tree_iter_bool *ret);
 
 /**
  * @brief Inserts an element or assigns to the current element if the key
@@ -280,10 +273,8 @@ enum cdc_stat cdc_avl_tree_insert_or_assign(
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_avl_tree_insert_or_assign1(struct cdc_avl_tree *t, void *key,
-                                             void *value,
-                                             struct cdc_avl_tree_iter *it,
-                                             bool *inserted);
+enum cdc_stat cdc_avl_tree_insert_or_assign1(struct cdc_avl_tree *t, void *key, void *value,
+                                             struct cdc_avl_tree_iter *it, bool *inserted);
 
 /**
  * @brief Removes the element (if one exists) with the key equivalent to key.
@@ -396,8 +387,7 @@ static inline void *cdc_avl_tree_iter_value(struct cdc_avl_tree_iter *it)
  * @param[in] it - iterator
  * @return pair, where first - key, second - value.
  */
-static inline struct cdc_pair cdc_avl_tree_iter_key_value(
-    struct cdc_avl_tree_iter *it)
+static inline struct cdc_pair cdc_avl_tree_iter_key_value(struct cdc_avl_tree_iter *it)
 {
   assert(it != NULL);
 
@@ -419,13 +409,13 @@ static inline bool cdc_avl_tree_iter_is_eq(struct cdc_avl_tree_iter *it1,
   assert(it1 != NULL);
   assert(it2 != NULL);
 
-  return it1->container == it2->container && it1->prev == it2->prev &&
-         it1->current == it2->current;
+  return it1->container == it2->container && it1->prev == it2->prev && it1->current == it2->current;
 }
 /** @} */
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
+typedef struct cdc_avl_tree_node avl_tree_node_t;
 typedef struct cdc_avl_tree avl_tree_t;
 typedef struct cdc_avl_tree_iter avl_tree_iter_t;
 typedef struct cdc_pair_avl_tree_iter pair_avl_tree_iter_t;
@@ -450,10 +440,8 @@ typedef struct cdc_pair_avl_tree_iter_bool pair_avl_tree_iter_bool_t;
 #define avl_tree_clear(...) cdc_avl_tree_clear(__VA_ARGS__)
 #define avl_tree_insert(...) cdc_avl_tree_insert(__VA_ARGS__)
 #define avl_tree_insert1(...) cdc_avl_tree_insert1(__VA_ARGS__)
-#define avl_tree_insert_or_assign(...) \
-  cdc_avl_tree_insert_or_assign(__VA_ARGS__)
-#define avl_tree_insert_or_assign1(...) \
-  cdc_avl_tree_insert_or_assign1(__VA_ARGS__)
+#define avl_tree_insert_or_assign(...) cdc_avl_tree_insert_or_assign(__VA_ARGS__)
+#define avl_tree_insert_or_assign1(...) cdc_avl_tree_insert_or_assign1(__VA_ARGS__)
 #define avl_tree_erase(...) cdc_avl_tree_erase(__VA_ARGS__)
 #define avl_tree_swap(...) cdc_avl_tree_swap(__VA_ARGS__)
 
@@ -464,6 +452,8 @@ typedef struct cdc_pair_avl_tree_iter_bool pair_avl_tree_iter_bool_t;
 // Iterators
 #define avl_tree_iter_next(...) cdc_avl_tree_iter_next(__VA_ARGS__)
 #define avl_tree_iter_has_next(...) cdc_avl_tree_iter_has_next(__VA_ARGS__)
+#define avl_tree_iter_has_prev(...) cdc_avl_tree_iter_has_prev(__VA_ARGS__)
+#define avl_tree_iter_prev(...) cdc_avl_tree_iter_prev(__VA_ARGS__)
 #define avl_tree_iter_key(...) cdc_avl_tree_iter_key(__VA_ARGS__)
 #define avl_tree_iter_value(...) cdc_avl_tree_iter_value(__VA_ARGS__)
 #define avl_tree_iter_key_value(...) cdc_avl_tree_iter_key_value(__VA_ARGS__)

@@ -67,10 +67,8 @@ struct cdc_map_table {
   size_t (*size)(void *cntr);
   bool (*empty)(void *cntr);
   void (*clear)(void *cntr);
-  enum cdc_stat (*insert)(void *cntr, void *key, void *value, void *it,
-                          bool *inserted);
-  enum cdc_stat (*insert_or_assign)(void *cntr, void *key, void *value,
-                                    void *it, bool *inserted);
+  enum cdc_stat (*insert)(void *cntr, void *key, void *value, void *it, bool *inserted);
+  enum cdc_stat (*insert_or_assign)(void *cntr, void *key, void *value, void *it, bool *inserted);
   size_t (*erase)(void *cntr, void *key);
   void (*swap)(void *a, void *b);
   void (*begin)(void *cntr, void *it);
@@ -82,5 +80,11 @@ extern const struct cdc_map_table *cdc_map_avl;
 extern const struct cdc_map_table *cdc_map_splay;
 extern const struct cdc_map_table *cdc_map_treap;
 extern const struct cdc_map_table *cdc_map_htable;
+
+// Short names
+#ifdef CDC_USE_SHORT_NAMES
+typedef struct cdc_map_iter_table map_iter_table_t;
+typedef struct cdc_map_table map_table_t;
+#endif
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_IMAP_H

@@ -18,24 +18,24 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+#define CDC_USE_SHORT_NAMES
 #include "cdcontainers/adapters/map.h"
 
 #include "cdcontainers/data-info.h"
 
-enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table,
-                           struct cdc_map **m, struct cdc_data_info *info)
+stat_t map_ctor(const map_table_t *table, map_t **m, data_info_t *info)
 {
   assert(table != NULL);
   assert(m != NULL);
   assert(CDC_HAS_CMP(info));
 
-  struct cdc_map *tmp = (struct cdc_map *)malloc(sizeof(struct cdc_map));
+  map_t *tmp = (map_t *)malloc(sizeof(map_t));
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
   tmp->table = table;
-  enum cdc_stat stat = tmp->table->ctor(&tmp->container, info);
+  stat_t stat = tmp->table->ctor(&tmp->container, info);
   if (stat != CDC_STATUS_OK) {
     free(tmp);
     return stat;
@@ -45,8 +45,7 @@ enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table,
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table,
-                            struct cdc_map **m, struct cdc_data_info *info, ...)
+stat_t map_ctorl(const map_table_t *table, map_t **m, data_info_t *info, ...)
 {
   assert(table != NULL);
   assert(m != NULL);
@@ -54,26 +53,24 @@ enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table,
 
   va_list args;
   va_start(args, info);
-  enum cdc_stat stat = cdc_map_ctorv(table, m, info, args);
+  stat_t stat = map_ctorv(table, m, info, args);
   va_end(args);
   return stat;
 }
 
-enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table,
-                            struct cdc_map **m, struct cdc_data_info *info,
-                            va_list args)
+stat_t map_ctorv(const map_table_t *table, map_t **m, data_info_t *info, va_list args)
 {
   assert(table != NULL);
   assert(m != NULL);
   assert(CDC_HAS_CMP(info));
 
-  struct cdc_map *tmp = (struct cdc_map *)malloc(sizeof(struct cdc_map));
+  map_t *tmp = (map_t *)malloc(sizeof(map_t));
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
   tmp->table = table;
-  enum cdc_stat stat = tmp->table->ctorv(&tmp->container, info, args);
+  stat_t stat = tmp->table->ctorv(&tmp->container, info, args);
   if (stat != CDC_STATUS_OK) {
     free(tmp);
     return stat;
@@ -83,7 +80,7 @@ enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table,
   return stat;
 }
 
-void cdc_map_dtor(struct cdc_map *m)
+void map_dtor(map_t *m)
 {
   assert(m != NULL);
 
@@ -91,7 +88,7 @@ void cdc_map_dtor(struct cdc_map *m)
   free(m);
 }
 
-enum cdc_stat cdc_map_iter_ctor(struct cdc_map *m, struct cdc_map_iter *it)
+stat_t map_iter_ctor(map_t *m, map_iter_t *it)
 {
   assert(m != NULL);
   assert(it != NULL);

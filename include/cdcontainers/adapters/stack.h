@@ -53,8 +53,8 @@ struct cdc_stack {
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_stack_ctor(const struct cdc_sequence_table *table,
-                             struct cdc_stack **s, struct cdc_data_info *info);
+enum cdc_stat cdc_stack_ctor(const struct cdc_sequence_table *table, struct cdc_stack **s,
+                             struct cdc_data_info *info);
 
 /**
  * @brief Constructs a stack, initialized by an arbitrary number of pointers.
@@ -65,9 +65,8 @@ enum cdc_stat cdc_stack_ctor(const struct cdc_sequence_table *table,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_stack_ctorl(const struct cdc_sequence_table *table,
-                              struct cdc_stack **s, struct cdc_data_info *info,
-                              ...);
+enum cdc_stat cdc_stack_ctorl(const struct cdc_sequence_table *table, struct cdc_stack **s,
+                              struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs a stack, initialized by args. The last item must be NULL.
@@ -77,9 +76,8 @@ enum cdc_stat cdc_stack_ctorl(const struct cdc_sequence_table *table,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_stack_ctorv(const struct cdc_sequence_table *table,
-                              struct cdc_stack **s, struct cdc_data_info *info,
-                              va_list args);
+enum cdc_stat cdc_stack_ctorv(const struct cdc_sequence_table *table, struct cdc_stack **s,
+                              struct cdc_data_info *info, va_list args);
 
 /**
  * @brief Destroys the stack.

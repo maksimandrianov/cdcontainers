@@ -18,83 +18,83 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+#define CDC_USE_SHORT_NAMES
 #include "cdcontainers/binomial-heap.h"
 #include "cdcontainers/tables/ipqueue.h"
 
 #include <assert.h>
 
-static enum cdc_stat ctor(void **cntr, struct cdc_data_info *info)
+static stat_t ctor(void **cntr, data_info_t *info)
 {
   assert(cntr != NULL);
 
-  struct cdc_binomial_heap **heap = (struct cdc_binomial_heap **)cntr;
-  return cdc_binomial_heap_ctor(heap, info);
+  binomial_heap_t **heap = (binomial_heap_t **)cntr;
+  return binomial_heap_ctor(heap, info);
 }
 
-static enum cdc_stat ctorv(void **cntr, struct cdc_data_info *info,
-                           va_list args)
+static stat_t ctorv(void **cntr, data_info_t *info, va_list args)
 {
   assert(cntr != NULL);
 
-  struct cdc_binomial_heap **heap = (struct cdc_binomial_heap **)cntr;
-  return cdc_binomial_heap_ctorv(heap, info, args);
+  binomial_heap_t **heap = (binomial_heap_t **)cntr;
+  return binomial_heap_ctorv(heap, info, args);
 }
 
 static void dtor(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
-  cdc_binomial_heap_dtor(heap);
+  binomial_heap_t *heap = (binomial_heap_t *)cntr;
+  binomial_heap_dtor(heap);
 }
 
 static void *top(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
-  return cdc_binomial_heap_top(heap);
+  binomial_heap_t *heap = (binomial_heap_t *)cntr;
+  return binomial_heap_top(heap);
 }
 
 static bool empty(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
-  return cdc_binomial_heap_empty(heap);
+  binomial_heap_t *heap = (binomial_heap_t *)cntr;
+  return binomial_heap_empty(heap);
 }
 
 static size_t size(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
-  return cdc_binomial_heap_size(heap);
+  binomial_heap_t *heap = (binomial_heap_t *)cntr;
+  return binomial_heap_size(heap);
 }
 
-static enum cdc_stat push(void *cntr, void *elem)
+static stat_t push(void *cntr, void *elem)
 {
   assert(cntr != NULL);
 
-  struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
-  return cdc_binomial_heap_insert(heap, elem);
+  binomial_heap_t *heap = (binomial_heap_t *)cntr;
+  return binomial_heap_insert(heap, elem);
 }
 
 static void pop(void *cntr)
 {
   assert(cntr != NULL);
 
-  struct cdc_binomial_heap *heap = (struct cdc_binomial_heap *)cntr;
-  cdc_binomial_heap_extract_top(heap);
+  binomial_heap_t *heap = (binomial_heap_t *)cntr;
+  binomial_heap_extract_top(heap);
 }
 
-static const struct cdc_priority_queue_table _table = {.ctor = ctor,
-                                                       .ctorv = ctorv,
-                                                       .dtor = dtor,
-                                                       .top = top,
-                                                       .empty = empty,
-                                                       .size = size,
-                                                       .push = push,
-                                                       .pop = pop};
+static const priority_queue_table_t _table = {.ctor = ctor,
+                                              .ctorv = ctorv,
+                                              .dtor = dtor,
+                                              .top = top,
+                                              .empty = empty,
+                                              .size = size,
+                                              .push = push,
+                                              .pop = pop};
 
-const struct cdc_priority_queue_table *cdc_pq_binheap = &_table;
+const priority_queue_table_t *cdc_pq_binheap = &_table;

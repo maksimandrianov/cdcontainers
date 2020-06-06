@@ -54,7 +54,7 @@ struct cdc_circular_array {
   struct cdc_data_info *dinfo;
 };
 
-//Base
+// Base
 /**
  * @defgroup cdc_circular_array_base Base
  * @{
@@ -66,8 +66,7 @@ struct cdc_circular_array {
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_circular_array_ctor(struct cdc_circular_array **d,
-                                      struct cdc_data_info *info);
+enum cdc_stat cdc_circular_array_ctor(struct cdc_circular_array **d, struct cdc_data_info *info);
 
 /**
  * @brief Constructs a circular array, initialized by an variable number of pointers.
@@ -86,8 +85,8 @@ enum cdc_stat cdc_circular_array_ctor(struct cdc_circular_array **d,
  * }
  * @endcode
  */
-enum cdc_stat cdc_circular_array_ctorl(struct cdc_circular_array **d,
-                                       struct cdc_data_info *info, ...);
+enum cdc_stat cdc_circular_array_ctorl(struct cdc_circular_array **d, struct cdc_data_info *info,
+                                       ...);
 
 /**
  * @brief Constructs a circular array, initialized by args. The last pointer must be CDC_END.
@@ -96,8 +95,7 @@ enum cdc_stat cdc_circular_array_ctorl(struct cdc_circular_array **d,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_circular_array_ctorv(struct cdc_circular_array **d,
-                                       struct cdc_data_info *info,
+enum cdc_stat cdc_circular_array_ctorv(struct cdc_circular_array **d, struct cdc_data_info *info,
                                        va_list args);
 
 /**
@@ -118,8 +116,7 @@ void cdc_circular_array_dtor(struct cdc_circular_array *d);
  * @param[in] index - index of an element to return
  * @return element from |index| position.
  */
-static inline void *cdc_circular_array_get(struct cdc_circular_array *d,
-                                           size_t index)
+static inline void *cdc_circular_array_get(struct cdc_circular_array *d, size_t index)
 {
   assert(d != NULL);
   assert(index < d->size);
@@ -137,8 +134,7 @@ static inline void *cdc_circular_array_get(struct cdc_circular_array *d,
  * @return DC_STATUS_OK in a successful case or CDC_STATUS_OUT_OF_RANGE if the
  * index is incorrect.
  */
-enum cdc_stat cdc_circular_array_at(struct cdc_circular_array *d, size_t index,
-                                    void **elem);
+enum cdc_stat cdc_circular_array_at(struct cdc_circular_array *d, size_t index, void **elem);
 
 /**
  * @brief Returns a first element in the circular array.
@@ -210,8 +206,7 @@ static inline size_t cdc_circular_array_size(struct cdc_circular_array *d)
  * @param[in] index - index position where the value will be written
  * @param[in] value - value
  */
-static inline void cdc_circular_array_set(struct cdc_circular_array *d,
-                                          size_t index, void *value)
+static inline void cdc_circular_array_set(struct cdc_circular_array *d, size_t index, void *value)
 {
   assert(d != NULL);
   assert(index < d->size);
@@ -230,8 +225,7 @@ static inline void cdc_circular_array_set(struct cdc_circular_array *d,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_circular_array_insert(struct cdc_circular_array *d,
-                                        size_t index, void *value);
+enum cdc_stat cdc_circular_array_insert(struct cdc_circular_array *d, size_t index, void *value);
 
 /**
  * @brief Removes an element at index position in the circular arrray.
@@ -253,8 +247,7 @@ void cdc_circular_array_clear(struct cdc_circular_array *d);
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_circular_array_push_back(struct cdc_circular_array *d,
-                                           void *value);
+enum cdc_stat cdc_circular_array_push_back(struct cdc_circular_array *d, void *value);
 
 /**
  * @brief Removes a last element in the circular array.
@@ -269,8 +262,7 @@ void cdc_circular_array_pop_back(struct cdc_circular_array *d);
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_circular_array_push_front(struct cdc_circular_array *d,
-                                            void *value);
+enum cdc_stat cdc_circular_array_push_front(struct cdc_circular_array *d, void *value);
 
 /**
  * @brief Removes a first element in the circular array.
@@ -284,8 +276,7 @@ void cdc_circular_array_pop_front(struct cdc_circular_array *d);
  * @param a - cdc_circular_array
  * @param b - cdc_circular_array
  */
-void cdc_circular_array_swap(struct cdc_circular_array *a,
-                             struct cdc_circular_array *b);
+void cdc_circular_array_swap(struct cdc_circular_array *a, struct cdc_circular_array *b);
 /** @} */
 
 // Short names
@@ -315,9 +306,8 @@ typedef struct cdc_circular_array circular_array_t;
 #define circular_array_clear(...) cdc_circular_array_clear(__VA_ARGS__)
 #define circular_array_push_back(...) cdc_circular_array_push_back(__VA_ARGS__)
 #define circular_array_pop_back(...) cdc_circular_array_pop_back(__VA_ARGS__)
-#define circular_array_push_front(...) \
-  cdc_circular_array_push_front(__VA_ARGS__)
-#define circular_array_pop_front(...) cdc_circular_array_pop_back(__VA_ARGS__)
+#define circular_array_push_front(...) cdc_circular_array_push_front(__VA_ARGS__)
+#define circular_array_pop_front(...) cdc_circular_array_pop_front(__VA_ARGS__)
 #define circular_array_swap(...) cdc_circular_array_swap(__VA_ARGS__)
 #endif
 /** @} */

@@ -53,8 +53,8 @@ struct cdc_queue {
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_queue_ctor(const struct cdc_sequence_table *table,
-                             struct cdc_queue **q, struct cdc_data_info *info);
+enum cdc_stat cdc_queue_ctor(const struct cdc_sequence_table *table, struct cdc_queue **q,
+                             struct cdc_data_info *info);
 
 /**
  * @brief Constructs a queue, initialized by an arbitrary number of pointers.
@@ -65,9 +65,8 @@ enum cdc_stat cdc_queue_ctor(const struct cdc_sequence_table *table,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_queue_ctorl(const struct cdc_sequence_table *table,
-                              struct cdc_queue **q, struct cdc_data_info *info,
-                              ...);
+enum cdc_stat cdc_queue_ctorl(const struct cdc_sequence_table *table, struct cdc_queue **q,
+                              struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs a queue, initialized by args
@@ -78,9 +77,8 @@ enum cdc_stat cdc_queue_ctorl(const struct cdc_sequence_table *table,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_queue_ctorv(const struct cdc_sequence_table *table,
-                              struct cdc_queue **q, struct cdc_data_info *info,
-                              va_list args);
+enum cdc_stat cdc_queue_ctorv(const struct cdc_sequence_table *table, struct cdc_queue **q,
+                              struct cdc_data_info *info, va_list args);
 
 /**
  * @brief Destroys the queue.

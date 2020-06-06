@@ -77,8 +77,7 @@ struct cdc_binomial_heap_iter {
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_binomial_heap_ctor(struct cdc_binomial_heap **h,
-                                     struct cdc_data_info *info);
+enum cdc_stat cdc_binomial_heap_ctor(struct cdc_binomial_heap **h, struct cdc_data_info *info);
 
 /**
  * @brief Constructs a binomial heap, initialized by an arbitrary number of
@@ -88,8 +87,8 @@ enum cdc_stat cdc_binomial_heap_ctor(struct cdc_binomial_heap **h,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_binomial_heap_ctorl(struct cdc_binomial_heap **h,
-                                      struct cdc_data_info *info, ...);
+enum cdc_stat cdc_binomial_heap_ctorl(struct cdc_binomial_heap **h, struct cdc_data_info *info,
+                                      ...);
 
 /**
  * @brief Constructs a binomial heap, initialized by args. The last item must be
@@ -99,8 +98,8 @@ enum cdc_stat cdc_binomial_heap_ctorl(struct cdc_binomial_heap **h,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_binomial_heap_ctorv(struct cdc_binomial_heap **h,
-                                      struct cdc_data_info *info, va_list args);
+enum cdc_stat cdc_binomial_heap_ctorv(struct cdc_binomial_heap **h, struct cdc_data_info *info,
+                                      va_list args);
 
 /**
  * @brief Destroys the binomial heap.
@@ -177,8 +176,7 @@ enum cdc_stat cdc_binomial_heap_riinsert(struct cdc_binomial_heap *h, void *key,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-static inline enum cdc_stat cdc_binomial_heap_insert(
-    struct cdc_binomial_heap *h, void *key)
+static inline enum cdc_stat cdc_binomial_heap_insert(struct cdc_binomial_heap *h, void *key)
 {
   assert(h != NULL);
 
@@ -192,8 +190,7 @@ static inline enum cdc_stat cdc_binomial_heap_insert(
  * change
  * @param key
  */
-void cdc_binomial_heap_change_key(struct cdc_binomial_heap *h,
-                                  struct cdc_binomial_heap_iter *pos,
+void cdc_binomial_heap_change_key(struct cdc_binomial_heap *h, struct cdc_binomial_heap_iter *pos,
                                   void *key);
 
 /**
@@ -208,8 +205,7 @@ void cdc_binomial_heap_clear(struct cdc_binomial_heap *h);
  * @param a - cdc_binomial_heap
  * @param b - cdc_binomial_heap
  */
-void cdc_binomial_heap_swap(struct cdc_binomial_heap *a,
-                            struct cdc_binomial_heap *b);
+void cdc_binomial_heap_swap(struct cdc_binomial_heap *a, struct cdc_binomial_heap *b);
 
 // Operations
 /**
@@ -218,8 +214,7 @@ void cdc_binomial_heap_swap(struct cdc_binomial_heap *a,
  * @param h - cdc_binomial_heap
  * @param other - cdc_binomial_heap
  */
-void cdc_binomial_heap_merge(struct cdc_binomial_heap *h,
-                             struct cdc_binomial_heap *other);
+void cdc_binomial_heap_merge(struct cdc_binomial_heap *h, struct cdc_binomial_heap *other);
 
 /**
  * @brief Checks the heap property.
@@ -232,8 +227,7 @@ bool cdc_binomial_heap_is_heap(struct cdc_binomial_heap *h);
 /**
  * @brief Returns a pointer to the key of current item.
  */
-static inline void *cdc_binomial_heap_iter_data(
-    struct cdc_binomial_heap_iter *it)
+static inline void *cdc_binomial_heap_iter_data(struct cdc_binomial_heap_iter *it)
 {
   assert(it != NULL);
 
@@ -244,8 +238,8 @@ static inline void *cdc_binomial_heap_iter_data(
  * @brief Returns false if the iterator it1 equal to the iterator it2,
  * otherwise returns false
  */
-static inline bool cdc_binomial_heap_iter_is_eq(
-    struct cdc_binomial_heap_iter *it1, struct cdc_binomial_heap_iter *it2)
+static inline bool cdc_binomial_heap_iter_is_eq(struct cdc_binomial_heap_iter *it1,
+                                                struct cdc_binomial_heap_iter *it2)
 {
   assert(it1 != NULL);
   assert(it2 != NULL);
@@ -255,8 +249,9 @@ static inline bool cdc_binomial_heap_iter_is_eq(
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
+typedef struct cdc_binomial_heap_node binomial_heap_node_t;
 typedef struct cdc_binomial_heap binomial_heap_t;
-typedef struct cdc_binomial_heap_iter binomial_heap_iter;
+typedef struct cdc_binomial_heap_iter binomial_heap_iter_t;
 
 #define binomial_heap_ctor(...) cdc_binomial_heap_ctor(__VA_ARGS__)
 #define binomial_heap_ctorl(...) cdc_binomial_heap_ctorl(__VA_ARGS__)
@@ -271,8 +266,7 @@ typedef struct cdc_binomial_heap_iter binomial_heap_iter;
 #define binomial_heap_size(...) cdc_binomial_heap_size(__VA_ARGS__)
 
 // Modifiers
-#define binomial_heap_extract_top(...) \
-  cdc_binomial_heap_extract_top(__VA_ARGS__)
+#define binomial_heap_extract_top(...) cdc_binomial_heap_extract_top(__VA_ARGS__)
 #define binomial_heap_riinsert(...) cdc_binomial_heap_riinsert(__VA_ARGS__)
 #define binomial_heap_insert(...) cdc_binomial_heap_insert(__VA_ARGS__)
 #define binomial_heap_change_key(...) cdc_binomial_heap_change_key(__VA_ARGS__)

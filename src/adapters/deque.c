@@ -18,21 +18,21 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+#define CDC_USE_SHORT_NAMES
 #include "cdcontainers/adapters/deque.h"
 
-enum cdc_stat cdc_deque_ctor(const struct cdc_sequence_table *table,
-                             struct cdc_deque **d, struct cdc_data_info *info)
+stat_t deque_ctor(const sequence_table_t *table, deque_t **d, data_info_t *info)
 {
   assert(table != NULL);
   assert(d != NULL);
 
-  struct cdc_deque *tmp = (struct cdc_deque *)malloc(sizeof(struct cdc_deque));
+  deque_t *tmp = (deque_t *)malloc(sizeof(deque_t));
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
   tmp->table = table;
-  enum cdc_stat ret = tmp->table->ctor(&tmp->container, info);
+  stat_t ret = tmp->table->ctor(&tmp->container, info);
   if (ret != CDC_STATUS_OK) {
     free(tmp);
     return ret;
@@ -42,34 +42,30 @@ enum cdc_stat cdc_deque_ctor(const struct cdc_sequence_table *table,
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_deque_ctorl(const struct cdc_sequence_table *table,
-                              struct cdc_deque **d, struct cdc_data_info *info,
-                              ...)
+stat_t deque_ctorl(const sequence_table_t *table, deque_t **d, data_info_t *info, ...)
 {
   assert(table != NULL);
   assert(d != NULL);
 
   va_list args;
   va_start(args, info);
-  enum cdc_stat ret = cdc_deque_ctorv(table, d, info, args);
+  stat_t ret = deque_ctorv(table, d, info, args);
   va_end(args);
   return ret;
 }
 
-enum cdc_stat cdc_deque_ctorv(const struct cdc_sequence_table *table,
-                              struct cdc_deque **d, struct cdc_data_info *info,
-                              va_list args)
+stat_t deque_ctorv(const sequence_table_t *table, deque_t **d, data_info_t *info, va_list args)
 {
   assert(table != NULL);
   assert(d != NULL);
 
-  struct cdc_deque *tmp = (struct cdc_deque *)malloc(sizeof(struct cdc_deque));
+  deque_t *tmp = (deque_t *)malloc(sizeof(deque_t));
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
   tmp->table = table;
-  enum cdc_stat ret = tmp->table->ctorv(&tmp->container, info, args);
+  stat_t ret = tmp->table->ctorv(&tmp->container, info, args);
   if (ret != CDC_STATUS_OK) {
     free(tmp);
     return ret;
@@ -79,7 +75,7 @@ enum cdc_stat cdc_deque_ctorv(const struct cdc_sequence_table *table,
   return ret;
 }
 
-void cdc_deque_dtor(struct cdc_deque *d)
+void deque_dtor(deque_t *d)
 {
   assert(d != NULL);
 
@@ -87,7 +83,7 @@ void cdc_deque_dtor(struct cdc_deque *d)
   free(d);
 }
 
-void cdc_deque_swap(struct cdc_deque *a, struct cdc_deque *b)
+void deque_swap(deque_t *a, deque_t *b)
 {
   assert(a != NULL);
   assert(b != NULL);

@@ -18,6 +18,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+#define CDC_USE_SHORT_NAMES
 #include "cdcontainers/pairing-heap.h"
 
 #include "cdcontainers/data-info.h"
@@ -27,8 +28,7 @@
 #include <stdio.h>
 #include <string.h>
 
-static void free_node(struct cdc_pairing_heap *h,
-                      struct cdc_pairing_heap_node *node)
+static void free_node(pairing_heap_t *h, pairing_heap_node_t *node)
 {
   if (CDC_HAS_DFREE(h->dinfo)) {
     h->dinfo->dfree(node->key);
@@ -37,23 +37,20 @@ static void free_node(struct cdc_pairing_heap *h,
   free(node);
 }
 
-static void free_heap(struct cdc_pairing_heap *h,
-                      struct cdc_pairing_heap_node *root)
+static void free_heap(pairing_heap_t *h, pairing_heap_node_t *root)
 {
   while (root) {
     free_heap(h, root->child);
-    struct cdc_pairing_heap_node *tmp = root->sibling;
+    pairing_heap_node_t *tmp = root->sibling;
     free_node(h, root);
     root = tmp;
   }
 }
 
-static bool is_heap(struct cdc_pairing_heap_node *root,
-                    cdc_binary_pred_fn_t compar)
+static bool is_heap(pairing_heap_node_t *root, cdc_binary_pred_fn_t compar)
 {
   while (root) {
-    if (!is_heap(root->child, compar) ||
-        (root->parent && compar(root->key, root->parent->key))) {
+    if (!is_heap(root->child, compar) || (root->parent && compar(root->key, root->parent->key))) {
       return false;
     }
 
@@ -62,17 +59,15 @@ static bool is_heap(struct cdc_pairing_heap_node *root,
   return true;
 }
 
-static void link(struct cdc_pairing_heap_node *a,
-                 struct cdc_pairing_heap_node *broot)
+static void link(pairing_heap_node_t *a, pairing_heap_node_t *broot)
 {
   a->parent = broot;
   a->sibling = broot->child;
   broot->child = a;
 }
 
-static struct cdc_pairing_heap_node *meld(struct cdc_pairing_heap_node *a,
-                                          struct cdc_pairing_heap_node *b,
-                                          cdc_binary_pred_fn_t compare)
+static pairing_heap_node_t *meld(pairing_heap_node_t *a, pairing_heap_node_t *b,
+                                 cdc_binary_pred_fn_t compare)
 {
   if (a == NULL) {
     return b;
@@ -83,23 +78,22 @@ static struct cdc_pairing_heap_node *meld(struct cdc_pairing_heap_node *a,
   }
 
   if (compare(a->key, b->key)) {
-    CDC_SWAP(struct cdc_pairing_heap_node *, a, b);
+    CDC_SWAP(pairing_heap_node_t *, a, b);
   }
 
   link(a, b);
   return b;
 }
 
-static struct cdc_pairing_heap_node *two_pass_meld(
-    struct cdc_pairing_heap_node *root, cdc_binary_pred_fn_t compare)
+static pairing_heap_node_t *two_pass_meld(pairing_heap_node_t *root, cdc_binary_pred_fn_t compare)
 {
   if (root == NULL || root->sibling == NULL) {
     return root;
   }
 
-  struct cdc_pairing_heap_node *a = root;
-  struct cdc_pairing_heap_node *b = root->sibling;
-  struct cdc_pairing_heap_node *c = root->sibling->sibling;
+  pairing_heap_node_t *a = root;
+  pairing_heap_node_t *b = root->sibling;
+  pairing_heap_node_t *c = root->sibling->sibling;
   a->parent = NULL;
   a->sibling = NULL;
   b->parent = NULL;
@@ -107,16 +101,15 @@ static struct cdc_pairing_heap_node *two_pass_meld(
   return meld(meld(a, b, compare), two_pass_meld(c, compare), compare);
 }
 
-static struct cdc_pairing_heap_node *decrease_key(
-    struct cdc_pairing_heap *h, struct cdc_pairing_heap_node *pos, void *key)
+static pairing_heap_node_t *decrease_key(pairing_heap_t *h, pairing_heap_node_t *pos, void *key)
 {
-  struct cdc_pairing_heap_node *node = pos;
+  pairing_heap_node_t *node = pos;
   if (CDC_HAS_DFREE(h->dinfo)) {
     h->dinfo->dfree(node->key);
   }
 
   node->key = key;
-  struct cdc_pairing_heap_node *p = node->parent;
+  pairing_heap_node_t *p = node->parent;
   while (p != NULL && h->dinfo->cmp(node->key, p->key)) {
     CDC_SWAP(void *, node->key, p->key);
     node = p;
@@ -126,18 +119,17 @@ static struct cdc_pairing_heap_node *decrease_key(
   return node;
 }
 
-static struct cdc_pairing_heap_node *increase_key(
-    struct cdc_pairing_heap *h, struct cdc_pairing_heap_node *pos, void *key)
+static pairing_heap_node_t *increase_key(pairing_heap_t *h, pairing_heap_node_t *pos, void *key)
 {
   if (CDC_HAS_DFREE(h->dinfo)) {
     h->dinfo->dfree(pos->key);
   }
 
-  struct cdc_pairing_heap_node *ch = pos->child;
+  pairing_heap_node_t *ch = pos->child;
   pos->key = key;
   while (ch != NULL) {
     if (h->dinfo->cmp(ch->key, pos->key)) {
-      struct cdc_pairing_heap_node *t = ch;
+      pairing_heap_node_t *t = ch;
       while (ch->sibling != NULL) {
         if (h->dinfo->cmp(ch->sibling->key, t->key)) {
           t = ch->sibling;
@@ -157,11 +149,11 @@ static struct cdc_pairing_heap_node *increase_key(
   return pos;
 }
 
-static enum cdc_stat init_varg(struct cdc_pairing_heap *h, va_list args)
+static stat_t init_varg(pairing_heap_t *h, va_list args)
 {
   void *elem = NULL;
   while ((elem = va_arg(args, void *)) != CDC_END) {
-    enum cdc_stat ret = cdc_pairing_heap_insert(h, elem);
+    stat_t ret = pairing_heap_insert(h, elem);
     if (ret != CDC_STATUS_OK) {
       return ret;
     }
@@ -170,19 +162,17 @@ static enum cdc_stat init_varg(struct cdc_pairing_heap *h, va_list args)
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_pairing_heap_ctor(struct cdc_pairing_heap **h,
-                                    struct cdc_data_info *info)
+stat_t pairing_heap_ctor(pairing_heap_t **h, data_info_t *info)
 {
   assert(h != NULL);
   assert(CDC_HAS_CMP(info));
 
-  struct cdc_pairing_heap *tmp =
-      (struct cdc_pairing_heap *)calloc(sizeof(struct cdc_pairing_heap), 1);
+  pairing_heap_t *tmp = (pairing_heap_t *)calloc(sizeof(pairing_heap_t), 1);
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
-  if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
+  if (info && !(tmp->dinfo = di_shared_ctorc(info))) {
     free(tmp);
     return CDC_STATUS_BAD_ALLOC;
   }
@@ -191,26 +181,24 @@ enum cdc_stat cdc_pairing_heap_ctor(struct cdc_pairing_heap **h,
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_pairing_heap_ctorl(struct cdc_pairing_heap **h,
-                                     struct cdc_data_info *info, ...)
+stat_t pairing_heap_ctorl(pairing_heap_t **h, data_info_t *info, ...)
 {
   assert(h != NULL);
   assert(CDC_HAS_CMP(info));
 
   va_list args;
   va_start(args, info);
-  enum cdc_stat ret = cdc_pairing_heap_ctorv(h, info, args);
+  stat_t ret = pairing_heap_ctorv(h, info, args);
   va_end(args);
   return ret;
 }
 
-enum cdc_stat cdc_pairing_heap_ctorv(struct cdc_pairing_heap **h,
-                                     struct cdc_data_info *info, va_list args)
+stat_t pairing_heap_ctorv(pairing_heap_t **h, data_info_t *info, va_list args)
 {
   assert(h != NULL);
   assert(CDC_HAS_CMP(info));
 
-  enum cdc_stat ret = cdc_pairing_heap_ctor(h, info);
+  stat_t ret = pairing_heap_ctor(h, info);
   if (ret != CDC_STATUS_OK) {
     return ret;
   }
@@ -218,33 +206,31 @@ enum cdc_stat cdc_pairing_heap_ctorv(struct cdc_pairing_heap **h,
   return init_varg(*h, args);
 }
 
-void cdc_pairing_heap_dtor(struct cdc_pairing_heap *h)
+void pairing_heap_dtor(pairing_heap_t *h)
 {
   assert(h != NULL);
 
   free_heap(h, h->root);
-  cdc_di_shared_dtor(h->dinfo);
+  di_shared_dtor(h->dinfo);
   free(h);
 }
 
-enum cdc_stat cdc_pairing_heap_extract_top(struct cdc_pairing_heap *h)
+stat_t pairing_heap_extract_top(pairing_heap_t *h)
 {
   assert(h != NULL);
 
-  struct cdc_pairing_heap_node *node = h->root;
+  pairing_heap_node_t *node = h->root;
   h->root = two_pass_meld(h->root->child, h->dinfo->cmp);
   free_node(h, node);
   --h->size;
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_pairing_heap_riinsert(struct cdc_pairing_heap *h, void *key,
-                                        struct cdc_pairing_heap_iter *ret)
+stat_t pairing_heap_riinsert(pairing_heap_t *h, void *key, pairing_heap_iter_t *ret)
 {
   assert(h != NULL);
 
-  struct cdc_pairing_heap_node *root = (struct cdc_pairing_heap_node *)calloc(
-      sizeof(struct cdc_pairing_heap_node), 1);
+  pairing_heap_node_t *root = (pairing_heap_node_t *)calloc(sizeof(pairing_heap_node_t), 1);
   if (!root) {
     return CDC_STATUS_BAD_ALLOC;
   }
@@ -260,15 +246,14 @@ enum cdc_stat cdc_pairing_heap_riinsert(struct cdc_pairing_heap *h, void *key,
   return CDC_STATUS_OK;
 }
 
-void cdc_pairing_heap_change_key(struct cdc_pairing_heap *h,
-                                 struct cdc_pairing_heap_iter *pos, void *key)
+void pairing_heap_change_key(pairing_heap_t *h, pairing_heap_iter_t *pos, void *key)
 {
   //        assert(h != NULL);
   //        assert(pos != NULL);
   //        assert(h == pos->container);
 
-  //        struct cdc_pairing_heap_node *node;
-  //        struct cdc_pairing_heap_node *curr = pos->current;
+  //        pairing_heap_node_t *node;
+  //        pairing_heap_node_t *curr = pos->current;
 
   //        if (h->compar(key, curr->key))
   //                node = decrease_key(h, curr, key);
@@ -278,7 +263,7 @@ void cdc_pairing_heap_change_key(struct cdc_pairing_heap *h,
   //        pos->current = node;
 }
 
-void cdc_pairing_heap_clear(struct cdc_pairing_heap *h)
+void pairing_heap_clear(pairing_heap_t *h)
 {
   assert(h != NULL);
 
@@ -287,19 +272,17 @@ void cdc_pairing_heap_clear(struct cdc_pairing_heap *h)
   h->root = NULL;
 }
 
-void cdc_pairing_heap_swap(struct cdc_pairing_heap *a,
-                           struct cdc_pairing_heap *b)
+void pairing_heap_swap(pairing_heap_t *a, pairing_heap_t *b)
 {
   assert(a != NULL);
   assert(b != NULL);
 
-  CDC_SWAP(struct cdc_pairing_heap_node *, a->root, b->root);
+  CDC_SWAP(pairing_heap_node_t *, a->root, b->root);
   CDC_SWAP(size_t, a->size, b->size);
-  CDC_SWAP(struct cdc_data_info *, a->dinfo, b->dinfo);
+  CDC_SWAP(data_info_t *, a->dinfo, b->dinfo);
 }
 
-void cdc_pairing_heap_merge(struct cdc_pairing_heap *h,
-                            struct cdc_pairing_heap *other)
+void pairing_heap_merge(pairing_heap_t *h, pairing_heap_t *other)
 {
   assert(h);
   assert(other);
@@ -310,7 +293,7 @@ void cdc_pairing_heap_merge(struct cdc_pairing_heap *h,
   other->root = NULL;
 }
 
-bool cdc_pairing_heap_is_heap(struct cdc_pairing_heap *h)
+bool pairing_heap_is_heap(pairing_heap_t *h)
 {
   assert(h != NULL);
 

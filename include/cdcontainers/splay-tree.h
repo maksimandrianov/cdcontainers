@@ -90,8 +90,7 @@ struct cdc_pair_splay_tree_iter_bool {
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_splay_tree_ctor(struct cdc_splay_tree **t,
-                                  struct cdc_data_info *info);
+enum cdc_stat cdc_splay_tree_ctor(struct cdc_splay_tree **t, struct cdc_data_info *info);
 
 /**
  * @brief Constructs a splay tree, initialized by an variable number of
@@ -113,8 +112,7 @@ enum cdc_stat cdc_splay_tree_ctor(struct cdc_splay_tree **t,
  * }
  * @endcode
  */
-enum cdc_stat cdc_splay_tree_ctorl(struct cdc_splay_tree **t,
-                                   struct cdc_data_info *info, ...);
+enum cdc_stat cdc_splay_tree_ctorl(struct cdc_splay_tree **t, struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs a splay tree, initialized by args. The last item must be
@@ -124,8 +122,8 @@ enum cdc_stat cdc_splay_tree_ctorl(struct cdc_splay_tree **t,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_splay_tree_ctorv(struct cdc_splay_tree **t,
-                                   struct cdc_data_info *info, va_list args);
+enum cdc_stat cdc_splay_tree_ctorv(struct cdc_splay_tree **t, struct cdc_data_info *info,
+                                   va_list args);
 
 /**
  * @brief Destroys the splay tree.
@@ -147,8 +145,7 @@ void cdc_splay_tree_dtor(struct cdc_splay_tree *t);
  * @param[out] value - pinter to the value that is mapped to a key.
  * @return CDC_STATUS_OK if the key is found, CDC_STATUS_NOT_FOUND otherwise.
  */
-enum cdc_stat cdc_splay_tree_get(struct cdc_splay_tree *t, void *key,
-                                 void **value);
+enum cdc_stat cdc_splay_tree_get(struct cdc_splay_tree *t, void *key, void **value);
 
 /**
  * @brief Returns the number of elements with key that compares equal to the
@@ -168,8 +165,7 @@ size_t cdc_splay_tree_count(struct cdc_splay_tree *t, void *key);
  * equivalent to key. If no such element is found, past-the-end iterator is
  * returned.
  */
-void cdc_splay_tree_find(struct cdc_splay_tree *t, void *key,
-                         struct cdc_splay_tree_iter *it);
+void cdc_splay_tree_find(struct cdc_splay_tree *t, void *key, struct cdc_splay_tree_iter *it);
 /** @} */
 
 // Capacity
@@ -225,8 +221,7 @@ void cdc_splay_tree_clear(struct cdc_splay_tree *t);
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_splay_tree_insert(struct cdc_splay_tree *t, void *key,
-                                    void *value,
+enum cdc_stat cdc_splay_tree_insert(struct cdc_splay_tree *t, void *key, void *value,
                                     struct cdc_pair_splay_tree_iter_bool *ret);
 
 /**
@@ -242,10 +237,8 @@ enum cdc_stat cdc_splay_tree_insert(struct cdc_splay_tree *t, void *key,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_splay_tree_insert1(struct cdc_splay_tree *t, void *key,
-                                     void *value,
-                                     struct cdc_splay_tree_iter *it,
-                                     bool *inserted);
+enum cdc_stat cdc_splay_tree_insert1(struct cdc_splay_tree *t, void *key, void *value,
+                                     struct cdc_splay_tree_iter *it, bool *inserted);
 
 /**
  * @brief Inserts an element or assigns to the current element if the key
@@ -259,9 +252,8 @@ enum cdc_stat cdc_splay_tree_insert1(struct cdc_splay_tree *t, void *key,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_splay_tree_insert_or_assign(
-    struct cdc_splay_tree *t, void *key, void *value,
-    struct cdc_pair_splay_tree_iter_bool *ret);
+enum cdc_stat cdc_splay_tree_insert_or_assign(struct cdc_splay_tree *t, void *key, void *value,
+                                              struct cdc_pair_splay_tree_iter_bool *ret);
 
 /**
  * @brief Inserts an element or assigns to the current element if the key
@@ -276,10 +268,8 @@ enum cdc_stat cdc_splay_tree_insert_or_assign(
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_splay_tree_insert_or_assign1(struct cdc_splay_tree *t,
-                                               void *key, void *value,
-                                               struct cdc_splay_tree_iter *it,
-                                               bool *inserted);
+enum cdc_stat cdc_splay_tree_insert_or_assign1(struct cdc_splay_tree *t, void *key, void *value,
+                                               struct cdc_splay_tree_iter *it, bool *inserted);
 
 /**
  * @brief Removes the element (if one exists) with the key equivalent to key.
@@ -307,16 +297,14 @@ void cdc_splay_tree_swap(struct cdc_splay_tree *a, struct cdc_splay_tree *b);
  * @param t[in] - cdc_splay_tree
  * @param it[out] - cdc_splay_tree_iter
  */
-void cdc_splay_tree_begin(struct cdc_splay_tree *t,
-                          struct cdc_splay_tree_iter *it);
+void cdc_splay_tree_begin(struct cdc_splay_tree *t, struct cdc_splay_tree_iter *it);
 
 /**
  * @brief Initializes the iterator to the end.
  * @param[in] t - cdc_splay_tree
  * @param[out] it - cdc_splay_tree_iter
  */
-void cdc_splay_tree_end(struct cdc_splay_tree *t,
-                        struct cdc_splay_tree_iter *it);
+void cdc_splay_tree_end(struct cdc_splay_tree *t, struct cdc_splay_tree_iter *it);
 /** @} */
 
 // Iterators
@@ -394,8 +382,7 @@ static inline void *cdc_splay_tree_iter_value(struct cdc_splay_tree_iter *it)
  * @param[in] it - iterator
  * @return pair, where first - key, second - value.
  */
-static inline struct cdc_pair cdc_splay_tree_iter_key_value(
-    struct cdc_splay_tree_iter *it)
+static inline struct cdc_pair cdc_splay_tree_iter_key_value(struct cdc_splay_tree_iter *it)
 {
   assert(it != NULL);
 
@@ -417,13 +404,13 @@ static inline bool cdc_splay_tree_iter_is_eq(struct cdc_splay_tree_iter *it1,
   assert(it1 != NULL);
   assert(it2 != NULL);
 
-  return it1->container == it2->container && it1->prev == it2->prev &&
-         it1->current == it2->current;
+  return it1->container == it2->container && it1->prev == it2->prev && it1->current == it2->current;
 }
 /** @} */
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
+typedef struct cdc_splay_tree_node splay_tree_node_t;
 typedef struct cdc_splay_tree splay_tree_t;
 typedef struct cdc_splay_tree_iter splay_tree_iter_t;
 typedef struct cdc_pair_splay_tree_iter pair_splay_tree_iter_t;
@@ -448,10 +435,8 @@ typedef struct cdc_pair_splay_tree_iter_bool pair_splay_tree_iter_bool_t;
 #define splay_tree_clear(...) cdc_splay_tree_clear(__VA_ARGS__)
 #define splay_tree_insert(...) cdc_splay_tree_insert(__VA_ARGS__)
 #define splay_tree_insert1(...) cdc_splay_tree_insert1(__VA_ARGS__)
-#define splay_tree_insert_or_assign(...) \
-  cdc_splay_tree_insert_or_assign(__VA_ARGS__)
-#define splay_tree_insert_or_assign1(...) \
-  cdc_splay_tree_insert_or_assign1(__VA_ARGS__)
+#define splay_tree_insert_or_assign(...) cdc_splay_tree_insert_or_assign(__VA_ARGS__)
+#define splay_tree_insert_or_assign1(...) cdc_splay_tree_insert_or_assign1(__VA_ARGS__)
 #define splay_tree_erase(...) cdc_splay_tree_erase(__VA_ARGS__)
 #define splay_tree_swap(...) cdc_splay_tree_swap(__VA_ARGS__)
 
@@ -461,11 +446,12 @@ typedef struct cdc_pair_splay_tree_iter_bool pair_splay_tree_iter_bool_t;
 
 // Iterators
 #define splay_tree_iter_next(...) cdc_splay_tree_iter_next(__VA_ARGS__)
+#define splay_tree_iter_prev(...) cdc_splay_tree_iter_prev(__VA_ARGS__)
 #define splay_tree_iter_has_next(...) cdc_splay_tree_iter_has_next(__VA_ARGS__)
+#define splay_tree_iter_has_prev(...) cdc_splay_tree_iter_has_prev(__VA_ARGS__)
 #define splay_tree_iter_key(...) cdc_splay_tree_iter_key(__VA_ARGS__)
 #define splay_tree_iter_value(...) cdc_splay_tree_iter_value(__VA_ARGS__)
-#define splay_tree_iter_key_value(...) \
-  cdc_splay_tree_iter_key_value(__VA_ARGS__)
+#define splay_tree_iter_key_value(...) cdc_splay_tree_iter_key_value(__VA_ARGS__)
 #define splay_tree_iter_is_eq(...) cdc_splay_tree_iter_is_eq(__VA_ARGS__)
 #endif
 /** @} */

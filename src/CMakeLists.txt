@@ -30,9 +30,9 @@ set(SOURCE
   tables/pqueue-binomial-heap.c
   tables/pqueue-heap.c
   tables/pqueue-pairing-heap.c
+  tables/seq-array.c
   tables/seq-circular-array.c
   tables/seq-list.c
-  tables/seq-vector.c
   treap.c
 )
 

@@ -75,8 +75,7 @@ struct cdc_pairing_heap_iter {
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_pairing_heap_ctor(struct cdc_pairing_heap **h,
-                                    struct cdc_data_info *info);
+enum cdc_stat cdc_pairing_heap_ctor(struct cdc_pairing_heap **h, struct cdc_data_info *info);
 
 /**
  * @brief Constructs a pairing heap, initialized by an arbitrary number of
@@ -86,8 +85,7 @@ enum cdc_stat cdc_pairing_heap_ctor(struct cdc_pairing_heap **h,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_pairing_heap_ctorl(struct cdc_pairing_heap **h,
-                                     struct cdc_data_info *info, ...);
+enum cdc_stat cdc_pairing_heap_ctorl(struct cdc_pairing_heap **h, struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs a pairing heap, initialized by args. The last item must be
@@ -97,8 +95,8 @@ enum cdc_stat cdc_pairing_heap_ctorl(struct cdc_pairing_heap **h,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_pairing_heap_ctorv(struct cdc_pairing_heap **h,
-                                     struct cdc_data_info *info, va_list args);
+enum cdc_stat cdc_pairing_heap_ctorv(struct cdc_pairing_heap **h, struct cdc_data_info *info,
+                                     va_list args);
 
 /**
  * @brief Destroys the pairing heap.
@@ -175,8 +173,7 @@ enum cdc_stat cdc_pairing_heap_riinsert(struct cdc_pairing_heap *h, void *key,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-static inline enum cdc_stat cdc_pairing_heap_insert(struct cdc_pairing_heap *h,
-                                                    void *key)
+static inline enum cdc_stat cdc_pairing_heap_insert(struct cdc_pairing_heap *h, void *key)
 {
   assert(h != NULL);
 
@@ -190,8 +187,8 @@ static inline enum cdc_stat cdc_pairing_heap_insert(struct cdc_pairing_heap *h,
  * change
  * @param key
  */
-void cdc_pairing_heap_change_key(struct cdc_pairing_heap *h,
-                                 struct cdc_pairing_heap_iter *pos, void *key);
+void cdc_pairing_heap_change_key(struct cdc_pairing_heap *h, struct cdc_pairing_heap_iter *pos,
+                                 void *key);
 
 /**
  * @brief Removes all the elements from the pairing heap.
@@ -205,8 +202,7 @@ void cdc_pairing_heap_clear(struct cdc_pairing_heap *h);
  * @param a - cdc_pairing_heap
  * @param b - cdc_pairing_heap
  */
-void cdc_pairing_heap_swap(struct cdc_pairing_heap *a,
-                           struct cdc_pairing_heap *b);
+void cdc_pairing_heap_swap(struct cdc_pairing_heap *a, struct cdc_pairing_heap *b);
 
 // Operations
 /**
@@ -215,8 +211,7 @@ void cdc_pairing_heap_swap(struct cdc_pairing_heap *a,
  * @param h - cdc_pairing_heap
  * @param other - other cdc_pairing_heap
  */
-void cdc_pairing_heap_merge(struct cdc_pairing_heap *h,
-                            struct cdc_pairing_heap *other);
+void cdc_pairing_heap_merge(struct cdc_pairing_heap *h, struct cdc_pairing_heap *other);
 
 /**
  * @brief Checks the heap property.
@@ -240,8 +235,8 @@ static inline void *cdc_pairing_heap_iter_data(struct cdc_pairing_heap_iter *it)
  * @brief Returns false if the iterator it1 equal to the iterator it2,
  * otherwise returns false
  */
-static inline bool cdc_pairing_heap_iter_is_eq(
-    struct cdc_pairing_heap_iter *it1, struct cdc_pairing_heap_iter *it2)
+static inline bool cdc_pairing_heap_iter_is_eq(struct cdc_pairing_heap_iter *it1,
+                                               struct cdc_pairing_heap_iter *it2)
 {
   assert(it1 != NULL);
   assert(it2 != NULL);
@@ -251,8 +246,9 @@ static inline bool cdc_pairing_heap_iter_is_eq(
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES
+typedef struct cdc_pairing_heap_node pairing_heap_node_t;
 typedef struct cdc_pairing_heap pairing_heap_t;
-typedef struct cdc_pairing_heap_iter pairing_heap_iter;
+typedef struct cdc_pairing_heap_iter pairing_heap_iter_t;
 
 #define pairing_heap_ctor(...) cdc_pairing_heap_ctor(__VA_ARGS__)
 #define pairing_heap_ctorl(...) cdc_pairing_heap_ctorl(__VA_ARGS__)

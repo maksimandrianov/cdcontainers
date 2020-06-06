@@ -84,8 +84,7 @@ enum cdc_stat cdc_array_ctor(struct cdc_array **v, struct cdc_data_info *info);
  * }
  * @endcode
  */
-enum cdc_stat cdc_array_ctorl(struct cdc_array **v, struct cdc_data_info *info,
-                              ...);
+enum cdc_stat cdc_array_ctorl(struct cdc_array **v, struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs an array, initialized by args. The last pointer must be CDC_END.
@@ -94,8 +93,7 @@ enum cdc_stat cdc_array_ctorl(struct cdc_array **v, struct cdc_data_info *info,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_array_ctorv(struct cdc_array **v, struct cdc_data_info *info,
-                              va_list args);
+enum cdc_stat cdc_array_ctorv(struct cdc_array **v, struct cdc_data_info *info, va_list args);
 
 /**
  * @brief Destroys the array.
@@ -317,8 +315,7 @@ enum cdc_stat cdc_array_append(struct cdc_array *v, void **data, size_t len);
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_array_append_move(struct cdc_array *v,
-                                    struct cdc_array *other);
+enum cdc_stat cdc_array_append_move(struct cdc_array *v, struct cdc_array *other);
 
 /**
  * @brief Swaps arrays. This operation is very fast and never fails.

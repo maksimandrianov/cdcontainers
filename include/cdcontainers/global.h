@@ -26,14 +26,13 @@
 
 #define CDC_UNUSED(x) (void)(x)
 
-#define CDC_CHECK(X, msg)                                                     \
-  do {                                                                        \
-    if (X) {                                                                  \
-    } else {                                                                  \
-      fprintf(stderr, "%s (%s:%d) %s\n", "CHECK(" #X ")", __FILE__, __LINE__, \
-              msg);                                                           \
-      exit(EXIT_FAILURE);                                                     \
-    }                                                                         \
+#define CDC_CHECK(X, msg)                                                           \
+  do {                                                                              \
+    if (X) {                                                                        \
+    } else {                                                                        \
+      fprintf(stderr, "%s (%s:%d) %s\n", "CHECK(" #X ")", __FILE__, __LINE__, msg); \
+      exit(EXIT_FAILURE);                                                           \
+    }                                                                               \
   } while (false)
 
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_GLOBAL_H

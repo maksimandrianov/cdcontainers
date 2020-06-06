@@ -51,7 +51,7 @@ struct cdc_deque {
   const struct cdc_sequence_table *table;
 };
 
-//Base
+// Base
 /**
  * @defgroup cdc_deque_base Base
  * @{
@@ -64,8 +64,8 @@ struct cdc_deque {
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_deque_ctor(const struct cdc_sequence_table *table,
-                             struct cdc_deque **d, struct cdc_data_info *info);
+enum cdc_stat cdc_deque_ctor(const struct cdc_sequence_table *table, struct cdc_deque **d,
+                             struct cdc_data_info *info);
 
 /**
  * @brief Constructs a deque, initialized by an arbitrary number of
@@ -76,9 +76,8 @@ enum cdc_stat cdc_deque_ctor(const struct cdc_sequence_table *table,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_deque_ctorl(const struct cdc_sequence_table *table,
-                              struct cdc_deque **d, struct cdc_data_info *info,
-                              ...);
+enum cdc_stat cdc_deque_ctorl(const struct cdc_sequence_table *table, struct cdc_deque **d,
+                              struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs a deque, initialized by args. The last item must
@@ -89,9 +88,8 @@ enum cdc_stat cdc_deque_ctorl(const struct cdc_sequence_table *table,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_deque_ctorv(const struct cdc_sequence_table *table,
-                              struct cdc_deque **d, struct cdc_data_info *info,
-                              va_list args);
+enum cdc_stat cdc_deque_ctorv(const struct cdc_sequence_table *table, struct cdc_deque **d,
+                              struct cdc_data_info *info, va_list args);
 
 /**
  * @brief Destroys the deque.
@@ -206,8 +204,7 @@ static inline void cdc_deque_set(struct cdc_deque *d, size_t index, void *value)
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-static inline enum cdc_stat cdc_deque_insert(struct cdc_deque *d, size_t index,
-                                             void *value)
+static inline enum cdc_stat cdc_deque_insert(struct cdc_deque *d, size_t index, void *value)
 {
   assert(d != NULL);
 
@@ -245,8 +242,7 @@ static inline void cdc_deque_clear(struct cdc_deque *d)
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-static inline enum cdc_stat cdc_deque_push_back(struct cdc_deque *d,
-                                                void *value)
+static inline enum cdc_stat cdc_deque_push_back(struct cdc_deque *d, void *value)
 {
   assert(d != NULL);
 
@@ -271,8 +267,7 @@ static inline void cdc_deque_pop_back(struct cdc_deque *d)
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-static inline enum cdc_stat cdc_deque_push_front(struct cdc_deque *d,
-                                                 void *value)
+static inline enum cdc_stat cdc_deque_push_front(struct cdc_deque *d, void *value)
 {
   assert(d != NULL);
 
@@ -326,7 +321,7 @@ typedef struct cdc_deque deque_t;
 #define deque_push_back(...) cdc_deque_push_back(__VA_ARGS__)
 #define deque_pop_back(...) cdc_deque_pop_back(__VA_ARGS__)
 #define deque_push_front(...) cdc_deque_push_front(__VA_ARGS__)
-#define deque_pop_front(...) cdc_deque_pop_back(__VA_ARGS__)
+#define deque_pop_front(...) cdc_deque_pop_front(__VA_ARGS__)
 #define deque_swap(...) cdc_deque_swap(__VA_ARGS__)
 #endif
 /** @} */

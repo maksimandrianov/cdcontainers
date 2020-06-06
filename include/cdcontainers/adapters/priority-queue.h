@@ -54,9 +54,8 @@ struct cdc_priority_queue {
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_priority_queue_ctor(
-    const struct cdc_priority_queue_table *table, struct cdc_priority_queue **q,
-    struct cdc_data_info *info);
+enum cdc_stat cdc_priority_queue_ctor(const struct cdc_priority_queue_table *table,
+                                      struct cdc_priority_queue **q, struct cdc_data_info *info);
 
 /**
  * @brief Constructs a priority queue, initialized by an arbitrary number of
@@ -67,9 +66,9 @@ enum cdc_stat cdc_priority_queue_ctor(
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_priority_queue_ctorl(
-    const struct cdc_priority_queue_table *table, struct cdc_priority_queue **q,
-    struct cdc_data_info *info, ...);
+enum cdc_stat cdc_priority_queue_ctorl(const struct cdc_priority_queue_table *table,
+                                       struct cdc_priority_queue **q, struct cdc_data_info *info,
+                                       ...);
 
 /**
  * @brief Constructs a priority queue, initialized by args.
@@ -80,9 +79,9 @@ enum cdc_stat cdc_priority_queue_ctorl(
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-enum cdc_stat cdc_priority_queue_ctorv(
-    const struct cdc_priority_queue_table *table, struct cdc_priority_queue **q,
-    struct cdc_data_info *info, va_list args);
+enum cdc_stat cdc_priority_queue_ctorv(const struct cdc_priority_queue_table *table,
+                                       struct cdc_priority_queue **q, struct cdc_data_info *info,
+                                       va_list args);
 
 /**
  * @brief Destroys the priority queue.
@@ -138,8 +137,7 @@ static inline size_t cdc_priority_queue_size(struct cdc_priority_queue *q)
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error
  */
-static inline enum cdc_stat cdc_priority_queue_push(
-    struct cdc_priority_queue *q, void *elem)
+static inline enum cdc_stat cdc_priority_queue_push(struct cdc_priority_queue *q, void *elem)
 {
   assert(q != NULL);
 
@@ -163,8 +161,7 @@ static inline void cdc_priority_queue_pop(struct cdc_priority_queue *q)
  * @param a - cdc_priority_queue
  * @param b - cdc_priority_queue
  */
-void cdc_priority_queue_swap(struct cdc_priority_queue *a,
-                             struct cdc_priority_queue *b);
+void cdc_priority_queue_swap(struct cdc_priority_queue *a, struct cdc_priority_queue *b);
 
 // Short names
 #ifdef CDC_USE_SHORT_NAMES

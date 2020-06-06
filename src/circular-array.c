@@ -18,6 +18,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+#define CDC_USE_SHORT_NAMES
 #include "cdcontainers/circular-array.h"
 
 #include "cdcontainers/data-info.h"
@@ -30,17 +31,17 @@
 #define CDC_CIRCULAR_ARRAY_MIN_CAPACITY 4  // must be pow 2
 #define CDC_CIRCULAR_ARRAY_COPACITY_SHIFT 1
 
-static size_t get_real_index(struct cdc_circular_array *d, size_t index)
+static size_t get_real_index(circular_array_t *d, size_t index)
 {
   return (d->head + index) & (d->capacity - 1);
 }
 
-static bool should_grow(struct cdc_circular_array *d)
+static bool should_grow(circular_array_t *d)
 {
   return d->size == d->capacity - 1;
 }
 
-static enum cdc_stat reallocate(struct cdc_circular_array *d, size_t capacity)
+static stat_t reallocate(circular_array_t *d, size_t capacity)
 {
   if (capacity < CDC_CIRCULAR_ARRAY_MIN_CAPACITY) {
     capacity = CDC_CIRCULAR_ARRAY_MIN_CAPACITY;
@@ -77,12 +78,12 @@ static enum cdc_stat reallocate(struct cdc_circular_array *d, size_t capacity)
   return CDC_STATUS_OK;
 }
 
-static enum cdc_stat grow(struct cdc_circular_array *d)
+static stat_t grow(circular_array_t *d)
 {
   return reallocate(d, d->capacity << CDC_CIRCULAR_ARRAY_COPACITY_SHIFT);
 }
 
-static void free_data(struct cdc_circular_array *d)
+static void free_data(circular_array_t *d)
 {
   if (!CDC_HAS_DFREE(d->dinfo)) {
     return;
@@ -94,11 +95,11 @@ static void free_data(struct cdc_circular_array *d)
   }
 }
 
-static enum cdc_stat init_varg(struct cdc_circular_array *d, va_list args)
+static stat_t init_varg(circular_array_t *d, va_list args)
 {
   void *elem = NULL;
   while ((elem = va_arg(args, void *)) != CDC_END) {
-    enum cdc_stat stat = cdc_circular_array_push_back(d, elem);
+    stat_t stat = circular_array_push_back(d, elem);
     if (stat != CDC_STATUS_OK) {
       return stat;
     }
@@ -107,19 +108,17 @@ static enum cdc_stat init_varg(struct cdc_circular_array *d, va_list args)
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_circular_array_ctor(struct cdc_circular_array **d,
-                                      struct cdc_data_info *info)
+stat_t circular_array_ctor(circular_array_t **d, data_info_t *info)
 {
   assert(d != NULL);
 
-  struct cdc_circular_array *tmp =
-      (struct cdc_circular_array *)calloc(sizeof(struct cdc_circular_array), 1);
+  circular_array_t *tmp = (circular_array_t *)calloc(sizeof(circular_array_t), 1);
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
-  enum cdc_stat ret = CDC_STATUS_OK;
-  if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
+  stat_t ret = CDC_STATUS_OK;
+  if (info && !(tmp->dinfo = di_shared_ctorc(info))) {
     ret = CDC_STATUS_BAD_ALLOC;
     goto free_di;
   }
@@ -133,30 +132,28 @@ enum cdc_stat cdc_circular_array_ctor(struct cdc_circular_array **d,
   return ret;
 
 free_di:
-  cdc_di_shared_dtor(tmp->dinfo);
+  di_shared_dtor(tmp->dinfo);
 free_circular_array:
   free(tmp);
   return ret;
 }
 
-enum cdc_stat cdc_circular_array_ctorl(struct cdc_circular_array **d,
-                                       struct cdc_data_info *info, ...)
+stat_t circular_array_ctorl(circular_array_t **d, data_info_t *info, ...)
 {
   assert(d != NULL);
 
   va_list args;
   va_start(args, info);
-  enum cdc_stat stat = cdc_circular_array_ctorv(d, info, args);
+  stat_t stat = circular_array_ctorv(d, info, args);
   va_end(args);
   return stat;
 }
 
-enum cdc_stat cdc_circular_array_ctorv(struct cdc_circular_array **d,
-                                       struct cdc_data_info *info, va_list args)
+stat_t circular_array_ctorv(circular_array_t **d, data_info_t *info, va_list args)
 {
   assert(d != NULL);
 
-  enum cdc_stat stat = cdc_circular_array_ctor(d, info);
+  stat_t stat = circular_array_ctor(d, info);
   if (stat != CDC_STATUS_OK) {
     return stat;
   }
@@ -164,18 +161,17 @@ enum cdc_stat cdc_circular_array_ctorv(struct cdc_circular_array **d,
   return init_varg(*d, args);
 }
 
-void cdc_circular_array_dtor(struct cdc_circular_array *d)
+void circular_array_dtor(circular_array_t *d)
 {
   assert(d != NULL);
 
   free_data(d);
   free(d->buffer);
-  cdc_di_shared_dtor(d->dinfo);
+  di_shared_dtor(d->dinfo);
   free(d);
 }
 
-enum cdc_stat cdc_circular_array_at(struct cdc_circular_array *d, size_t index,
-                                    void **elem)
+stat_t circular_array_at(circular_array_t *d, size_t index, void **elem)
 {
   assert(d != NULL);
   assert(elem != NULL);
@@ -189,22 +185,21 @@ enum cdc_stat cdc_circular_array_at(struct cdc_circular_array *d, size_t index,
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_circular_array_insert(struct cdc_circular_array *d,
-                                        size_t index, void *value)
+stat_t circular_array_insert(circular_array_t *d, size_t index, void *value)
 {
   assert(d != NULL);
   assert(index <= d->size);
 
   if (index == 0) {
-    return cdc_circular_array_push_front(d, value);
+    return circular_array_push_front(d, value);
   }
 
   if (index == d->size) {
-    return cdc_circular_array_push_back(d, value);
+    return circular_array_push_back(d, value);
   }
 
   if (should_grow(d)) {
-    enum cdc_stat stat = grow(d);
+    stat_t stat = grow(d);
     if (stat != CDC_STATUS_OK) {
       return stat;
     }
@@ -221,8 +216,7 @@ enum cdc_stat cdc_circular_array_insert(struct cdc_circular_array *d,
         //  ---------------------------------
         //  <---------x
         d->buffer[d->capacity - 1] = d->buffer[0];
-        memmove(d->buffer, d->buffer + 1,
-                (real_index - d->head - 1) * sizeof(void *));
+        memmove(d->buffer, d->buffer + 1, (real_index - d->head - 1) * sizeof(void *));
       } else {
         //  _________________________________
         //  | . | 1 | 2 | 3 | 4 | 5 | 6 | . |
@@ -285,8 +279,7 @@ enum cdc_stat cdc_circular_array_insert(struct cdc_circular_array *d,
         memmove(d->buffer + 1, d->buffer, d->tail * sizeof(void *));
         d->buffer[0] = d->buffer[d->capacity - 1];
         void **start = d->buffer + real_index;
-        memmove(start + 1, start,
-                (d->capacity - real_index - 1) * sizeof(void *));
+        memmove(start + 1, start, (d->capacity - real_index - 1) * sizeof(void *));
       }
     }
 
@@ -298,18 +291,18 @@ enum cdc_stat cdc_circular_array_insert(struct cdc_circular_array *d,
   return CDC_STATUS_OK;
 }
 
-void cdc_circular_array_erase(struct cdc_circular_array *d, size_t index)
+void circular_array_erase(circular_array_t *d, size_t index)
 {
   assert(d != NULL);
   assert(index < d->size);
 
   if (index == 0) {
-    cdc_circular_array_pop_front(d);
+    circular_array_pop_front(d);
     return;
   }
 
   if (index + 1 == d->size) {
-    cdc_circular_array_pop_back(d);
+    circular_array_pop_back(d);
     return;
   }
 
@@ -384,7 +377,7 @@ void cdc_circular_array_erase(struct cdc_circular_array *d, size_t index)
   --d->size;
 }
 
-void cdc_circular_array_clear(struct cdc_circular_array *d)
+void circular_array_clear(circular_array_t *d)
 {
   assert(d != NULL);
 
@@ -394,13 +387,12 @@ void cdc_circular_array_clear(struct cdc_circular_array *d)
   d->size = 0;
 }
 
-enum cdc_stat cdc_circular_array_push_back(struct cdc_circular_array *d,
-                                           void *value)
+stat_t circular_array_push_back(circular_array_t *d, void *value)
 {
   assert(d != NULL);
 
   if (should_grow(d)) {
-    enum cdc_stat stat = grow(d);
+    stat_t stat = grow(d);
     if (stat != CDC_STATUS_OK) {
       return stat;
     }
@@ -412,7 +404,7 @@ enum cdc_stat cdc_circular_array_push_back(struct cdc_circular_array *d,
   return CDC_STATUS_OK;
 }
 
-void cdc_circular_array_pop_back(struct cdc_circular_array *d)
+void circular_array_pop_back(circular_array_t *d)
 {
   assert(d != NULL);
   assert(d->size > 0);
@@ -425,13 +417,12 @@ void cdc_circular_array_pop_back(struct cdc_circular_array *d)
   --d->size;
 }
 
-enum cdc_stat cdc_circular_array_push_front(struct cdc_circular_array *d,
-                                            void *value)
+stat_t circular_array_push_front(circular_array_t *d, void *value)
 {
   assert(d != NULL);
 
   if (should_grow(d)) {
-    enum cdc_stat stat = grow(d);
+    stat_t stat = grow(d);
     if (stat != CDC_STATUS_OK) {
       return stat;
     }
@@ -444,7 +435,7 @@ enum cdc_stat cdc_circular_array_push_front(struct cdc_circular_array *d,
   return CDC_STATUS_OK;
 }
 
-void cdc_circular_array_pop_front(struct cdc_circular_array *d)
+void circular_array_pop_front(circular_array_t *d)
 {
   assert(d != NULL);
   assert(d->size > 0);
@@ -457,8 +448,7 @@ void cdc_circular_array_pop_front(struct cdc_circular_array *d)
   --d->size;
 }
 
-void cdc_circular_array_swap(struct cdc_circular_array *a,
-                             struct cdc_circular_array *b)
+void circular_array_swap(circular_array_t *a, circular_array_t *b)
 {
   assert(a != NULL);
   assert(b != NULL);
@@ -468,5 +458,5 @@ void cdc_circular_array_swap(struct cdc_circular_array *a,
   CDC_SWAP(size_t, a->head, b->head);
   CDC_SWAP(size_t, a->tail, b->tail);
   CDC_SWAP(void **, a->buffer, b->buffer);
-  CDC_SWAP(struct cdc_data_info *, a->dinfo, b->dinfo);
+  CDC_SWAP(data_info_t *, a->dinfo, b->dinfo);
 }

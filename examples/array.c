@@ -30,12 +30,14 @@
 array_t *find_uint_prime_numbers(unsigned int n)
 {
   array_t *numbers = NULL;
-  if (array_ctor(&numbers, NULL /* data info */) != CDC_STATUS_OK)
+  if (array_ctor(&numbers, NULL /* data info */) != CDC_STATUS_OK) {
     return NULL;
+  }
 
   array_reserve(numbers, n + 1);
-  for (unsigned int i = 0; i < n + 1; ++i)
+  for (unsigned int i = 0; i < n + 1; ++i) {
     array_push_back(numbers, CDC_FROM_UINT(i));
+  }
 
   array_t *prime_numbers = NULL;
   if (array_ctor(&prime_numbers, NULL /* data info */) != CDC_STATUS_OK) {
@@ -52,8 +54,9 @@ array_t *find_uint_prime_numbers(unsigned int n)
         return NULL;
       }
 
-      for (unsigned int i = p * p; i < n + 1; i += p)
+      for (unsigned int i = p * p; i < n + 1; i += p) {
         array_set(numbers, i, CDC_FROM_UINT(0));
+      }
     }
   }
 
@@ -67,11 +70,13 @@ int main(int argc, char **argv)
   CDC_UNUSED(argv);
 
   array_t *prime_numbers = find_uint_prime_numbers(1000);
-  if (!prime_numbers)
+  if (!prime_numbers) {
     return EXIT_FAILURE;
+  }
 
-  for (unsigned i = 0; i < array_size(prime_numbers); ++i)
+  for (unsigned i = 0; i < array_size(prime_numbers); ++i) {
     printf("%u ", CDC_TO_UINT(array_get(prime_numbers, i)));
+  }
 
   printf("\n");
   array_dtor(prime_numbers);

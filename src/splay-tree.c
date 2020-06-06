@@ -18,6 +18,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+#define CDC_USE_SHORT_NAMES
 #include "cdcontainers/splay-tree.h"
 
 #include "cdcontainers/data-info.h"
@@ -28,20 +29,19 @@
 #include <string.h>
 
 struct node_pair {
-  struct cdc_splay_tree_node *left;
-  struct cdc_splay_tree_node *right;
+  splay_tree_node_t *left;
+  splay_tree_node_t *right;
 };
 
-CDC_MAKE_FIND_NODE_FN(struct cdc_splay_tree_node *)
-CDC_MAKE_MIN_NODE_FN(struct cdc_splay_tree_node *)
-CDC_MAKE_MAX_NODE_FN(struct cdc_splay_tree_node *)
-CDC_MAKE_SUCCESSOR_FN(struct cdc_splay_tree_node *)
-CDC_MAKE_PREDECESSOR_FN(struct cdc_splay_tree_node *)
+CDC_MAKE_FIND_NODE_FN(splay_tree_node_t *)
+CDC_MAKE_MIN_NODE_FN(splay_tree_node_t *)
+CDC_MAKE_MAX_NODE_FN(splay_tree_node_t *)
+CDC_MAKE_SUCCESSOR_FN(splay_tree_node_t *)
+CDC_MAKE_PREDECESSOR_FN(splay_tree_node_t *)
 
-static struct cdc_splay_tree_node *make_new_node(void *key, void *val)
+static splay_tree_node_t *make_new_node(void *key, void *val)
 {
-  struct cdc_splay_tree_node *node =
-      (struct cdc_splay_tree_node *)malloc(sizeof(struct cdc_splay_tree_node));
+  splay_tree_node_t *node = (splay_tree_node_t *)malloc(sizeof(splay_tree_node_t));
   if (node) {
     node->key = key;
     node->value = val;
@@ -51,21 +51,19 @@ static struct cdc_splay_tree_node *make_new_node(void *key, void *val)
   return node;
 }
 
-static void free_node(struct cdc_splay_tree *t,
-                      struct cdc_splay_tree_node *node)
+static void free_node(splay_tree_t *t, splay_tree_node_t *node)
 {
   assert(t != NULL);
 
   if (CDC_HAS_DFREE(t->dinfo)) {
-    struct cdc_pair pair = {node->key, node->value};
+    pair_t pair = {node->key, node->value};
     t->dinfo->dfree(&pair);
   }
 
   free(node);
 }
 
-static void free_splay_tree(struct cdc_splay_tree *t,
-                            struct cdc_splay_tree_node *root)
+static void free_splay_tree(splay_tree_t *t, splay_tree_node_t *root)
 {
   assert(t != NULL);
 
@@ -78,9 +76,7 @@ static void free_splay_tree(struct cdc_splay_tree *t,
   free_node(t, root);
 }
 
-static void update_link(struct cdc_splay_tree_node *parent,
-                        struct cdc_splay_tree_node *old,
-                        struct cdc_splay_tree_node *node)
+static void update_link(splay_tree_node_t *parent, splay_tree_node_t *old, splay_tree_node_t *node)
 {
   if (!parent) {
     return;
@@ -93,9 +89,9 @@ static void update_link(struct cdc_splay_tree_node *parent,
   }
 }
 
-static struct cdc_splay_tree_node *zig_right(struct cdc_splay_tree_node *node)
+static splay_tree_node_t *zig_right(splay_tree_node_t *node)
 {
-  struct cdc_splay_tree_node *p = node->parent;
+  splay_tree_node_t *p = node->parent;
   update_link(p->parent, p, node);
   node->parent = p->parent;
   p->left = node->right;
@@ -111,9 +107,9 @@ static struct cdc_splay_tree_node *zig_right(struct cdc_splay_tree_node *node)
   return node;
 }
 
-static struct cdc_splay_tree_node *zig_left(struct cdc_splay_tree_node *node)
+static splay_tree_node_t *zig_left(splay_tree_node_t *node)
 {
-  struct cdc_splay_tree_node *p = node->parent;
+  splay_tree_node_t *p = node->parent;
   update_link(p->parent, p, node);
   node->parent = p->parent;
   p->right = node->left;
@@ -129,33 +125,31 @@ static struct cdc_splay_tree_node *zig_left(struct cdc_splay_tree_node *node)
   return node;
 }
 
-static struct cdc_splay_tree_node *zigzig_right(
-    struct cdc_splay_tree_node *node)
+static splay_tree_node_t *zigzig_right(splay_tree_node_t *node)
 {
   node = zig_right(node->parent);
   return zig_right(node->left);
 }
 
-static struct cdc_splay_tree_node *zigzig_left(struct cdc_splay_tree_node *node)
+static splay_tree_node_t *zigzig_left(splay_tree_node_t *node)
 {
   node = zig_left(node->parent);
   return zig_left(node->right);
 }
 
-static struct cdc_splay_tree_node *zigzag_right(
-    struct cdc_splay_tree_node *node)
+static splay_tree_node_t *zigzag_right(splay_tree_node_t *node)
 {
   node = zig_left(node);
   return zig_right(node);
 }
 
-static struct cdc_splay_tree_node *zigzag_left(struct cdc_splay_tree_node *node)
+static splay_tree_node_t *zigzag_left(splay_tree_node_t *node)
 {
   node = zig_right(node);
   return zig_left(node);
 }
 
-static struct cdc_splay_tree_node *splay(struct cdc_splay_tree_node *node)
+static splay_tree_node_t *splay(splay_tree_node_t *node)
 {
   while (node->parent) {
     if (node->parent->parent == NULL) {
@@ -182,11 +176,9 @@ static struct cdc_splay_tree_node *splay(struct cdc_splay_tree_node *node)
   return node;
 }
 
-static struct cdc_splay_tree_node *find_hint(struct cdc_splay_tree_node *node,
-                                             void *key,
-                                             cdc_binary_pred_fn_t compar)
+static splay_tree_node_t *find_hint(splay_tree_node_t *node, void *key, cdc_binary_pred_fn_t compar)
 {
-  struct cdc_splay_tree_node *tmp = node;
+  splay_tree_node_t *tmp = node;
   while (node) {
     if (compar(key, node->key)) {
       if (node->left) {
@@ -208,8 +200,7 @@ static struct cdc_splay_tree_node *find_hint(struct cdc_splay_tree_node *node,
   return node ? node : cdc_max_tree_node(tmp);
 }
 
-static struct node_pair split(struct cdc_splay_tree_node *node, void *key,
-                              cdc_binary_pred_fn_t compar)
+static struct node_pair split(splay_tree_node_t *node, void *key, cdc_binary_pred_fn_t compar)
 {
   struct node_pair ret;
   node = splay(node);
@@ -232,8 +223,7 @@ static struct node_pair split(struct cdc_splay_tree_node *node, void *key,
   return ret;
 }
 
-static struct cdc_splay_tree_node *merge(struct cdc_splay_tree_node *a,
-                                         struct cdc_splay_tree_node *b)
+static splay_tree_node_t *merge(splay_tree_node_t *a, splay_tree_node_t *b)
 {
   if (!a) {
     return b;
@@ -250,10 +240,9 @@ static struct cdc_splay_tree_node *merge(struct cdc_splay_tree_node *a,
   return a;
 }
 
-static struct cdc_splay_tree_node *sfind(struct cdc_splay_tree *t, void *key)
+static splay_tree_node_t *sfind(splay_tree_t *t, void *key)
 {
-  struct cdc_splay_tree_node *node =
-      cdc_find_tree_node(t->root, key, t->dinfo->cmp);
+  splay_tree_node_t *node = cdc_find_tree_node(t->root, key, t->dinfo->cmp);
 
   if (!node) {
     return node;
@@ -264,9 +253,8 @@ static struct cdc_splay_tree_node *sfind(struct cdc_splay_tree *t, void *key)
   return node;
 }
 
-static struct cdc_splay_tree_node *insert_unique(
-    struct cdc_splay_tree *t, struct cdc_splay_tree_node *node,
-    struct cdc_splay_tree_node *nearest)
+static splay_tree_node_t *insert_unique(splay_tree_t *t, splay_tree_node_t *node,
+                                        splay_tree_node_t *nearest)
 {
   struct node_pair pair;
   if (t->root == NULL) {
@@ -289,12 +277,11 @@ static struct cdc_splay_tree_node *insert_unique(
   return node;
 }
 
-static enum cdc_stat init_varg(struct cdc_splay_tree *t, va_list args)
+static stat_t init_varg(splay_tree_t *t, va_list args)
 {
-  struct cdc_pair *pair = NULL;
-  while ((pair = va_arg(args, struct cdc_pair *)) != CDC_END) {
-    enum cdc_stat stat =
-        cdc_splay_tree_insert(t, pair->first, pair->second, NULL);
+  pair_t *pair = NULL;
+  while ((pair = va_arg(args, pair_t *)) != CDC_END) {
+    stat_t stat = splay_tree_insert(t, pair->first, pair->second, NULL);
     if (stat != CDC_STATUS_OK) {
       return stat;
     }
@@ -303,19 +290,17 @@ static enum cdc_stat init_varg(struct cdc_splay_tree *t, va_list args)
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_splay_tree_ctor(struct cdc_splay_tree **t,
-                                  struct cdc_data_info *info)
+stat_t splay_tree_ctor(splay_tree_t **t, data_info_t *info)
 {
   assert(t != NULL);
   assert(CDC_HAS_CMP(info));
 
-  struct cdc_splay_tree *tmp =
-      (struct cdc_splay_tree *)calloc(sizeof(struct cdc_splay_tree), 1);
+  splay_tree_t *tmp = (splay_tree_t *)calloc(sizeof(splay_tree_t), 1);
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
-  if (info && !(tmp->dinfo = cdc_di_shared_ctorc(info))) {
+  if (info && !(tmp->dinfo = di_shared_ctorc(info))) {
     free(tmp);
     return CDC_STATUS_BAD_ALLOC;
   }
@@ -324,26 +309,24 @@ enum cdc_stat cdc_splay_tree_ctor(struct cdc_splay_tree **t,
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_splay_tree_ctorl(struct cdc_splay_tree **t,
-                                   struct cdc_data_info *info, ...)
+stat_t splay_tree_ctorl(splay_tree_t **t, data_info_t *info, ...)
 {
   assert(t != NULL);
   assert(CDC_HAS_CMP(info));
 
   va_list args;
   va_start(args, info);
-  enum cdc_stat stat = cdc_splay_tree_ctorv(t, info, args);
+  stat_t stat = splay_tree_ctorv(t, info, args);
   va_end(args);
   return stat;
 }
 
-enum cdc_stat cdc_splay_tree_ctorv(struct cdc_splay_tree **t,
-                                   struct cdc_data_info *info, va_list args)
+stat_t splay_tree_ctorv(splay_tree_t **t, data_info_t *info, va_list args)
 {
   assert(t != NULL);
   assert(CDC_HAS_CMP(info));
 
-  enum cdc_stat stat = cdc_splay_tree_ctor(t, info);
+  stat_t stat = splay_tree_ctor(t, info);
   if (stat != CDC_STATUS_OK) {
     return stat;
   }
@@ -351,21 +334,20 @@ enum cdc_stat cdc_splay_tree_ctorv(struct cdc_splay_tree **t,
   return init_varg(*t, args);
 }
 
-void cdc_splay_tree_dtor(struct cdc_splay_tree *t)
+void splay_tree_dtor(splay_tree_t *t)
 {
   assert(t != NULL);
 
   free_splay_tree(t, t->root);
-  cdc_di_shared_dtor(t->dinfo);
+  di_shared_dtor(t->dinfo);
   free(t);
 }
 
-enum cdc_stat cdc_splay_tree_get(struct cdc_splay_tree *t, void *key,
-                                 void **value)
+stat_t splay_tree_get(splay_tree_t *t, void *key, void **value)
 {
   assert(t != NULL);
 
-  struct cdc_splay_tree_node *node = sfind(t, key);
+  splay_tree_node_t *node = sfind(t, key);
   if (node) {
     *value = node->value;
   }
@@ -373,22 +355,21 @@ enum cdc_stat cdc_splay_tree_get(struct cdc_splay_tree *t, void *key,
   return node ? CDC_STATUS_OK : CDC_STATUS_NOT_FOUND;
 }
 
-size_t cdc_splay_tree_count(struct cdc_splay_tree *t, void *key)
+size_t splay_tree_count(splay_tree_t *t, void *key)
 {
   assert(t != NULL);
 
   return (size_t)(sfind(t, key) != NULL);
 }
 
-void cdc_splay_tree_find(struct cdc_splay_tree *t, void *key,
-                         struct cdc_splay_tree_iter *it)
+void splay_tree_find(splay_tree_t *t, void *key, splay_tree_iter_t *it)
 {
   assert(t != NULL);
   assert(it != NULL);
 
-  struct cdc_splay_tree_node *node = sfind(t, key);
+  splay_tree_node_t *node = sfind(t, key);
   if (!node) {
-    cdc_splay_tree_end(t, it);
+    splay_tree_end(t, it);
     return;
   }
 
@@ -397,33 +378,29 @@ void cdc_splay_tree_find(struct cdc_splay_tree *t, void *key,
   it->prev = cdc_tree_predecessor(node);
 }
 
-enum cdc_stat cdc_splay_tree_insert(struct cdc_splay_tree *t, void *key,
-                                    void *value,
-                                    struct cdc_pair_splay_tree_iter_bool *ret)
+stat_t splay_tree_insert(splay_tree_t *t, void *key, void *value, pair_splay_tree_iter_bool_t *ret)
 {
   assert(t != NULL);
 
-  struct cdc_splay_tree_iter *it = NULL;
+  splay_tree_iter_t *it = NULL;
   bool *inserted = NULL;
   if (ret) {
     it = &ret->first;
     inserted = &ret->second;
   }
 
-  return cdc_splay_tree_insert1(t, key, value, it, inserted);
+  return splay_tree_insert1(t, key, value, it, inserted);
 }
 
-enum cdc_stat cdc_splay_tree_insert1(struct cdc_splay_tree *t, void *key,
-                                     void *value,
-                                     struct cdc_splay_tree_iter *it,
-                                     bool *inserted)
+stat_t splay_tree_insert1(splay_tree_t *t, void *key, void *value, splay_tree_iter_t *it,
+                          bool *inserted)
 {
   assert(t != NULL);
 
-  struct cdc_splay_tree_node *node = find_hint(t->root, key, t->dinfo->cmp);
+  splay_tree_node_t *node = find_hint(t->root, key, t->dinfo->cmp);
   bool finded = node && cdc_eq(t->dinfo->cmp, node->key, key);
   if (!finded) {
-    struct cdc_splay_tree_node *new_node = make_new_node(key, value);
+    splay_tree_node_t *new_node = make_new_node(key, value);
     if (!new_node) {
       return CDC_STATUS_BAD_ALLOC;
     }
@@ -444,33 +421,30 @@ enum cdc_stat cdc_splay_tree_insert1(struct cdc_splay_tree *t, void *key,
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_splay_tree_insert_or_assign(
-    struct cdc_splay_tree *t, void *key, void *value,
-    struct cdc_pair_splay_tree_iter_bool *ret)
+stat_t splay_tree_insert_or_assign(splay_tree_t *t, void *key, void *value,
+                                   pair_splay_tree_iter_bool_t *ret)
 {
   assert(t != NULL);
 
-  struct cdc_splay_tree_iter *it = NULL;
+  splay_tree_iter_t *it = NULL;
   bool *inserted = NULL;
   if (ret) {
     it = &ret->first;
     inserted = &ret->second;
   }
 
-  return cdc_splay_tree_insert_or_assign1(t, key, value, it, inserted);
+  return splay_tree_insert_or_assign1(t, key, value, it, inserted);
 }
 
-enum cdc_stat cdc_splay_tree_insert_or_assign1(struct cdc_splay_tree *t,
-                                               void *key, void *value,
-                                               struct cdc_splay_tree_iter *it,
-                                               bool *inserted)
+stat_t splay_tree_insert_or_assign1(splay_tree_t *t, void *key, void *value, splay_tree_iter_t *it,
+                                    bool *inserted)
 {
   assert(t != NULL);
 
-  struct cdc_splay_tree_node *node = find_hint(t->root, key, t->dinfo->cmp);
+  splay_tree_node_t *node = find_hint(t->root, key, t->dinfo->cmp);
   bool finded = node && cdc_eq(t->dinfo->cmp, node->key, key);
   if (!finded) {
-    struct cdc_splay_tree_node *new_node = make_new_node(key, value);
+    splay_tree_node_t *new_node = make_new_node(key, value);
     if (!new_node) {
       return CDC_STATUS_BAD_ALLOC;
     }
@@ -493,12 +467,11 @@ enum cdc_stat cdc_splay_tree_insert_or_assign1(struct cdc_splay_tree *t,
   return CDC_STATUS_OK;
 }
 
-size_t cdc_splay_tree_erase(struct cdc_splay_tree *t, void *key)
+size_t splay_tree_erase(splay_tree_t *t, void *key)
 {
   assert(t != NULL);
 
-  struct cdc_splay_tree_node *node =
-      cdc_find_tree_node(t->root, key, t->dinfo->cmp);
+  splay_tree_node_t *node = cdc_find_tree_node(t->root, key, t->dinfo->cmp);
   if (!node) {
     return 0;
   }
@@ -518,7 +491,7 @@ size_t cdc_splay_tree_erase(struct cdc_splay_tree *t, void *key)
   return 1;
 }
 
-void cdc_splay_tree_clear(struct cdc_splay_tree *t)
+void splay_tree_clear(splay_tree_t *t)
 {
   assert(t != NULL);
 
@@ -527,18 +500,17 @@ void cdc_splay_tree_clear(struct cdc_splay_tree *t)
   t->root = NULL;
 }
 
-void cdc_splay_tree_swap(struct cdc_splay_tree *a, struct cdc_splay_tree *b)
+void splay_tree_swap(splay_tree_t *a, splay_tree_t *b)
 {
   assert(a != NULL);
   assert(b != NULL);
 
-  CDC_SWAP(struct cdc_splay_tree_node *, a->root, b->root);
+  CDC_SWAP(splay_tree_node_t *, a->root, b->root);
   CDC_SWAP(size_t, a->size, b->size);
-  CDC_SWAP(struct cdc_data_info *, a->dinfo, b->dinfo);
+  CDC_SWAP(data_info_t *, a->dinfo, b->dinfo);
 }
 
-void cdc_splay_tree_begin(struct cdc_splay_tree *t,
-                          struct cdc_splay_tree_iter *it)
+void splay_tree_begin(splay_tree_t *t, splay_tree_iter_t *it)
 {
   assert(t != NULL);
   assert(it != NULL);
@@ -548,8 +520,7 @@ void cdc_splay_tree_begin(struct cdc_splay_tree *t,
   it->prev = NULL;
 }
 
-void cdc_splay_tree_end(struct cdc_splay_tree *t,
-                        struct cdc_splay_tree_iter *it)
+void splay_tree_end(splay_tree_t *t, splay_tree_iter_t *it)
 {
   assert(t != NULL);
   assert(it != NULL);
@@ -559,7 +530,7 @@ void cdc_splay_tree_end(struct cdc_splay_tree *t,
   it->prev = cdc_max_tree_node(t->root);
 }
 
-void cdc_splay_tree_iter_next(struct cdc_splay_tree_iter *it)
+void splay_tree_iter_next(splay_tree_iter_t *it)
 {
   assert(it != NULL);
 
@@ -567,7 +538,7 @@ void cdc_splay_tree_iter_next(struct cdc_splay_tree_iter *it)
   it->current = cdc_tree_successor(it->current);
 }
 
-void cdc_splay_tree_iter_prev(struct cdc_splay_tree_iter *it)
+void splay_tree_iter_prev(splay_tree_iter_t *it)
 {
   assert(it != NULL);
 

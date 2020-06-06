@@ -53,4 +53,9 @@ extern const struct cdc_priority_queue_table *cdc_pq_heap;
 extern const struct cdc_priority_queue_table *cdc_pq_binheap;
 extern const struct cdc_priority_queue_table *cdc_pq_pheap;
 
+// Short names
+#ifdef CDC_USE_SHORT_NAMES
+typedef struct cdc_priority_queue_table priority_queue_table_t;
+#endif
+
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_INTERFACES_IPQUEUE_H

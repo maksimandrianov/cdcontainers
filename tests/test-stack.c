@@ -18,6 +18,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+#define CDC_USE_SHORT_NAMES
 #include "test-common.h"
 
 #include "cdcontainers/adapters/stack.h"
@@ -30,135 +31,125 @@
 
 void test_stackv_ctor()
 {
-  const struct cdc_sequence_table *tables[] = {cdc_seq_carray, cdc_seq_array,
-                                               cdc_seq_list};
+  const sequence_table_t *tables[] = {cdc_seq_carray, cdc_seq_array, cdc_seq_list};
 
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
-    struct cdc_stack *s = NULL;
+    cstack_t *s = NULL;
 
-    CU_ASSERT_EQUAL(cdc_stack_ctor(tables[t], &s, NULL), CDC_STATUS_OK);
-    CU_ASSERT(cdc_stack_empty(s));
-    cdc_stack_dtor(s);
+    CU_ASSERT_EQUAL(stack_ctor(tables[t], &s, NULL), CDC_STATUS_OK);
+    CU_ASSERT(stack_empty(s));
+    stack_dtor(s);
   }
 }
 
 void test_stackv_ctorl()
 {
-  const struct cdc_sequence_table *tables[] = {cdc_seq_carray, cdc_seq_array,
-                                               cdc_seq_list};
+  const sequence_table_t *tables[] = {cdc_seq_carray, cdc_seq_array, cdc_seq_list};
   int a = 2, b = 3;
 
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
-    struct cdc_stack *s = NULL;
+    cstack_t *s = NULL;
 
-    CU_ASSERT_EQUAL(cdc_stack_ctorl(tables[t], &s, NULL, CDC_FROM_INT(a),
-                                    CDC_FROM_INT(b), CDC_END),
+    CU_ASSERT_EQUAL(stack_ctorl(tables[t], &s, NULL, CDC_FROM_INT(a), CDC_FROM_INT(b), CDC_END),
                     CDC_STATUS_OK);
-    CU_ASSERT_EQUAL(cdc_stack_size(s), 2);
+    CU_ASSERT_EQUAL(stack_size(s), 2);
 
-    void *elem = cdc_stack_top(s);
+    void *elem = stack_top(s);
     CU_ASSERT_EQUAL(CDC_TO_INT(elem), b);
-    cdc_stack_pop(s);
-    CU_ASSERT_EQUAL(cdc_stack_size(s), 1);
+    stack_pop(s);
+    CU_ASSERT_EQUAL(stack_size(s), 1);
 
-    elem = cdc_stack_top(s);
+    elem = stack_top(s);
     CU_ASSERT_EQUAL(CDC_TO_INT(elem), a);
-    cdc_stack_pop(s);
-    CU_ASSERT(cdc_stack_empty(s));
-    cdc_stack_dtor(s);
+    stack_pop(s);
+    CU_ASSERT(stack_empty(s));
+    stack_dtor(s);
   }
 }
 
 void test_stackv_push()
 {
-  const struct cdc_sequence_table *tables[] = {cdc_seq_carray, cdc_seq_array,
-                                               cdc_seq_list};
+  const sequence_table_t *tables[] = {cdc_seq_carray, cdc_seq_array, cdc_seq_list};
   int a = 0, b = 1, c = 2;
 
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
-    struct cdc_stack *s = NULL;
+    cstack_t *s = NULL;
 
-    CU_ASSERT_EQUAL(cdc_stack_ctor(tables[t], &s, NULL), CDC_STATUS_OK);
+    CU_ASSERT_EQUAL(stack_ctor(tables[t], &s, NULL), CDC_STATUS_OK);
 
-    cdc_stack_push(s, CDC_FROM_INT(a));
-    CU_ASSERT_EQUAL(cdc_stack_size(s), 1);
-    void *elem = cdc_stack_top(s);
+    stack_push(s, CDC_FROM_INT(a));
+    CU_ASSERT_EQUAL(stack_size(s), 1);
+    void *elem = stack_top(s);
     CU_ASSERT_EQUAL(CDC_TO_INT(elem), a);
 
-    cdc_stack_push(s, CDC_FROM_INT(b));
-    CU_ASSERT_EQUAL(cdc_stack_size(s), 2);
-    elem = cdc_stack_top(s);
+    stack_push(s, CDC_FROM_INT(b));
+    CU_ASSERT_EQUAL(stack_size(s), 2);
+    elem = stack_top(s);
     CU_ASSERT_EQUAL(CDC_TO_INT(elem), b);
 
-    cdc_stack_push(s, CDC_FROM_INT(c));
-    CU_ASSERT_EQUAL(cdc_stack_size(s), 3);
-    elem = cdc_stack_top(s);
+    stack_push(s, CDC_FROM_INT(c));
+    CU_ASSERT_EQUAL(stack_size(s), 3);
+    elem = stack_top(s);
     CU_ASSERT_EQUAL(CDC_TO_INT(elem), c);
-    cdc_stack_dtor(s);
+    stack_dtor(s);
   }
 }
 
 void test_stackv_pop()
 {
-  const struct cdc_sequence_table *tables[] = {cdc_seq_carray, cdc_seq_array,
-                                               cdc_seq_list};
+  const sequence_table_t *tables[] = {cdc_seq_carray, cdc_seq_array, cdc_seq_list};
   int a = 0, b = 1, c = 2, d = 3;
 
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
-    struct cdc_stack *s = NULL;
+    cstack_t *s = NULL;
 
-    CU_ASSERT_EQUAL(
-        cdc_stack_ctorl(tables[t], &s, NULL, CDC_FROM_INT(a), CDC_FROM_INT(b),
-                        CDC_FROM_INT(c), CDC_FROM_INT(d), CDC_END),
-        CDC_STATUS_OK);
+    CU_ASSERT_EQUAL(stack_ctorl(tables[t], &s, NULL, CDC_FROM_INT(a), CDC_FROM_INT(b),
+                                CDC_FROM_INT(c), CDC_FROM_INT(d), CDC_END),
+                    CDC_STATUS_OK);
 
-    void *elem = cdc_stack_top(s);
-    cdc_stack_pop(s);
-    CU_ASSERT_EQUAL(cdc_stack_size(s), 3);
+    void *elem = stack_top(s);
+    stack_pop(s);
+    CU_ASSERT_EQUAL(stack_size(s), 3);
     CU_ASSERT_EQUAL(CDC_TO_INT(elem), d);
 
-    elem = cdc_stack_top(s);
-    cdc_stack_pop(s);
-    CU_ASSERT_EQUAL(cdc_stack_size(s), 2);
+    elem = stack_top(s);
+    stack_pop(s);
+    CU_ASSERT_EQUAL(stack_size(s), 2);
     CU_ASSERT_EQUAL(CDC_TO_INT(elem), c);
 
-    elem = cdc_stack_top(s);
-    cdc_stack_pop(s);
-    CU_ASSERT_EQUAL(cdc_stack_size(s), 1);
+    elem = stack_top(s);
+    stack_pop(s);
+    CU_ASSERT_EQUAL(stack_size(s), 1);
     CU_ASSERT_EQUAL(CDC_TO_INT(elem), b);
 
-    elem = cdc_stack_top(s);
-    cdc_stack_pop(s);
-    CU_ASSERT(cdc_stack_empty(s));
+    elem = stack_top(s);
+    stack_pop(s);
+    CU_ASSERT(stack_empty(s));
     CU_ASSERT_EQUAL(CDC_TO_INT(elem), a);
-    cdc_stack_dtor(s);
+    stack_dtor(s);
   }
 }
 
 void test_stackv_swap()
 {
-  const struct cdc_sequence_table *tables[] = {cdc_seq_carray, cdc_seq_array,
-                                               cdc_seq_list};
+  const sequence_table_t *tables[] = {cdc_seq_carray, cdc_seq_array, cdc_seq_list};
   int a = 2, b = 3, c = 4;
 
   for (size_t t = 0; t < CDC_ARRAY_SIZE(tables); ++t) {
-    struct cdc_stack *v = NULL;
-    struct cdc_stack *w = NULL;
+    cstack_t *v = NULL;
+    cstack_t *w = NULL;
 
-    CU_ASSERT_EQUAL(
-        cdc_stack_ctorl(tables[t], &v, NULL, CDC_FROM_INT(b), CDC_END),
-        CDC_STATUS_OK);
-    CU_ASSERT_EQUAL(cdc_stack_ctorl(tables[t], &w, NULL, CDC_FROM_INT(a),
-                                    CDC_FROM_INT(c), CDC_END),
+    CU_ASSERT_EQUAL(stack_ctorl(tables[t], &v, NULL, CDC_FROM_INT(b), CDC_END), CDC_STATUS_OK);
+    CU_ASSERT_EQUAL(stack_ctorl(tables[t], &w, NULL, CDC_FROM_INT(a), CDC_FROM_INT(c), CDC_END),
                     CDC_STATUS_OK);
 
-    cdc_stack_swap(v, w);
+    stack_swap(v, w);
 
-    CU_ASSERT_EQUAL(cdc_stack_size(v), 2);
-    CU_ASSERT_EQUAL(CDC_TO_INT(cdc_stack_top(v)), c);
-    CU_ASSERT_EQUAL(cdc_stack_size(w), 1);
-    CU_ASSERT_EQUAL(CDC_TO_INT(cdc_stack_top(w)), b);
-    cdc_stack_dtor(v);
-    cdc_stack_dtor(w);
+    CU_ASSERT_EQUAL(stack_size(v), 2);
+    CU_ASSERT_EQUAL(CDC_TO_INT(stack_top(v)), c);
+    CU_ASSERT_EQUAL(stack_size(w), 1);
+    CU_ASSERT_EQUAL(CDC_TO_INT(stack_top(w)), b);
+    stack_dtor(v);
+    stack_dtor(w);
   }
 }

@@ -47,7 +47,7 @@ void print_phone_book(map_t *phone_book)
 
   map_begin(phone_book, &iter);
   while (map_iter_has_next(&iter)) {
-    printf("%s - %s\n",(char *)map_iter_key(&iter), (char *)map_iter_value(&iter));
+    printf("%s - %s\n", (char *)map_iter_key(&iter), (char *)map_iter_value(&iter));
     map_iter_next(&iter);
   }
 }
@@ -61,10 +61,10 @@ int main(int argc, char **argv)
   data_info_t data_info = CDC_INIT_STRUCT;
   data_info.cmp = str_lt;
 
-  pair_t Lilia_Friedman = {.first = "Lilia Friedman", .second = "(892) 670-4739"};
-  pair_t Tariq_Beltran = {.first = "Tariq Beltran", .second = "(489) 600-7575"};
-  pair_t Laiba_Juarez = {.first = "Laiba Juarez", .second = "(303) 885-5692"};
-  pair_t Elliott_Mooney = {.first = "Elliott Mooney", .second = "(945) 616-4482"};
+  pair_t Lilia_Friedman = {"Lilia Friedman", "(892) 670-4739"};
+  pair_t Tariq_Beltran = {"Tariq Beltran", "(489) 600-7575"};
+  pair_t Laiba_Juarez = {"Laiba Juarez", "(303) 885-5692"};
+  pair_t Elliott_Mooney = {"Elliott Mooney", "(945) 616-4482"};
 
   // map based on avl tree
   if (map_ctorl(cdc_map_avl, &phone_book, &data_info, &Lilia_Friedman, &Tariq_Beltran,
@@ -75,22 +75,23 @@ int main(int argc, char **argv)
   printf("Phone book:\n");
   print_phone_book(phone_book);
 
-  if (map_insert(phone_book, "Zak Byers", "(551) 396-1880",
-                 NULL /* iterator */, NULL /* is_inserted */) != CDC_STATUS_OK) {
+  if (map_insert(phone_book, "Zak Byers", "(551) 396-1880", NULL /* iterator */,
+                 NULL /* is_inserted */) != CDC_STATUS_OK) {
     return handle_error(phone_book);
   }
 
   printf("Phone book after adding Zak Byers:\n");
   print_phone_book(phone_book);
 
-  if (map_count(phone_book, "Tariq Beltran") != 0)
+  if (map_count(phone_book, "Tariq Beltran") != 0) {
     map_erase(phone_book, "Tariq Beltran");
+  }
 
   printf("Phone book after erasing Tariq Beltran:\n");
   print_phone_book(phone_book);
 
-  if (map_insert_or_assign(phone_book, "Zak Byers", "(555) 396-188",
-                           NULL /* iterator */, NULL /* is_inserted */) != CDC_STATUS_OK) {
+  if (map_insert_or_assign(phone_book, "Zak Byers", "(555) 396-188", NULL /* iterator */,
+                           NULL /* is_inserted */) != CDC_STATUS_OK) {
     return handle_error(phone_book);
   }
 

@@ -18,21 +18,21 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+#define CDC_USE_SHORT_NAMES
 #include "cdcontainers/adapters/queue.h"
 
-enum cdc_stat cdc_queue_ctor(const struct cdc_sequence_table *table,
-                             struct cdc_queue **q, struct cdc_data_info *info)
+stat_t queue_ctor(const sequence_table_t *table, queue_t **q, data_info_t *info)
 {
   assert(table != NULL);
   assert(q != NULL);
 
-  struct cdc_queue *tmp = (struct cdc_queue *)malloc(sizeof(struct cdc_queue));
+  queue_t *tmp = (queue_t *)malloc(sizeof(queue_t));
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
   tmp->table = table;
-  enum cdc_stat ret = tmp->table->ctor(&tmp->container, info);
+  stat_t ret = tmp->table->ctor(&tmp->container, info);
   if (ret != CDC_STATUS_OK) {
     free(tmp);
     return ret;
@@ -42,34 +42,30 @@ enum cdc_stat cdc_queue_ctor(const struct cdc_sequence_table *table,
   return CDC_STATUS_OK;
 }
 
-enum cdc_stat cdc_queue_ctorl(const struct cdc_sequence_table *table,
-                              struct cdc_queue **q, struct cdc_data_info *info,
-                              ...)
+stat_t queue_ctorl(const sequence_table_t *table, queue_t **q, data_info_t *info, ...)
 {
   assert(table != NULL);
   assert(q != NULL);
 
   va_list args;
   va_start(args, info);
-  enum cdc_stat ret = cdc_queue_ctorv(table, q, info, args);
+  stat_t ret = queue_ctorv(table, q, info, args);
   va_end(args);
   return ret;
 }
 
-enum cdc_stat cdc_queue_ctorv(const struct cdc_sequence_table *table,
-                              struct cdc_queue **q, struct cdc_data_info *info,
-                              va_list args)
+stat_t queue_ctorv(const sequence_table_t *table, queue_t **q, data_info_t *info, va_list args)
 {
   assert(table != NULL);
   assert(q != NULL);
 
-  struct cdc_queue *tmp = (struct cdc_queue *)malloc(sizeof(struct cdc_queue));
+  queue_t *tmp = (queue_t *)malloc(sizeof(queue_t));
   if (!tmp) {
     return CDC_STATUS_BAD_ALLOC;
   }
 
   tmp->table = table;
-  enum cdc_stat ret = tmp->table->ctorv(&tmp->container, info, args);
+  stat_t ret = tmp->table->ctorv(&tmp->container, info, args);
   if (ret != CDC_STATUS_OK) {
     free(tmp);
     return ret;
@@ -79,7 +75,7 @@ enum cdc_stat cdc_queue_ctorv(const struct cdc_sequence_table *table,
   return ret;
 }
 
-void cdc_queue_dtor(struct cdc_queue *q)
+void queue_dtor(queue_t *q)
 {
   assert(q != NULL);
 
@@ -87,7 +83,7 @@ void cdc_queue_dtor(struct cdc_queue *q)
   free(q);
 }
 
-void cdc_queue_swap(struct cdc_queue *a, struct cdc_queue *b)
+void queue_swap(queue_t *a, queue_t *b)
 {
   assert(a != NULL);
   assert(b != NULL);

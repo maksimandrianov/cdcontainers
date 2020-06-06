@@ -34,4 +34,9 @@ enum cdc_stat {
 
 void cdc_print_stat(enum cdc_stat s);
 
+// Short names
+#ifdef CDC_USE_SHORT_NAMES
+typedef enum cdc_stat stat_t;
+#endif
+
 #endif  // CDSTRUCTURES_INCLUDE_CDCONTAINERS_STATUS_H

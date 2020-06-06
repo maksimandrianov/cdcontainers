@@ -86,8 +86,8 @@ struct cdc_map_iter {
  * }
  * @endcode
  */
-enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table,
-                           struct cdc_map **m, struct cdc_data_info *info);
+enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table, struct cdc_map **m,
+                           struct cdc_data_info *info);
 
 /**
  * @brief Constructs a map, initialized by an variable number of
@@ -111,9 +111,8 @@ enum cdc_stat cdc_map_ctor(const struct cdc_map_table *table,
  * }
  * @endcode
  */
-enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table,
-                            struct cdc_map **m, struct cdc_data_info *info,
-                            ...);
+enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table, struct cdc_map **m,
+                            struct cdc_data_info *info, ...);
 
 /**
  * @brief Constructs a map, initialized by args. The last item must be
@@ -125,9 +124,8 @@ enum cdc_stat cdc_map_ctorl(const struct cdc_map_table *table,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table,
-                            struct cdc_map **m, struct cdc_data_info *info,
-                            va_list args);
+enum cdc_stat cdc_map_ctorv(const struct cdc_map_table *table, struct cdc_map **m,
+                            struct cdc_data_info *info, va_list args);
 /**
  * @brief Destroys the map.
  * @param[in] t - cdc_map
@@ -148,8 +146,7 @@ void cdc_map_dtor(struct cdc_map *m);
  * @param[out] value - pinter to the value that is mapped to a key.
  * @return CDC_STATUS_OK if the key is found, CDC_STATUS_NOT_FOUND otherwise.
  */
-static inline enum cdc_stat cdc_map_get(struct cdc_map *m, void *key,
-                                        void **value)
+static inline enum cdc_stat cdc_map_get(struct cdc_map *m, void *key, void **value)
 {
   assert(m != NULL);
 
@@ -179,8 +176,7 @@ static inline size_t cdc_map_count(struct cdc_map *m, void *key)
  * equivalent to key. If no such element is found, past-the-end iterator is
  * returned.
  */
-static inline void cdc_map_find(struct cdc_map *m, void *key,
-                                struct cdc_map_iter *it)
+static inline void cdc_map_find(struct cdc_map *m, void *key, struct cdc_map_iter *it)
 {
   assert(m != NULL);
 
@@ -247,9 +243,8 @@ static inline void cdc_map_clear(struct cdc_map *m)
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-static inline enum cdc_stat cdc_map_insert(struct cdc_map *m, void *key,
-                                           void *value, struct cdc_map_iter *it,
-                                           bool *inserted)
+static inline enum cdc_stat cdc_map_insert(struct cdc_map *m, void *key, void *value,
+                                           struct cdc_map_iter *it, bool *inserted)
 {
   assert(m != NULL);
 
@@ -270,10 +265,8 @@ static inline enum cdc_stat cdc_map_insert(struct cdc_map *m, void *key,
  * @return CDC_STATUS_OK in a successful case or other value indicating
  * an error.
  */
-static inline enum cdc_stat cdc_map_insert_or_assign(struct cdc_map *m,
-                                                     void *key, void *value,
-                                                     struct cdc_map_iter *it,
-                                                     bool *inserted)
+static inline enum cdc_stat cdc_map_insert_or_assign(struct cdc_map *m, void *key, void *value,
+                                                     struct cdc_map_iter *it, bool *inserted)
 {
   assert(m != NULL);
 
@@ -490,8 +483,7 @@ static inline struct cdc_pair cdc_map_iter_key_value(struct cdc_map_iter *it)
  * @return false if the iterator |it1| equal to the iterator |it2|,
  * otherwise returns false.
  */
-static inline bool cdc_map_iter_is_eq(struct cdc_map_iter *it1,
-                                      struct cdc_map_iter *it2)
+static inline bool cdc_map_iter_is_eq(struct cdc_map_iter *it1, struct cdc_map_iter *it2)
 {
   assert(it1 != NULL);
   assert(it2 != NULL);
@@ -536,11 +528,14 @@ typedef struct cdc_map_iter map_iter_t;
 #define map_iter_ctor(...) cdc_map_iter_ctor(__VA_ARGS__)
 #define map_iter_dtor(...) cdc_map_iter_dtor(__VA_ARGS__)
 #define map_iter_next(...) cdc_map_iter_next(__VA_ARGS__)
+#define map_iter_prev(...) cdc_map_iter_prev(__VA_ARGS__)
 #define map_iter_has_next(...) cdc_map_iter_has_next(__VA_ARGS__)
+#define map_iter_has_prev(...) cdc_map_iter_has_prev(__VA_ARGS__)
 #define map_iter_key(...) cdc_map_iter_key(__VA_ARGS__)
 #define map_iter_value(...) cdc_map_iter_value(__VA_ARGS__)
 #define map_iter_key_value(...) cdc_map_iter_key_value(__VA_ARGS__)
 #define map_iter_is_eq(...) cdc_map_iter_is_eq(__VA_ARGS__)
+#define map_iter_type(...) cdc_map_iter_type(__VA_ARGS__)
 #endif
 /** @} */
 #endif  // CDCONTAINERS_INCLUDE_CDCONTAINERS_MAP_H

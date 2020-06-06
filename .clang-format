@@ -3,3 +3,5 @@ Language: Cpp
 IncludeBlocks: Preserve
 BreakBeforeBraces: Linux
 IndentCaseLabels: false
+ColumnLimit: 100
+AllowShortFunctionsOnASingleLine: None
