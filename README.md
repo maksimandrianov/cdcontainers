@@ -2,7 +2,7 @@
 
 ![](https://repository-images.githubusercontent.com/109067289/e3459080-0fac-11ea-8f62-94d4455f0e53)
 
-[![Build Status](https://travis-ci.org/maksimandrianov/cdcontainers.svg?branch=master)](https://travis-ci.org/maksimandrianov/cdcontainers)
+[![Build Status](https://travis-ci.com/maksimandrianov/cdcontainers.svg?branch=master)](https://travis-ci.com/maksimandrianov/cdcontainers)
 [![Documentation](https://img.shields.io/badge/api-reference-blue.svg)](https://maksimandrianov.github.io/cdcontainers.github.io/)
 [![Benchmarks](https://img.shields.io/badge/benchmarks-benchmarks-blue)](https://github.com/maksimandrianov/cdcontainers.benchmarks)
 
