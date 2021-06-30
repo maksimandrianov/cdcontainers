@@ -158,7 +158,7 @@ static inline enum cdc_stat cdc_queue_push(struct cdc_queue *q, void *elem)
  * queue isn't empty.
  * @param q - cdc_queue
  */
-static void cdc_queue_pop(struct cdc_queue *q)
+static inline void cdc_queue_pop(struct cdc_queue *q)
 {
   assert(q != NULL);
 

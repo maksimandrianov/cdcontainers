@@ -309,8 +309,8 @@ void test_hash_table_swap()
 {
   hash_table_t *ta = NULL;
   hash_table_t *tb = NULL;
-  float lf_ta = 1.0;
-  float lf_tb = 2.0;
+  double lf_ta = 1.0;
+  double lf_tb = 2.0;
 
   data_info_t infoa = CDC_INIT_STRUCT;
   infoa.eq = eq;

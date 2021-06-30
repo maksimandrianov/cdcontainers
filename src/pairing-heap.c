@@ -248,6 +248,7 @@ stat_t pairing_heap_riinsert(pairing_heap_t *h, void *key, pairing_heap_iter_t *
 
 void pairing_heap_change_key(pairing_heap_t *h, pairing_heap_iter_t *pos, void *key)
 {
+  assert(false);
   //        assert(h != NULL);
   //        assert(pos != NULL);
   //        assert(h == pos->container);

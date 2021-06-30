@@ -17,8 +17,7 @@ if(CUNIT_FOUND)
   set(CUNIT_INCLUDE_DIRS ${CUNIT_INCLUDE_DIR})
 endif(CUNIT_FOUND)
 
-include_directories("${PROJECT_BINARY_DIR}")
-include_directories("${PROJECT_INCLUDE_DIR}")
+include_directories(${PROJECT_INCLUDE_DIR} ${CUNIT_INCLUDE_DIR})
 
 set(SOURCE
   test-array.c
@@ -43,6 +42,6 @@ set(SOURCE
 
 add_executable(${PROJECT_NAME} ${SOURCE})
 
-target_link_libraries(${PROJECT_NAME} cunit m cdcontainers)
+target_link_libraries(${PROJECT_NAME} ${CUNIT_LIBRARIES} m cdcontainers)
 
 add_custom_target(check ${EXECUTABLE_OUTPUT_PATH}/${PROJECT_NAME} ${PROJECT_NAME})

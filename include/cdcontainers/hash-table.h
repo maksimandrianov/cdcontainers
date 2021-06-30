@@ -61,7 +61,7 @@ struct cdc_hash_table {
   struct cdc_hash_table_entry *tail;
   struct cdc_hash_table_entry **buckets;
   size_t bcount;
-  float load_factor;
+  double load_factor;
   size_t size;
   struct cdc_data_info *dinfo;
 };
@@ -131,7 +131,7 @@ enum cdc_stat cdc_hash_table_ctorv(struct cdc_hash_table **t, struct cdc_data_in
  * an error.
  */
 enum cdc_stat cdc_hash_table_ctor1(struct cdc_hash_table **t, struct cdc_data_info *info,
-                                   float load_factor);
+                                   double load_factor);
 
 /**
  * @brief Constructs a hash table, initialized by an variable number of
@@ -144,7 +144,7 @@ enum cdc_stat cdc_hash_table_ctor1(struct cdc_hash_table **t, struct cdc_data_in
  * an error.
  */
 enum cdc_stat cdc_hash_table_ctorl1(struct cdc_hash_table **t, struct cdc_data_info *info,
-                                    float load_factor, ...);
+                                    double load_factor, ...);
 
 /**
  * @brief Constructs a hash table, initialized by args. The last item must be
@@ -156,7 +156,7 @@ enum cdc_stat cdc_hash_table_ctorl1(struct cdc_hash_table **t, struct cdc_data_i
  * an error.
  */
 enum cdc_stat cdc_hash_table_ctorv1(struct cdc_hash_table **t, struct cdc_data_info *info,
-                                    float load_factor, va_list args);
+                                    double load_factor, va_list args);
 
 /**
  * @brief Destroys the hash table.
@@ -332,11 +332,11 @@ static inline void cdc_hash_table_end(struct cdc_hash_table *t, struct cdc_hash_
  * @param[in] t - cdc_hash_table
  * @return average number of elements per bucket.
  */
-static inline float cdc_hash_table_load_factor(struct cdc_hash_table *t)
+static inline double cdc_hash_table_load_factor(struct cdc_hash_table *t)
 {
   assert(t != NULL);
 
-  return (float)t->size / (float)t->bcount;
+  return (double)t->size / (double)t->bcount;
 }
 
 /**
@@ -344,7 +344,7 @@ static inline float cdc_hash_table_load_factor(struct cdc_hash_table *t)
  * @param[in] t - cdc_hash_table
  * @return current maximum load factor.
  */
-static inline float cdc_hash_table_max_load_factor(struct cdc_hash_table *t)
+static inline double cdc_hash_table_max_load_factor(struct cdc_hash_table *t)
 {
   assert(t != NULL);
 
@@ -356,7 +356,7 @@ static inline float cdc_hash_table_max_load_factor(struct cdc_hash_table *t)
  * @param[in] t - cdc_hash_table
  * @param[in] load_factor - new maximum load factor
  */
-static inline void cdc_hash_table_set_max_load_factor(struct cdc_hash_table *t, float load_factor)
+static inline void cdc_hash_table_set_max_load_factor(struct cdc_hash_table *t, double load_factor)
 {
   assert(t != NULL);
 

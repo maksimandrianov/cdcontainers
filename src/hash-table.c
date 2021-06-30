@@ -76,7 +76,7 @@ static void free_all_entries(hash_table_t *t)
 
 static bool should_rehash(hash_table_t *t)
 {
-  return ((float)t->size / (float)t->bcount) >= t->load_factor;
+  return ((double)t->size / (double)t->bcount) >= t->load_factor;
 }
 
 static stat_t rehash(hash_table_t *t)
@@ -278,7 +278,7 @@ static stat_t init_varg(hash_table_t *t, va_list args)
   return CDC_STATUS_OK;
 }
 
-stat_t hash_table_ctor1(hash_table_t **t, data_info_t *info, float load_factor)
+stat_t hash_table_ctor1(hash_table_t **t, data_info_t *info, double load_factor)
 {
   assert(t != NULL);
   assert(CDC_HAS_HASH(info));
@@ -311,7 +311,7 @@ free_hash_table:
   return stat;
 }
 
-stat_t hash_table_ctorl1(hash_table_t **t, data_info_t *info, float load_factor, ...)
+stat_t hash_table_ctorl1(hash_table_t **t, data_info_t *info, double load_factor, ...)
 {
   assert(t != NULL);
   assert(CDC_HAS_HASH(info));
@@ -325,7 +325,7 @@ stat_t hash_table_ctorl1(hash_table_t **t, data_info_t *info, float load_factor,
   return stat;
 }
 
-stat_t hash_table_ctorv1(hash_table_t **t, data_info_t *info, float load_factor, va_list args)
+stat_t hash_table_ctorv1(hash_table_t **t, data_info_t *info, double load_factor, va_list args)
 {
   assert(t != NULL);
   assert(CDC_HAS_HASH(info));
@@ -497,7 +497,7 @@ void hash_table_swap(hash_table_t *a, hash_table_t *b)
   CDC_SWAP(hash_table_entry_t *, a->tail, b->tail);
   CDC_SWAP(hash_table_entry_t **, a->buckets, b->buckets);
   CDC_SWAP(size_t, a->bcount, b->bcount);
-  CDC_SWAP(float, a->load_factor, b->load_factor);
+  CDC_SWAP(double, a->load_factor, b->load_factor);
   CDC_SWAP(size_t, a->size, b->size);
   CDC_SWAP(data_info_t *, a->dinfo, b->dinfo);
 }
@@ -519,5 +519,5 @@ stat_t hash_table_reserve(hash_table_t *t, size_t count)
 {
   assert(t != NULL);
 
-  return hash_table_rehash(t, (size_t)((float)count / t->load_factor) + 1);
+  return hash_table_rehash(t, (size_t)((double)count / t->load_factor) + 1);
 }
